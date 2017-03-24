@@ -1,0 +1,397 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Source Files\States">
+      <UniqueIdentifier>{272f4bdb-a6e8-49b3-9d00-f43b96c64c77}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\States\Gameplay">
+      <UniqueIdentifier>{95481996-548f-4476-87a9-6cf94890418b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\States\Gameplay\Entities">
+      <UniqueIdentifier>{98965d55-660e-4f62-83a6-6628d1ded762}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Resources">
+      <UniqueIdentifier>{eb6d0de7-7781-4cce-955e-9ce9ef44c9ab}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Utilities">
+      <UniqueIdentifier>{ca1083b7-f95f-4c1d-866d-e9521bbfdd1d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\States\Gameplay\GameObjects">
+      <UniqueIdentifier>{50fc6c20-1fd5-4dc0-9e76-e5eba3d70678}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\States\Gameplay\Directors">
+      <UniqueIdentifier>{beedcbde-ba1d-4428-ab12-e4f366f6416b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\States\Gameplay\GameObjects\Player">
+      <UniqueIdentifier>{5ae75d6b-9071-43f3-ab40-2dddcc6e8813}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\States\Gameplay\GameObjects\Player\States">
+      <UniqueIdentifier>{86a2244b-dbf9-4701-a49a-5995240c03f8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\States\Gameplay\Level">
+      <UniqueIdentifier>{fded46f1-18a1-437b-bae1-3d8dbdad882c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\JSON">
+      <UniqueIdentifier>{e0bea0c6-6155-4a0d-83e8-76eef9cd1be3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\States\UI">
+      <UniqueIdentifier>{a060db9a-8503-470a-aa8d-fd4dda56ecf4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\RapidXML">
+      <UniqueIdentifier>{db3e1f22-053f-4ec6-980f-493ebcb19277}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\States\Transition">
+      <UniqueIdentifier>{20b0fccb-3e46-4a26-ac29-44daff2a0351}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\States\Gameplay\Utility">
+      <UniqueIdentifier>{d8a35180-d462-4327-8153-70863b79866e}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Game.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ResourceLoader.cpp">
+      <Filter>Source Files\Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="Enemy.cpp">
+      <Filter>Source Files\States\Gameplay\Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="Entity.cpp">
+      <Filter>Source Files\States\Gameplay\Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject.cpp">
+      <Filter>Source Files\States\Gameplay\Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="GroundEnemy.cpp">
+      <Filter>Source Files\States\Gameplay\Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="Hurtbox.cpp">
+      <Filter>Source Files\States\Gameplay\Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="Collidable.cpp">
+      <Filter>Source Files\States\Gameplay\Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="Globals.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemySpawner.cpp">
+      <Filter>Source Files\States\Gameplay\Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>Source Files\States\Gameplay\GameObjects\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Effect.cpp">
+      <Filter>Source Files\States\Gameplay\Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="Boss.cpp">
+      <Filter>Source Files\States\Gameplay\Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="MusicPlayer.cpp">
+      <Filter>Source Files\Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="AnimSprite.cpp">
+      <Filter>Source Files\Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="GameSettings.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerGroundState.cpp">
+      <Filter>Source Files\States\Gameplay\GameObjects\Player\States</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerState.cpp">
+      <Filter>Source Files\States\Gameplay\GameObjects\Player\States</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerAirState.cpp">
+      <Filter>Source Files\States\Gameplay\GameObjects\Player\States</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerDashState.cpp">
+      <Filter>Source Files\States\Gameplay\GameObjects\Player\States</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerWallClingState.cpp">
+      <Filter>Source Files\States\Gameplay\GameObjects\Player\States</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerWallJumpState.cpp">
+      <Filter>Source Files\States\Gameplay\GameObjects\Player\States</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerCrouchState.cpp">
+      <Filter>Source Files\States\Gameplay\GameObjects\Player\States</Filter>
+    </ClCompile>
+    <ClCompile Include="Controls.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerBoostJumpState.cpp">
+      <Filter>Source Files\States\Gameplay\GameObjects\Player\States</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerLedgeState.cpp">
+      <Filter>Source Files\States\Gameplay\GameObjects\Player\States</Filter>
+    </ClCompile>
+    <ClCompile Include="Level.cpp">
+      <Filter>Source Files\States\Gameplay\Level</Filter>
+    </ClCompile>
+    <ClCompile Include="LevelSerializer.cpp">
+      <Filter>Source Files\States\Gameplay\Level</Filter>
+    </ClCompile>
+    <ClCompile Include="TileProperty.cpp">
+      <Filter>Source Files\States\Gameplay\Level</Filter>
+    </ClCompile>
+    <ClCompile Include="Zone.cpp">
+      <Filter>Source Files\States\Gameplay\Level</Filter>
+    </ClCompile>
+    <ClCompile Include="LevelLoader.cpp">
+      <Filter>Source Files\States\Gameplay\Level</Filter>
+    </ClCompile>
+    <ClCompile Include="jsoncpp.cpp">
+      <Filter>Source Files\JSON</Filter>
+    </ClCompile>
+    <ClCompile Include="Animation.cpp">
+      <Filter>Source Files\Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="TestObject.cpp">
+      <Filter>Source Files\States\Gameplay\GameObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="TileLayer.cpp">
+      <Filter>Source Files\States\Gameplay\Level</Filter>
+    </ClCompile>
+    <ClCompile Include="ResourceUser.cpp">
+      <Filter>Source Files\Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="Director.cpp">
+      <Filter>Source Files\States\Gameplay\Directors</Filter>
+    </ClCompile>
+    <ClCompile Include="TransitionHorizontalState.cpp">
+      <Filter>Source Files\States\Transition</Filter>
+    </ClCompile>
+    <ClCompile Include="GameplayState.cpp">
+      <Filter>Source Files\States\Gameplay</Filter>
+    </ClCompile>
+    <ClCompile Include="AlertSystem.cpp">
+      <Filter>Source Files\States\Gameplay\Utility</Filter>
+    </ClCompile>
+    <ClCompile Include="GameCamera.cpp">
+      <Filter>Source Files\States\Gameplay\Utility</Filter>
+    </ClCompile>
+    <ClCompile Include="ObjectManager.cpp">
+      <Filter>Source Files\States\Gameplay\Utility</Filter>
+    </ClCompile>
+    <ClCompile Include="PositionRef.cpp">
+      <Filter>Source Files\States\Gameplay\Utility</Filter>
+    </ClCompile>
+    <ClCompile Include="TransitionState.cpp">
+      <Filter>Source Files\States\Transition</Filter>
+    </ClCompile>
+    <ClCompile Include="TransitionVerticalState.cpp">
+      <Filter>Source Files\States\Transition</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="rapidxml.hpp">
+      <Filter>Source Files\RapidXML</Filter>
+    </ClInclude>
+    <ClInclude Include="rapidxml_iterators.hpp">
+      <Filter>Source Files\RapidXML</Filter>
+    </ClInclude>
+    <ClInclude Include="rapidxml_utils.hpp">
+      <Filter>Source Files\RapidXML</Filter>
+    </ClInclude>
+    <ClInclude Include="Globals.hpp">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Game.hpp">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Controls.hpp">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="StandardSize.hpp">
+      <Filter>Source Files\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="MusicPlayer.hpp">
+      <Filter>Source Files\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="GridVector.hpp">
+      <Filter>Source Files\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="AnimSprite.hpp">
+      <Filter>Source Files\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="State.hpp">
+      <Filter>Source Files\States</Filter>
+    </ClInclude>
+    <ClInclude Include="resource.hpp">
+      <Filter>Source Files\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="ResourceLoader.hpp">
+      <Filter>Source Files\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="ResourceUser.hpp">
+      <Filter>Source Files\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="ObjectState.hpp">
+      <Filter>Source Files\States\Gameplay\GameObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.hpp">
+      <Filter>Source Files\States\Gameplay\GameObjects\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="TemplateUser.hpp">
+      <Filter>Source Files\States\Gameplay\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="Projectile.hpp">
+      <Filter>Source Files\States\Gameplay\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="Hurtbox.hpp">
+      <Filter>Source Files\States\Gameplay\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="GroundEnemy.hpp">
+      <Filter>Source Files\States\Gameplay\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject.hpp">
+      <Filter>Source Files\States\Gameplay\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="Entity.hpp">
+      <Filter>Source Files\States\Gameplay\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemySpawner.hpp">
+      <Filter>Source Files\States\Gameplay\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="Enemy.hpp">
+      <Filter>Source Files\States\Gameplay\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="Effect.hpp">
+      <Filter>Source Files\States\Gameplay\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="Collidable.hpp">
+      <Filter>Source Files\States\Gameplay\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="Boss.hpp">
+      <Filter>Source Files\States\Gameplay\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="Director.hpp">
+      <Filter>Source Files\States\Gameplay\Directors</Filter>
+    </ClInclude>
+    <ClInclude Include="GameSettings.hpp">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Log.hpp">
+      <Filter>Source Files\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerGroundState.hpp">
+      <Filter>Source Files\States\Gameplay\GameObjects\Player\States</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerState.hpp">
+      <Filter>Source Files\States\Gameplay\GameObjects\Player\States</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerAirState.hpp">
+      <Filter>Source Files\States\Gameplay\GameObjects\Player\States</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerDashState.hpp">
+      <Filter>Source Files\States\Gameplay\GameObjects\Player\States</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerWallClingState.hpp">
+      <Filter>Source Files\States\Gameplay\GameObjects\Player\States</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerWallJumpState.hpp">
+      <Filter>Source Files\States\Gameplay\GameObjects\Player\States</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerCrouchState.hpp">
+      <Filter>Source Files\States\Gameplay\GameObjects\Player\States</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerBoostJumpState.hpp">
+      <Filter>Source Files\States\Gameplay\GameObjects\Player\States</Filter>
+    </ClInclude>
+    <ClInclude Include="GameLog.hpp">
+      <Filter>Source Files\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerLedgeState.hpp">
+      <Filter>Source Files\States\Gameplay\GameObjects\Player\States</Filter>
+    </ClInclude>
+    <ClInclude Include="Level.hpp">
+      <Filter>Source Files\States\Gameplay\Level</Filter>
+    </ClInclude>
+    <ClInclude Include="LevelList.hpp">
+      <Filter>Source Files\States\Gameplay\Level</Filter>
+    </ClInclude>
+    <ClInclude Include="LevelSerializer.hpp">
+      <Filter>Source Files\States\Gameplay\Level</Filter>
+    </ClInclude>
+    <ClInclude Include="TileProperty.hpp">
+      <Filter>Source Files\States\Gameplay\Level</Filter>
+    </ClInclude>
+    <ClInclude Include="Zone.hpp">
+      <Filter>Source Files\States\Gameplay\Level</Filter>
+    </ClInclude>
+    <ClInclude Include="LevelLoader.hpp">
+      <Filter>Source Files\States\Gameplay\Level</Filter>
+    </ClInclude>
+    <ClInclude Include="PixelSnap.hpp">
+      <Filter>Source Files\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="UIState.hpp">
+      <Filter>Source Files\States\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="UIPauseState.hpp">
+      <Filter>Source Files\States\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="json.h">
+      <Filter>Source Files\JSON</Filter>
+    </ClInclude>
+    <ClInclude Include="json-forwards.h">
+      <Filter>Source Files\JSON</Filter>
+    </ClInclude>
+    <ClInclude Include="Animation.hpp">
+      <Filter>Source Files\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="TestObject.hpp">
+      <Filter>Source Files\States\Gameplay\GameObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="TileLayer.hpp">
+      <Filter>Source Files\States\Gameplay\Level</Filter>
+    </ClInclude>
+    <ClInclude Include="Tile.hpp">
+      <Filter>Source Files\States\Gameplay\Level</Filter>
+    </ClInclude>
+    <ClInclude Include="TransitionHorizontalState.hpp">
+      <Filter>Source Files\States\Transition</Filter>
+    </ClInclude>
+    <ClInclude Include="GameplayState.hpp">
+      <Filter>Source Files\States\Gameplay</Filter>
+    </ClInclude>
+    <ClInclude Include="AlertSystem.hpp">
+      <Filter>Source Files\States\Gameplay\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="GameCamera.hpp">
+      <Filter>Source Files\States\Gameplay\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="Node.hpp">
+      <Filter>Source Files\States\Gameplay\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="NodeBuilder.hpp">
+      <Filter>Source Files\States\Gameplay\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="ObjectManager.hpp">
+      <Filter>Source Files\States\Gameplay\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="ObjectTypes.hpp">
+      <Filter>Source Files\States\Gameplay\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="PositionRef.hpp">
+      <Filter>Source Files\States\Gameplay\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="TransitionState.hpp">
+      <Filter>Source Files\States\Transition</Filter>
+    </ClInclude>
+    <ClInclude Include="TransitionVerticalState.hpp">
+      <Filter>Source Files\States\Transition</Filter>
+    </ClInclude>
+    <ClInclude Include="UIElement.hpp">
+      <Filter>Source Files\States\UI</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
