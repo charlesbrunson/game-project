@@ -14,11 +14,11 @@ x64/
 build/
 [Bb]in/
 [Oo]bj/
+
+# Game Files
 SFML/
 SFML64/
-
-#Game Files
-SFML Game/data/*
+SFML Game/data/
 *.pck
 
 # Enable "build/" folder in the NuGet Packages folder since NuGet packages use it for MSBuild targets
