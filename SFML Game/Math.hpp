@@ -7,13 +7,19 @@ namespace Math {
 	static sf::Vector2f diff(sf::Vector2f i, sf::Vector2f j) {
 		return i - j;
 	};
+
 	static float dist(sf::Vector2f i, sf::Vector2f j) {
 		sf::Vector2f d = diff(i, j);
 		return d.x * d.x + d.y * d.y;
 	};
+
 	static float angle(sf::Vector2f from, sf::Vector2f to) {
 		sf::Vector2f d = diff(from, to);
-		return atanf(d.x / d.y);
+		return angle(diff(from, to));
+	};
+
+	static float angle(sf::Vector2f v) {
+		return atan2f(v.y, v.x);
 	};
 
 	static sf::FloatRect boundingBox(sf::FloatRect a, sf::FloatRect b) {
