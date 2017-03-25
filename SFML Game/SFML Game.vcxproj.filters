@@ -17,9 +17,6 @@
     <Filter Include="Source Files\Resources">
       <UniqueIdentifier>{eb6d0de7-7781-4cce-955e-9ce9ef44c9ab}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Utilities">
-      <UniqueIdentifier>{ca1083b7-f95f-4c1d-866d-e9521bbfdd1d}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\States\Gameplay\GameObjects">
       <UniqueIdentifier>{50fc6c20-1fd5-4dc0-9e76-e5eba3d70678}</UniqueIdentifier>
     </Filter>
@@ -47,8 +44,11 @@
     <Filter Include="Source Files\States\Transition">
       <UniqueIdentifier>{20b0fccb-3e46-4a26-ac29-44daff2a0351}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\States\Gameplay\Utility">
+    <Filter Include="Source Files\States\Gameplay\GameplayUtil">
       <UniqueIdentifier>{d8a35180-d462-4327-8153-70863b79866e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Util">
+      <UniqueIdentifier>{ca1083b7-f95f-4c1d-866d-e9521bbfdd1d}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -95,10 +95,10 @@
       <Filter>Source Files\States\Gameplay\Entities</Filter>
     </ClCompile>
     <ClCompile Include="MusicPlayer.cpp">
-      <Filter>Source Files\Utilities</Filter>
+      <Filter>Source Files\Util</Filter>
     </ClCompile>
     <ClCompile Include="AnimSprite.cpp">
-      <Filter>Source Files\Utilities</Filter>
+      <Filter>Source Files\Util</Filter>
     </ClCompile>
     <ClCompile Include="GameSettings.cpp">
       <Filter>Source Files</Filter>
@@ -152,7 +152,7 @@
       <Filter>Source Files\JSON</Filter>
     </ClCompile>
     <ClCompile Include="Animation.cpp">
-      <Filter>Source Files\Utilities</Filter>
+      <Filter>Source Files\Util</Filter>
     </ClCompile>
     <ClCompile Include="TestObject.cpp">
       <Filter>Source Files\States\Gameplay\GameObjects</Filter>
@@ -173,16 +173,16 @@
       <Filter>Source Files\States\Gameplay</Filter>
     </ClCompile>
     <ClCompile Include="AlertSystem.cpp">
-      <Filter>Source Files\States\Gameplay\Utility</Filter>
+      <Filter>Source Files\States\Gameplay\GameplayUtil</Filter>
     </ClCompile>
     <ClCompile Include="GameCamera.cpp">
-      <Filter>Source Files\States\Gameplay\Utility</Filter>
+      <Filter>Source Files\States\Gameplay\GameplayUtil</Filter>
     </ClCompile>
     <ClCompile Include="ObjectManager.cpp">
-      <Filter>Source Files\States\Gameplay\Utility</Filter>
+      <Filter>Source Files\States\Gameplay\GameplayUtil</Filter>
     </ClCompile>
     <ClCompile Include="PositionRef.cpp">
-      <Filter>Source Files\States\Gameplay\Utility</Filter>
+      <Filter>Source Files\States\Gameplay\GameplayUtil</Filter>
     </ClCompile>
     <ClCompile Include="TransitionState.cpp">
       <Filter>Source Files\States\Transition</Filter>
@@ -211,16 +211,16 @@
       <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="StandardSize.hpp">
-      <Filter>Source Files\Utilities</Filter>
+      <Filter>Source Files\Util</Filter>
     </ClInclude>
     <ClInclude Include="MusicPlayer.hpp">
-      <Filter>Source Files\Utilities</Filter>
+      <Filter>Source Files\Util</Filter>
     </ClInclude>
     <ClInclude Include="GridVector.hpp">
-      <Filter>Source Files\Utilities</Filter>
+      <Filter>Source Files\Util</Filter>
     </ClInclude>
     <ClInclude Include="AnimSprite.hpp">
-      <Filter>Source Files\Utilities</Filter>
+      <Filter>Source Files\Util</Filter>
     </ClInclude>
     <ClInclude Include="State.hpp">
       <Filter>Source Files\States</Filter>
@@ -280,7 +280,7 @@
       <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="Log.hpp">
-      <Filter>Source Files\Utilities</Filter>
+      <Filter>Source Files\Util</Filter>
     </ClInclude>
     <ClInclude Include="PlayerGroundState.hpp">
       <Filter>Source Files\States\Gameplay\GameObjects\Player\States</Filter>
@@ -307,7 +307,7 @@
       <Filter>Source Files\States\Gameplay\GameObjects\Player\States</Filter>
     </ClInclude>
     <ClInclude Include="GameLog.hpp">
-      <Filter>Source Files\Utilities</Filter>
+      <Filter>Source Files\Util</Filter>
     </ClInclude>
     <ClInclude Include="PlayerLedgeState.hpp">
       <Filter>Source Files\States\Gameplay\GameObjects\Player\States</Filter>
@@ -331,7 +331,7 @@
       <Filter>Source Files\States\Gameplay\Level</Filter>
     </ClInclude>
     <ClInclude Include="PixelSnap.hpp">
-      <Filter>Source Files\Utilities</Filter>
+      <Filter>Source Files\Util</Filter>
     </ClInclude>
     <ClInclude Include="UIState.hpp">
       <Filter>Source Files\States\UI</Filter>
@@ -346,7 +346,7 @@
       <Filter>Source Files\JSON</Filter>
     </ClInclude>
     <ClInclude Include="Animation.hpp">
-      <Filter>Source Files\Utilities</Filter>
+      <Filter>Source Files\Util</Filter>
     </ClInclude>
     <ClInclude Include="TestObject.hpp">
       <Filter>Source Files\States\Gameplay\GameObjects</Filter>
@@ -364,25 +364,25 @@
       <Filter>Source Files\States\Gameplay</Filter>
     </ClInclude>
     <ClInclude Include="AlertSystem.hpp">
-      <Filter>Source Files\States\Gameplay\Utility</Filter>
+      <Filter>Source Files\States\Gameplay\GameplayUtil</Filter>
     </ClInclude>
     <ClInclude Include="GameCamera.hpp">
-      <Filter>Source Files\States\Gameplay\Utility</Filter>
+      <Filter>Source Files\States\Gameplay\GameplayUtil</Filter>
     </ClInclude>
     <ClInclude Include="Node.hpp">
-      <Filter>Source Files\States\Gameplay\Utility</Filter>
+      <Filter>Source Files\States\Gameplay\GameplayUtil</Filter>
     </ClInclude>
     <ClInclude Include="NodeBuilder.hpp">
-      <Filter>Source Files\States\Gameplay\Utility</Filter>
+      <Filter>Source Files\States\Gameplay\GameplayUtil</Filter>
     </ClInclude>
     <ClInclude Include="ObjectManager.hpp">
-      <Filter>Source Files\States\Gameplay\Utility</Filter>
+      <Filter>Source Files\States\Gameplay\GameplayUtil</Filter>
     </ClInclude>
     <ClInclude Include="ObjectTypes.hpp">
-      <Filter>Source Files\States\Gameplay\Utility</Filter>
+      <Filter>Source Files\States\Gameplay\GameplayUtil</Filter>
     </ClInclude>
     <ClInclude Include="PositionRef.hpp">
-      <Filter>Source Files\States\Gameplay\Utility</Filter>
+      <Filter>Source Files\States\Gameplay\GameplayUtil</Filter>
     </ClInclude>
     <ClInclude Include="TransitionState.hpp">
       <Filter>Source Files\States\Transition</Filter>
@@ -392,6 +392,9 @@
     </ClInclude>
     <ClInclude Include="UIElement.hpp">
       <Filter>Source Files\States\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Math.hpp">
+      <Filter>Source Files\Util</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

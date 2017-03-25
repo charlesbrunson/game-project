@@ -19,6 +19,7 @@ build/
 SFML/
 SFML64/
 SFML Game/data/
+SFML Game/settings.txt
 *.pck
 
 # Enable "build/" folder in the NuGet Packages folder since NuGet packages use it for MSBuild targets

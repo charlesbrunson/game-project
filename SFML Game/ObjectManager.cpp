@@ -4,6 +4,7 @@
 #include "ObjectTypes.hpp"
 #include "NodeBuilder.hpp"
 #include "TemplateUser.hpp"
+#include "Math.hpp"
 
 void ObjectManager::clear() {
 
@@ -354,82 +355,65 @@ void ObjectManager::insertObject(GameObject* obj) {
 
 void ObjectManager::doLevelCollision(GameObject *obj, std::vector<Collision> *collisions) {
 
-	sf::FloatRect c = obj->getCollision();
-	sf::FloatRect oldC = obj->getPrevFrameCollision();
-	sf::Vector2f vel = obj->getVelocity();
+	const sf::FloatRect c = obj->getCollision();
+	const sf::FloatRect oldC = obj->getPrevFrameCollision();
+	const sf::Vector2f vel = obj->getVelocity();
 	
-	sf::FloatRect boundingBox(
+	//create bounding box for object's current frame collision box and previous frame collision box
+	/*const sf::FloatRect bb(
 		std::min(oldC.left, c.left), 
 		std::min(oldC.top, c.top),
 		std::max((oldC.left + oldC.width) - c.left, (c.left + c.width) - oldC.left),
 		std::max((oldC.top + oldC.height) - c.top, (c.top + c.height) - oldC.top)
-		);
+		);*/
+
+	const sf::FloatRect bb(Math::boundingBox(c, oldC));
 		
 	std::vector<sf::FloatRect> *rightCols = gameLevel->getRightCol();
 	std::vector<sf::FloatRect> *leftCols = gameLevel->getLeftCol();
 	std::vector<sf::FloatRect> *upCols = gameLevel->getUpCol();
 	std::vector<sf::FloatRect> *downCols = gameLevel->getDownCol();
 	
+	auto makeCol = [](sf::FloatRect r, float mag, int dir) -> Collision {
+		Collision col;
+		col.rect = r;
+		col.magnitude = mag;
+		col.horizontal = (dir % 2 == 1);
+		if (col.magnitude == 0.f)
+			col.dir = dir;
+		return col;
+	};
+
+	//do right
 	if (vel.x < 0.f) {
-		//do right
-		for (std::vector<sf::FloatRect>::const_iterator i1 = rightCols->begin(); i1 != rightCols->end(); i1++) {
-			
-			if (i1->intersects(boundingBox) && boundingBox.left <= i1->left + i1->width && oldC.left >= i1->left + i1->width) {
-				
-				//add collision
-				Collision col;
-				col.magnitude = i1->left + i1->width - c.left;
-				col.rect = *i1;
-				if (col.magnitude == 0)
-					col.dir = 1;
-				collisions->push_back(col);
+		for (auto i = rightCols->cbegin(); i != rightCols->cend(); i++) {
+			if (i->intersects(bb) && bb.left <= i->left + i->width && oldC.left >= i->left + i->width) {
+				collisions->push_back(makeCol(*i, i->left + i->width - c.left, 1));
 			}
 		}
+		
 	}
+	//do left
 	else if (vel.x > 0.f) {
-		//do left
-		for (std::vector<sf::FloatRect>::const_iterator i2 = leftCols->begin(); i2 != leftCols->end(); i2++) {
-			if (i2->intersects(boundingBox) && boundingBox.left + boundingBox.width >= i2->left && oldC.left + oldC.width <= i2->left) {
-				
-				//add collision
-				Collision col;
-				col.magnitude = i2->left - c.left - c.width;
-				col.rect = *i2;
-				if (col.magnitude == 0)
-					col.dir = 3;
-				collisions->push_back(col);
+		for (auto i = leftCols->cbegin(); i != leftCols->cend(); i++) {
+			if (i->intersects(bb) && bb.left + bb.width >= i->left && oldC.left + oldC.width <= i->left) {
+				collisions->push_back(makeCol(*i, i->left - c.left - c.width, 3));
 			}
 		}
 	}
+	//do up
 	if (vel.y > 0.f && !obj->isDroppingThroughFloor()) {
-		//do up
-		for (std::vector<sf::FloatRect>::const_iterator i3 = upCols->begin(); i3 != upCols->end(); i3++) {
-			if (i3->intersects(boundingBox) && boundingBox.top + boundingBox.height >= i3->top && oldC.top + oldC.height <= i3->top) {
-
-				//add collision
-				Collision col;
-				col.horizontal = false;
-				col.magnitude = i3->top - c.top - c.height;
-				col.rect = *i3;
-				if (col.magnitude == 0)
-					col.dir = 0;
-				collisions->push_back(col);
+		for (auto i = upCols->cbegin(); i != upCols->cend(); i++) {
+			if (i->intersects(bb) && bb.top + bb.height >= i->top && oldC.top + oldC.height <= i->top) {
+				collisions->push_back(makeCol(*i, i->top - c.top - c.height, 0));
 			}
 		}
 	}
+	//do down
 	else if (vel.y < 0.f) {
-		//do down
-		for (std::vector<sf::FloatRect>::const_iterator i4 = downCols->begin(); i4 != downCols->end(); i4++) {
-			if (i4->intersects(boundingBox) && boundingBox.top <= i4->top + i4->height && oldC.top >= i4->top + i4->height) {
-
-				//add collision
-				Collision col;
-				col.horizontal = false;
-				col.magnitude = i4->top + i4->height - c.top;
-				col.rect = *i4;
-				if (col.magnitude == 0)
-					col.dir = 2;
-				collisions->push_back(col);
+		for (auto i = downCols->cbegin(); i != downCols->cend(); i++) {
+			if (i->intersects(bb) && bb.top <= i->top + i->height && oldC.top >= i->top + i->height) {
+				collisions->push_back(makeCol(*i, i->top + i->height - c.top, 0));
 			}
 		}
 	}
@@ -446,64 +430,45 @@ void ObjectManager::doCollidableCollision(Collidable *collidable, GameObject *ob
 	std::vector<Collidable::Collider> *rightCol = collidable->getColliders(Collidable::RIGHT);
 	std::vector<Collidable::Collider> *downCol = collidable->getColliders(Collidable::DOWN);
 	std::vector<Collidable::Collider> *leftCol = collidable->getColliders(Collidable::LEFT);
+	
+	auto makeCol = [collidable](sf::FloatRect r, float mag) -> Collision {
+		Collision col;
+		col.rect = r;
+		col.magnitude = mag;
+		col.parent = collidable;
+		col.velocity = collidable->getParent()->getVelocity();
+		return col;
+	};
 
-	std::vector<Collidable::Collider>::iterator it;
-
+	//do right
 	if (v.x < 0.f) {
-		//do right
-		for (it = rightCol->begin(); it != rightCol->end(); it++) {
-			if (it->box.intersects(c)) {
-				//add collision
-				Collision col;
-				col.magnitude = it->box.left + it->box.width - c.left;
-				col.rect = it->box;
-				col.parent = collidable;
-				col.velocity = collidable->getParent()->getVelocity();
-				collisions->push_back(col);
+		for (auto i = rightCol->cbegin(); i != rightCol->cend(); i++) {
+			if (i->box.intersects(c)) {
+				collisions->push_back(makeCol(i->box, i->box.left + i->box.width - c.left));
 			}
 		}
 	}
+	//do left
 	else if (v.x > 0.f) {
-		//do left
-		for (it = leftCol->begin(); it != leftCol->end(); it++) {
-			if (it->box.intersects(c)) {
-				//add collision
-				Collision col;
-				col.magnitude = -(c.left + c.width - it->box.left);
-				col.rect = it->box;
-				col.parent = collidable;
-				col.velocity = collidable->getParent()->getVelocity();
-				collisions->push_back(col);
+		for (auto i = leftCol->begin(); i != leftCol->end(); i++) {
+			if (i->box.intersects(c)) {
+				collisions->push_back(makeCol(i->box, i->box.left - c.left - c.width));
 			}
 		}
 	}
+	//do up
 	if (v.y > 0.f) {
-		//do up
-		for (it = upCol->begin(); it != upCol->end(); it++) {
-			if (it->box.intersects(c)) {
-				//add collision
-				Collision col;
-				col.horizontal = false;
-				col.magnitude = -(c.top + c.height - it->box.top);
-				col.rect = it->box;
-				col.parent = collidable;
-				col.velocity = collidable->getParent()->getVelocity();
-				collisions->push_back(col);
+		for (auto i = upCol->begin(); i != upCol->end(); i++) {
+			if (i->box.intersects(c)) {
+				collisions->push_back(makeCol(i->box, i->box.top - c.top - c.height));
 			}
 		}
 	}
+	//do down
 	else if (v.y < 0.f) {
-		//do down
-		for (it = downCol->begin(); it != downCol->end(); it++) {
-			if (it->box.intersects(c)) {
-				//add collision
-				Collision col;
-				col.horizontal = false;
-				col.magnitude = it->box.top + it->box.height - c.top;
-				col.rect = it->box;
-				col.parent = collidable;
-				col.velocity = collidable->getParent()->getVelocity();
-				collisions->push_back(col);
+		for (auto i = downCol->begin(); i != downCol->end(); i++) {
+			if (i->box.intersects(c)) {
+				collisions->push_back(makeCol(i->box, i->box.top + i->box.height - c.top));
 			}
 		}
 	}

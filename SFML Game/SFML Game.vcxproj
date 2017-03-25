@@ -294,6 +294,7 @@
     <ClInclude Include="UIElement.hpp" />
     <ClInclude Include="UIPauseState.hpp" />
     <ClInclude Include="UIState.hpp" />
+    <ClInclude Include="Math.hpp" />
     <ClInclude Include="Zone.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -5,6 +5,7 @@
 
 #include <SFML/Graphics.hpp>
 #include "Globals.hpp"
+#include "Math.hpp"
 
 class UIElement : public sf::Drawable {
 public:
@@ -55,13 +56,11 @@ public:
 
 				sf::Vector2f start(area.left + area.width / 2.f, area.top + area.height / 2.f);
 				sf::Vector2f end(conArea.left + conArea.width / 2.f, conArea.top + conArea.height / 2.f);
-				sf::Vector2f diff(start.x - end.x, start.y - end.y);
-				float dist = sqrtf(diff.x * diff.x + diff.y * diff.y);
 
-				sf::RectangleShape line(sf::Vector2f(dist, 2.f));
+				sf::RectangleShape line(sf::Vector2f(Math::dist(start, end), 2.f));
 				line.setOrigin(sf::Vector2f(0.f, 1.f));
 				line.setFillColor(sf::Color::Green);
-				line.setRotation(atanf(diff.y / diff.x));
+				line.setRotation(Math::angle(start, end));
 				target.draw(line, states);
 			}
 		}

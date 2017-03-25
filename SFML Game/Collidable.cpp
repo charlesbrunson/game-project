@@ -1,4 +1,5 @@
 #include "Collidable.hpp"
+#include "Math.hpp"
 
 void Collidable::moveCollidingObj(GameObject *collidedObj, int dir, const sf::Time deltaTime) {
 
@@ -233,11 +234,12 @@ void Collidable::updateCollider(sf::Time deltaTime) {
 				initBoundingBox = false;
 			}
 			else {
-				sf::FloatRect b = nBoundingBox;
+				/*sf::FloatRect b = nBoundingBox;
 				b.left = std::min(nBoundingBox.left, it->box.left);
 				b.top = std::min(nBoundingBox.top, it->box.top);
 				b.width = std::max(nBoundingBox.left + nBoundingBox.width, it->box.left + it->box.width) - b.left;
-				b.height = std::max(nBoundingBox.top + nBoundingBox.height, it->box.top + it->box.height) - b.top;
+				b.height = std::max(nBoundingBox.top + nBoundingBox.height, it->box.top + it->box.height) - b.top;*/
+				nBoundingBox = Math::boundingBox(nBoundingBox, it->box);
 			}
 		}
 	};

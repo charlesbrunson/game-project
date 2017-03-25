@@ -34,9 +34,7 @@ public:
 		updateVelocity(deltaTime);
 
 		hurtBox.update();
-
 		setPosition(position + (velocity * deltaTime.asSeconds()));
-
 		hurtBox.setCenter(getPosition());
 
 	};
