@@ -26,12 +26,9 @@ protected:
 	//default selection
 	UIElement* defaultElement = nullptr;
 
-
-
 	std::map<std::string, UIElement*> uiElements;
 
-	
-	static const std::map<Controls::Input, UIElement::Direction> dirMap;
+	static const UIElement::Direction dirMap[4];
 
 	void changeSelection(UIElement* to);
 

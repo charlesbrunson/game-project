@@ -35,12 +35,14 @@ public:
 		UIText* t3 = new UIText(text, r);
 		t3->setArea(sf::FloatRect(25.f, 135.f, 120.f, 35.f));
 		uiElements.insert(std::make_pair("text3", t3));
-
+		
 		t1->connections[UIElement::Direction::SOUTH] = t2;
 		t2->connections[UIElement::Direction::NORTH] = t1;
 
 		t2->connections[UIElement::Direction::SOUTH] = t3;
 		t3->connections[UIElement::Direction::NORTH] = t2;
+
+		lastElement = t1;
 	}
 protected:
 	void draw(sf::RenderTarget &target, sf::RenderStates states) const {

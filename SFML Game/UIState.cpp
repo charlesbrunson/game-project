@@ -2,11 +2,11 @@
 #include "Controls.hpp"
 #include "Log.hpp"
 
-const std::map<Controls::Input, UIElement::Direction> UIState::dirMap = {
-	{ Controls::UP, UIElement::Direction::NORTH },
-	{ Controls::RIGHT, UIElement::Direction::EAST },
-	{ Controls::DOWN, UIElement::Direction::SOUTH },
-	{ Controls::LEFT, UIElement::Direction::WEST }
+const UIElement::Direction UIState::dirMap[4] = {
+	UIElement::Direction::NORTH,
+	UIElement::Direction::WEST,
+	UIElement::Direction::SOUTH,
+	UIElement::Direction::EAST,
 };
 
 UIState::UIState(ResourceLoader *r) : State(r) {
@@ -46,12 +46,12 @@ void UIState::update(sf::Time deltaTime) {
 	}
 
 	//keyboard and joystick
-	auto evalInput = [this](Controls::Input in) {
-		auto f = dirMap.find(in);
-		if (f == dirMap.end())
+	static auto evalInput = [this](Controls::Input in) {
+
+		if (in < 0 || in >= 4)
 			return;
 
-		UIElement::Direction d = f->second;
+		UIElement::Direction d = dirMap[in];
 
 		if (Controls::isPressed(in)) {
 
@@ -70,6 +70,7 @@ void UIState::update(sf::Time deltaTime) {
 				}
 			}
 		}
+
 	};
 
 	evalInput(Controls::UP);
@@ -91,13 +92,12 @@ void UIState::update(sf::Time deltaTime) {
 
 		if (sElement) {
 			Controls::confirmPress(Controls::JUMP);
-			//do a thing
 			Log("do a joystick or keyboard thing\n");
 		}
 	}
 
 	//update last valid element
-	if (sElement)
+	if (lastElement != sElement && sElement)
 		lastElement = sElement;
 };
 
