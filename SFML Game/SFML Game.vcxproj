@@ -225,6 +225,7 @@
     <ClInclude Include="json.h" />
     <ClInclude Include="LevelLoader.hpp" />
     <ClInclude Include="Log.hpp" />
+    <ClInclude Include="UIMainMenu.hpp" />
     <ClInclude Include="PixelSnap.hpp" />
     <ClInclude Include="PlayerAirState.hpp" />
     <ClInclude Include="PlayerBoostJumpState.hpp" />
@@ -242,6 +243,7 @@
     <ClCompile Include="TransitionHorizontalState.cpp" />
     <ClCompile Include="TransitionState.cpp" />
     <ClCompile Include="TransitionVerticalState.cpp" />
+    <ClCompile Include="UIState.cpp" />
     <ClCompile Include="Zone.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -295,6 +297,7 @@
     <ClInclude Include="UIPauseState.hpp" />
     <ClInclude Include="UIState.hpp" />
     <ClInclude Include="Math.hpp" />
+    <ClInclude Include="UIText.hpp" />
     <ClInclude Include="Zone.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

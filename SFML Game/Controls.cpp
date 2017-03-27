@@ -80,6 +80,7 @@ Controls::GameInput* const Controls::inputs[Controls::Input::INPUT_COUNT] {
 sf::Vector2f Controls::mousePosition;
 bool Controls::mouseInWindow;
 Controls::MouseInput Controls::mouseActive;
+sf::Time Controls::mouseLastMoved = sf::Time::Zero;
 
 
 const std::pair<sf::String, sf::Keyboard::Key> Controls::keyboardKeyStrings[sf::Keyboard::KeyCount] =

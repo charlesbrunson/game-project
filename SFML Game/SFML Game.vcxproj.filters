@@ -50,6 +50,9 @@
     <Filter Include="Source Files\Util">
       <UniqueIdentifier>{ca1083b7-f95f-4c1d-866d-e9521bbfdd1d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\States\UI\Util">
+      <UniqueIdentifier>{5dc73460-3c1a-4d59-9c9b-a1be99026c2f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Game.cpp">
@@ -189,6 +192,9 @@
     </ClCompile>
     <ClCompile Include="TransitionVerticalState.cpp">
       <Filter>Source Files\States\Transition</Filter>
+    </ClCompile>
+    <ClCompile Include="UIState.cpp">
+      <Filter>Source Files\States\UI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -390,11 +396,17 @@
     <ClInclude Include="TransitionVerticalState.hpp">
       <Filter>Source Files\States\Transition</Filter>
     </ClInclude>
-    <ClInclude Include="UIElement.hpp">
-      <Filter>Source Files\States\UI</Filter>
-    </ClInclude>
     <ClInclude Include="Math.hpp">
       <Filter>Source Files\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="UIElement.hpp">
+      <Filter>Source Files\States\UI\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="UIText.hpp">
+      <Filter>Source Files\States\UI\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="UIMainMenu.hpp">
+      <Filter>Source Files\States\UI</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -1,15 +1,22 @@
 
+#include <assert.h>
+#include <thread>
+
 #include "Game.hpp"
+#include "PositionRef.hpp"
 
 #include "MusicPlayer.hpp"
 #include "GameSettings.hpp"
+
+#include "UIMainMenu.hpp"
 
 // Constructor
 Game::Game() : gLog(&resources) {
 	
 	// Start an instance of GameplayState for our starting state
 	// Ideally this should be changed to a main menu or something
-	activeState = new GameplayState(&resources);
+	//activeState = new GameplayState(&resources);
+	activeState = new UIMainMenu(&resources);
 
 	// Setup default FPS settings
 	_maxUpdatePerSec = 144.0;
@@ -110,7 +117,9 @@ void Game::run() {
 					// If uncapped, just use elapsed time as delta time
 
 					Controls::updateGameInputs();
-					update(std::min(_timeSinceLastUpdate, _minUpdateSpeed));
+					sf::Time dt = std::min(_timeSinceLastUpdate, _minUpdateSpeed);
+					update(dt);
+					Controls::mouseLastMoved += dt;
 
 					// Clear debug log
 					ClearLog();
@@ -128,6 +137,7 @@ void Game::run() {
 
 						Controls::updateGameInputs();
 						update(_timePerUpdate);
+						Controls::mouseLastMoved += _timePerUpdate;
 
 						// Clear debug log
 						ClearLog();
@@ -304,13 +314,21 @@ Controls::JoystickInput Game::getJoystickInput(sf::String j) {
 	}
 	// Otherwise the string refers to a button
 	else {
-		// TODO: convert to binary search, not super important though because this only gets
-		// called a few times at the start of a program
+		/*
+		auto r = std::find_if(0, (int)sf::Joystick::ButtonCount, [&in](int i) {
+			return in == Controls::joystickButtons[i].first;
+		});
+		if (r != sf::Joystick::ButtonCount) {
+			return Controls::JoystickInput(r);
+		}
+		*/
+		
 		for (int i = 0; i < sf::Joystick::ButtonCount; i++) {
 			if (in == Controls::joystickButtons[i].first) {
 				return Controls::JoystickInput(i);
 			}
 		}
+		
 	}
 
 	// Input couldn't be found, unbind it
@@ -402,11 +420,11 @@ void Game::update(sf::Time t) {
 	view = getView();
 	sf::Vector2f v = activeState->cameraPos;
 	v = snapToPixel(v);
+	sf::Vector2f prevCenter = v;
 	view.setCenter(v);
 	setView(view);
-	if (Controls::mouseInWindow) {
-		Controls::mousePosition = mapPixelToCoords(sf::Mouse::getPosition());
-		//Log("mouse moved: " + std::to_string(Controls::mousePosition.x) + ", " + std::to_string(Controls::mousePosition.y) + "\n");
+	if (Controls::mouseInWindow && prevCenter != view.getCenter()) {
+		Controls::mousePosition += Math::diff(prevCenter, view.getCenter());
 	}
 
 
@@ -464,7 +482,7 @@ void Game::handleEvents() {
 			//resizeWindow(e.size.width, e.size.height);
 			break;
 
-			// A keyboard key has been pressed
+			// Keyboard Input
 		case sf::Event::EventType::KeyPressed:
 			for (int i = 0; i < Controls::INPUT_COUNT; i++) {
 				if (e.key.code == *Controls::keyboardKeys[i]) {
@@ -473,7 +491,6 @@ void Game::handleEvents() {
 			}
 			break;
 
-			// A keyboard key has been released
 		case sf::Event::EventType::KeyReleased:
 			for (int i = 0; i < Controls::INPUT_COUNT; i++) {
 				if (e.key.code == *Controls::keyboardKeys[i]) {
@@ -483,7 +500,7 @@ void Game::handleEvents() {
 			}
 			break;
 
-			// A joystick button has been pressed 
+			// Joystick Input
 		case sf::Event::EventType::JoystickButtonPressed:
 			for (int i = 0; i < Controls::INPUT_COUNT; i++) {
 				if (Controls::joystickKeys[i]->isButton && e.joystickButton.button == Controls::joystickKeys[i]->buttonNum) {
@@ -493,7 +510,6 @@ void Game::handleEvents() {
 			}
 			break;
 
-			// A joystick button has been released
 		case sf::Event::EventType::JoystickButtonReleased:
 			for (int i = 0; i < Controls::INPUT_COUNT; i++) {
 				if (Controls::joystickKeys[i]->isButton && e.joystickButton.button == Controls::joystickKeys[i]->buttonNum) {
@@ -503,7 +519,6 @@ void Game::handleEvents() {
 			}
 			break;
 
-			// A joystick axis has been moved
 		case sf::Event::EventType::JoystickMoved:
 			// Figure out which input it was
 			for (int i = 0; i < Controls::INPUT_COUNT; i++) {
@@ -535,31 +550,44 @@ void Game::handleEvents() {
 				}
 			}
 			break;
-			//mov
+
+			// Mouse Input
 		case sf::Event::MouseEntered:
 			Controls::mouseInWindow = true;
+			Controls::mouseLastMoved = sf::Time::Zero;
+			//Log("mouse enter\n");
 			break;
+
 		case sf::Event::MouseLeft:
 			Controls::mouseInWindow = false;
+			Controls::mouseLastMoved = sf::Time::Zero;
+			//Log("mouse exit\n");
 			break;
+
 		case sf::Event::MouseMoved:
+			//updateMousePos();
 			Controls::mousePosition = mapPixelToCoords(sf::Vector2i(e.mouseMove.x, e.mouseMove.y));
+			Controls::mouseLastMoved = sf::Time::Zero;
 			//Log("mouse moved: " + std::to_string(Controls::mousePosition.x) + ", " + std::to_string(Controls::mousePosition.y) + "\n");
 			break;
+
 		case sf::Event::MouseButtonPressed:
-			if (getCameraArea().contains(mapPixelToCoords(sf::Mouse::getPosition())) && Controls::mouseInWindow 
+			if (getCameraArea().contains(Controls::mousePosition) && Controls::mouseInWindow
 				&& e.mouseButton.button == sf::Mouse::Left || e.mouseButton.button == sf::Mouse::Right) {
 
-				Controls::mouseActive.input.active = false;
-				Controls::mouseActive.position = mapPixelToCoords(sf::Mouse::getPosition());
-				//Log("mouse pressed at: " + std::to_string(Controls::mousePosition.x) + ", " + std::to_string(Controls::mousePosition.y) + "\n");
+				Controls::mouseActive.input.active = true;
+				//updateMousePos();
+				Controls::mouseActive.position = Controls::mousePosition;
 
+				//Log("mouse pressed at: " + std::to_string(Controls::mousePosition.x) + ", " + std::to_string(Controls::mousePosition.y) + "\n");
 			}
 			break;
+
 		case sf::Event::MouseButtonReleased:
 			if (e.mouseButton.button == sf::Mouse::Left || e.mouseButton.button == sf::Mouse::Right) {
 				Controls::mouseActive.input.active = false;
-				Controls::mouseActive.position = mapPixelToCoords(sf::Mouse::getPosition());;
+				//updateMousePos();
+				Controls::mouseActive.position = Controls::mousePosition;
 				//Log("mouse release\n");
 			}
 			break;

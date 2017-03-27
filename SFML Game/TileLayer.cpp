@@ -138,6 +138,7 @@ void TileLayer::update(sf::Time deltaTime, sf::IntRect gridArea, sf::FloatRect d
 sf::Vector2f TileLayer::updateParallax(sf::Vector2f camCenter) {
 	
 	//top left of the camera
+	camCenter = snapToPixel(camCenter);
 	sf::Vector2f camOffset = camCenter - sf::Vector2f((float)GAMEWIDTH / 2.f, (float)GAMEHEIGHT / 2.f);
 
 	sf::Vector2f _offset;

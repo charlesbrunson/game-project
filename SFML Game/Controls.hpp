@@ -97,6 +97,7 @@ public:
 	static sf::Vector2f mousePosition;
 	static bool mouseInWindow;
 	static MouseInput mouseActive;
+	static sf::Time mouseLastMoved;
 
 
 	// Input consolodated across joystick and keyboard
@@ -115,7 +116,7 @@ public:
 	static bool isPressed(int input) {
 		return inputs[input]->active && !inputs[input]->confirmed;
 	}
-	static void confirmedPress(int input) {
+	static void confirmPress(int input) {
 		inputs[input]->confirmed = true;
 	}
 

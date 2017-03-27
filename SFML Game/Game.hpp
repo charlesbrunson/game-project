@@ -5,8 +5,9 @@
 #include <SFML/System.hpp>
 
 #include "ResourceLoader.hpp"
-#include "GameplayState.hpp"
+#include "State.hpp"
 #include "GameLog.hpp"
+#include "Controls.hpp"
 
 // Game window and input handler
 class Game : public sf::RenderWindow {
@@ -37,6 +38,10 @@ public:
 	void render();
 	
 private:
+
+	//void updateMousePos() {
+		//Controls::mousePosition = mapPixelToCoords(sf::Mouse::getPosition() - getPosition());
+	//};
 
 	// GameLog containing recent debug messages
 	GameLog gLog;

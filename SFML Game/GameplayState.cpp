@@ -81,7 +81,7 @@ void GameplayState::updateGame(sf::Time deltaTime) {
 	
 	if (Controls::isPressed(Controls::Input::START)) {
 		//pause menu
-		Controls::confirmedPress(Controls::Input::START);
+		Controls::confirmPress(Controls::Input::START);
 		removeStateOnChange = false;
 		toNextState = true;
 		nextState = new UIPauseState(this, res);

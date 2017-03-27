@@ -2,6 +2,7 @@
 #define UIPAUSESTATE_H
 
 #include "UIState.hpp"
+#include "UIText.hpp"
 #include "Controls.hpp"
 
 class UIPauseState : public UIState {
@@ -17,16 +18,17 @@ public:
 		pauseText.setFillColor(sf::Color::White);
 		pauseText.setOutlineColor(sf::Color::Black);
 		pauseText.setOutlineThickness(1.f);
+
+		UIText* t = new UIText(pauseText, r);
+		t->setArea(getCameraArea());
+		uiElements.insert(std::make_pair("text", t));
 	}
 
 	void update(sf::Time deltaTime) {
-
-		pauseText.setPosition(cameraPos 
-			- sf::Vector2f(pauseText.getLocalBounds().width, pauseText.getLocalBounds().height)/2.f);
-
+		
 		if (Controls::isPressed(Controls::Input::START)) {
 			//pause menu
-			Controls::confirmedPress(Controls::Input::START);
+			Controls::confirmPress(Controls::Input::START);
 
 			removeStateOnChange = true;
 			toNextState = true;
@@ -35,9 +37,11 @@ public:
 			return;
 		}
 	};
+
+protected:
 	void draw(sf::RenderTarget &target, sf::RenderStates states) const {
 		prev->draw(target, states);
-		target.draw(pauseText, res->getShader("noalpha.frag"));
+		UIState::draw(target, states);
 	};
 
 private:

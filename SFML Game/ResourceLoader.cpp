@@ -158,8 +158,8 @@ void ResourceLoader::writeToPack() {
 							FILETIME tmxWriteTime,
 								lvlWriteTime;
 
-							bool tmxExists = GetFileTime(tmxFileHandle, NULL, NULL, &tmxWriteTime);
-							bool lvlExists = GetFileTime(lvlFileHandle, NULL, NULL, &lvlWriteTime);
+							bool tmxExists = GetFileTime(tmxFileHandle, NULL, NULL, &tmxWriteTime) != 0;
+							bool lvlExists = GetFileTime(lvlFileHandle, NULL, NULL, &lvlWriteTime) != 0;
 
 							CloseHandle(lvlFileHandle);
 							CloseHandle(tmxFileHandle);
@@ -186,7 +186,7 @@ void ResourceLoader::writeToPack() {
 					int fileSize = 0;
 					fileReader.open(fileDir + directory + filename, std::ios_base::binary | std::ios_base::ate);
 					if (fileReader.is_open()) {
-						fileSize = fileReader.tellg();
+						fileSize = fileReader.tellg().seekpos();
 					}
 					fileReader.close();
 
