@@ -14,7 +14,7 @@ public:
 
 	void setArea(sf::FloatRect a) {
 		UIElement::setArea(a);
-		text.setPosition(snapToPixel(Math::center(a) - Math::size(text.getGlobalBounds()) / 2.f));
+		text.setPosition(snapToPixel(Math::topleft(a)));
 	}
 
 	sf::Text* getText() {
@@ -27,7 +27,6 @@ protected:
 
 	virtual void draw(sf::RenderTarget &target, sf::RenderStates states) const {
 		UIElement::draw(target, states);
-
 		target.draw(text, rMan->getShader("noalpha.frag"));
 	}
 };

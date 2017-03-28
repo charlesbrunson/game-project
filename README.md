@@ -1,6 +1,6 @@
 # game-project
 
-This is the source code for a 2D game I'm developing. This git repo is for personal use.
+This is the source code for a 2D game I'm developing.
 
 # dependencies
 
