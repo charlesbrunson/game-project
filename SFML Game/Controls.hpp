@@ -116,13 +116,27 @@ public:
 	static bool isPressed(int input) {
 		return inputs[input]->active && !inputs[input]->confirmed;
 	}
+	static bool isHeld(int input) {
+		return inputs[input]->active && inputs[input]->confirmed;
+	}
 	static void confirmPress(int input) {
 		inputs[input]->confirmed = true;
+	}
+	static std::vector<int> isAnyPressed(const std::vector<int> &inputs) {
+		std::vector<int> r;
+		for (int i : inputs) {
+			if (isPressed(i)) {
+				r.push_back(i);
+			}
+		}
 	}
 
 	//mouse input
 	static bool isMousePressed() {
 		return mouseActive.input.active && !mouseActive.input.confirmed;
+	}
+	static bool isMouseHeld() {
+		return mouseActive.input.active && mouseActive.input.confirmed;
 	}
 	static void confirmedMousePress() {
 		mouseActive.input.confirmed = true;

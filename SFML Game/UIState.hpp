@@ -30,6 +30,8 @@ protected:
 
 	static const UIElement::Direction dirMap[4];
 
+	void UIState::activateElement();
+
 	void changeSelection(UIElement* to);
 
 	virtual void draw(sf::RenderTarget &target, sf::RenderStates states) const;

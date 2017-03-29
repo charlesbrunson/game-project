@@ -9,6 +9,7 @@
 #include "GameSettings.hpp"
 
 #include "UIMainMenu.hpp"
+#include "GameplayState.hpp"
 
 // Constructor
 Game::Game() : gLog(&resources) {

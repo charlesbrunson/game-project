@@ -22,26 +22,35 @@ UIState::~UIState() {
 void UIState::update(sf::Time deltaTime) {
 	//read input
 
+	if (sElement && sElement->getActiveState() == UIElement::ActiveState::ACTIVATED)
+		sElement->setActiveState(UIElement::ActiveState::SELECTED);
+
 	//selection
 	//start with mouse
-	if (Controls::mouseLastMoved == sf::Time::Zero) {
+	if (Controls::mouseLastMoved == sf::Time::Zero && !Controls::isMousePressed()) {
+		if (!Controls::mouseActive.input.active) {
 
-		const sf::Vector2f m_pos = Controls::mousePosition;
+			const sf::Vector2f m_pos = Controls::mousePosition;
 
-		auto e = std::find_if(uiElements.begin(), uiElements.end(), [&m_pos](std::pair<std::string, UIElement*> e) {
-			return e.second->getArea().contains(m_pos);
-		});
+			auto e = std::find_if(uiElements.begin(), uiElements.end(), [&m_pos](std::pair<std::string, UIElement*> e) {
+				return e.second->getArea().contains(m_pos);
+			});
 
-		UIElement* nElement = (e != uiElements.end()) ? e->second : nullptr;
+			UIElement* nElement = (e != uiElements.end()) ? e->second : nullptr;
 
-		//moving cursor to new element || moving cursor off current element
-		if (Controls::mouseInWindow) {
-			if ((sElement != nElement && nElement) || (!nElement && sElement)) {
-				changeSelection(nElement);
+			//moving cursor to new element || moving cursor off current element
+			if (Controls::mouseInWindow) {
+				if ((sElement != nElement && nElement) || (!nElement && sElement)) {
+					changeSelection(nElement);
+				}
+			}
+			else if (sElement) {
+				changeSelection(nullptr);
 			}
 		}
-		else if (sElement) {
-			changeSelection(nullptr);
+		else if (sElement && Controls::mouseActive.input.active && sElement->getArea().contains(Controls::mouseActive.position)) {
+			sElement->captureMouseMove(Controls::mousePosition); 
+			sElement->setActiveState(UIElement::ActiveState::ACTIVATED);
 		}
 	}
 
@@ -59,6 +68,9 @@ void UIState::update(sf::Time deltaTime) {
 				changeSelection(lastElement);
 
 			if (sElement) {
+
+				Controls::JumpActive.active = false;
+				Controls::JumpActive.confirmed = false;
 				Controls::confirmPress(in);
 
 				if (!sElement->capturesDir(d)) {
@@ -67,6 +79,8 @@ void UIState::update(sf::Time deltaTime) {
 				}
 				else {
 					//do a thing
+					activateElement();
+					sElement->setActiveState(UIElement::ActiveState::ACTIVATED);
 				}
 			}
 		}
@@ -80,9 +94,16 @@ void UIState::update(sf::Time deltaTime) {
 
 	//activation
 	//mouse
-	if (sElement && Controls::isMousePressed() && sElement->getArea().contains(Controls::mouseActive.position)) {
+	if (sElement) {
+		if (Controls::isMousePressed() && sElement->getArea().contains(Controls::mouseActive.position)) {
 			Controls::confirmedMousePress();
-			Log("do a mouse thing\n");
+			//Log("do a mouse thing\n");
+			activateElement();
+			sElement->setActiveState(UIElement::ActiveState::ACTIVATED);
+		}
+		else if (Controls::isMouseHeld()) {
+			sElement->setActiveState(UIElement::ActiveState::ACTIVATED);
+		}
 	}
 
 	//joystick
@@ -92,14 +113,25 @@ void UIState::update(sf::Time deltaTime) {
 
 		if (sElement) {
 			Controls::confirmPress(Controls::JUMP);
-			Log("do a joystick or keyboard thing\n");
+			//Log("do a joystick or keyboard thing\n");
+			activateElement();
+			sElement->setActiveState(UIElement::ActiveState::ACTIVATED);
 		}
+	}
+	else if (sElement && Controls::isHeld(Controls::JUMP)) {
+		sElement->setActiveState(UIElement::ActiveState::ACTIVATED);
 	}
 
 	//update last valid element
 	if (lastElement != sElement && sElement)
 		lastElement = sElement;
 };
+
+void UIState::activateElement() {
+	if (sElement && sElement->onActivate) {
+		sElement->onActivate();
+	}
+}
 
 void UIState::changeSelection(UIElement* to) {
 	if (sElement)

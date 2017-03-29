@@ -15,7 +15,7 @@ sf::Time Gameplay_Globals::minSoundTime = sf::seconds(1.f / 60.f);
 sf::Time Gameplay_Globals::soundTimeout = sf::seconds(30.f / 60.f);
 
 bool forcePackResources = true;
-bool pixelSnapping = true;
+bool pixelSnapping = false;
 
 bool Gameplay_Globals::Debug::objectCollision = false;
 bool Gameplay_Globals::Debug::levelCollision = false;

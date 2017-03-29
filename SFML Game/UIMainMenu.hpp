@@ -25,16 +25,20 @@ public:
 		UIText* t1 = new UIText(text, r);
 		t1->setArea(sf::FloatRect(25.f, 25.f, 120.f, 35.f));
 		uiElements.insert(std::make_pair("text1", t1));
+		t1->onActivate = std::bind(message, "THIS IS TEXT1\n");
+
 
 		text.setString("TEST2");
 		UIText* t2 = new UIText(text, r);
 		t2->setArea(sf::FloatRect(25.f, 80.f, 120.f, 35.f));
 		uiElements.insert(std::make_pair("text2", t2));
+		t2->onActivate = std::bind(message, "THIS IS TEXT2\n");
 
 		text.setString("TEST3");
 		UIText* t3 = new UIText(text, r);
 		t3->setArea(sf::FloatRect(25.f, 135.f, 120.f, 35.f));
 		uiElements.insert(std::make_pair("text3", t3));
+		t3->onActivate = std::bind(message, "THIS IS TEXT3\n");
 		
 		t1->connections[UIElement::Direction::SOUTH] = t2;
 		t2->connections[UIElement::Direction::NORTH] = t1;
@@ -45,6 +49,11 @@ public:
 		lastElement = t1;
 	}
 protected:
+
+	static void message(std::string s) {
+		Log(s);
+	}
+
 	void draw(sf::RenderTarget &target, sf::RenderStates states) const {
 		UIState::draw(target, states);
 	};

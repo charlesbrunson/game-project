@@ -196,6 +196,9 @@
     <ClCompile Include="UIState.cpp">
       <Filter>Source Files\States\UI</Filter>
     </ClCompile>
+    <ClCompile Include="UIElement.cpp">
+      <Filter>Source Files\States\UI\Util</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="rapidxml.hpp">
