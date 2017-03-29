@@ -1,5 +1,5 @@
 #include "TestObject.hpp"
-#include "PositionRef.hpp"
+#include "PlayerRef.hpp"
 
 Animation TestObject::anim_idle(sf::IntRect(0, 0, 16, 32), sf::Vector2f(8, 32), 1, sf::seconds(1.f));
 

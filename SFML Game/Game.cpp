@@ -3,7 +3,7 @@
 #include <thread>
 
 #include "Game.hpp"
-#include "PositionRef.hpp"
+//#include "CamRef.hpp"
 
 #include "MusicPlayer.hpp"
 #include "GameSettings.hpp"
@@ -77,6 +77,9 @@ Game::~Game() {
 // Main game loop
 void Game::run() {
 
+	Log::trackNum("FPS", &_dDrawFPS);
+	Log::trackNum("UPS", &_dUpdateFPS);
+
 	// Time elapsed on gameclock since last restart
 	sf::Time elapsed = sf::Time::Zero;
 
@@ -102,7 +105,7 @@ void Game::run() {
 
 		if (_focus) {
 			if (t.getElapsedTime() > _timePerUpdate)
-				Log("check " + std::to_string(t.restart().asMicroseconds()) + "\n");
+				Log::msg("check " + std::to_string(t.restart().asMicroseconds()) + "\n");
 
 			elapsed = _gameClock.restart();
 
@@ -123,10 +126,10 @@ void Game::run() {
 					Controls::mouseLastMoved += dt;
 
 					// Clear debug log
-					ClearLog();
+					//ClearLog::msg();
 
 #ifdef _DEBUG
-					Log("FPS:  " + std::to_string((int)_dDrawFPS) + (_dDrawFPS < 100 ? "\t\t" : "\t") + "UPS:  " + std::to_string((int)_dUpdateFPS) + "\n", false);
+					//Log::msg("FPS:  " + std::to_string((int)_dDrawFPS) + (_dDrawFPS < 100 ? "\t\t" : "\t") + "UPS:  " + std::to_string((int)_dUpdateFPS) + "\n");
 #endif
 
 					// Reset update time accumulator
@@ -141,10 +144,10 @@ void Game::run() {
 						Controls::mouseLastMoved += _timePerUpdate;
 
 						// Clear debug log
-						ClearLog();
+						//ClearLog::msg();
 
 #ifdef _DEBUG
-						Log("FPS:  " + std::to_string((int)_dDrawFPS) + (_dDrawFPS < 100 ? "\t\t" : "\t") + "UPS:  " + std::to_string((int)_dUpdateFPS) + "\n", false);
+						//Log::msg("FPS:  " + std::to_string((int)_dDrawFPS) + (_dDrawFPS < 100 ? "\t\t" : "\t") + "UPS:  " + std::to_string((int)_dUpdateFPS) + "\n");
 #endif
 
 						// Reset update time accumulator
@@ -215,6 +218,9 @@ void Game::run() {
 	// Join music manager
 	MusicPlayer::stopRun();
 	musicThread.join();
+
+	Log::freeNum("FPS");
+	Log::freeNum("UPS");
 }
 
 // Loads and applies settings from file
@@ -289,7 +295,7 @@ sf::Keyboard::Key Game::getKey(sf::String k) {
 	}
 
 	// Input couldn't be found, unbind it
-	Log("Unknown key: " + key + "\n");
+	Log::msg("Unknown key: " + key + "\n");
 	return sf::Keyboard::Unknown;
 }
 
@@ -333,7 +339,7 @@ Controls::JoystickInput Game::getJoystickInput(sf::String j) {
 	}
 
 	// Input couldn't be found, unbind it
-	Log("Unknown joystick input: " + in + "\n");
+	Log::msg("Unknown joystick input: " + in + "\n");
 	return Controls::JoystickInput(-1);
 }
 
@@ -431,8 +437,7 @@ void Game::update(sf::Time t) {
 
 #ifdef _DEBUG
 	// Update ingame Log text
-	gLog.updateText();
-	gLog.setPosition(v - sf::Vector2f(GAMEWIDTH / 2, GAMEHEIGHT / 2) + sf::Vector2f(1.f, 1.f));
+	gLog.update(v);
 #endif
 
 }
@@ -556,20 +561,20 @@ void Game::handleEvents() {
 		case sf::Event::MouseEntered:
 			Controls::mouseInWindow = true;
 			Controls::mouseLastMoved = sf::Time::Zero;
-			//Log("mouse enter\n");
+			//Log::msg("mouse enter\n");
 			break;
 
 		case sf::Event::MouseLeft:
 			Controls::mouseInWindow = false;
 			Controls::mouseLastMoved = sf::Time::Zero;
-			//Log("mouse exit\n");
+			//Log::msg("mouse exit\n");
 			break;
 
 		case sf::Event::MouseMoved:
 			//updateMousePos();
 			Controls::mousePosition = mapPixelToCoords(sf::Vector2i(e.mouseMove.x, e.mouseMove.y));
 			Controls::mouseLastMoved = sf::Time::Zero;
-			//Log("mouse moved: " + std::to_string(Controls::mousePosition.x) + ", " + std::to_string(Controls::mousePosition.y) + "\n");
+			//Log::msg("mouse moved: " + std::to_string(Controls::mousePosition.x) + ", " + std::to_string(Controls::mousePosition.y) + "\n");
 			break;
 
 		case sf::Event::MouseButtonPressed:
@@ -580,7 +585,7 @@ void Game::handleEvents() {
 				//updateMousePos();
 				Controls::mouseActive.position = Controls::mousePosition;
 
-				//Log("mouse pressed at: " + std::to_string(Controls::mousePosition.x) + ", " + std::to_string(Controls::mousePosition.y) + "\n");
+				//Log::msg("mouse pressed at: " + std::to_string(Controls::mousePosition.x) + ", " + std::to_string(Controls::mousePosition.y) + "\n");
 			}
 			break;
 
@@ -589,7 +594,7 @@ void Game::handleEvents() {
 				Controls::mouseActive.input.active = false;
 				//updateMousePos();
 				Controls::mouseActive.position = Controls::mousePosition;
-				//Log("mouse release\n");
+				//Log::msg("mouse release\n");
 			}
 			break;
 		}

@@ -5,7 +5,7 @@
 #include "PixelSnap.hpp"
 #include "Log.hpp"
 
-#include "PositionRef.hpp"
+//#include "CamRef.hpp"
 
 void TileLayer::update(sf::Time deltaTime, sf::IntRect gridArea, sf::FloatRect displayArea, sf::Vector2f camCenter, sf::IntRect levelArea, bool drawAll) {
 	

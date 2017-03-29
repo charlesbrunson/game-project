@@ -6,7 +6,7 @@
 
 #include "ResourceLoader.hpp"
 #include "State.hpp"
-#include "GameLog.hpp"
+#include "GLog.hpp"
 #include "Controls.hpp"
 
 // Game window and input handler
@@ -44,7 +44,7 @@ private:
 	//};
 
 	// GameLog containing recent debug messages
-	GameLog gLog;
+	GLog gLog;
 
 
 	// Number of frames processed since program start
@@ -95,8 +95,8 @@ private:
 	int _dFrameCount;
 	int _dUpdateCount;
 	// Calculated FPS
-	double _dDrawFPS;
-	double _dUpdateFPS;
+	float _dDrawFPS;
+	float _dUpdateFPS;
 	// FPS tracker
 	sf::Clock _dFpsTracker;
 #endif

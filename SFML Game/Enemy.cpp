@@ -1,7 +1,7 @@
 #include "Enemy.hpp"
 #include "GameplayState.hpp"
 
-
+#include "PlayerRef.hpp"
 
 void Enemy::despawn() {
 	if (!toDelete && removeOnDespawn && spawnCounter > 0) {

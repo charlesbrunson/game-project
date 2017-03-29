@@ -47,7 +47,7 @@ std::ostream& LevelSerializer::writeLevel(std::ostream& os, Level& lvl)
 		for (char c : i->second)
 			write(c, os);
 
-		Log(i->second + "\n");
+		Log::msg(i->second + "\n");
 		
 	}
 

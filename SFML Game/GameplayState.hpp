@@ -9,7 +9,7 @@
 //#include "Level.hpp"
 #include "Zone.hpp"
 #include "GameCamera.hpp"
-#include "PositionRef.hpp"
+#include "CamRef.hpp"
 
 #include "ResourceLoader.hpp"
 #include "Director.hpp"

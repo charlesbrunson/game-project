@@ -29,7 +29,7 @@ public:
 				
 		if (!activeLevels.empty()) {
 			for (auto it = activeLevels.begin(); it != activeLevels.end(); it++) {
-				Log("Deleting " + it->first + "\n");
+				Log::msg("Deleting " + it->first + "\n");
 
 				if (it->second.level != nullptr) {
 					delete it->second.level;

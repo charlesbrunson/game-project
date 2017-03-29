@@ -4,6 +4,7 @@
 #include "GameplayState.hpp"
 #include "GameCamera.hpp"
 #include "Player.hpp"
+#include "PlayerRef.hpp"
 
 #include "LevelList.hpp"
 #include "PixelSnap.hpp"

@@ -7,6 +7,7 @@
 #include "UIText.hpp"
 #include "UIState.hpp"
 
+#include "CamRef.hpp"
 
 class UIMainMenu : public UIState {
 public:
@@ -51,7 +52,7 @@ public:
 protected:
 
 	static void message(std::string s) {
-		Log(s);
+		Log::msg(s);
 	}
 
 	void draw(sf::RenderTarget &target, sf::RenderStates states) const {

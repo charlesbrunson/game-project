@@ -4,6 +4,8 @@
 #include "UIElement.hpp"
 #include "Math.hpp"
 
+#include "PixelSnap.hpp"
+
 class UIText : public UIElement, public ResourceUser {
 public:
 	UIText(const sf::Text &t, ResourceLoader* r) : ResourceUser(r) {

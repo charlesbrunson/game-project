@@ -172,7 +172,7 @@ void ResourceLoader::writeToPack() {
 
 							// Get full file path from directory
 							std::string tmxFile = fileDir + directory + filename;
-							Log("Compiling " + tmxFile + "\n");
+							Log::msg("Compiling " + tmxFile + "\n");
 							tmxFile.erase(tmxFile.length() - 4, tmxFile.length());
 							tmxFile.erase(0, fileDir.length());
 

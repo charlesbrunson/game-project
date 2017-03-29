@@ -1,49 +1,67 @@
-
 #ifndef LOG_H
 #define LOG_H
 
-#include <iostream>
-#include <queue>
-#include <SFML/System/String.hpp>
+#include <string>
+#include <list>
+#include <map>
+#include <set>
 
+class LogListener {
+public:
 
-static std::vector<std::string> logQueue;
+	LogListener();
+	virtual ~LogListener();
 
-static void Log(sf::String s, bool out = true) {
-#ifdef _DEBUG
-	if (out) std::cout << (std::string) s;
-	logQueue.insert(logQueue.end(), (std::string) s);
-	if (logQueue.size() > 5) {
-		logQueue.erase(logQueue.begin());
-	}
-#endif
-}
+	void messagesChanged() {
+		msgDirty = true;
+	};
+	void trackersChanged() {
+		trackDirty = true;
+	};
 
-static void Log(std::string s, bool out = true) {
-#ifdef _DEBUG
-	if (out) std::cout << s;
-	logQueue.insert(logQueue.end(), s);
-	if (logQueue.size() > 5) {
-		logQueue.erase(logQueue.begin());
-	}
-#endif
-}
+protected:
+	bool msgDirty = true;
+	bool trackDirty = true;
+};
 
-template<size_t N>
-static void Log(const char(&charArray)[N], bool out = true) {
-#ifdef _DEBUG
-	if (out) std::cout << charArray;
-	logQueue.insert(logQueue.end(), charArray);
-	if (logQueue.size() > 5) {
-		logQueue.erase(logQueue.begin());
-	}
-#endif
-}
+//message log
+class Log {
+public:
+	static void msg(const std::string& m);
 
-static void ClearLog() {
-#ifdef _DEBUG
-	logQueue.clear();
-#endif
-}
+	//send message to log
+	template <class T, typename = std::enable_if<std::is_fundamental<T>::value, T>::type>
+	static void msg(const T& t)
+	{
+		msg(std::to_string(t) + "\n");
+	};
+
+	template<size_t N>
+	static void msg(const char(&charArray)[N]) {
+		msg(std::string(charArray));
+	};
+
+	//value tracking
+	static void trackNum(std::string label, float* num);
+	//do this before deleting any tracked number
+	static void freeNum(std::string label);
+
+	static float getNum(std::string label);
+
+	static const std::list<std::string>& getMessages();
+	static const std::map<std::string, float*>& getTracked();
+
+	static void addListener(LogListener* l);
+	static void removeListener(LogListener* l);
+
+private:
+
+	static void message(const std::string& m);
+
+	static std::list<std::string> messages;
+	static std::map<std::string, float*> trackedNums;
+	static std::set<LogListener*> listeners;
+	static const int messagesMax = 6;
+};
 
 #endif

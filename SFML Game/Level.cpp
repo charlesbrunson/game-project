@@ -1,7 +1,7 @@
 #include <SFML/Graphics.hpp>
 #include "Level.hpp"
 
-#include "PositionRef.hpp"
+//#include "CamRef.hpp"
 #include "PixelSnap.hpp"
 
 Level::Level(ResourceLoader *rloader) : 
@@ -308,7 +308,7 @@ void Level::syncLayerTimers(sf::Time zoneTimer) {
 
 void Level::setInvisibleWall(int index, bool prop) {
 	if (index < 0 || index > 3) {
-		Log("ERROR: Can't set invisible wall, index out of bounds\n");
+		Log::msg("ERROR: Can't set invisible wall, index out of bounds\n");
 		return;
 	}
 

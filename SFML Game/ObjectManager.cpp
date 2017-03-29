@@ -6,6 +6,8 @@
 #include "TemplateUser.hpp"
 #include "Math.hpp"
 
+#include "PlayerRef.hpp"
+
 void ObjectManager::clear() {
 
 	objects.clear(); 
@@ -631,7 +633,7 @@ void ObjectManager::readObjNodes(std::vector<objNode> &objList, Level* lvl, bool
 				plr->setPosition(plr->getPosition() + offsetPos);
 
 				if (plr == nullptr){
-					Log("WARNING: FAILED TO INSTANTIATE " + (std::string)objN.type + "\n");
+					Log::msg("WARNING: FAILED TO INSTANTIATE " + (std::string)objN.type + "\n");
 				}
 				else {
 					gCameraPos = plr->getPosition();
@@ -658,7 +660,7 @@ void ObjectManager::readObjNodes(std::vector<objNode> &objList, Level* lvl, bool
 			}
 
 			if (obj == nullptr) {
-				Log("WARNING: FAILED TO INSTANTIATE " + (std::string)objN.type + "\n");
+				Log::msg("WARNING: FAILED TO INSTANTIATE " + (std::string)objN.type + "\n");
 			}
 			else {
 				insertObject(obj);

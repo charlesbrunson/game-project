@@ -2,6 +2,7 @@
 #define MATH_H
 
 #include <SFML/System.hpp>
+#include "Globals.hpp"
 
 namespace Math {
 	static const sf::Vector2f diff(const sf::Vector2f& i, const sf::Vector2f& j) {

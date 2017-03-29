@@ -46,7 +46,7 @@ void GameSettings::readSettingsFile() {
 	if (!reader.is_open())
 		return;
 
-	Log("Reading Settings...\n");
+	Log::msg("Reading Settings...\n");
 
 	std::string line;
 	while (std::getline(reader, line)) {
@@ -67,7 +67,7 @@ void GameSettings::readSettingsFile() {
 		std::string setting = line.substr(0, p);
 		std::string value = line.substr(p + 1, line.length());
 
-		Log("\t\"" + setting + "\" = \"" + value + "\"\n");
+		Log::msg("\t\"" + setting + "\" = \"" + value + "\"\n");
 
 		//find setting in array
 		for (int i = 0; i < SettingsField::COUNT; i++) {
@@ -87,7 +87,7 @@ void GameSettings::writeSettingsFile() {
 	if (!writer.is_open())
 		return;
 
-	Log("Writing Settings...\n");
+	Log::msg("Writing Settings...\n");
 
 	for (int i = 0; i < SettingsField::COUNT; i++) {
 

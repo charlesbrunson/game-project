@@ -1,6 +1,7 @@
 #include "Boss.hpp"
 //#include "Coin.hpp"
 
+#include "PlayerRef.hpp"
 
 Boss::Boss(ResourceLoader *rloader, Level *l, int ID) : Enemy(rloader, l, ID) {
 	respawning = false;

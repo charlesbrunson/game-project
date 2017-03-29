@@ -184,9 +184,6 @@
     <ClCompile Include="ObjectManager.cpp">
       <Filter>Source Files\States\Gameplay\GameplayUtil</Filter>
     </ClCompile>
-    <ClCompile Include="PositionRef.cpp">
-      <Filter>Source Files\States\Gameplay\GameplayUtil</Filter>
-    </ClCompile>
     <ClCompile Include="TransitionState.cpp">
       <Filter>Source Files\States\Transition</Filter>
     </ClCompile>
@@ -198,6 +195,18 @@
     </ClCompile>
     <ClCompile Include="UIElement.cpp">
       <Filter>Source Files\States\UI\Util</Filter>
+    </ClCompile>
+    <ClCompile Include="Log.cpp">
+      <Filter>Source Files\Util</Filter>
+    </ClCompile>
+    <ClCompile Include="GLog.cpp">
+      <Filter>Source Files\Util</Filter>
+    </ClCompile>
+    <ClCompile Include="CamRef.cpp">
+      <Filter>Source Files\Util</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerRef.cpp">
+      <Filter>Source Files\States\Gameplay\GameplayUtil</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -288,9 +297,6 @@
     <ClInclude Include="GameSettings.hpp">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="Log.hpp">
-      <Filter>Source Files\Util</Filter>
-    </ClInclude>
     <ClInclude Include="PlayerGroundState.hpp">
       <Filter>Source Files\States\Gameplay\GameObjects\Player\States</Filter>
     </ClInclude>
@@ -314,9 +320,6 @@
     </ClInclude>
     <ClInclude Include="PlayerBoostJumpState.hpp">
       <Filter>Source Files\States\Gameplay\GameObjects\Player\States</Filter>
-    </ClInclude>
-    <ClInclude Include="GameLog.hpp">
-      <Filter>Source Files\Util</Filter>
     </ClInclude>
     <ClInclude Include="PlayerLedgeState.hpp">
       <Filter>Source Files\States\Gameplay\GameObjects\Player\States</Filter>
@@ -390,9 +393,6 @@
     <ClInclude Include="ObjectTypes.hpp">
       <Filter>Source Files\States\Gameplay\GameplayUtil</Filter>
     </ClInclude>
-    <ClInclude Include="PositionRef.hpp">
-      <Filter>Source Files\States\Gameplay\GameplayUtil</Filter>
-    </ClInclude>
     <ClInclude Include="TransitionState.hpp">
       <Filter>Source Files\States\Transition</Filter>
     </ClInclude>
@@ -410,6 +410,18 @@
     </ClInclude>
     <ClInclude Include="UIMainMenu.hpp">
       <Filter>Source Files\States\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Log.hpp">
+      <Filter>Source Files\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="GLog.hpp">
+      <Filter>Source Files\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="CamRef.hpp">
+      <Filter>Source Files\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerRef.hpp">
+      <Filter>Source Files\States\Gameplay\GameplayUtil</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

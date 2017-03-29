@@ -1,7 +1,7 @@
 #ifndef ENEMYSPAWNER_H
 #define ENEMYSPAWNER_H
 
-#include "PositionRef.hpp"
+//#include "PositionRef.hpp"
 
 #include "GameObject.hpp"
 #include "TemplateUser.hpp"

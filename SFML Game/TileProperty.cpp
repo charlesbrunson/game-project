@@ -33,7 +33,7 @@ void TileProperty::initTileData(ResourceLoader *rm) {
 	std::vector<std::string> tilesetNames;
 
 
-	Log("Loading tileset data");
+	Log::msg("Loading tileset data");
 
 	//open index and find tileset list
 	std::ifstream iReader(rm->fileIndex);
@@ -118,7 +118,7 @@ void TileProperty::initTileData(ResourceLoader *rm) {
 			}
 		}
 
-		Log("\t... done\n");
+		Log::msg("\t... done\n");
 		propReader.close();
 	}
 }
