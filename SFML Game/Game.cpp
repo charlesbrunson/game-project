@@ -16,8 +16,8 @@ Game::Game() : gLog(&resources) {
 	
 	// Start an instance of GameplayState for our starting state
 	// Ideally this should be changed to a main menu or something
-	//activeState = new GameplayState(&resources);
-	activeState = new UIMainMenu(&resources);
+	activeState = new GameplayState(&resources);
+	//activeState = new UIMainMenu(&resources);
 
 	// Setup default FPS settings
 	_maxUpdatePerSec = 144.0;
@@ -77,8 +77,10 @@ Game::~Game() {
 // Main game loop
 void Game::run() {
 
-	Log::trackNum("FPS", &_dDrawFPS);
-	Log::trackNum("UPS", &_dUpdateFPS);
+#ifdef _DEBUG
+	std::string fpsLabel = "FPS";
+	Log::track(fpsLabel, std::to_string((int)_dDrawFPS));
+#endif
 
 	// Time elapsed on gameclock since last restart
 	sf::Time elapsed = sf::Time::Zero;
@@ -194,6 +196,7 @@ void Game::run() {
 				_dUpdateFPS = _dUpdateCount;
 				_dFrameCount = 0;
 				_dUpdateCount = 0;
+				Log::updateValue(fpsLabel, std::to_string((int)_dDrawFPS));
 			}
 #endif
 			// Step 3: Sleep (if necessary)
@@ -219,8 +222,9 @@ void Game::run() {
 	MusicPlayer::stopRun();
 	musicThread.join();
 
-	Log::freeNum("FPS");
-	Log::freeNum("UPS");
+#ifdef _DEBUG
+	Log::remove(fpsLabel);
+#endif
 }
 
 // Loads and applies settings from file

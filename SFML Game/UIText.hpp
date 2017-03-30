@@ -10,7 +10,6 @@ class UIText : public UIElement, public ResourceUser {
 public:
 	UIText(const sf::Text &t, ResourceLoader* r) : ResourceUser(r) {
 		text = t;
-
 		interactive = true;
 	}
 

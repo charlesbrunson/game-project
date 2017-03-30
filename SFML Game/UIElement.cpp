@@ -13,15 +13,6 @@ UIElement::UIElement() {
 	capturesInput[WEST] = false;
 };
 
-
-
-void UIElement::captureDirInput() {
-
-};
-void UIElement::captureMouseMove(sf::Vector2f m_pos) {
-	std::cout << "woop\n";
-};
-
 bool UIElement::capturesDir(Direction d) {
 	return capturesInput[d]; 
 };

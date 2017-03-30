@@ -3,10 +3,11 @@
 #include "Log.hpp"
 
 std::list<std::string> Log::messages;
-std::map<std::string, float*> Log::trackedNums;
+std::map<std::string, std::string> Log::trackedValues;
 std::set<LogListener*> Log::listeners;
 
 void Log::message(const std::string& m) {
+#ifdef _DEBUG
 	std::cout << m;
 	messages.push_back(m);
 	if (messages.size() > messagesMax)
@@ -15,6 +16,7 @@ void Log::message(const std::string& m) {
 	for (auto itr = listeners.cbegin(); itr != listeners.cend(); itr++) {
 		(*itr)->messagesChanged();
 	}
+#endif
 }
 
 void Log::msg(const std::string& m) {
@@ -22,31 +24,38 @@ void Log::msg(const std::string& m) {
 }
 
 //value tracking
-void Log::trackNum(std::string label, float* num) {
-	trackedNums.insert(std::make_pair(label, num));
+void Log::track(const std::string& label, const std::string& val) {
+	trackedValues.insert(std::make_pair(label, val));
 	for (auto itr = listeners.cbegin(); itr != listeners.cend(); itr++) {
 		(*itr)->trackersChanged();
 	}
 }
 
 //do this before deleting any tracked number
-void Log::freeNum(std::string label) {
-	trackedNums.erase(label);
+void Log::remove(const std::string& label) {
+	trackedValues.erase(label);
 	for (auto itr = listeners.cbegin(); itr != listeners.cend(); itr++) {
 		(*itr)->trackersChanged();
 	}
 }
 
-float Log::getNum(std::string label) {
-	return *trackedNums.at(label);
+std::string Log::getVal(std::string label) {
+	return trackedValues.at(label);
+}
+
+void Log::updateValue(std::string label, std::string nVal) {
+	trackedValues.at(label) = nVal;
+	for (auto itr = listeners.cbegin(); itr != listeners.cend(); itr++) {
+		(*itr)->trackersChanged();
+	}
 }
 
 const std::list<std::string>& Log::getMessages() {
 	return messages;
 }
 
-const std::map<std::string, float*>& Log::getTracked() {
-	return trackedNums;
+const std::map<std::string, std::string>& Log::getTracked() {
+	return trackedValues;
 }
 
 void Log::addListener(LogListener* l) {
@@ -58,7 +67,6 @@ void Log::removeListener(LogListener* l) {
 	if (listeners.find(l) != listeners.end())
 		listeners.erase(l);
 }
-
 
 // log listener add and remove
 LogListener::LogListener() {

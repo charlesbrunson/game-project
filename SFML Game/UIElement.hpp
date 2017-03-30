@@ -37,8 +37,8 @@ public:
 	ActiveState getActiveState();
 	void setActiveState(ActiveState st);
 	
-	virtual void captureDirInput();
-	virtual void captureMouseMove(sf::Vector2f m_pos);
+	virtual void captureDirInput() {};
+	virtual void captureMouseMove(sf::Vector2f m_pos) {};
 	
 protected:
 	

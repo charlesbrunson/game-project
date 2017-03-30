@@ -80,9 +80,13 @@ Player::Player(ResourceLoader *rloader, Level *l, int ID) : GameObject(rloader, 
 	ledgeState = new PlayerLedgeState(this);
 	state_ = groundState;
 	playerState = PlayerState::GROUND;
+
+	Log::track("Player Pos", std::to_string((int)pos().x) + ", " + std::to_string((int)pos().y));
 };
 
 Player::~Player() {
+
+	Log::remove("Player Pos");
 	delete groundState;
 	delete airState;
 	delete dashState;
@@ -125,6 +129,7 @@ void Player::interact(GameObject *obj) {
 
 void Player::update(sf::Time deltaTime) {
 
+	Log::updateValue("Player Pos", std::to_string((int)pos().x) + ", " + std::to_string((int)pos().y));
 	lifeTime += deltaTime;
 		
 	//manage states

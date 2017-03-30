@@ -156,17 +156,19 @@ void Zone::beginLoadingAdjacentLevels() {
 	//end current thread
 	completeThread();
 
-	//start new thread, copy some needed data to separate from main thread
-	std::vector<sf::String> *activeNames = new std::vector<sf::String>;
-	for (std::map<sf::String, LevelArea>::const_iterator area = activeLevels.begin(); area != activeLevels.end(); area++) {
-		activeNames->push_back(area->first);
-
-	}
-
-	std::vector<Transition> *trans = new std::vector<Transition>;
-	std::vector<Transition> *list = currentLevel->level->getLevelTransitions();
+	//start new thread
 	if (!currentLevel->level->getLevelTransitions()->empty()) {
-		*trans = *list;
+
+		//copy some needed data to separate from main thread
+		std::vector<sf::String> *activeNames = new std::vector<sf::String>;
+		std::transform(activeLevels.cbegin(), activeLevels.cend(), *activeNames,
+			[](const std::pair<sf::String, Zone::LevelArea>& p) {
+				return p.first;
+			}
+		);
+
+		std::vector<Transition> *list = currentLevel->level->getLevelTransitions();
+		std::vector<Transition> *trans = new std::vector<Transition>(*list);
 
 		//heap objects get deleted in loadAdjacentLevels once it's done with them
 		loaderThreadActive = true;

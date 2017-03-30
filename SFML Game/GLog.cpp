@@ -24,7 +24,8 @@ GLog::~GLog() {
 void GLog::update(sf::Vector2f camCenter) {
 	sf::FloatRect camArea = getCameraArea();
 
-	trackersChanged();
+	if (trackDirty)
+		trackersChanged();
 	if (msgDirty)
 		messagesChanged();
 
@@ -50,7 +51,7 @@ void GLog::messagesChanged() {
 void GLog::trackersChanged() {
 	std::string t;
 	for (const auto& i : Log::getTracked()) {
-		t += i.first + ": " + std::to_string(*i.second) + "\n";
+		t += i.first + ": " + i.second + "\n";
 	}
 	trackerBox.setString(t);
 	trackDirty = false;

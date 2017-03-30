@@ -42,14 +42,14 @@ public:
 	};
 
 	//value tracking
-	static void trackNum(std::string label, float* num);
-	//do this before deleting any tracked number
-	static void freeNum(std::string label);
+	static void track(const std::string& label, const std::string& val);
+	static void remove(const std::string& label);
 
-	static float getNum(std::string label);
+	static std::string getVal(std::string label);
+	static void updateValue(std::string label, std::string nVal);
 
 	static const std::list<std::string>& getMessages();
-	static const std::map<std::string, float*>& getTracked();
+	static const std::map<std::string, std::string>& getTracked();
 
 	static void addListener(LogListener* l);
 	static void removeListener(LogListener* l);
@@ -59,7 +59,7 @@ private:
 	static void message(const std::string& m);
 
 	static std::list<std::string> messages;
-	static std::map<std::string, float*> trackedNums;
+	static std::map<std::string, std::string> trackedValues;
 	static std::set<LogListener*> listeners;
 	static const int messagesMax = 6;
 };
