@@ -153,7 +153,7 @@ void Zone::addActiveCounter(sf::String levelname) {
 //background level loading thread
 void Zone::beginLoadingAdjacentLevels() {
 
-	//end current thread
+	//ensure current thread is completed
 	completeThread();
 
 	//start new thread
@@ -161,11 +161,8 @@ void Zone::beginLoadingAdjacentLevels() {
 
 		//copy some needed data to separate from main thread
 		std::vector<sf::String> *activeNames = new std::vector<sf::String>;
-		std::transform(activeLevels.cbegin(), activeLevels.cend(), *activeNames,
-			[](const std::pair<sf::String, Zone::LevelArea>& p) {
-				return p.first;
-			}
-		);
+		for (const auto& p : activeLevels)
+			activeNames->push_back(p.first);
 
 		std::vector<Transition> *list = currentLevel->level->getLevelTransitions();
 		std::vector<Transition> *trans = new std::vector<Transition>(*list);
