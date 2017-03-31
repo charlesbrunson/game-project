@@ -19,7 +19,7 @@ public:
 		pauseText.setOutlineColor(sf::Color::Black);
 		pauseText.setOutlineThickness(1.f);
 
-		UIText* t = new UIText(pauseText, r);
+		UIText* t = new UIText(r);
 		t->setArea(getCameraArea());
 		uiElements.insert(std::make_pair("text", t));
 	}

@@ -19,6 +19,17 @@ UIState::~UIState() {
 	}
 };
 
+UIElement* UIState::findElementUnderMouse() {
+
+	const sf::Vector2f m_pos = Controls::mousePosition;
+
+	auto e = std::find_if(uiElements.begin(), uiElements.end(), [&m_pos](std::pair<std::string, UIElement*> e) {
+		return e.second->getArea().contains(m_pos);
+	});
+
+	return (e != uiElements.end()) ? e->second : nullptr;
+};
+
 void UIState::update(sf::Time deltaTime) {
 	//read input
 
@@ -27,20 +38,16 @@ void UIState::update(sf::Time deltaTime) {
 
 	//selection
 	//start with mouse
-	if (Controls::mouseLastMoved == sf::Time::Zero && !Controls::isMousePressed()) {
+	if (Controls::mouseLastMoved == sf::Time::Zero /* && !Controls::isMousePressed()*/) {
 		if (!Controls::mouseActive.input.active) {
 
-			const sf::Vector2f m_pos = Controls::mousePosition;
-
-			auto e = std::find_if(uiElements.begin(), uiElements.end(), [&m_pos](std::pair<std::string, UIElement*> e) {
-				return e.second->getArea().contains(m_pos);
-			});
-
-			UIElement* nElement = (e != uiElements.end()) ? e->second : nullptr;
+			UIElement* nElement = findElementUnderMouse();
 
 			//moving cursor to new element || moving cursor off current element
 			if (Controls::mouseInWindow) {
-				if ((sElement != nElement && nElement) || (!nElement && sElement)) {
+				if ((sElement != nElement && nElement) 
+					|| (!nElement && sElement)) {
+
 					changeSelection(nElement);
 				}
 			}
@@ -48,11 +55,14 @@ void UIState::update(sf::Time deltaTime) {
 				changeSelection(nullptr);
 			}
 		}
-		else if (sElement && Controls::mouseActive.input.active && sElement->getArea().contains(Controls::mouseActive.position)) {
-			sElement->captureMouseMove(Controls::mousePosition); 
-			sElement->setActiveState(UIElement::ActiveState::ACTIVATED);
-		}
 	}
+	//mouse button changed in state, update selection
+	if (Controls::mouseActive.input.active != mousePressedLastFrame 
+		&& Controls::mouseInWindow) {
+
+		changeSelection(findElementUnderMouse());
+	}
+
 
 	//keyboard and joystick
 	static auto evalInput = [this](Controls::Input in) {
@@ -125,6 +135,8 @@ void UIState::update(sf::Time deltaTime) {
 	//update last valid element
 	if (lastElement != sElement && sElement)
 		lastElement = sElement;
+
+	mousePressedLastFrame = Controls::mouseActive.input.active;
 };
 
 void UIState::activateElement() {

@@ -249,6 +249,7 @@
     <ClCompile Include="TransitionVerticalState.cpp" />
     <ClCompile Include="UIElement.cpp" />
     <ClCompile Include="UIState.cpp" />
+    <ClCompile Include="UIText.cpp" />
     <ClCompile Include="Zone.cpp" />
   </ItemGroup>
   <ItemGroup>

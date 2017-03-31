@@ -208,6 +208,9 @@
     <ClCompile Include="PlayerRef.cpp">
       <Filter>Source Files\States\Gameplay\GameplayUtil</Filter>
     </ClCompile>
+    <ClCompile Include="UIText.cpp">
+      <Filter>Source Files\States\UI\Util</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="rapidxml.hpp">

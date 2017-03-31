@@ -26,6 +26,8 @@ protected:
 	//default selection
 	UIElement* defaultElement = nullptr;
 
+	bool mousePressedLastFrame = false;
+
 	std::map<std::string, UIElement*> uiElements;
 
 	static const UIElement::Direction dirMap[4];
@@ -33,6 +35,8 @@ protected:
 	void UIState::activateElement();
 
 	void changeSelection(UIElement* to);
+
+	UIElement* findElementUnderMouse();
 
 	virtual void draw(sf::RenderTarget &target, sf::RenderStates states) const;
 };

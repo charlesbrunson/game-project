@@ -1,35 +1,52 @@
 #ifndef UITEXT_H
 #define UITEXT_H
 
-#include "UIElement.hpp"
-#include "Math.hpp"
+#include <sstream>
 
-#include "PixelSnap.hpp"
+#include "ResourceUser.hpp"
+#include "UIElement.hpp"
 
 class UIText : public UIElement, public ResourceUser {
 public:
-	UIText(const sf::Text &t, ResourceLoader* r) : ResourceUser(r) {
-		text = t;
-		interactive = true;
-	}
+	typedef std::vector<sf::Text> TextLines;
 
-	void setArea(sf::FloatRect a) {
-		UIElement::setArea(a);
-		text.setPosition(snapToPixel(Math::topleft(a)));
-	}
+	enum HAlign : int {
+		LEFT,
+		HCENTER,
+		RIGHT
+	};
+	enum VAlign : int {
+		TOP,
+		VCENTER,
+		BOTTOM
+	};
 
-	sf::Text* getText() {
-		return &text;
-	}
+	UIText(ResourceLoader* r);
+
+	void copy(UIText& copy);
+
+	void copyTextOptions(sf::Text guide);
+	void setString(std::string s);
+
+	void setArea(sf::FloatRect a);
+
+	void updateText();
+
+	void setAlignment(HAlign h, VAlign v);
+
+	TextLines* getText();
 	
 protected:
 
-	sf::Text text;
+	//text object and offset from area topleft
+	TextLines lines;
+	sf::Text styleGuide;
+	std::string str;
 
-	virtual void draw(sf::RenderTarget &target, sf::RenderStates states) const {
-		UIElement::draw(target, states);
-		target.draw(text, rMan->getShader("noalpha.frag"));
-	}
+	HAlign halign;
+	VAlign valign;
+
+	virtual void draw(sf::RenderTarget &target, sf::RenderStates states) const;
 };
 
 #endif

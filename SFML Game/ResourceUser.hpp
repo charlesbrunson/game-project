@@ -10,7 +10,7 @@ public:
 	ResourceUser(ResourceLoader *rloader);
 
 	void setResources(ResourceLoader *rloader);
-	ResourceLoader * getResources();
+	ResourceLoader* getResources();
 
 protected:
 	ResourceLoader *rMan;
