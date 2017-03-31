@@ -27,6 +27,8 @@ protected:
 	UIElement* defaultElement = nullptr;
 
 	bool mousePressedLastFrame = false;
+	bool inputPressedLastFrame = false;
+	UIElement* lastPressed = nullptr;
 
 	std::map<std::string, UIElement*> uiElements;
 

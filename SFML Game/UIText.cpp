@@ -4,7 +4,8 @@
 #include "PixelSnap.hpp"
 
 UIText::UIText(ResourceLoader* r) : ResourceUser(r) {
-
+	interactive = true;
+	delayedActivation = true;
 }
 
 
@@ -72,7 +73,7 @@ void UIText::updateText() {
 		else {
 			pos.y = area.top + area.height - vSpace + vPos;
 		}
-		t.setPosition(snapToPixel(pos));
+		t.setPosition(snapToPixel(pos + sf::Vector2f(1.f, -2.f)));
 		vPos += bounds.height;
 	}
 }
@@ -88,6 +89,18 @@ UIText::TextLines* UIText::getText() {
 
 void UIText::draw(sf::RenderTarget &target, sf::RenderStates states) const {
 	UIElement::draw(target, states);
-	for (const auto& t : lines)
+	for (const auto& t : lines) {
+
+#if _DEBUG
+		/*
+		if (UI_Globals::Debug::UIDebug) {
+			sf::RectangleShape rect(sf::Vector2f(t.getGlobalBounds().width, t.getGlobalBounds().height));
+			rect.setPosition(sf::Vector2f(t.getGlobalBounds().left, t.getGlobalBounds().top));
+			rect.setFillColor(sf::Color(255, 255, 255, 128));
+			target.draw(rect, states);
+		}
+		*/
+#endif
 		target.draw(t, rMan->getShader("noalpha.frag"));
+	}
 }

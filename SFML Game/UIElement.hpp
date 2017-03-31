@@ -25,12 +25,13 @@ public:
 	UIElement();
 
 	UIElement* connections[DIR_COUNT];
-	std::function<void(void)> onActivate;
-
-	bool capturesDir(Direction d);
-	bool isInteractive();
 	bool hasConnections();
+	bool capturesDir(Direction d);
 
+	std::function<void(void)> onActivate;
+	const bool isInteractive();
+	const bool isActivationDelayed();
+	
 	virtual void setArea(sf::FloatRect a);
 	const sf::FloatRect getArea();
 
@@ -46,6 +47,11 @@ protected:
 	ActiveState state = NOT_SELECTED;
 
 	bool interactive = false;
+
+	//false = activate on press, true = activate on release (and is still selected)
+	//necessary for buttons
+	bool delayedActivation = false;
+
 
 	bool capturesInput[DIR_COUNT];
 	bool capturesMouse = false;

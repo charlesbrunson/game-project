@@ -16,9 +16,12 @@ UIElement::UIElement() {
 bool UIElement::capturesDir(Direction d) {
 	return capturesInput[d]; 
 };
-bool UIElement::isInteractive() {
+const bool UIElement::isInteractive() {
 	return interactive; 
 };
+const bool UIElement::isActivationDelayed() {
+	return delayedActivation;
+}
 bool UIElement::hasConnections() {
 	return connections[NORTH]
 		|| connections[EAST]
