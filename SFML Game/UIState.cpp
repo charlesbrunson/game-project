@@ -15,7 +15,7 @@ UIState::UIState(ResourceLoader *r) : State(r) {
 
 UIState::~UIState() {
 	for (const auto i : uiElements) {
-		delete i.second;
+		delete i;
 	}
 };
 
@@ -24,11 +24,11 @@ UIElement* UIState::findElementUnderMouse() {
 	const sf::Vector2f m_pos = Controls::mousePosition;
 
 	auto e = std::find_if(uiElements.begin(), uiElements.end(), 
-	[&m_pos](std::pair<std::string, UIElement*> e) {
-		return e.second->isInteractive() && e.second->getArea().contains(m_pos);
+	[&m_pos](UIElement* e) {
+		return e->isInteractive() && e->getArea().contains(m_pos);
 	});
 
-	return (e != uiElements.end()) ? e->second : nullptr;
+	return (e != uiElements.end()) ? *e : nullptr;
 };
 
 void UIState::update(sf::Time deltaTime) {
@@ -184,7 +184,7 @@ void UIState::changeSelection(UIElement* to) {
 
 void UIState::draw(sf::RenderTarget &target, sf::RenderStates states) const {
 	for (const auto &i : uiElements) {
-		target.draw(*i.second, states);
+		target.draw(*i, states);
 	}
 };
 

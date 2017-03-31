@@ -30,7 +30,7 @@ protected:
 	bool inputPressedLastFrame = false;
 	UIElement* lastPressed = nullptr;
 
-	std::map<std::string, UIElement*> uiElements;
+	std::vector<UIElement*> uiElements;
 
 	static const UIElement::Direction dirMap[4];
 

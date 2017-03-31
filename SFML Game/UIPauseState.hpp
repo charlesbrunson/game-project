@@ -13,7 +13,6 @@ public:
 		cameraPos = prev->cameraPos;
 
 		pauseText.setFont(*r->getFont("pixelated.ttf"));
-		pauseText.setString("PAUSED");
 		pauseText.setCharacterSize(8);
 		pauseText.setFillColor(sf::Color::White);
 		pauseText.setOutlineColor(sf::Color::Black);
@@ -21,7 +20,10 @@ public:
 
 		UIText* t = new UIText(r);
 		t->setArea(getCameraArea());
-		uiElements.insert(std::make_pair("text", t));
+		t->setAlignment(UIText::LEFT, UIText::BOTTOM);
+		t->setString("PAUSED");
+		t->updateText();
+		uiElements.push_back(t);
 	}
 
 	void update(sf::Time deltaTime) {
