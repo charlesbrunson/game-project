@@ -35,5 +35,3 @@ bool UI_Globals::Debug::UIDebug = true;
 bool UI_Globals::Debug::UIConnectors = true;
 
 int Scale::scale = 1;
-
-const float PI_F = 3.14159265358979323846f;

@@ -3,7 +3,7 @@
 TransitionVerticalState::TransitionVerticalState(GameplayState *game, Transition *activatedTransition, ResourceLoader *r) :
 TransitionState(game, activatedTransition, r) {
 
-	toUp = (transition.dir == Transition::Direction::NORTH);
+	toUp = (transition.dir == Cardinal::NORTH);
 
 	offsetIntoLevel = (float)tileSpacing;
 

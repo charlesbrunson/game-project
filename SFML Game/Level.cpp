@@ -4,6 +4,8 @@
 //#include "CamRef.hpp"
 #include "PixelSnap.hpp"
 
+#include "Math.hpp"
+
 Level::Level(ResourceLoader *rloader) : 
 	ResourceUser(rloader),
 	decorativeLayer(rloader, &tilesets),
@@ -131,7 +133,7 @@ void Level::generateCollisionMap() {
 
 	//invisible wall info
 	auto transitions = getLevelTransitions();
-	auto touchesTransition = [&transitions, &c](const Transition::Direction dir) {
+	auto touchesTransition = [&transitions, &c](const Cardinal dir) {
 		for (auto i = transitions->begin(); i != transitions->end(); i++) {
 			if (i->dir == dir && i->box.intersects(c.box)) {
 				return true;
@@ -142,21 +144,21 @@ void Level::generateCollisionMap() {
 	if (invisibleWalls[0]) {
 		for (int i = 0; i < levelArea.width / 16; i++) {
 			c = getTileCollisionBox(sf::Vector2i(i, -1));
-			if (touchesTransition(Transition::Direction::NORTH)) continue;
+			if (touchesTransition(Cardinal::NORTH)) continue;
 			if (c.downCol) collisionMap.push_back(c);
 		}
 	}
 	if (invisibleWalls[1]) {
 		for (int i = 0; i < levelArea.height / 16; i++) {
 			c = getTileCollisionBox(sf::Vector2i((levelArea.width / 16), i));
-			if (touchesTransition(Transition::Direction::EAST)) continue;
+			if (touchesTransition(Cardinal::EAST)) continue;
 			if (c.leftCol) collisionMap.push_back(c);
 		}
 	}
 	if (invisibleWalls[2]) {
 		for (int i = 0; i < levelArea.width / 16; i++) {
 			c = getTileCollisionBox(sf::Vector2i(i, (levelArea.height / 16)));
-			if (touchesTransition(Transition::Direction::SOUTH))
+			if (touchesTransition(Cardinal::SOUTH))
 				continue;
 			if (c.upCol) collisionMap.push_back(c);
 		}
@@ -164,7 +166,7 @@ void Level::generateCollisionMap() {
 	if (invisibleWalls[3]) {
 		for (int i = 0; i < levelArea.height / 16; i++) {
 			c = getTileCollisionBox(sf::Vector2i(-1, i));
-			if (touchesTransition(Transition::Direction::WEST)) continue;
+			if (touchesTransition(Cardinal::WEST)) continue;
 			if (c.rightCol) collisionMap.push_back(c);
 		}
 	}

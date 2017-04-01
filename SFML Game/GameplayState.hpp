@@ -102,12 +102,7 @@ private:
 
 	sf::Time playerDeathDuration = sf::seconds(3.f);
 	sf::Time playerDeathTimer = sf::Time::Zero;
-
-	//sf::Time transitionDuration = sf::Time::Zero;
-	//sf::Time transitionTimer = sf::Time::Zero;
-	//bool transitionIn = true;
-	//bool transitionEnabled = false;
-	
+		
 	void draw(sf::RenderTarget &target, sf::RenderStates states) const;
 };
 

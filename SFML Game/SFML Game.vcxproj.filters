@@ -211,6 +211,9 @@
     <ClCompile Include="UIText.cpp">
       <Filter>Source Files\States\UI\Util</Filter>
     </ClCompile>
+    <ClCompile Include="Math.cpp">
+      <Filter>Source Files\Util</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="rapidxml.hpp">

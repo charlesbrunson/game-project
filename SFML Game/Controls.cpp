@@ -5,9 +5,9 @@ sf::Keyboard::Key Controls::FullscreenToggle = sf::Keyboard::F9;
 
 //player controls
 sf::Keyboard::Key Controls::UpK = sf::Keyboard::W;
-sf::Keyboard::Key Controls::LeftK = sf::Keyboard::A;
-sf::Keyboard::Key Controls::DownK = sf::Keyboard::S;
 sf::Keyboard::Key Controls::RightK = sf::Keyboard::D;
+sf::Keyboard::Key Controls::DownK = sf::Keyboard::S;
+sf::Keyboard::Key Controls::LeftK = sf::Keyboard::A;
 
 sf::Keyboard::Key Controls::JumpK = sf::Keyboard::Space;
 sf::Keyboard::Key Controls::AttackK = sf::Keyboard::K;
@@ -18,9 +18,9 @@ sf::Keyboard::Key Controls::SelectK = sf::Keyboard::RShift;
 
 sf::Keyboard::Key* const Controls::keyboardKeys[Controls::Input::INPUT_COUNT] = {
 	&Controls::UpK,
-	&Controls::LeftK,
-	&Controls::DownK,
 	&Controls::RightK,
+	&Controls::DownK,
+	&Controls::LeftK,
 	&Controls::JumpK,
 	&Controls::AttackK,
 	&Controls::SprintK,
@@ -29,9 +29,9 @@ sf::Keyboard::Key* const Controls::keyboardKeys[Controls::Input::INPUT_COUNT] = 
 };
 
 Controls::JoystickInput Controls::UpJ;
-Controls::JoystickInput Controls::LeftJ;
-Controls::JoystickInput Controls::DownJ;
 Controls::JoystickInput Controls::RightJ;
+Controls::JoystickInput Controls::DownJ;
+Controls::JoystickInput Controls::LeftJ;
 
 Controls::JoystickInput Controls::JumpJ;
 Controls::JoystickInput Controls::AttackJ;
@@ -42,9 +42,9 @@ Controls::JoystickInput Controls::SelectJ;
 
 Controls::JoystickInput* const Controls::joystickKeys[Controls::Input::INPUT_COUNT] = {
 	&Controls::UpJ,
-	&Controls::LeftJ,
-	&Controls::DownJ,
 	&Controls::RightJ,
+	&Controls::DownJ,
+	&Controls::LeftJ,
 	&Controls::JumpJ,
 	&Controls::AttackJ,
 	&Controls::SprintJ,
@@ -65,14 +65,20 @@ Controls::GameInput Controls::SelectActive;
 
 Controls::GameInput* const Controls::inputs[Controls::Input::INPUT_COUNT] {
 	&Controls::UpActive,
-	&Controls::LeftActive,
-	&Controls::DownActive,
 	&Controls::RightActive,
+	&Controls::DownActive,
+	&Controls::LeftActive,
 	&Controls::JumpActive,
 	&Controls::AttackActive,
 	&Controls::SprintActive,
 	&Controls::StartActive,
 	&Controls::SelectActive
+};
+const Controls::Input Controls::dirMap[Cardinal::DIR_COUNT] {
+	UP,
+	RIGHT,
+	DOWN,
+	LEFT
 };
 
 

@@ -1,9 +1,12 @@
 #ifndef TRANSITIONSTATE_H
 #define TRANSITIONSTATE_H
 
+#include <SFML/System.hpp>
+
 #include "GameplayState.hpp"
 #include "TileLayer.hpp"
-#include <SFML/System.hpp>
+
+#include "Math.hpp"
 
 class TransitionState : public State {
 public:

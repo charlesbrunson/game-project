@@ -206,6 +206,7 @@
     <ClCompile Include="LevelLoader.cpp" />
     <ClCompile Include="LevelSerializer.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Math.cpp" />
     <ClCompile Include="MusicPlayer.cpp" />
     <ClCompile Include="ObjectManager.cpp" />
     <ClCompile Include="Player.cpp" />

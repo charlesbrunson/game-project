@@ -3,6 +3,8 @@
 
 #include <SFML/Window.hpp>
 
+#include "Math.hpp"
+
 class Controls {
 public:
 	struct JoystickInput {
@@ -51,9 +53,9 @@ public:
 
 	enum Input : int {
 		UP = 0,
-		LEFT,
-		DOWN,
 		RIGHT,
+		DOWN,
+		LEFT,
 		JUMP,
 		ATTACK,
 		SPRINT,
@@ -61,12 +63,15 @@ public:
 		SELECT,
 		INPUT_COUNT
 	};
+
+	//map cardinal directions to inputs
+	static const Controls::Input dirMap[Cardinal::DIR_COUNT];
 	
 	// Keyboard controls
 	static sf::Keyboard::Key UpK;
-	static sf::Keyboard::Key LeftK;
-	static sf::Keyboard::Key DownK;
 	static sf::Keyboard::Key RightK;
+	static sf::Keyboard::Key DownK;
+	static sf::Keyboard::Key LeftK;
 	static sf::Keyboard::Key JumpK;
 	static sf::Keyboard::Key AttackK;
 	static sf::Keyboard::Key SprintK;
@@ -79,9 +84,9 @@ public:
 
 	// Joystick controls
 	static JoystickInput UpJ;
-	static JoystickInput LeftJ;
-	static JoystickInput DownJ;
 	static JoystickInput RightJ;
+	static JoystickInput DownJ;
+	static JoystickInput LeftJ;
 	static JoystickInput JumpJ;
 	static JoystickInput AttackJ;
 	static JoystickInput SprintJ;
@@ -102,9 +107,9 @@ public:
 
 	// Input consolodated across joystick and keyboard
 	static GameInput UpActive;
-	static GameInput LeftActive;
-	static GameInput DownActive;
 	static GameInput RightActive;
+	static GameInput DownActive;
+	static GameInput LeftActive;
 	static GameInput JumpActive;
 	static GameInput AttackActive;
 	static GameInput SprintActive;

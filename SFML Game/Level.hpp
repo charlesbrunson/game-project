@@ -21,20 +21,14 @@
 #include "Tile.hpp"
 #include "TileLayer.hpp"
 
+#include "Math.hpp"
 
 struct Transition {
-	enum Direction : int {
-		NONE = -1,
-		NORTH = 0,
-		EAST,
-		SOUTH,
-		WEST
-	};
 
 	sf::FloatRect box;
 
 	int offset;
-	Direction dir = NONE;
+	Cardinal dir = NO_DIR;
 	//bool leftside;
 
 	sf::String levelName;

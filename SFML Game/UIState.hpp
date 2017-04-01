@@ -4,8 +4,10 @@
 #include <SFML/Graphics.hpp>
 
 #include "State.hpp"
-#include "UIElement.hpp"
 #include "Controls.hpp"
+#include "UIElement.hpp"
+
+#include "Math.hpp"
 
 //incomplete
 
@@ -31,9 +33,7 @@ protected:
 	UIElement* lastPressed = nullptr;
 
 	std::vector<UIElement*> uiElements;
-
-	static const UIElement::Direction dirMap[4];
-
+	
 	void UIState::activateElement();
 
 	void changeSelection(UIElement* to);

@@ -14,19 +14,12 @@ public:
 		SELECTED,
 		ACTIVATED
 	};
-	enum Direction : int {
-		NORTH = 0,
-		EAST,
-		SOUTH,
-		WEST,
-		DIR_COUNT
-	};
 
 	UIElement();
 
-	UIElement* connections[DIR_COUNT];
+	UIElement* connections[Cardinal::DIR_COUNT];
 	bool hasConnections();
-	bool capturesDir(Direction d);
+	bool capturesDir(Cardinal d);
 
 	std::function<void(void)> onActivate;
 	const bool isInteractive();

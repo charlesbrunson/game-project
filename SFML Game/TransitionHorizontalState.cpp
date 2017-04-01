@@ -1,9 +1,11 @@
 #include "TransitionHorizontalState.hpp"
 
+#include "Math.hpp"
+
 TransitionHorizontalState::TransitionHorizontalState(GameplayState *game, Transition *activatedTransition, ResourceLoader *r) :
 TransitionState(game, activatedTransition, r) {
 
-	toLeft = (transition.dir == Transition::Direction::WEST);
+	toLeft = (transition.dir == Cardinal::WEST);
 	offsetIntoLevel = (float)tileSpacing / 2.f;
 
 	Level* curLvl = zone->getCurrentLevel();

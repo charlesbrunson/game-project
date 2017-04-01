@@ -4,6 +4,7 @@
 
 #include "PlayerState.hpp"
 
+
 const sf::Time TransitionState::transDuration = sf::seconds(1.f);
 
 TransitionState::TransitionState(GameplayState *game, Transition *activatedTransition, ResourceLoader *r) : State(r) {
@@ -187,7 +188,7 @@ void TransitionState::update(sf::Time deltaTime) {
 		lvl->syncLayerTimers(z->getZoneLifetime());
 		lvl->update(sf::Time::Zero, getCameraArea(), gCameraPos);
 
-		if (transition.dir == Transition::Direction::NORTH && plr) {
+		if (transition.dir == Cardinal::NORTH && plr) {
 			//force player up on north transition
 			plr->setVelY(std::min(PlayerState::jumpVel, plr->vel().y / 2.f));
 		}

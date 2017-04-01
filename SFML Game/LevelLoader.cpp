@@ -4,6 +4,8 @@
 #include "LevelLoader.hpp"
 #include "rapidxml.hpp"
 
+#include "Math.hpp"
+
 void LevelLoader::loadLevel(sf::String name, Zone::LevelArea &area, ResourceLoader *loader, Zone *zone) {
 	/*
 	#ifdef _DEBUG
@@ -556,23 +558,23 @@ bool LevelLoader::compileTMXFile(sf::String name, ResourceLoader *loader) {
 					if (name == "DIRECTION") {
 						std::string d = prop->first_attribute("value")->value();
 						if (d == "NORTH") {
-							trans.dir = Transition::Direction::NORTH;
+							trans.dir = Cardinal::NORTH;
 						}
 						else if (d == "EAST") {
-							trans.dir = Transition::Direction::EAST;
+							trans.dir = Cardinal::EAST;
 						}
 						else if (d == "SOUTH") {
-							trans.dir = Transition::Direction::SOUTH;
+							trans.dir = Cardinal::SOUTH;
 						}
 						else if (d == "WEST") {
-							trans.dir = Transition::Direction::WEST;
+							trans.dir = Cardinal::WEST;
 						}
 					}
 					else if (name == "OFFSET") {
 						trans.offset = std::stoi(prop->first_attribute("value")->value());
 					}
 				}
-				assert(trans.dir != Transition::Direction::NONE);
+				assert(trans.dir != Cardinal::NO_DIR);
 				area.level->getLevelTransitions()->push_back(trans);
 			}
 		}

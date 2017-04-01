@@ -105,7 +105,7 @@ void GameplayState::updateGame(sf::Time deltaTime) {
 
 						removeStateOnChange = false;
 						toNextState = true;
-						if (trans->dir == Transition::Direction::EAST || trans->dir == Transition::Direction::WEST) {
+						if (trans->dir == Cardinal::EAST || trans->dir == Cardinal::WEST) {
 							nextState = new TransitionHorizontalState(this, trans._Ptr, res);
 						}
 						else {

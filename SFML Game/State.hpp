@@ -15,17 +15,7 @@ public:
 		res = r;
 	}
 	virtual ~State() {};
-
-	/*
-	enum StateName : int {
-		STATE_NULL,
-		STATE_GAMEPLAY,
-		STATE_TRANSITION,
-		STATE_UI
-	};
-	int StateName = STATE_NULL;
-	*/
-	
+		
 	virtual void update(sf::Time deltaTime) = 0; 
 	virtual void draw(sf::RenderTarget &target, sf::RenderStates states) const = 0;
 	

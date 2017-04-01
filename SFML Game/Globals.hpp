@@ -56,6 +56,4 @@ private:
 	static int scale;
 };
 
-extern const float PI_F;
-
 #endif

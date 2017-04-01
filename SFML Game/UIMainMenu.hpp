@@ -47,11 +47,11 @@ public:
 		t3->updateText();
 		uiElements.push_back(t3);
 
-		t1->connections[UIElement::Direction::SOUTH] = t2;
-		t2->connections[UIElement::Direction::SOUTH] = t3;
+		t1->connections[Cardinal::SOUTH] = t2;
+		t2->connections[Cardinal::SOUTH] = t3;
 
-		t2->connections[UIElement::Direction::NORTH] = t1;
-		t3->connections[UIElement::Direction::NORTH] = t2;
+		t2->connections[Cardinal::NORTH] = t1;
+		t3->connections[Cardinal::NORTH] = t2;
 
 		t1->onActivate = std::bind(message, "BUTTON 1\n");
 		t2->onActivate = std::bind(message, "BUTTON 2\n");

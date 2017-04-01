@@ -2,13 +2,6 @@
 #include "Controls.hpp"
 #include "Log.hpp"
 
-const UIElement::Direction UIState::dirMap[4] = {
-	UIElement::Direction::NORTH,
-	UIElement::Direction::WEST,
-	UIElement::Direction::SOUTH,
-	UIElement::Direction::EAST,
-};
-
 UIState::UIState(ResourceLoader *r) : State(r) {
 
 }
@@ -74,15 +67,15 @@ void UIState::update(sf::Time deltaTime) {
 
 
 	//keyboard and joystick directional input
-	static auto evalInput = [this](Controls::Input in) {
+	static auto evalInput = [this](Cardinal dir) {
 
 		//directions only
-		if (in < 0 || in >= 4)
+		if (dir < 0 || dir >= 4)
 			return;
 
-		UIElement::Direction d = dirMap[in];
+		Controls::Input input = Controls::dirMap[dir];
 
-		if (Controls::isPressed(in)) {
+		if (Controls::isPressed(input)) {
 
 			if (!sElement && lastElement)
 				changeSelection(lastElement);
@@ -91,11 +84,11 @@ void UIState::update(sf::Time deltaTime) {
 
 				Controls::JumpActive.active = false;
 				Controls::JumpActive.confirmed = false;
-				Controls::confirmPress(in);
+				Controls::confirmPress(input);
 
-				if (!sElement->capturesDir(d)) {
-					if (sElement->connections[d])
-						changeSelection(sElement->connections[d]);
+				if (!sElement->capturesDir(dir)) {
+					if (sElement->connections[dir])
+						changeSelection(sElement->connections[dir]);
 				}
 				else {
 					//do a thing
@@ -106,10 +99,10 @@ void UIState::update(sf::Time deltaTime) {
 		}
 	};
 
-	evalInput(Controls::UP);
-	evalInput(Controls::RIGHT);
-	evalInput(Controls::DOWN);
-	evalInput(Controls::LEFT);
+	evalInput(Cardinal::NORTH);
+	evalInput(Cardinal::EAST);
+	evalInput(Cardinal::SOUTH);
+	evalInput(Cardinal::WEST);
 
 	//activation
 	//mouse

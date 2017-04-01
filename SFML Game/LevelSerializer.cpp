@@ -1,5 +1,6 @@
 #include "LevelSerializer.hpp"
 
+#include "Math.hpp"
 
 std::ostream& LevelSerializer::writeLevel(std::ostream& os, Level& lvl)
 {
@@ -459,7 +460,7 @@ void LevelSerializer::readTrans(std::istream& is, Transition &t) {
 	read(t.offset, is);
 	int i;
 	read(i, is);
-	t.dir = (Transition::Direction)i;
+	t.dir = (Cardinal)i;
 };
 void LevelSerializer::readTransVec(std::istream& is, std::vector<Transition> &vec) {
 	vec.clear();
