@@ -186,7 +186,7 @@ void ResourceLoader::writeToPack() {
 					int fileSize = 0;
 					fileReader.open(fileDir + directory + filename, std::ios_base::binary | std::ios_base::ate);
 					if (fileReader.is_open()) {
-						fileSize = fileReader.tellg().seekpos();
+						fileSize = fileReader.tellg();
 					}
 					fileReader.close();
 
@@ -217,7 +217,7 @@ void ResourceLoader::writeToPack() {
 		for (auto i = files.begin(); i != files.end(); i++) {
 
 			// Write file type string length
-			int fileTypeStringLength = std::strlen(i->first.c_str());
+			int fileTypeStringLength = i->first.length();
 			packWriter.write((char*)&fileTypeStringLength, StdSizes::intSize);
 
 			// Write file type string
@@ -231,7 +231,7 @@ void ResourceLoader::writeToPack() {
 			for (auto j = i->second.begin(); j != i->second.end(); j++) {
 
 				// Write file name length
-				int fileNameLength = std::strlen(j->name.c_str());
+				int fileNameLength = j->name.length();
 				packWriter.write((char*)&fileNameLength, StdSizes::intSize);
 
 				// Write file name
@@ -492,7 +492,7 @@ sf::Shader* ResourceLoader::getShader(std::string filename) {
 
 template <class T>
 T* ResourceLoader::fetchResource(std::string filename, std::map<std::string, T> &map) {
-	std::map<std::string, T>::iterator i = map.find(filename);
+	auto i = map.find(filename);
 	if (i != map.end()) {
 		return &i->second;
 	}

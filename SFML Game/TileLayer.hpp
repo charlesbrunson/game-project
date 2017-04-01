@@ -63,7 +63,7 @@ public:
 	// copies the tile & parallax data other another tilelayer
 	void copy(const TileLayer &t);
 
-	void update(sf::Time deltaTime, sf::IntRect gridArea, sf::FloatRect displayArea, sf::Vector2f camCenter, sf::IntRect levelArea, bool DrawAll = false);
+	void update(sf::Time deltaTime, sf::IntRect gridArea, sf::FloatRect displayArea, sf::Vector2f camCenter, bool DrawAll = false);
 
 	sf::Vector2f updateParallax(sf::Vector2f camCenter);
 	void updateScroll(sf::Time t, sf::FloatRect area, bool isZoneTimer = false);

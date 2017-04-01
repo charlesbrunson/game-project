@@ -30,7 +30,7 @@ public:
 	static void msg(const std::string& m);
 
 	//send message to log
-	template <class T, typename = std::enable_if<std::is_fundamental<T>::value, T>::type>
+	template <class T, typename std::enable_if<std::is_fundamental<T>::value, T>::type>
 	static void msg(const T& t)
 	{
 		msg(std::to_string(t) + "\n");

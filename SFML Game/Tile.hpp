@@ -1,7 +1,7 @@
 #ifndef TILE_H
 #define TILE_H
 
-#include <SFML\System.hpp>
+#include <SFML/System.hpp>
 #include "TileProperty.hpp"
 
 const int tileSpacing = 16;

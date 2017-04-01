@@ -45,12 +45,12 @@ void Level::update(sf::Time deltaTime, sf::FloatRect displayArea, sf::Vector2f c
 	gridArea.width = ceilf((intersection.left + intersection.width) / (float)tileSpacing) - gridArea.left;
 	gridArea.height = ceilf((intersection.top + intersection.height) / (float)tileSpacing) - gridArea.top;
 
-	decorativeLayer.update(deltaTime, gridArea, intersection, camCenter, levelArea, reDraw);
-	foregroundLayer.update(deltaTime, gridArea, intersection, camCenter, levelArea, reDraw);
-	backgroundLayer.update(deltaTime, gridArea, intersection, camCenter, levelArea, reDraw);
+	decorativeLayer.update(deltaTime, gridArea, intersection, camCenter, reDraw);
+	foregroundLayer.update(deltaTime, gridArea, intersection, camCenter, reDraw);
+	backgroundLayer.update(deltaTime, gridArea, intersection, camCenter, reDraw);
 
 	for (auto i = parallaxLayers.begin(); i != parallaxLayers.end(); i++)
-		i->second.update(deltaTime, gridArea, intersection, camCenter, levelArea, reDraw);
+		i->second.update(deltaTime, gridArea, intersection, camCenter, reDraw);
 
 	if (!bgSpriteFilename.empty() && !bgSprite.getTexture()) {
 		bgSprite.setTexture(*rMan->getTexture("bg/" + bgSpriteFilename));

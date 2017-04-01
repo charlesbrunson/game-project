@@ -106,10 +106,10 @@ void GameplayState::updateGame(sf::Time deltaTime) {
 						removeStateOnChange = false;
 						toNextState = true;
 						if (trans->dir == Cardinal::EAST || trans->dir == Cardinal::WEST) {
-							nextState = new TransitionHorizontalState(this, trans._Ptr, res);
+							nextState = new TransitionHorizontalState(this, &*trans, res);
 						}
 						else {
-							nextState = new TransitionVerticalState(this, trans._Ptr, res);
+							nextState = new TransitionVerticalState(this, &*trans, res);
 						}
 						return;
 					}

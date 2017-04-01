@@ -1,3 +1,5 @@
+#include <math.h>
+
 #include "TileLayer.hpp"
 #include "TileProperty.hpp"
 #include "Globals.hpp"
@@ -7,7 +9,7 @@
 
 //#include "CamRef.hpp"
 
-void TileLayer::update(sf::Time deltaTime, sf::IntRect gridArea, sf::FloatRect displayArea, sf::Vector2f camCenter, sf::IntRect levelArea, bool drawAll) {
+void TileLayer::update(sf::Time deltaTime, sf::IntRect gridArea, sf::FloatRect displayArea, sf::Vector2f camCenter, bool drawAll) {
 	
 	if (isParallax()) {
 		parallax.offset = updateParallax(camCenter);
@@ -31,10 +33,10 @@ void TileLayer::update(sf::Time deltaTime, sf::IntRect gridArea, sf::FloatRect d
 
 		//recalculate grid area
 		sf::IntRect nGrid;
-		nGrid.left = (int)std::floorf(displayArea.left / (float)tileSpacing);
-		nGrid.top = (int)std::floorf(displayArea.top / (float)tileSpacing);
-		nGrid.width = (int)std::ceilf((displayArea.left + displayArea.width) / (float)tileSpacing) - nGrid.left;
-		nGrid.height = (int)std::ceilf((displayArea.top + displayArea.height) / (float)tileSpacing) - nGrid.top;
+		nGrid.left = (int)floorf(displayArea.left / (float)tileSpacing);
+		nGrid.top = (int)floorf(displayArea.top / (float)tileSpacing);
+		nGrid.width = (int)ceilf((displayArea.left + displayArea.width) / (float)tileSpacing) - nGrid.left;
+		nGrid.height = (int)ceilf((displayArea.top + displayArea.height) / (float)tileSpacing) - nGrid.top;
 		gridArea = sf::IntRect(nGrid);
 	}
 

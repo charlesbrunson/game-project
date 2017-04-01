@@ -49,7 +49,7 @@ public:
 	};
 	static bool removeListener(SettingsListener* listener) {
 		for (auto i = listeners.begin(); i != listeners.end(); i++) {
-			if ((SettingsListener*)(i._Ptr) == listener) {
+			if ((SettingsListener*)(*i) == listener) {
 				listeners.erase(i);
 				return true;
 			}

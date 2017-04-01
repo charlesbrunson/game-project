@@ -213,12 +213,12 @@ void TransitionState::updateFakeLevel(sf::Time deltaTime, sf::FloatRect displayA
 	gridArea.width = static_cast<int>(ceilf((intersection.left + intersection.width) / (float)tileSpacing)) - gridArea.left;
 	gridArea.height = static_cast<int>(ceilf((intersection.top + intersection.height) / (float)tileSpacing)) - gridArea.top;
 
-	fakeLevel->decorLayer.update(deltaTime, gridArea, intersection, camCenter, toLevelArea->level->levelArea);
-	fakeLevel->foreLayer.update(deltaTime, gridArea, intersection, camCenter, toLevelArea->level->levelArea);
-	fakeLevel->backLayer.update(deltaTime, gridArea, intersection, camCenter, toLevelArea->level->levelArea);
+	fakeLevel->decorLayer.update(deltaTime, gridArea, intersection, camCenter);
+	fakeLevel->foreLayer.update(deltaTime, gridArea, intersection, camCenter);
+	fakeLevel->backLayer.update(deltaTime, gridArea, intersection, camCenter);
 
 	for (auto i = fakeLevel->parallaxLayers.begin(); i != fakeLevel->parallaxLayers.end(); i++)
-		i->second.update(deltaTime, gridArea, intersection, camCenter, toLevelArea->level->levelArea);
+		i->second.update(deltaTime, gridArea, intersection, camCenter);
 }
 
 void TransitionState::draw(sf::RenderTarget &target, sf::RenderStates states) const {

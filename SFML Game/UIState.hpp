@@ -21,20 +21,21 @@ public:
 
 protected:
 
-	//current selection
+	// current selection
 	UIElement* sElement = nullptr;
-	//last valid element
+	// last valid element
 	UIElement* lastElement = nullptr;
-	//default selection
+	// default selection
 	UIElement* defaultElement = nullptr;
+	// last element in activated state
+	UIElement* lastPressed = nullptr;
 
 	bool mousePressedLastFrame = false;
 	bool inputPressedLastFrame = false;
-	UIElement* lastPressed = nullptr;
 
 	std::vector<UIElement*> uiElements;
 	
-	void UIState::activateElement();
+	void activateElement();
 
 	void changeSelection(UIElement* to);
 
