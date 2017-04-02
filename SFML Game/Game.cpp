@@ -16,8 +16,8 @@ Game::Game() : gLog(&resources) {
 	
 	// Start an instance of GameplayState for our starting state
 	// Ideally this should be changed to a main menu or something
-	//activeState = new GameplayState(&resources);
-	activeState = new UIMainMenu(&resources);
+	activeState = new GameplayState(&resources);
+	//activeState = new UIMainMenu(&resources);
 
 	// Setup default FPS settings
 	_maxUpdatePerSec = 144.0;

@@ -190,9 +190,6 @@
     <ClCompile Include="TransitionVerticalState.cpp">
       <Filter>Source Files\States\Transition</Filter>
     </ClCompile>
-    <ClCompile Include="UIState.cpp">
-      <Filter>Source Files\States\UI</Filter>
-    </ClCompile>
     <ClCompile Include="UIElement.cpp">
       <Filter>Source Files\States\UI\Util</Filter>
     </ClCompile>
@@ -213,6 +210,15 @@
     </ClCompile>
     <ClCompile Include="Math.cpp">
       <Filter>Source Files\Util</Filter>
+    </ClCompile>
+    <ClCompile Include="UIGraph.cpp">
+      <Filter>Source Files\States\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="UIMainMenu.cpp">
+      <Filter>Source Files\States\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="UIPauseState.cpp">
+      <Filter>Source Files\States\UI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -351,9 +357,6 @@
     <ClInclude Include="PixelSnap.hpp">
       <Filter>Source Files\Util</Filter>
     </ClInclude>
-    <ClInclude Include="UIState.hpp">
-      <Filter>Source Files\States\UI</Filter>
-    </ClInclude>
     <ClInclude Include="UIPauseState.hpp">
       <Filter>Source Files\States\UI</Filter>
     </ClInclude>
@@ -428,6 +431,9 @@
     </ClInclude>
     <ClInclude Include="PlayerRef.hpp">
       <Filter>Source Files\States\Gameplay\GameplayUtil</Filter>
+    </ClInclude>
+    <ClInclude Include="UIGraph.hpp">
+      <Filter>Source Files\States\UI</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

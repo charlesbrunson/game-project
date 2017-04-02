@@ -1,18 +1,24 @@
-#include "UIState.hpp"
+#include "UIGraph.hpp"
 #include "Controls.hpp"
 #include "Log.hpp"
 
-UIState::UIState(ResourceLoader *r) : State(r) {
+UIGraph::UIGraph(ResourceLoader *r) : ResourceUser(r) {
 
 }
 
-UIState::~UIState() {
+UIGraph::~UIGraph() {
 	for (const auto i : uiElements) {
 		delete i;
 	}
 };
 
-UIElement* UIState::findElementUnderMouse() {
+
+UIText* UIGraph::createUIText() {
+	uiElements.push_back(new UIText(getResources()));
+	return (UIText*)uiElements.back();
+}
+
+UIElement* UIGraph::findElementUnderMouse() {
 
 	const sf::Vector2f m_pos = Controls::mousePosition;
 
@@ -24,7 +30,7 @@ UIElement* UIState::findElementUnderMouse() {
 	return (e != uiElements.end()) ? *e : nullptr;
 };
 
-void UIState::update(sf::Time deltaTime) {
+void UIGraph::update(sf::Time deltaTime) {
 	//read input
 
 	if (sElement && sElement->getActiveState() == UIElement::ActiveState::ACTIVATED)
@@ -161,13 +167,13 @@ void UIState::update(sf::Time deltaTime) {
 	inputPressedLastFrame = Controls::isHeld(Controls::JUMP);
 };
 
-void UIState::activateElement() {
+void UIGraph::activateElement() {
 	if (sElement && sElement->onActivate) {
 		sElement->onActivate();
 	}
 }
 
-void UIState::changeSelection(UIElement* to) {
+void UIGraph::changeSelection(UIElement* to) {
 	if (sElement)
 		sElement->setActiveState(UIElement::ActiveState::NOT_SELECTED);
 	sElement = to;
@@ -175,7 +181,7 @@ void UIState::changeSelection(UIElement* to) {
 		sElement->setActiveState(UIElement::ActiveState::SELECTED);
 };
 
-void UIState::draw(sf::RenderTarget &target, sf::RenderStates states) const {
+void UIGraph::draw(sf::RenderTarget &target, sf::RenderStates states) const {
 	for (const auto &i : uiElements) {
 		target.draw(*i, states);
 	}

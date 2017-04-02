@@ -9,15 +9,20 @@
 
 #include "Math.hpp"
 
+#include "UIElement.hpp"
+#include "UIText.hpp"
+
 //incomplete
 
-class UIState : public State {
+class UIGraph : public sf::Drawable, public ResourceUser {
 public:
-	UIState(ResourceLoader *r);
+	UIGraph(ResourceLoader *r);
 
 	void update(sf::Time deltaTime);
 
-	virtual ~UIState();
+	~UIGraph();
+
+	UIText* createUIText();
 
 protected:
 
@@ -41,7 +46,7 @@ protected:
 
 	UIElement* findElementUnderMouse();
 
-	virtual void draw(sf::RenderTarget &target, sf::RenderStates states) const;
+	void draw(sf::RenderTarget &target, sf::RenderStates states) const;
 };
 
 #endif

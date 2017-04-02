@@ -2,8 +2,8 @@
 #define GAMESTATE_H
 
 #include <SFML/Graphics.hpp>
-#include "ResourceLoader.hpp"
 
+#include "ResourceLoader.hpp"
 #include "Globals.hpp"
 
 //generic class for eventual state machine

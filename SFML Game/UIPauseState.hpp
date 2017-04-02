@@ -1,54 +1,23 @@
 #ifndef UIPAUSESTATE_H
 #define UIPAUSESTATE_H
 
-#include "UIState.hpp"
-#include "UIText.hpp"
-#include "Controls.hpp"
+#include "UIGraph.hpp"
 
-class UIPauseState : public UIState {
+class UIPauseState : public State {
 public:
-	UIPauseState(State* prevState, ResourceLoader *r) : UIState(r) {
-		//StateName = STATE_UI;
-		prev = prevState;
-		cameraPos = prev->cameraPos;
+	UIPauseState(State* prevState, ResourceLoader* r);
 
-		pauseText.setFont(*r->getFont("pixelated.ttf"));
-		pauseText.setCharacterSize(8);
-		pauseText.setFillColor(sf::Color::White);
-		pauseText.setOutlineColor(sf::Color::Black);
-		pauseText.setOutlineThickness(1.f);
+	void update(sf::Time deltaTime);
 
-		UIText* t = new UIText(r);
-		t->setArea(getCameraArea());
-		t->setAlignment(UIText::LEFT, UIText::BOTTOM);
-		t->setString("PAUSED");
-		t->updateText();
-		uiElements.push_back(t);
-	}
-
-	void update(sf::Time deltaTime) {
-		
-		if (Controls::isPressed(Controls::Input::START)) {
-			//pause menu
-			Controls::confirmPress(Controls::Input::START);
-
-			removeStateOnChange = true;
-			toNextState = true;
-			nextState = prev;
-
-			return;
-		}
-	};
-
-protected:
-	void draw(sf::RenderTarget &target, sf::RenderStates states) const {
-		prev->draw(target, states);
-		UIState::draw(target, states);
-	};
+	void resume();
 
 private:
 	State* prev;
 	sf::Text pauseText;
+
+	UIGraph uiGraph;
+
+	void draw(sf::RenderTarget &target, sf::RenderStates states) const;
 };
 
 #endif

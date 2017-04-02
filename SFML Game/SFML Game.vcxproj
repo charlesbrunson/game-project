@@ -249,7 +249,9 @@
     <ClCompile Include="TransitionState.cpp" />
     <ClCompile Include="TransitionVerticalState.cpp" />
     <ClCompile Include="UIElement.cpp" />
-    <ClCompile Include="UIState.cpp" />
+    <ClCompile Include="UIGraph.cpp" />
+    <ClCompile Include="UIMainMenu.cpp" />
+    <ClCompile Include="UIPauseState.cpp" />
     <ClCompile Include="UIText.cpp" />
     <ClCompile Include="Zone.cpp" />
   </ItemGroup>
@@ -302,7 +304,7 @@
     <ClInclude Include="TransitionVerticalState.hpp" />
     <ClInclude Include="UIElement.hpp" />
     <ClInclude Include="UIPauseState.hpp" />
-    <ClInclude Include="UIState.hpp" />
+    <ClInclude Include="UIGraph.hpp" />
     <ClInclude Include="Math.hpp" />
     <ClInclude Include="UIText.hpp" />
     <ClInclude Include="Zone.hpp" />
