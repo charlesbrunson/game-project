@@ -47,10 +47,10 @@ void UIText::updateText() {
 		float xPos;
 
 		//horizontal alignment
-		if (halign == LEFT) {
+		if (halign == START) {
 			xPos = area.left;
 		}
-		else if (halign == HCENTER) {
+		else if (halign == CENTER) {
 			xPos = area.left + (area.width / 2.f) - (bounds.width / 2.f);
 		}
 		else {
@@ -64,10 +64,10 @@ void UIText::updateText() {
 		//vertical alignment
 		sf::Vector2f pos = t.getPosition();
 		sf::FloatRect bounds = t.getLocalBounds();
-		if (valign == TOP) {
+		if (valign == START) {
 			pos.y = area.top + vPos;
 		}
-		else if (valign == VCENTER) {
+		else if (valign == CENTER) {
 			pos.y = area.top + (area.height / 2.f) - (vSpace / 2.f) + vPos;
 		}
 		else {
@@ -78,7 +78,7 @@ void UIText::updateText() {
 	}
 }
 
-void UIText::setAlignment(HAlign h, VAlign v) {
+void UIText::setAlignment(Align h, Align v) {
 	halign = h;
 	valign = v;
 }

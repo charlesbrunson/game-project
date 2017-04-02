@@ -16,7 +16,7 @@ UIPauseState::UIPauseState(State* prevState, ResourceLoader *r) : State(r), uiGr
 	UIText* t = uiGraph.createUIText();
 	t->setArea(getCameraArea());
 	t->copyTextOptions(pauseText);
-	t->setAlignment(UIText::HCENTER, UIText::VCENTER);
+	t->setAlignment(UIText::CENTER, UIText::CENTER);
 	t->setString("PAUSED");
 	t->updateText();
 }

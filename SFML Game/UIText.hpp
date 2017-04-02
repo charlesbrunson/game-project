@@ -10,15 +10,13 @@ class UIText : public UIElement, public ResourceUser {
 public:
 	typedef std::vector<sf::Text> TextLines;
 
-	enum HAlign : int {
-		LEFT,
-		HCENTER,
-		RIGHT
-	};
-	enum VAlign : int {
-		TOP,
-		VCENTER,
-		BOTTOM
+	// if horizontal, START = leftside, END = rightside
+	// if vertical, START = top, END = bottom
+	// could be made different depending on localization
+	enum Align : int {
+		START,
+		CENTER,
+		END
 	};
 
 	UIText(ResourceLoader* r);
@@ -32,7 +30,7 @@ public:
 
 	void updateText();
 
-	void setAlignment(HAlign h, VAlign v);
+	void setAlignment(Align h, Align v);
 
 	TextLines* getText();
 	
@@ -43,10 +41,10 @@ protected:
 	sf::Text styleGuide;
 	std::string str;
 
-	HAlign halign;
-	VAlign valign;
+	Align halign;
+	Align valign;
 
-	virtual void draw(sf::RenderTarget &target, sf::RenderStates states) const;
+	void draw(sf::RenderTarget &target, sf::RenderStates states) const;
 };
 
 #endif

@@ -7,27 +7,39 @@ UIGraph::UIGraph(ResourceLoader *r) : ResourceUser(r) {
 }
 
 UIGraph::~UIGraph() {
-	for (const auto i : uiElements) {
+	for (const auto& i : uiStatic) {
+		delete i;
+	}
+	for (const auto& i : uiInteractive) {
 		delete i;
 	}
 };
 
-
 UIText* UIGraph::createUIText() {
-	uiElements.push_back(new UIText(getResources()));
-	return (UIText*)uiElements.back();
+	uiStatic.push_back(new UIText(getResources()));
+	return (UIText*)uiStatic.back();
 }
+
+void UIGraph::addElement(UIElement* e) {
+	if (e->isInteractive()) {
+		uiInteractive.push_back(e);
+	}
+	else {
+		uiStatic.push_back(e);
+	}
+}
+
 
 UIElement* UIGraph::findElementUnderMouse() {
 
 	const sf::Vector2f m_pos = Controls::mousePosition;
 
-	auto e = std::find_if(uiElements.begin(), uiElements.end(), 
+	auto e = std::find_if(uiInteractive.begin(), uiInteractive.end(),
 	[&m_pos](UIElement* e) {
 		return e->isInteractive() && e->getArea().contains(m_pos);
 	});
 
-	return (e != uiElements.end()) ? *e : nullptr;
+	return (e != uiInteractive.end()) ? *e : nullptr;
 };
 
 void UIGraph::update(sf::Time deltaTime) {
@@ -182,7 +194,10 @@ void UIGraph::changeSelection(UIElement* to) {
 };
 
 void UIGraph::draw(sf::RenderTarget &target, sf::RenderStates states) const {
-	for (const auto &i : uiElements) {
+	for (const auto &i : uiStatic) {
+		target.draw(*i, states);
+	}
+	for (const auto &i : uiInteractive) {
 		target.draw(*i, states);
 	}
 };

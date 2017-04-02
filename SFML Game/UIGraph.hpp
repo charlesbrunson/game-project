@@ -24,6 +24,8 @@ public:
 
 	UIText* createUIText();
 
+	void addElement(UIElement* e);
+
 protected:
 
 	// current selection
@@ -38,7 +40,8 @@ protected:
 	bool mousePressedLastFrame = false;
 	bool inputPressedLastFrame = false;
 
-	std::vector<UIElement*> uiElements;
+	std::vector<UIElement*> uiInteractive;
+	std::vector<UIElement*> uiStatic;
 	
 	void activateElement();
 
