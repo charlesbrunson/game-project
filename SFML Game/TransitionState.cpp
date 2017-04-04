@@ -7,7 +7,7 @@
 
 const sf::Time TransitionState::transDuration = sf::seconds(1.f);
 
-TransitionState::TransitionState(GameplayState *game, Transition *activatedTransition, ResourceLoader *r) : State(r) {
+TransitionState::TransitionState(GameplayState *game, Transition *activatedTransition) {
 	//StateName = STATE_TRANSITION;
 
 	gameplayState = game;
@@ -227,7 +227,7 @@ void TransitionState::draw(sf::RenderTarget &target, sf::RenderStates states) co
 	auto objs = gameplayState->getObjectMan()->getObjects();
 	auto effects = gameplayState->getObjectMan()->getEffects();
 
-	sf::Shader *offsetter = res->getShader("offset.vert");
+	sf::Shader *offsetter = RL()->getShader("offset.vert");
 	offsetter->setUniform("offset", -toLvlOffset);
 	
 	//background

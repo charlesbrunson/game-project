@@ -1,12 +1,11 @@
 #ifndef TILELAYER_H
 #define TILELAYER_H
 
-#include "ResourceUser.hpp"
 #include "Tile.hpp"
 
 #include <unordered_set>
 
-class TileLayer : public ResourceUser, public sf::Drawable {
+class TileLayer : public sf::Drawable {
 public:
 	//parallax info
 	/*
@@ -45,7 +44,10 @@ public:
 		std::set<GridVector> tilesAffected;
 	};
 
-	TileLayer(ResourceLoader *res, std::map<int, std::string>* tileNames) : ResourceUser(res), tilesetNames(tileNames) {}
+	TileLayer(std::map<int, std::string>* tileNames) 
+		: tilesetNames(tileNames) {
+	
+	}
 	
 	//pointer tileset filenames used
 	const std::map<int, std::string>* tilesetNames;

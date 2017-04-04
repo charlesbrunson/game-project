@@ -20,6 +20,13 @@
 #include "TileProperty.hpp"
 #include "Log.hpp"
 
+
+ResourceLoader ResourceLoader::resourceLoader;
+
+ResourceLoader* RL() {
+	return ResourceLoader::get();
+}
+
 std::string removeChar(std::string s, char c);
 std::string removeWhitespace(std::string s);
 
@@ -99,7 +106,7 @@ void ResourceLoader::writeToPack() {
 	std::map<std::string, std::vector<File>> files;
 
 	// Load tileset data
-	TileProperty::initTileData(this);
+	TileProperty::initTileData();
 
 	// Open index file, which gives the file paths of everything that needs to be loaded
 	indexReader.open(fileDir + "index.txt");
@@ -177,7 +184,7 @@ void ResourceLoader::writeToPack() {
 							tmxFile.erase(0, fileDir.length());
 
 							// Pass to level tmx compiler
-							LevelLoader::compileTMXFile(tmxFile, this);
+							LevelLoader::compileTMXFile(tmxFile);
 						}
 					}
 

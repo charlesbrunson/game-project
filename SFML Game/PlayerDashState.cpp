@@ -117,8 +117,7 @@ void PlayerDashState::createFX() {
 			sf::seconds(5.f / 60.f),
 			0),
 		Effect::UNDER,
-		plr->getAnimSprite().getHFlip(),
-		plr->getResources());
+		plr->getAnimSprite().getHFlip());
 
 	fx->setPosition(plr->pos());
 	plr->createEffect(fx);

@@ -17,10 +17,10 @@
 //manages levels, loads adjoining levels via threads to make level transitions more instant
 //holds the objNodes for each level
 
-class Zone : public ResourceUser {
+class Zone {
 public:
 
-	Zone(ResourceLoader *rloader) : ResourceUser(rloader) {
+	Zone() {
 		currentLevel = nullptr;
 	};
 

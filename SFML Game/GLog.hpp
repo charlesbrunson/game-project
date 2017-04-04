@@ -4,14 +4,13 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/System.hpp>
 
-#include "ResourceUser.hpp"
 #include "Log.hpp"
 
 //graphical representation of log contents
-class GLog : public sf::Drawable, public ResourceUser, public LogListener {
+class GLog : public sf::Drawable, public LogListener {
 public:
 
-	GLog(ResourceLoader *r);
+	GLog();
 	~GLog();
 
 	void update(sf::Vector2f camCenter);

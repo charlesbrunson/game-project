@@ -8,7 +8,7 @@
 
 class TransitionVerticalState : public TransitionState {
 public:
-	TransitionVerticalState(GameplayState *game, Transition *activatedTransition, ResourceLoader *r);
+	TransitionVerticalState(GameplayState *game, Transition *activatedTransition);
 
 protected:
 

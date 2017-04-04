@@ -17,7 +17,7 @@
 
 
 //manages objects in gameplay state
-class ObjectManager : public ResourceUser {
+class ObjectManager {
 public:
 
 	struct Collision {
@@ -32,7 +32,7 @@ public:
 		int dir = -1; //0 = up, 1 = right, etc
 	};
 
-	ObjectManager(ResourceLoader *rloader, Level *lvl) : ResourceUser(rloader) {
+	ObjectManager(Level *lvl) {
 		gameLevel = lvl;
 	};
 

@@ -10,7 +10,7 @@
 
 class TransitionState : public State {
 public:
-	TransitionState(GameplayState *game, Transition *activatedTransition, ResourceLoader *r);
+	TransitionState(GameplayState *game, Transition *activatedTransition);
 	~TransitionState();
 
 	void update(sf::Time deltaTime);
@@ -48,9 +48,9 @@ protected:
 	bool isFake = false;
 	struct FakeLevel {
 		FakeLevel(Level* lvl) :
-		decorLayer(lvl->getResources(), lvl->getTilesetList()),
-		foreLayer(lvl->getResources(), lvl->getTilesetList()),
-		backLayer(lvl->getResources(), lvl->getTilesetList()) {
+		decorLayer(lvl->getTilesetList()),
+		foreLayer(lvl->getTilesetList()),
+		backLayer(lvl->getTilesetList()) {
 
 			levelArea = lvl->levelArea;
 
@@ -59,7 +59,7 @@ protected:
 			backLayer.copy(*lvl->getBackgroundLayer());
 
 			for (auto i = lvl->getParallaxLayers()->begin(); i != lvl->getParallaxLayers()->end(); i++) {
-				parallaxLayers.insert( std::make_pair(i->first, TileLayer( lvl->getResources(), lvl->getTilesetList() )) );
+				parallaxLayers.insert( std::make_pair( i->first, TileLayer(lvl->getTilesetList()) ) );
 				parallaxLayers.at(i->first).copy(i->second);
 			}
 		}

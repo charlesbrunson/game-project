@@ -154,7 +154,7 @@ std::istream& LevelSerializer::readLevel(std::istream& is, Level& lvl)
 	for (int i = 0; i < parallaxCount; i++) {
 		int paraDepth;
 		read(paraDepth, is);
-		lvl.getParallaxLayers()->insert(std::make_pair(paraDepth, TileLayer(lvl.getResources(), &lvl.tilesets)));
+		lvl.getParallaxLayers()->insert(std::make_pair(paraDepth, TileLayer(&lvl.tilesets)));
 		readTileLayer(is, (*lvl.getParallaxLayers()).at(paraDepth));
 	}
 

@@ -6,11 +6,10 @@
 
 #include "Math.hpp"
 
-Level::Level(ResourceLoader *rloader) : 
-	ResourceUser(rloader),
-	decorativeLayer(rloader, &tilesets),
-	foregroundLayer(rloader, &tilesets),
-	backgroundLayer(rloader, &tilesets)
+Level::Level() :
+	decorativeLayer(&tilesets),
+	foregroundLayer(&tilesets),
+	backgroundLayer(&tilesets)
 	{
 	invisibleWalls[0] = false;
 	invisibleWalls[1] = false;
@@ -53,7 +52,7 @@ void Level::update(sf::Time deltaTime, sf::FloatRect displayArea, sf::Vector2f c
 		i->second.update(deltaTime, gridArea, intersection, camCenter, reDraw);
 
 	if (!bgSpriteFilename.empty() && !bgSprite.getTexture()) {
-		bgSprite.setTexture(*rMan->getTexture("bg/" + bgSpriteFilename));
+		bgSprite.setTexture(*RL()->getTexture("bg/" + bgSpriteFilename));
 		bgSprite.setTextureRect(sf::IntRect(0, 0, GAMEWIDTH, GAMEHEIGHT));
 	}
 	bgSprite.setPosition(snapToPixel(camCenter - sf::Vector2f(GAMEWIDTH / 2.f, GAMEHEIGHT / 2.f)));

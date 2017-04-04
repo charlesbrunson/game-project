@@ -4,7 +4,6 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/System.hpp>
 
-#include "ResourceLoader.hpp"
 #include "State.hpp"
 #include "GLog.hpp"
 #include "Controls.hpp"
@@ -19,7 +18,7 @@ public:
 	sf::View view;
 
 	// Resource loader and handler
-	ResourceLoader resources;
+	//ResourceLoader resources;
 
 	// Active state object
 	State *activeState;
@@ -77,7 +76,7 @@ private:
 
 
 	// Window title
-	const sf::String _gameName = "Untitled";
+	const std::string _gameName = "Untitled";
 
 
 	// Update rate cap
@@ -136,12 +135,14 @@ private:
 
 	// Recursively destroys state and states it contains in a recursive fashion
 	void destroyState(State *st) {
-		if (st->hasNextState()) {
-			destroyState(st->getNextState());
-			st->setNextState(nullptr);
-		}
+		if (st) {
+			if (st->hasNextState()) {
+				destroyState(st->getNextState());
+				st->setNextState(nullptr);
+			}
 
-		delete st;
+			delete st;
+		}
 	}
 };
 

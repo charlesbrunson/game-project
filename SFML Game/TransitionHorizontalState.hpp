@@ -7,7 +7,7 @@
 
 class TransitionHorizontalState : public TransitionState {
 public:
-	TransitionHorizontalState(GameplayState *game, Transition *activatedTransition, ResourceLoader *r);
+	TransitionHorizontalState(GameplayState *game, Transition *activatedTransition);
 	
 protected:
 

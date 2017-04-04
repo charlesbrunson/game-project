@@ -3,21 +3,21 @@
 
 #include <SFML/Graphics.hpp>
 #include <SFML/System.hpp>
-#include "ResourceUser.hpp"
+//#include "ResourceUser.hpp"
 #include "AnimSprite.hpp"
 #include "Globals.hpp"
 
 #include <math.h>
 
 // Generic entity class for gameplay
-class Entity : public sf::Drawable, public ResourceUser {
+class Entity : public sf::Drawable {
 
 public:
 	
 	// Probably unneccessary
 	const bool canCreateEntities = false;
 
-	Entity(ResourceLoader *rloader) : sprite(rloader), ResourceUser(rloader) {
+	Entity() {
 
 	};
 

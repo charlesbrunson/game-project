@@ -1,9 +1,9 @@
 #include "Effect.hpp"
 
 
-Effect::Effect(int type, bool flip, ResourceLoader *rloader) : Entity(rloader) {
+Effect::Effect(int type, bool flip) {
 
-	sprite.setResources(rloader);
+	//sprite.setResources(rloader);
 	sprite.setHFlip(flip);
 
 	switch (type) {
@@ -16,12 +16,12 @@ Effect::Effect(int type, bool flip, ResourceLoader *rloader) : Entity(rloader) {
 };
 
 // Custom constuctor
-Effect::Effect(std::string texFile, Animation ani, int onLayer, bool flip, ResourceLoader *rloader) : Entity(rloader) {
+Effect::Effect(std::string texFile, Animation ani, int onLayer, bool flip) {
 
-	sprite.setResources(rMan);
+	//sprite.setResources(rMan);
 	sprite.setHFlip(flip);
 
-	sprite.getSprite()->setTexture(*rMan->getTexture(texFile));
+	sprite.getSprite()->setTexture(*RL()->getTexture(texFile));
 
 	anim = ani;
 	layer = onLayer;

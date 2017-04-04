@@ -11,8 +11,8 @@ class State : public sf::Drawable {
 
 public:
 
-	State(ResourceLoader *r) {
-		res = r;
+	State() {
+
 	}
 	virtual ~State() {};
 		
@@ -43,7 +43,6 @@ public:
 	sf::Color clearColor = sf::Color::Black;
 	
 protected:
-	ResourceLoader *res;
 	State* nextState = nullptr;
 };
 

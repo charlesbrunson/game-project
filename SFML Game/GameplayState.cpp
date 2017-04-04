@@ -17,11 +17,9 @@
 #include <cmath>
 #include <fstream>
 
-GameplayState::GameplayState(ResourceLoader *rloader) : State(rloader) {
+GameplayState::GameplayState() {
 	timeScale = 1.f;
-
-	res = rloader;
-
+	
 	LevelDef::initLevelDefs();
 
 	activeLevel = 0;
@@ -55,9 +53,9 @@ void GameplayState::start(sf::String levelstart, bool ignorePlayer) {
 	}
 	
 
-	currentZone = new Zone(res);
+	currentZone = new Zone();
 	if (!ignorePlayer || objMan == nullptr) {
-		objMan = new ObjectManager(res, nullptr);
+		objMan = new ObjectManager(nullptr);
 	}
 
 	currentZone->createZone(levelstart, objMan, &cam, ignorePlayer);
@@ -85,7 +83,7 @@ void GameplayState::updateGame(sf::Time deltaTime) {
 		Controls::confirmPress(Controls::Input::START);
 		removeStateOnChange = false;
 		toNextState = true;
-		nextState = new UIPauseState(this, res);
+		nextState = new UIPauseState(this);
 
 		return;
 	}
@@ -106,10 +104,10 @@ void GameplayState::updateGame(sf::Time deltaTime) {
 						removeStateOnChange = false;
 						toNextState = true;
 						if (trans->dir == Cardinal::EAST || trans->dir == Cardinal::WEST) {
-							nextState = new TransitionHorizontalState(this, &*trans, res);
+							nextState = new TransitionHorizontalState(this, &*trans);
 						}
 						else {
-							nextState = new TransitionVerticalState(this, &*trans, res);
+							nextState = new TransitionVerticalState(this, &*trans);
 						}
 						return;
 					}

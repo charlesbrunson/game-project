@@ -154,8 +154,7 @@ int PlayerCrouchState::update(sf::Time deltaTime) {
 							sf::seconds(4.f / 60.f),
 							0),
 						Effect::UNDER,
-						plr->getAnimSprite().getHFlip(),
-						plr->getResources()
+						plr->getAnimSprite().getHFlip()
 						);
 
 					smokeFX->setVelocity(sf::Vector2f(0.f, -30.f));

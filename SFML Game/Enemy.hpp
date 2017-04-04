@@ -16,7 +16,7 @@ public:
 	bool active = true;
 
 
-	Enemy(ResourceLoader *rloader, Level *l, int ID = -1) : GameObject(rloader, l, ID) {
+	Enemy(Level *l) : GameObject(l) {
 		objectType = type::ENEMY;
 		touchDamage = 1;
 		killValue = 50;
@@ -93,7 +93,7 @@ protected:
 	void facePlayer();
 	
 	void createDeathFX(sf::Vector2f offset) {
-		Effect *deathfx = new Effect(Effect::DEATH_GENERIC, false, getResources());
+		Effect *deathfx = new Effect(Effect::DEATH_GENERIC, false);
 		deathfx->setPosition(getPosition() + offset);
 		createEffect(deathfx);
 	};

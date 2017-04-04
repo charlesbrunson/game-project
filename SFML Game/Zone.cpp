@@ -13,7 +13,6 @@
 #include "Player.hpp"
 #include "LevelLoader.hpp"
 
-
 //------------------------------------------------------------------
 //constructs zone and starting level
 //------------------------------------------------------------------
@@ -21,7 +20,7 @@
 void Zone::createZone(sf::String startLevel, ObjectManager *objMan, GameCamera *cam, bool ignorePlayer) {
 	//construct level
 	LevelArea area;
-	LevelLoader::loadLevel(startLevel, area, getResources(), this);
+	LevelLoader::loadLevel(startLevel, area, this);
 	Log::msg("Loaded " + startLevel + "\n");
 	objMan->gameLevel = area.level;
 
@@ -197,7 +196,7 @@ void Zone::loadAdjacentLevels(std::vector<sf::String> *activeNames, std::vector<
 		}
 		if (toInsert) {
 			LevelArea area;
-			LevelLoader::loadLevel(t->levelName, area, zone->getResources(), zone);
+			LevelLoader::loadLevel(t->levelName, area, zone);
 
 			zone->levelsToAdd.insert(std::pair<sf::String, LevelArea>(t->levelName, area));
 			Log::msg("Loaded " + t->levelName + "\n");

@@ -12,9 +12,9 @@ public:
 
 	sf::String name;
 
-	GameObject(ResourceLoader *rloader, Level *level, int ID = -1) : Entity(rloader) {
+	GameObject(Level *level) : Entity() {
 		lvl = level;
-		objectID = ID;
+		//objectID = ID;
 		collisionBox = sf::FloatRect();
 	};
 

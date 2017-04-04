@@ -18,8 +18,7 @@ void PlayerGroundState::enter() {
 			"player.png", 
 			landFXROani,
 			Effect::OVER,
-			true,
-			plr->getResources()
+			true
 			);
 
 
@@ -33,8 +32,7 @@ void PlayerGroundState::enter() {
 			"player.png",
 			landFXLOani,
 			Effect::OVER,
-			false,
-			plr->getResources()
+			false
 			);
 
 		Animation landFXRUani(
@@ -47,8 +45,7 @@ void PlayerGroundState::enter() {
 			"player.png",
 			landFXRUani,
 			Effect::UNDER,
-			true,
-			plr->getResources()
+			true
 			);
 
 
@@ -62,8 +59,7 @@ void PlayerGroundState::enter() {
 			"player.png",
 			landFXLUani,
 			Effect::UNDER,
-			false,
-			plr->getResources()
+			false
 			);
 
 		landFXRO->setPosition(plr->pos());

@@ -6,10 +6,10 @@
 
 class LevelLoader {
 public:
-	static bool compileTMXFile(sf::String location, ResourceLoader *loader);
-	static void loadLevel(sf::String name, Zone::LevelArea &area, ResourceLoader *loader, Zone *zone);
-	static void readLevel(std::ifstream &reader, Zone::LevelArea &area, ResourceLoader *loader, Zone *zone);
-	static void saveLevel(sf::String name, Zone::LevelArea &area);
+	static bool compileTMXFile(std::string location);
+	static void loadLevel(std::string name, Zone::LevelArea &area, Zone *zone);
+	static void readLevel(std::ifstream &reader, Zone::LevelArea &area, Zone *zone);
+	static void saveLevel(std::string name, Zone::LevelArea &area);
 };
 
 #endif

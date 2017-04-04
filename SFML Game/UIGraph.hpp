@@ -14,9 +14,9 @@
 
 //incomplete
 
-class UIGraph : public sf::Drawable, public ResourceUser {
+class UIGraph : public sf::Drawable {
 public:
-	UIGraph(ResourceLoader *r);
+	UIGraph();
 	~UIGraph();
 
 	void update(sf::Time deltaTime);

@@ -5,7 +5,7 @@
 
 class UIPauseState : public State {
 public:
-	UIPauseState(State* prevState, ResourceLoader* r);
+	UIPauseState(State* prevState);
 	
 	void update(sf::Time deltaTime);
 

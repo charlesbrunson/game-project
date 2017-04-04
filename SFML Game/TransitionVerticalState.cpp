@@ -1,7 +1,7 @@
 #include "TransitionVerticalState.hpp"
 
-TransitionVerticalState::TransitionVerticalState(GameplayState *game, Transition *activatedTransition, ResourceLoader *r) :
-TransitionState(game, activatedTransition, r) {
+TransitionVerticalState::TransitionVerticalState(GameplayState *game, Transition *activatedTransition) :
+TransitionState(game, activatedTransition) {
 
 	toUp = (transition.dir == Cardinal::NORTH);
 

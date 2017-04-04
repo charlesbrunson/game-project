@@ -3,10 +3,9 @@
 
 #include <sstream>
 
-#include "ResourceUser.hpp"
 #include "UIElement.hpp"
 
-class UIText : public UIElement, public ResourceUser {
+class UIText : public UIElement {
 public:
 	typedef std::vector<sf::Text> TextLines;
 
@@ -19,7 +18,7 @@ public:
 		END
 	};
 
-	UIText(ResourceLoader* r);
+	UIText();
 
 	void copy(UIText& copy);
 

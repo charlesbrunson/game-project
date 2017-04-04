@@ -10,21 +10,21 @@
 #include <assert.h>
 
 //builds an object from an objnode
-static GameObject* gBuildObject(objNode objN, ResourceLoader* res, Level* lvl, bool giveNode = true) {
+static GameObject* gBuildObject(objNode objN, Level* lvl, bool giveNode = true) {
 	
 	GameObject* obj = nullptr;
 	if (objN.type == "PLAYER") {
-		obj = new Player(res, lvl);
+		obj = new Player(lvl);
 		obj->setPosition(sf::Vector2f(objN.x, objN.y));
 		obj->getAnimSprite().setHFlip(objN.faceLeft);
 	}
 	else if (objN.type == "TESTOBJECT") {
-		obj = new TestObject(res, lvl);
+		obj = new TestObject(lvl);
 		obj->setPosition(sf::Vector2f(objN.x, objN.y));
 		obj->getAnimSprite().setHFlip(objN.faceLeft);
 	}
 	else if (objN.type == "ENEMYSPAWNER") {
-		obj = new EnemySpawner(res, lvl);
+		obj = new EnemySpawner(lvl);
 
 		sf::FloatRect area;
 		area.left = objN.x - (objN.width / 2);

@@ -23,10 +23,10 @@ public:
 	int layer = OVER;
 
 	// Generic constuctor of predefined effect types
-	Effect(int type, bool flip, ResourceLoader *rloader);
+	Effect(int type, bool flip);
 
 	// Constuctor, with animation to play and texture to use
-	Effect(std::string texFile, Animation ani, int onLayer, bool flip, ResourceLoader *rloader);
+	Effect(std::string texFile, Animation ani, int onLayer, bool flip);
 
 	void update(sf::Time deltaTime);
 
@@ -41,7 +41,7 @@ protected:
 
 	virtual void draw(sf::RenderTarget &target, sf::RenderStates states) const {
 		//draw sprite
-		target.draw(sprite, ( !sfxWhite ? states : rMan->getShader("whiteout.frag") ));
+		target.draw(sprite, (!sfxWhite ? states : RL()->getShader("whiteout.frag")));
 
 	};
 

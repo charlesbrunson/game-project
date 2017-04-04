@@ -25,11 +25,11 @@ public:
 
 	static TileData getTileData(std::string sheet, GridVector tilePos);
 
-	static void initTileData(ResourceLoader *rm);
+	static void initTileData();
 
 private:
 	static std::map<std::string, std::map<GridVector, TileData>> tileDataMap;
-	static ResourceLoader *resLoader;
+	//static ResourceLoader *resLoader;
 
 };
 

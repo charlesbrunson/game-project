@@ -163,9 +163,6 @@
     <ClCompile Include="TileLayer.cpp">
       <Filter>Source Files\States\Gameplay\Level</Filter>
     </ClCompile>
-    <ClCompile Include="ResourceUser.cpp">
-      <Filter>Source Files\Resources</Filter>
-    </ClCompile>
     <ClCompile Include="Director.cpp">
       <Filter>Source Files\States\Gameplay\Directors</Filter>
     </ClCompile>
@@ -259,9 +256,6 @@
       <Filter>Source Files\Resources</Filter>
     </ClInclude>
     <ClInclude Include="ResourceLoader.hpp">
-      <Filter>Source Files\Resources</Filter>
-    </ClInclude>
-    <ClInclude Include="ResourceUser.hpp">
       <Filter>Source Files\Resources</Filter>
     </ClInclude>
     <ClInclude Include="ObjectState.hpp">

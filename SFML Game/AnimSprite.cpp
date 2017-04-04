@@ -1,11 +1,7 @@
 #include "AnimSprite.hpp"
 
 
-AnimSprite::AnimSprite() : ResourceUser(nullptr) {
-
-};
-
-AnimSprite::AnimSprite(ResourceLoader *rloader) : ResourceUser(rloader) {
+AnimSprite::AnimSprite() {
 
 };
 

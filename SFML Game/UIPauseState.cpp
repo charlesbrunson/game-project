@@ -4,12 +4,12 @@
 
 #include "UIMainMenu.hpp"
 
-UIPauseState::UIPauseState(State* prevState, ResourceLoader *r) : State(r), uiGraph(r) {
+UIPauseState::UIPauseState(State* prevState) {
 
 	prev = prevState;
 	cameraPos = prev->cameraPos;
 
-	pauseText.setFont(*r->getFont("pixelated.ttf"));
+	pauseText.setFont(*RL()->getFont("pixelated.ttf"));
 	pauseText.setCharacterSize(8);
 	pauseText.setFillColor(sf::Color::White);
 	pauseText.setOutlineColor(sf::Color::Black);
@@ -58,7 +58,7 @@ void UIPauseState::resume() {
 void UIPauseState::quitToMenu() {
 	removeStateOnChange = true;
 	toNextState = true;
-	nextState = new UIMainMenu(res);
+	nextState = new UIMainMenu();
 }
 
 void UIPauseState::draw(sf::RenderTarget &target, sf::RenderStates states) const {

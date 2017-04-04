@@ -4,7 +4,7 @@
 #include <SFML/System.hpp>
 #include "GameObject.hpp"
 #include "Hurtbox.hpp"
-#include "PositionRef.hpp"
+#include "CamRef.hpp"
 
 class Projectile : public GameObject {
 

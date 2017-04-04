@@ -3,23 +3,16 @@
 
 #include <SFML/Graphics.hpp>
 
-//#include "Node.hpp"
 #include "State.hpp"
 #include "ObjectManager.hpp"
-//#include "Level.hpp"
 #include "Zone.hpp"
 #include "GameCamera.hpp"
 #include "CamRef.hpp"
 
 #include "ResourceLoader.hpp"
 #include "Director.hpp"
-
 #include "AlertSystem.hpp"
 
-//rapid xml for Tiled tmx parsing
-//#include "rapidxml.hpp"
-//#include "rapidxml_iterators.hpp"
-//#include "rapidxml_utils.hpp"
 #include <sstream>
 
 //the actual gameplay takes place here
@@ -28,7 +21,7 @@ public:
 	
 	//StateName = STATE_GAMEPLAY;
 
-	GameplayState(ResourceLoader *rloader);
+	GameplayState();
 
 	~GameplayState() {
 		objMan->clear();

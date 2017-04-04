@@ -2,8 +2,8 @@
 
 #include "Math.hpp"
 
-TransitionHorizontalState::TransitionHorizontalState(GameplayState *game, Transition *activatedTransition, ResourceLoader *r) :
-TransitionState(game, activatedTransition, r) {
+TransitionHorizontalState::TransitionHorizontalState(GameplayState *game, Transition *activatedTransition) :
+TransitionState(game, activatedTransition) {
 
 	toLeft = (transition.dir == Cardinal::WEST);
 	offsetIntoLevel = (float)tileSpacing / 2.f;

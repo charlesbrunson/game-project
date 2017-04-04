@@ -253,7 +253,7 @@ void ObjectManager::updateObjects(sf::Time deltaTime, int *score) {
 		std::string target = soundsToPlay.back().sound;
 
 		if (sounds.find(target) == sounds.end()) {
-			sounds.insert(std::pair<std::string, sf::Sound>(target, sf::Sound(*rMan->getSoundBuffer(target))));
+			sounds.insert(std::pair<std::string, sf::Sound>(target, sf::Sound(*RL()->getSoundBuffer(target))));
 		}
 
 		if (sounds.at(target).getStatus() != sf::Sound::Status::Playing || sounds.at(target).getPlayingOffset() >= Gameplay_Globals::minSoundTime) {
@@ -629,7 +629,7 @@ void ObjectManager::readObjNodes(std::vector<objNode> &objList, Level* lvl, bool
 		for (const objNode& objN : objList) {
 			if (objN.type == "PLAYER"){
 
-				GameObject *plr = gBuildObject(objN, getResources(), lvl);
+				GameObject *plr = gBuildObject(objN, lvl);
 				plr->setPosition(plr->getPosition() + offsetPos);
 
 				if (plr == nullptr){
@@ -645,7 +645,7 @@ void ObjectManager::readObjNodes(std::vector<objNode> &objList, Level* lvl, bool
 	for (const objNode& objN : objList) {
 		if (objN.type != "PLAYER" && !objN.isTemplate) {
 
-			GameObject *obj = gBuildObject(objN, getResources(), lvl);
+			GameObject *obj = gBuildObject(objN, lvl);
 			obj->setPosition(obj->getPosition() + offsetPos);
 
 			if (obj->isTemplateUser()) {

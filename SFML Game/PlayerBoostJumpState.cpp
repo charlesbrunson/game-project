@@ -141,8 +141,7 @@ void PlayerBoostJumpState::createFX() {
 			sf::seconds(4.f/60.f),
 			0),
 		Effect::UNDER,
-		plr->getAnimSprite().getHFlip(),
-		plr->getResources()
+		plr->getAnimSprite().getHFlip()
 		);
 
 	Effect *smokeUnder = new Effect(
@@ -154,8 +153,7 @@ void PlayerBoostJumpState::createFX() {
 			sf::seconds(4.f / 60.f),
 			0),
 		Effect::UNDER,
-		plr->getAnimSprite().getHFlip(),
-		plr->getResources()
+		plr->getAnimSprite().getHFlip()
 		);
 
 	Effect *smokeOver = new Effect(
@@ -167,8 +165,7 @@ void PlayerBoostJumpState::createFX() {
 			sf::seconds(4.f / 60.f),
 			0),
 		Effect::OVER,
-		plr->getAnimSprite().getHFlip(),
-		plr->getResources()
+		plr->getAnimSprite().getHFlip()
 		);
 
 	jetboost->setParent(plr);

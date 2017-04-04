@@ -8,19 +8,16 @@
 #include <list>
 
 #include "ResourceLoader.hpp"
-#include "ResourceUser.hpp"
 
 #include "Animation.hpp"
 
 #include "PixelSnap.hpp"
 
 //class that handles sprite animation
-class AnimSprite : public ResourceUser, public sf::Drawable {
+class AnimSprite : public sf::Drawable {
 public:
 
 	AnimSprite();
-
-	AnimSprite(ResourceLoader *rloader);
 
 	bool isPlaying(Animation &a, bool includeChainTo = false);
 	

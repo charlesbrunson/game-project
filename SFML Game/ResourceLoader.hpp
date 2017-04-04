@@ -12,9 +12,28 @@
 #include <fstream>
 #include <memory>
 
+// Singleton
 // Loads and stores resources for program
 class ResourceLoader {
+
+	static ResourceLoader resourceLoader;
+
+	// Constructor
+	ResourceLoader() {
+		//loadResources();
+	};
+
+	// Destructors, deallocates all resources
+	~ResourceLoader() {
+		dumpResources();
+	};
+
 public:
+
+	static ResourceLoader* get() {
+		return &resourceLoader;
+	}
+
 	// Contains textures and metadata
 	struct TexData {
 		bool isTileset = false;
@@ -37,6 +56,7 @@ public:
 		bool valid = false;
 	};
 
+	/*
 	// Constructor
 	ResourceLoader() {
 		loadResources();
@@ -46,6 +66,7 @@ public:
 	~ResourceLoader() {
 		dumpResources();
 	};
+	*/
 
 	// Allocating and Deallocating resources
 	void loadResources();
@@ -66,14 +87,7 @@ public:
 
 	// Determines optimal texture size, in powers of 2 (ie, 16x16, 32x32, etc)
 	static sf::Vector2u getIdealTexSize(sf::Vector2u size);
-
-	// Shader retrieval
-	// TODO: move shaders to resource pack rather than hardcoded
-	//sf::Shader* getWhiteShader();
-	//sf::Shader* getNoAlphaShader();
-	//sf::Shader* getTransitionShader(float percent, bool into, sf::Vector2f topLeft);
-	//sf::Shader* getOffsetShader(sf::Vector2f offset);
-
+	
 	// Retrieves texture map
 	std::map<std::string, TexData>* getTexMap() {
 		return &texResources;
@@ -107,7 +121,6 @@ public:
 	static const std::string fileTypes[TYPE_COUNT];
 	
 private:
-	
 	// Reads data directly from directory file
 	void loadFromFile();
 	// Writes data to resource pack file
@@ -140,8 +153,9 @@ private:
 		std::string dir;
 		int size;
 	};
-
 };
 
+//shorthand for ResourceLoader::get()
+ResourceLoader* RL();
 
 #endif

@@ -5,7 +5,7 @@
 
 class Boss : public Enemy {
 public:
-	Boss(ResourceLoader *rloader, Level *l, int ID = -1);
+	Boss(Level *l);
 
 	void setArena(sf::FloatRect area);
 

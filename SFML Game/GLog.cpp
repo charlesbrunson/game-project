@@ -6,10 +6,12 @@
 
 #include "CamRef.hpp"
 
-GLog::GLog(ResourceLoader *r) : ResourceUser(r) {
+#include "ResourceLoader.hpp"
+
+GLog::GLog() {
 	//Log::addListener(this);
 
-	messageBox.setFont(*r->getFont("pixelated.ttf"));
+	messageBox.setFont(*RL()->getFont("pixelated.ttf"));
 	messageBox.setCharacterSize(8);
 	messageBox.setFillColor(sf::Color::White);
 	messageBox.setOutlineColor(sf::Color::Black);
@@ -69,6 +71,6 @@ void GLog::updateTextPosition(const sf::FloatRect& camArea) {
 }
 	
 void GLog::draw(sf::RenderTarget &target, sf::RenderStates states) const {
-	target.draw(messageBox, rMan->getShader("noalpha.frag"));
-	target.draw(trackerBox, rMan->getShader("noalpha.frag"));
+	target.draw(messageBox, RL()->getShader("noalpha.frag"));
+	target.draw(trackerBox, RL()->getShader("noalpha.frag"));
 }

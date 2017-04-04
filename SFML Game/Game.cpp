@@ -3,7 +3,7 @@
 #include <thread>
 
 #include "Game.hpp"
-//#include "CamRef.hpp"
+#include "ResourceLoader.hpp"
 
 #include "MusicPlayer.hpp"
 #include "GameSettings.hpp"
@@ -11,13 +11,15 @@
 #include "UIMainMenu.hpp"
 #include "GameplayState.hpp"
 
+
 // Constructor
-Game::Game() : gLog(&resources) {
-	
+Game::Game() {
+	RL()->loadResources();
+
 	// Start an instance of GameplayState for our starting state
 	// Ideally this should be changed to a main menu or something
-	activeState = new GameplayState(&resources);
-	//activeState = new UIMainMenu(&resources);
+	activeState = new GameplayState();
+	//activeState = new UIMainMenu();
 
 	// Setup default FPS settings
 	_maxUpdatePerSec = 144.0;
@@ -99,7 +101,7 @@ void Game::run() {
 	std::thread musicThread = std::thread(MusicPlayer::run);
 
 	// Commence game loop
-	while (isOpen() && !stop) {
+	while (isOpen() && !stop && activeState) {
 
 		// Catch input events
 		sf::Clock t;

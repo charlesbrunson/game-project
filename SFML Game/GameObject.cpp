@@ -150,7 +150,7 @@ void GameObject::draw(sf::RenderTarget &target, sf::RenderStates states) const {
 			}
 		}
 
-		target.draw(sprite, (!sfxWhite? states : rMan->getShader("whiteout.frag")));
+		target.draw(sprite, (!sfxWhite ? states : RL()->getShader("whiteout.frag")));
 	}
 #ifdef _DEBUG
 	if (Gameplay_Globals::Debug::objectCollision) {

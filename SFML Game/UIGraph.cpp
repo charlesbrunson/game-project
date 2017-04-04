@@ -4,7 +4,7 @@
 
 #include <assert.h>
 
-UIGraph::UIGraph(ResourceLoader *r) : ResourceUser(r) {
+UIGraph::UIGraph() {
 
 }
 
@@ -22,7 +22,7 @@ UIGraph::~UIGraph() {
 };
 
 UIText* UIGraph::createUIText() {
-	UIText* e = new UIText(getResources());
+	UIText* e = new UIText();
 	addElement(e);
 	return e;
 }

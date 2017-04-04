@@ -5,12 +5,12 @@
 
 #include "GameplayState.hpp"
 
-UIMainMenu::UIMainMenu(ResourceLoader *r) : State(r), uiGraph(r) {
+UIMainMenu::UIMainMenu() {
 	cameraPos = GAMEDIMENSIONS / 2.f;
 	gCameraPos = cameraPos;
 
 	sf::Text text;
-	text.setFont(*r->getFont("pixelated.ttf"));
+	text.setFont(*RL()->getFont("pixelated.ttf"));
 	text.setCharacterSize(8);
 	text.setFillColor(sf::Color::White);
 	text.setOutlineColor(sf::Color::Black);
@@ -61,7 +61,7 @@ void UIMainMenu::message(std::string s) {
 void UIMainMenu::startGame() {
 	removeStateOnChange = true;
 	toNextState = true;
-	nextState = new GameplayState(res);
+	nextState = new GameplayState();
 }
 
 void UIMainMenu::draw(sf::RenderTarget &target, sf::RenderStates states) const {

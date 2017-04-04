@@ -11,7 +11,7 @@
 
 class EnemySpawner : public GameObject, public TemplateUser {
 public:
-	EnemySpawner(ResourceLoader *rloader, Level *level, int ID = -1) : GameObject(rloader, level, ID) {
+	EnemySpawner(Level *level) : GameObject(level) {
 		attackable = false;
 		doNotDraw = true;
 		drawPriority = -1;

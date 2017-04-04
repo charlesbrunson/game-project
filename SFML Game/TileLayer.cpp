@@ -277,7 +277,7 @@ void TileLayer::copy(const TileLayer &t) {
 void TileLayer::addTileSprite(Tile *tile, GridVector pos) {
 	sf::Sprite spr;
 
-	spr.setTexture(*rMan->getTexture(tilesetNames->at(tile->tileSprite)));
+	spr.setTexture(*RL()->getTexture(tilesetNames->at(tile->tileSprite)));
 	spr.setPosition(floor(tile->gridPos.x * tileSpacing), floor(tile->gridPos.y * tileSpacing));
 
 	sf::IntRect rect(tile->spritePos * (int)tileSpacing, sf::Vector2i(tileSpacing, tileSpacing));

@@ -8,7 +8,7 @@
 
 class UIMainMenu : public State {
 public:
-	UIMainMenu(ResourceLoader *r);
+	UIMainMenu();
 
 	void update(sf::Time deltaTime);
 

@@ -79,7 +79,7 @@ bool EnemySpawner::trySpawn(std::vector<SpawnedObjTracker>::iterator *it, int e)
 
 void EnemySpawner::spawnAt(std::vector<SpawnedObjTracker>::iterator *it, sf::Vector2f pos, int side) {
 
-	(*it)->obj = gBuildObject(getTemplateNode(), getResources(), lvl, false);
+	(*it)->obj = gBuildObject(getTemplateNode(), lvl, false);
 	
 	(*it)->obj->setPosition(pos);
 	(*it)->obj->getAnimSprite().setHFlip(side == SPAWN_RIGHT ? true : false);

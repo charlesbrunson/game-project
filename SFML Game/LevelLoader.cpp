@@ -6,7 +6,7 @@
 
 #include "Math.hpp"
 
-void LevelLoader::loadLevel(sf::String name, Zone::LevelArea &area, ResourceLoader *loader, Zone *zone) {
+void LevelLoader::loadLevel(std::string name, Zone::LevelArea &area, Zone *zone) {
 	/*
 	#ifdef _DEBUG
 	//load from .lvl file
@@ -26,16 +26,16 @@ void LevelLoader::loadLevel(sf::String name, Zone::LevelArea &area, ResourceLoad
 	#else */
 
 	//load from pack archive
-	std::ifstream stream(loader->packName, std::ios_base::binary);
+	std::ifstream stream(RL()->packName, std::ios_base::binary);
 	if (stream.is_open()) {
 		Log::msg("Opening " + name + ".lvl\n");
 
-		int seek = loader->getLevelOffset(name + ".lvl");
+		int seek = RL()->getLevelOffset(name + ".lvl");
 
 		assert(seek > -1);
 
-		stream.seekg(loader->packHeaderSize + seek, std::ios_base::beg);
-		LevelLoader::readLevel(stream, area, loader, zone);
+		stream.seekg(RL()->packHeaderSize + seek, std::ios_base::beg);
+		LevelLoader::readLevel(stream, area, zone);
 	}
 	else {
 		Log::msg("Could not open " + name + ".lvl\n");
@@ -45,14 +45,14 @@ void LevelLoader::loadLevel(sf::String name, Zone::LevelArea &area, ResourceLoad
 	//#endif
 }
 
-void LevelLoader::readLevel(std::ifstream &reader, Zone::LevelArea &area, ResourceLoader *loader, Zone *zone) {
+void LevelLoader::readLevel(std::ifstream &reader, Zone::LevelArea &area, Zone *zone) {
 
 	if (reader.is_open()) {
 
 		//LEVEL---------------------------------
 		if (area.level != nullptr)
 			delete area.level;
-		area.level = new Level(loader);
+		area.level = new Level();
 		LevelSerializer::readLevel(reader, *(area.level));
 		Log::msg("Reading level: " + area.level->getLevelName() + ".lvl\n");
 
@@ -122,7 +122,7 @@ void LevelLoader::readLevel(std::ifstream &reader, Zone::LevelArea &area, Resour
 
 			area.objects.push_back(obj);
 		}
-		area.level->setResources(loader);
+		//area.level->setResources(loader);
 
 		//Log::msg(name + ".lvl successfully loaded" + "\n\n");
 
@@ -133,7 +133,7 @@ void LevelLoader::readLevel(std::ifstream &reader, Zone::LevelArea &area, Resour
 		//Log::msg("Couldn't open " + name + ".lvl\n");
 		Log::msg("Attemping to compile " + area.level->getLevelName() + ".tmx\n");
 
-		bool attempt = compileTMXFile(area.level->getLevelName(), loader);
+		bool attempt = compileTMXFile(area.level->getLevelName());
 
 		if (!attempt) {
 			Log::msg("Failed to load level " + area.level->getLevelName() + ".lvl\n\n");
@@ -156,15 +156,15 @@ void LevelLoader::readLevel(std::ifstream &reader, Zone::LevelArea &area, Resour
 //Writes LevelArea objects as .lvl files
 //------------------------------------------------------------------
 
-void LevelLoader::saveLevel(sf::String name, Zone::LevelArea &area) {
+void LevelLoader::saveLevel(std::string name, Zone::LevelArea &area) {
 
 	Log::msg("Writing level to native format: " + name + ".lvl\n");
 
-	ResourceLoader *temp = area.level->getResources();
-	area.level->setResources(nullptr);
+	//ResourceLoader *temp = area.level->getResources();
+	//area.level->setResources(nullptr);
 
 	std::ofstream writer;
-	writer.open((std::string)area.level->getResources()->fileDir + (std::string)name + ".lvl", std::ios::binary | std::ios::trunc);
+	writer.open(RL()->fileDir + name + ".lvl", std::ios::binary | std::ios::trunc);
 
 	if (writer.is_open()) {
 		//LEVEL---------------------
@@ -225,7 +225,7 @@ void LevelLoader::saveLevel(sf::String name, Zone::LevelArea &area) {
 
 	}
 
-	area.level->setResources(temp);
+	//area.level->setResources(temp);
 
 	Log::msg("Writing complete\n\n");
 
@@ -237,14 +237,14 @@ void LevelLoader::saveLevel(sf::String name, Zone::LevelArea &area) {
 //Compiles TMX files for use
 //------------------------------------------------------------------
 
-bool LevelLoader::compileTMXFile(sf::String name, ResourceLoader *loader) {
+bool LevelLoader::compileTMXFile(std::string name) {
 
 	Zone::LevelArea area;
 
 	//open tmx file
 	using namespace rapidxml;
 
-	std::ifstream *file = new std::ifstream((std::string)loader->fileDir + (std::string)name + ".tmx");
+	std::ifstream *file = new std::ifstream(RL()->fileDir + (std::string)name + ".tmx");
 	std::stringstream *buffer = new std::stringstream;
 	xml_document<> *doc = new xml_document<>();
 
@@ -264,7 +264,7 @@ bool LevelLoader::compileTMXFile(sf::String name, ResourceLoader *loader) {
 	//start reading it
 	if (area.level != nullptr)
 		delete area.level;
-	area.level = new Level(loader);
+	area.level = new Level();
 
 	Log::msg("Reading TMX file: " + name + "\n");
 
@@ -414,7 +414,7 @@ bool LevelLoader::compileTMXFile(sf::String name, ResourceLoader *loader) {
 					parallaxRate = sf::Vector2f(stof(value.substr(0, space)), stof(value.substr(space + 1, value.size())));
 				}
 			}
-			TileLayer p(loader, area.level->getTilesetList());
+			TileLayer p(area.level->getTilesetList());
 			area.level->getParallaxLayers()->insert(std::pair<int, TileLayer>(parallax, p));
 			TileLayer *ip = &area.level->getParallaxLayers()->at(parallax);
 

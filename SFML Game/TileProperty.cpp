@@ -10,7 +10,7 @@
 
 std::map<std::string, std::map<GridVector, TileProperty::TileData>> TileProperty::tileDataMap;
 
-ResourceLoader *TileProperty::resLoader = nullptr;
+//ResourceLoader *TileProperty::resLoader = nullptr;
 
 TileProperty::TileData TileProperty::getTileData(std::string sheet, GridVector tilePos) {
 	//if (resLoader != nullptr && resLoader->getTexture(sheet) != nullptr && resLoader->isTextureTileset(sheet)) {
@@ -27,8 +27,8 @@ TileProperty::TileData TileProperty::getTileData(std::string sheet, GridVector t
 };
 
 
-void TileProperty::initTileData(ResourceLoader *rm) {
-	TileProperty::resLoader = rm;
+void TileProperty::initTileData() {
+	//TileProperty::resLoader = rm;
 
 	std::vector<std::string> tilesetNames;
 
@@ -36,13 +36,13 @@ void TileProperty::initTileData(ResourceLoader *rm) {
 	Log::msg("Loading tileset data");
 
 	//open index and find tileset list
-	std::ifstream iReader(rm->fileIndex);
+	std::ifstream iReader(RL()->fileIndex);
 	if (iReader.is_open()) {
 
 		Json::Value root;
 		iReader >> root;
 
-		Json::Value tilesets = root.get(rm->fileTypes[ResourceLoader::TILESET], Json::nullValue);
+		Json::Value tilesets = root.get(RL()->fileTypes[ResourceLoader::TILESET], Json::nullValue);
 
 		if (!tilesets.isNull()) {
 			Json::Value files = tilesets.get("files", Json::arrayValue);

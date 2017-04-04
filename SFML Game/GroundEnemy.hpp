@@ -6,7 +6,7 @@
 class GroundEnemy : public Enemy {
 public:
 
-	GroundEnemy(ResourceLoader *rloader, Level *l, int ID = -1) : Enemy(rloader, l, ID) {
+	GroundEnemy(Level *l) : Enemy(l) {
 
 	}
 	

@@ -42,7 +42,7 @@ public:
 	bool inputEnabled = true;
 	sf::Time inputAutoEnableTimer = sf::Time::Zero;
 
-	Player(ResourceLoader *rloader, Level *l, int ID = -1);
+	Player(Level *l);
 	~Player();
 
 	void interact(GameObject *obj);

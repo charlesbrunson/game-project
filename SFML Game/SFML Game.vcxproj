@@ -241,7 +241,6 @@
     <ClInclude Include="PlayerState.hpp" />
     <ClInclude Include="PlayerWallClingState.hpp" />
     <ClInclude Include="PlayerWallJumpState.hpp" />
-    <ClCompile Include="ResourceUser.cpp" />
     <ClCompile Include="TestObject.cpp" />
     <ClCompile Include="TileLayer.cpp" />
     <ClCompile Include="TileProperty.cpp" />
@@ -294,7 +293,6 @@
     <ClInclude Include="rapidxml_iterators.hpp" />
     <ClInclude Include="rapidxml_utils.hpp" />
     <ClInclude Include="resource.hpp" />
-    <ClInclude Include="ResourceUser.hpp" />
     <ClInclude Include="StandardSize.hpp" />
     <ClInclude Include="State.hpp" />
     <ClInclude Include="GameplayState.hpp" />

@@ -49,7 +49,7 @@ Animation Player::anim_boostdash_to_fall_transition(sf::IntRect(384, 80, 32, 32)
 
 //----------------------
 
-Player::Player(ResourceLoader *rloader, Level *l, int ID) : GameObject(rloader, l, ID) {
+Player::Player(Level *l) : GameObject(l) {
 	state_ = nullptr;
 
 	isGlobal = true;
@@ -60,13 +60,13 @@ Player::Player(ResourceLoader *rloader, Level *l, int ID) : GameObject(rloader, 
 	sprite.setAnimation(anim_idle);
 	sprite.updateFrame();
 
-	sprite.getSprite()->setTexture(*sprite.getResources()->getTexture("player.png"));
+	sprite.getSprite()->setTexture(*RL()->getTexture("player.png"));
 
 	stand();
 	
 	drawPriority = 100;
 	objectType = type::PLAYER;
-	objectID = ID;
+	//objectID = ID;
 
 	collisionActive = true;
 

@@ -3,17 +3,17 @@
 
 Animation TestObject::anim_idle(sf::IntRect(0, 0, 16, 32), sf::Vector2f(8, 32), 1, sf::seconds(1.f));
 
-TestObject::TestObject(ResourceLoader *rloader, Level *level, int ID) : GameObject(rloader, level, ID) {
+TestObject::TestObject(Level *level) : GameObject(level) {
 	sprite.setAnimation(anim_idle);
 	sprite.updateFrame();
 
-	sprite.getSprite()->setTexture(*sprite.getResources()->getTexture("testenemy.png"));
+	sprite.getSprite()->setTexture(*RL()->getTexture("testenemy.png"));
 
 	setCollisionSize(16, 32);
 
 	drawPriority = 100;
 	objectType = type::NEUTRAL;
-	objectID = ID;
+	//objectID = ID;
 
 	collisionActive = true;
 	isGlobal = false;

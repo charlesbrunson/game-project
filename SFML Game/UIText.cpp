@@ -3,7 +3,9 @@
 #include "Math.hpp"
 #include "PixelSnap.hpp"
 
-UIText::UIText(ResourceLoader* r) : ResourceUser(r) {
+#include "ResourceLoader.hpp"
+
+UIText::UIText() {
 	interactive = true;
 	delayedActivation = true;
 }
@@ -101,6 +103,6 @@ void UIText::draw(sf::RenderTarget &target, sf::RenderStates states) const {
 		}
 		*/
 #endif
-		target.draw(t, rMan->getShader("noalpha.frag"));
+		target.draw(t, RL()->getShader("noalpha.frag"));
 	}
 }

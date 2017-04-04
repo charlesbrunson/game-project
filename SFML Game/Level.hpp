@@ -12,7 +12,7 @@
 #include "Log.hpp"
 
 #include "ResourceLoader.hpp"
-#include "ResourceUser.hpp"
+//#include "ResourceUser.hpp"
 #include "Globals.hpp"
 #include "GridVector.hpp"
 #include "StandardSize.hpp"
@@ -35,7 +35,7 @@ struct Transition {
 };
 
 
-class Level : public ResourceUser/*, public sf::Drawable */{
+class Level /*, public sf::Drawable */{
 	friend class LevelSerializer;
 public:
 	
@@ -43,7 +43,7 @@ public:
 	//int layerToDraw;
 		
 	//CONSTRUCTOR -----------------------------------------------------------------------------
-	Level(ResourceLoader *rloader);
+	Level();
 
 	void initializeTileProperties();
 
@@ -150,7 +150,7 @@ public:
 	sf::Sprite getBGSprite() {
 		//sprite not init, init before returning
 		if (!bgSpriteFilename.empty() && !bgSprite.getTexture()) {
-			bgSprite.setTexture(*rMan->getTexture("bg/" + bgSpriteFilename));
+			bgSprite.setTexture(*RL()->getTexture("bg/" + bgSpriteFilename));
 			bgSprite.setTextureRect(sf::IntRect(0, 0, GAMEWIDTH, GAMEHEIGHT));
 		}
 		return bgSprite;
