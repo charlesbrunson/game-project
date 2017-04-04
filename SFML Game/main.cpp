@@ -1,5 +1,5 @@
 ﻿
-#if _DEBUG && _WIN32 && 0
+#if _DEBUG && _WIN32 && 1
 	//Visual Leak Detector
 	#include <vld.h>
 #endif

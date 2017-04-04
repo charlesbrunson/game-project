@@ -121,7 +121,7 @@ Player* ObjectManager::getPlayer() const {
 	//return nullptr;
 }
 
-GameObject* ObjectManager::getObjectByName(sf::String name) {
+GameObject* ObjectManager::getObjectByName(std::string name) {
 	for (std::vector<std::unique_ptr<GameObject>>::const_iterator e = objects.begin(); e != objects.end(); e++) {
 		if (e->get()->name == name) {
 			return e->get();

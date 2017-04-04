@@ -7,9 +7,9 @@
 //nodes represent objects and are used to populate levels
 
 struct objNode {
-	sf::String name;
+	std::string name;
 
-	sf::String type;
+	std::string type;
 
 	int x;
 	int y;
@@ -19,7 +19,7 @@ struct objNode {
 
 	bool faceLeft;
 
-	std::vector<std::pair<sf::String, sf::String>> args;
+	std::vector<std::pair<std::string, std::string>> args;
 
 	bool isTemplate = false;
 };

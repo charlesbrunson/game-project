@@ -26,7 +26,7 @@ bool Director::isComplete() {
 	return complete; 
 }
 
-void Director::trackObject(sf::String levelName, sf::String objName) {
+void Director::trackObject(std::string levelName, std::string objName) {
 	if (!hasObject(objName)) {
 
 		ScriptedObject object;
@@ -38,12 +38,12 @@ void Director::trackObject(sf::String levelName, sf::String objName) {
 			object.obj = nullptr;
 		}
 
-		objTracker.insert(std::pair<sf::String, ScriptedObject>(objName, object));
+		objTracker.insert(std::pair<std::string, ScriptedObject>(objName, object));
 	}
 };
 
-bool Director::hasObject(sf::String objName) {
-	std::map<sf::String, ScriptedObject>::iterator find = objTracker.find(objName);
+bool Director::hasObject(std::string objName) {
+	std::map<std::string, ScriptedObject>::iterator find = objTracker.find(objName);
 
 	return (find != objTracker.end()) &&
 		find->second.obj != nullptr &&
@@ -52,7 +52,7 @@ bool Director::hasObject(sf::String objName) {
 };
 
 template <class T>
-T* Director::getObject(sf::String objName) {
+T* Director::getObject(std::string objName) {
 	return (T*)(objTracker.at(objName).obj);
 };
 
@@ -61,7 +61,7 @@ void Director::wait(sf::Time wait) {
 }
 
 void Director::updateTracker() {
-	for (std::map<sf::String, ScriptedObject>::iterator it = objTracker.begin(); it != objTracker.end(); it++) {
+	for (std::map<std::string, ScriptedObject>::iterator it = objTracker.begin(); it != objTracker.end(); it++) {
 		if (zone->getCurrentLevelName() == it->second.onLevel) {
 			it->second.obj = objMan->getObjectByName(it->first);
 		}

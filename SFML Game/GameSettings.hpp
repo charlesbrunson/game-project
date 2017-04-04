@@ -32,14 +32,14 @@ enum SettingsField : int {
 };
 
 class SettingsListener {
-	virtual void notifyChangedSetting(SettingsField field, sf::String value) = 0;
+	virtual void notifyChangedSetting(SettingsField field, std::string value) = 0;
 };
 
 class GameSettings {
 public:
 
-	static sf::String getSettingValue(SettingsField field);
-	static void setSettingValue(SettingsField field, sf::String value);
+	static std::string getSettingValue(SettingsField field);
+	static void setSettingValue(SettingsField field, std::string value);
 
 	static void readSettingsFile();
 	static void writeSettingsFile();
@@ -72,7 +72,7 @@ private:
 		bool emptyLine;
 	};
 
-	static void notifyAll(SettingsField field, sf::String value);
+	static void notifyAll(SettingsField field, std::string value);
 
 	//location of settings file relative to application
 	const static std::string SETTINGSPATH;

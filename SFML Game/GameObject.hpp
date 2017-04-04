@@ -10,7 +10,7 @@
 class GameObject : public Entity {
 public:
 
-	sf::String name;
+	std::string name;
 
 	GameObject(Level *level) : Entity() {
 		lvl = level;

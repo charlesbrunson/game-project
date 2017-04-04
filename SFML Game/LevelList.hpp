@@ -12,7 +12,7 @@ namespace LevelDef {
 	//each vector in the array is a level
 	//first element in vector is the start point of level
 	//subsequent elements are checkpoint levels
-	static std::vector<sf::String> checkpoints[levelCount];
+	static std::vector<std::string> checkpoints[levelCount];
 	static bool levelDefsInitialized = false;
 
 	static void initLevelDefs() {

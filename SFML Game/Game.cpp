@@ -283,7 +283,7 @@ void Game::applySettings() {
 	GameSettings::writeSettingsFile();
 }
 
-sf::Keyboard::Key Game::getKey(sf::String k) {
+sf::Keyboard::Key Game::getKey(std::string k) {
 
 	// Format string
 	std::string key = std::string(k);
@@ -304,7 +304,7 @@ sf::Keyboard::Key Game::getKey(sf::String k) {
 	return sf::Keyboard::Unknown;
 }
 
-Controls::JoystickInput Game::getJoystickInput(sf::String j) {
+Controls::JoystickInput Game::getJoystickInput(std::string j) {
 
 	// Format string
 	std::string in = std::string(j);

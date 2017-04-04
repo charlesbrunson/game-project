@@ -96,7 +96,7 @@ void EnemySpawner::spawnAt(std::vector<SpawnedObjTracker>::iterator *it, sf::Vec
 void EnemySpawner::readObjArgs() {
 	setTemplateName(findTemplateName(getObjectNode()));
 	
-	for (std::pair<sf::String, sf::String> arg : getObjectNode().args) {
+	for (std::pair<std::string, std::string> arg : getObjectNode().args) {
 		if (arg.first == "PREFERSIDE") {
 			if (arg.second == "LEFT") {
 				preferSide = SPAWN_LEFT;

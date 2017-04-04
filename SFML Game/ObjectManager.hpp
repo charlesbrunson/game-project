@@ -55,7 +55,7 @@ public:
 
 	Player* getPlayer() const;
 
-	GameObject* getObjectByName(sf::String name);
+	GameObject* getObjectByName(std::string name);
 	
 	Level *gameLevel;
 	

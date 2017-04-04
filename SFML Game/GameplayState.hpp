@@ -38,7 +38,7 @@ public:
 		return true;
 	};
 
-	void start(sf::String levelstart, bool ignorePlayer = false);
+	void start(std::string levelstart, bool ignorePlayer = false);
 	
 	void readAlerts();
 
@@ -74,11 +74,11 @@ protected:
 
 private:
 
-	sf::String levelStart;
-	sf::String levelCheckpoint;
+	std::string levelStart;
+	std::string levelCheckpoint;
 
 	int activeLevel = 0;
-	std::vector<sf::String>::const_iterator lastCheckpoint;
+	std::vector<std::string>::const_iterator lastCheckpoint;
 
 	GameCamera cam;
 	

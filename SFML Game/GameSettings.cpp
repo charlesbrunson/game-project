@@ -31,11 +31,11 @@ GameSettings::Setting GameSettings::settings[SettingsField::COUNT] = {
 	Setting("JS_Start", "7", "", false)
 };
 
-sf::String GameSettings::getSettingValue(SettingsField field) {
+std::string GameSettings::getSettingValue(SettingsField field) {
 	return settings[field].v;
 }
 
-void GameSettings::setSettingValue(SettingsField field, sf::String value) {
+void GameSettings::setSettingValue(SettingsField field, std::string value) {
 	settings[field].v = value;
 }
 
@@ -71,7 +71,7 @@ void GameSettings::readSettingsFile() {
 
 		//find setting in array
 		for (int i = 0; i < SettingsField::COUNT; i++) {
-			if (settings[i].s == sf::String(setting)) {
+			if (settings[i].s == std::string(setting)) {
 				settings[i].v = value;
 				break;
 			}

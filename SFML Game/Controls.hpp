@@ -170,9 +170,9 @@ public:
 	}
 
 	// Association for input keys and their labels
-	const static std::pair<sf::String, sf::Keyboard::Key> keyboardKeyStrings[sf::Keyboard::KeyCount];
-	const static std::pair<sf::String, int> joystickButtons[sf::Joystick::ButtonCount];
-	const static std::pair<sf::String, sf::Joystick::Axis> joystickAxis[sf::Joystick::AxisCount];
+	const static std::pair<std::string, sf::Keyboard::Key> keyboardKeyStrings[sf::Keyboard::KeyCount];
+	const static std::pair<std::string, int> joystickButtons[sf::Joystick::ButtonCount];
+	const static std::pair<std::string, sf::Joystick::Axis> joystickAxis[sf::Joystick::AxisCount];
 };
 
 #endif

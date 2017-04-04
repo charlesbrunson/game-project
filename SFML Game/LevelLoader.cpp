@@ -96,7 +96,7 @@ void LevelLoader::readLevel(std::ifstream &reader, Zone::LevelArea &area, Zone *
 			int argCount;
 			reader.read((char*)&argCount, StdSizes::intSize);
 			for (int j = 0; j < argCount; j++) {
-				sf::String name;
+				std::string name;
 				int nameLength;
 				reader.read((char*)&nameLength, StdSizes::intSize);
 				for (int k = 0; k < nameLength; k++) {
@@ -105,7 +105,7 @@ void LevelLoader::readLevel(std::ifstream &reader, Zone::LevelArea &area, Zone *
 					name += c;
 				}
 
-				sf::String arg;
+				std::string arg;
 				int argLength;
 				reader.read((char*)&argLength, StdSizes::intSize);
 				for (int k = 0; k < argLength; k++) {
@@ -114,7 +114,7 @@ void LevelLoader::readLevel(std::ifstream &reader, Zone::LevelArea &area, Zone *
 					arg += c;
 				}
 
-				obj.args.push_back(std::pair<sf::String, sf::String>(name, arg));
+				obj.args.push_back(std::pair<std::string, std::string>(name, arg));
 			}
 
 			if (obj.type == "PLAYER") {
@@ -179,7 +179,7 @@ void LevelLoader::saveLevel(std::string name, Zone::LevelArea &area) {
 		for (objNode n : area.objects) {
 
 			//name
-			int nameLength = n.name.getSize();
+			int nameLength = n.name.size();
 			writer.write((char*)&nameLength, StdSizes::intSize);
 
 			for (char c : n.name) {
@@ -188,7 +188,7 @@ void LevelLoader::saveLevel(std::string name, Zone::LevelArea &area) {
 			}
 
 			//type
-			int typeLength = n.type.getSize();
+			int typeLength = n.type.size();
 			writer.write((char*)&typeLength, StdSizes::intSize);
 
 			for (char c : n.type) {
@@ -206,16 +206,16 @@ void LevelLoader::saveLevel(std::string name, Zone::LevelArea &area) {
 			//args
 			int size = n.args.size();
 			writer.write((char*)&size, StdSizes::intSize);
-			for (std::pair<sf::String, sf::String> arg : n.args) {
+			for (std::pair<std::string, std::string> arg : n.args) {
 
-				int nameLength = arg.first.getSize();
+				int nameLength = arg.first.size();
 				writer.write((char*)&nameLength, StdSizes::intSize);
 				for (char c : arg.first) {
 					writer.write(&c, StdSizes::charSize);
 
 				}
 
-				int argLength = arg.second.getSize();
+				int argLength = arg.second.size();
 				writer.write((char*)&argLength, StdSizes::intSize);
 				for (char c : arg.second) {
 					writer.write(&c, StdSizes::charSize);
@@ -319,7 +319,7 @@ bool LevelLoader::compileTMXFile(std::string name) {
 	struct tileset {
 		int firstgid;
 		int lastgid;
-		sf::String imageName;
+		std::string imageName;
 		int sprite;
 		int width;
 		int height;
@@ -528,7 +528,7 @@ bool LevelLoader::compileTMXFile(std::string name) {
 							objN.isTemplate = true;
 						}
 						else {
-							objN.args.push_back(std::pair<sf::String, sf::String>(name, prop->first_attribute("value")->value()));
+							objN.args.push_back(std::pair<std::string, std::string>(name, prop->first_attribute("value")->value()));
 						}
 
 					}
@@ -587,7 +587,7 @@ bool LevelLoader::compileTMXFile(std::string name) {
 				trigger.area.height = std::stoi(t->first_attribute("height")->value());
 
 				//bool correct = false;
-				sf::String type = t->first_attribute("type")->value();
+				std::string type = t->first_attribute("type")->value();
 				if (type == "DAMAGE") {
 					trigger.type = Level::TriggerType::DAMAGE;
 				}

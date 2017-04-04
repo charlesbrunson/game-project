@@ -30,7 +30,7 @@ struct Transition {
 	int offset;
 	Cardinal dir = NO_DIR;
 
-	sf::String levelName;
+	std::string levelName;
 };
 
 
@@ -43,6 +43,9 @@ public:
 		
 	//CONSTRUCTOR -----------------------------------------------------------------------------
 	Level();
+	~Level() {
+		Log::msg("destroying " + getLevelName() + "\n");
+	};
 
 	void initializeTileProperties();
 
@@ -82,7 +85,7 @@ public:
 	std::vector<Trigger> *getTriggers();
 
 	std::vector<Transition> *getLevelTransitions();
-	bool hasTransition(sf::String name);
+	bool hasTransition(std::string name);
 
 
 	void update(sf::Time deltaTime, sf::FloatRect displayArea, sf::Vector2f camCenter, bool reDraw = false);

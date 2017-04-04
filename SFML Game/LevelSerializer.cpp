@@ -300,7 +300,7 @@ void LevelSerializer::writeColVec(std::ostream& os, const std::vector<sf::FloatR
 };
 void LevelSerializer::writeTrans(std::ostream& os, const Transition t) {
 
-	int sizeStr = t.levelName.getSize();
+	int sizeStr = t.levelName.size();
 	write(sizeStr, os);
 
 	for (char c : t.levelName) {

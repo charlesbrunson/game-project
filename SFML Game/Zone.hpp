@@ -33,6 +33,7 @@ public:
 
 				if (it->second.level != nullptr) {
 					delete it->second.level;
+					it->second.level = nullptr;
 				}
 
 				it->second.objects.clear();
@@ -45,13 +46,13 @@ public:
 
 	void update(sf::Time deltaTime) { zoneLifetime += deltaTime; };
 
-	void createZone(sf::String startLevel, ObjectManager *objMan, GameCamera *cam, bool ignorePlayer = false);
+	void createZone(std::string startLevel, ObjectManager *objMan, GameCamera *cam, bool ignorePlayer = false);
 
 	//transition to another level
 	void switchLevels(Transition destination, bool movePlayer, ObjectManager *objMan, GameCamera *cam);
 
 	struct LevelArea {
-		sf::String levelName;
+		std::string levelName;
 		Level* level = nullptr;
 		std::vector<objNode> objects;
 	};
@@ -66,11 +67,11 @@ public:
 	};
 	Level* getCurrentLevel() { return currentLevel->level; };
 	std::thread* getLoaderThread() { return &adjacentLevelLoader; };
-	sf::String getCurrentLevelName() { return currentLevel->levelName; }
+	std::string getCurrentLevelName() { return currentLevel->levelName; }
 	
-	int getTimesActive(sf::String levelname);
-	void incrementActiveCount(sf::String levelname);
-	void addActiveCounter(sf::String levelname);
+	int getTimesActive(std::string levelname);
+	void incrementActiveCount(std::string levelname);
+	void addActiveCounter(std::string levelname);
 
 	const sf::Time getZoneLifetime() { return zoneLifetime; };
 
@@ -88,21 +89,21 @@ private:
 	
 	sf::Time zoneLifetime = sf::Time::Zero;
 
-	sf::String startingLevel;
+	std::string startingLevel;
 
 	LevelArea* currentLevel;
 
-	std::map<sf::String, LevelArea> activeLevels;
-	std::map<sf::String, int> numTimesActive;
+	std::map<std::string, LevelArea> activeLevels;
+	std::map<std::string, int> numTimesActive;
 
 	//used by thread
-	std::map<sf::String, LevelArea> levelsToAdd;
+	std::map<std::string, LevelArea> levelsToAdd;
 
 	bool loaderThreadActive = false;
 	std::thread adjacentLevelLoader;
 	
 	//thread function that loads levels in advance for level transitions
-	static void loadAdjacentLevels(std::vector<sf::String> *activeNames, std::vector<Transition> *trans, Zone *zone);
+	static void loadAdjacentLevels(std::vector<std::string> *activeNames, std::vector<Transition> *trans, Zone *zone);
 
 };
 

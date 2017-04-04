@@ -29,7 +29,7 @@ public:
 			argNum = num;
 		}
 
-		Alert(Message type, sf::String argStr, sf::Vector2f pos = sf::Vector2f()) {
+		Alert(Message type, std::string argStr, sf::Vector2f pos = sf::Vector2f()) {
 			alertType = type;
 			argPos = pos;
 			argString = argStr;
@@ -38,7 +38,7 @@ public:
 		Message alertType = Message::ALERT_NULL;
 		
 		sf::Vector2f argPos;
-		sf::String argString;
+		std::string argString;
 		int argNum;
 
 	};

@@ -17,14 +17,14 @@
 //constructs zone and starting level
 //------------------------------------------------------------------
 
-void Zone::createZone(sf::String startLevel, ObjectManager *objMan, GameCamera *cam, bool ignorePlayer) {
+void Zone::createZone(std::string startLevel, ObjectManager *objMan, GameCamera *cam, bool ignorePlayer) {
 	//construct level
 	LevelArea area;
 	LevelLoader::loadLevel(startLevel, area, this);
 	Log::msg("Loaded " + startLevel + "\n");
 	objMan->gameLevel = area.level;
 
-	activeLevels.insert(std::pair<sf::String, LevelArea>(startLevel, area));
+	activeLevels.insert(std::pair<std::string, LevelArea>(startLevel, area));
 
 	//data has been copied into map, reinitialize currentLevel
 	//delete currentLevel;
@@ -128,7 +128,7 @@ void Zone::saveObjNodeStates(ObjectManager *objMan) {
 }
 
 //active counter
-int Zone::getTimesActive(sf::String levelname) {
+int Zone::getTimesActive(std::string levelname) {
 	auto f = numTimesActive.find(levelname);
 	if (f != numTimesActive.end()) {
 		return f->second;
@@ -138,15 +138,15 @@ int Zone::getTimesActive(sf::String levelname) {
 	}
 };
 
-void Zone::incrementActiveCount(sf::String levelname) {
+void Zone::incrementActiveCount(std::string levelname) {
 
 	auto f = numTimesActive.find(levelname);
 	assert(f != numTimesActive.end());
 	f->second++;
 }
 
-void Zone::addActiveCounter(sf::String levelname) {
-	numTimesActive.insert(std::pair<sf::String, int>(levelname, 0));
+void Zone::addActiveCounter(std::string levelname) {
+	numTimesActive.insert(std::pair<std::string, int>(levelname, 0));
 }
 
 //background level loading thread
@@ -159,7 +159,7 @@ void Zone::beginLoadingAdjacentLevels() {
 	if (!currentLevel->level->getLevelTransitions()->empty()) {
 
 		//copy some needed data to separate from main thread
-		std::vector<sf::String> *activeNames = new std::vector<sf::String>;
+		std::vector<std::string> *activeNames = new std::vector<std::string>;
 		for (const auto& p : activeLevels)
 			activeNames->push_back(p.first);
 
@@ -184,21 +184,19 @@ void Zone::completeThread() {
 }
 
 //thread function that loads levels in advance for level transitions
-void Zone::loadAdjacentLevels(std::vector<sf::String> *activeNames, std::vector<Transition> *trans, Zone *zone) {
+void Zone::loadAdjacentLevels(std::vector<std::string> *activeNames, std::vector<Transition> *trans, Zone *zone) {
 
 	for (std::vector<Transition>::const_iterator t = trans->begin(); t != trans->end(); t++) {
-		bool toInsert = true;
-		for (std::vector<sf::String>::const_iterator name = activeNames->begin(); name != activeNames->end(); name++) {
-			if (t->levelName == *name) {
-				toInsert = false;
-				break;
-			}
-		}
-		if (toInsert) {
+
+		bool toLoad = std::find_if(activeNames->begin(), activeNames->end(), [&t](std::string n) {
+			return n == t->levelName;
+		}) == activeNames->end();
+
+		if (toLoad) {
 			LevelArea area;
 			LevelLoader::loadLevel(t->levelName, area, zone);
-
-			zone->levelsToAdd.insert(std::pair<sf::String, LevelArea>(t->levelName, area));
+			zone->levelsToAdd.insert(std::pair<std::string, LevelArea>(t->levelName, area));
+			activeNames->push_back(t->levelName);
 			Log::msg("Loaded " + t->levelName + "\n");
 		}
 	}

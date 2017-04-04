@@ -101,9 +101,9 @@ private:
 #endif
 	
 	// Gets associated Key enum based on string value
-	sf::Keyboard::Key getKey(sf::String k);
+	sf::Keyboard::Key getKey(std::string k);
 	// Gets associated JoystickInput based on string value
-	Controls::JoystickInput getJoystickInput(sf::String j);
+	Controls::JoystickInput getJoystickInput(std::string j);
 	
 
 	// Window size and position on screen, when in windowed mode

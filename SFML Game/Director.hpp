@@ -19,14 +19,14 @@ public:
 	bool isComplete();
 
 	// Adds named object to be tracked
-	void trackObject(sf::String levelName, sf::String objName);
+	void trackObject(std::string levelName, std::string objName);
 
 	// Name object exists
-	bool hasObject(sf::String objName);
+	bool hasObject(std::string objName);
 
 	// Try and get named object
 	template <class T>
-	T* getObject(sf::String objName);
+	T* getObject(std::string objName);
 
 	// sets delay on director action
 	void wait(sf::Time wait);
@@ -38,7 +38,7 @@ protected:
 	// Any named object in level
 	struct ScriptedObject {
 		GameObject* obj = nullptr;
-		sf::String onLevel;
+		std::string onLevel;
 	};
 
 	// Pointers to zone, objmanager and camera
@@ -55,7 +55,7 @@ protected:
 	sf::Time waitTimer;
 	
 	// Stores pointers to named objects
-	std::map<sf::String, ScriptedObject> objTracker;
+	std::map<std::string, ScriptedObject> objTracker;
 	void updateTracker();
 };
 

@@ -15,13 +15,13 @@ public:
 		return templateNode;
 	}
 
-	sf::String getTemplateName() {
+	std::string getTemplateName() {
 		return templateName;
 	}
 
 protected:
-	sf::String findTemplateName(objNode n) {
-		for (std::pair<sf::String, sf::String> arg : n.args) {
+	std::string findTemplateName(objNode n) {
+		for (std::pair<std::string, std::string> arg : n.args) {
 			if (arg.first == "TARGETTEMPLATE") {
 				return arg.second;
 			}
@@ -29,7 +29,7 @@ protected:
 		return "";
 	}
 
-	void setTemplateName(sf::String name) {
+	void setTemplateName(std::string name) {
 		templateName = name;
 	}
 
@@ -38,7 +38,7 @@ protected:
 	}
 
 private:
-	sf::String templateName = "";
+	std::string templateName = "";
 	objNode templateNode;
 
 	bool initialized = false;

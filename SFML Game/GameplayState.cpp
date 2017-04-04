@@ -29,7 +29,7 @@ GameplayState::GameplayState() {
 	start(*lastCheckpoint);
 }
 
-void GameplayState::start(sf::String levelstart, bool ignorePlayer) {
+void GameplayState::start(std::string levelstart, bool ignorePlayer) {
 	
 	playerDeathTimer = sf::Time::Zero;
 

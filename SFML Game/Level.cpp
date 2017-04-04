@@ -25,7 +25,7 @@ std::vector<Transition> *Level::getLevelTransitions() {
 	return &levelTransitions;
 }
 
-bool Level::hasTransition(sf::String name) {
+bool Level::hasTransition(std::string name) {
 	for (auto i = levelTransitions.begin(); i != levelTransitions.end(); i++) {
 		if (i->levelName == name)
 			return true;
