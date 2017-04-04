@@ -15,8 +15,8 @@ public:
 
 	void update(sf::Vector2f camCenter);
 
-	void messagesChanged();
-	void trackersChanged();
+	void fixMessage();
+	void fixTracker();
 
 private:
 

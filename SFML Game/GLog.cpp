@@ -27,9 +27,9 @@ void GLog::update(sf::Vector2f camCenter) {
 	sf::FloatRect camArea = getCameraArea();
 
 	if (trackDirty)
-		trackersChanged();
+		fixTracker();
 	if (msgDirty)
-		messagesChanged();
+		fixMessage();
 
 	if (camArea != curArea) {
 		updateTextPosition(camArea);
@@ -39,7 +39,7 @@ void GLog::update(sf::Vector2f camCenter) {
 }
 
 
-void GLog::messagesChanged() {
+void GLog::fixMessage() {
 	std::string m;
 	for (const auto& i : Log::getMessages()) {
 		m += i;
@@ -50,7 +50,7 @@ void GLog::messagesChanged() {
 	msgDirty = false;
 }
 
-void GLog::trackersChanged() {
+void GLog::fixTracker() {
 	std::string t;
 	for (const auto& i : Log::getTracked()) {
 		t += i.first + ": " + i.second + "\n";
@@ -69,7 +69,7 @@ void GLog::updateTextPosition(const sf::FloatRect& camArea) {
 	trackerBox.setPosition(Math::topleft(camArea)
 		+ sf::Vector2f(3.f, 0.f));
 }
-	
+
 void GLog::draw(sf::RenderTarget &target, sf::RenderStates states) const {
 	target.draw(messageBox, RL()->getShader("noalpha.frag"));
 	target.draw(trackerBox, RL()->getShader("noalpha.frag"));

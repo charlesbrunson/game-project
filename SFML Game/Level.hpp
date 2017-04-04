@@ -29,7 +29,6 @@ struct Transition {
 
 	int offset;
 	Cardinal dir = NO_DIR;
-	//bool leftside;
 
 	sf::String levelName;
 };

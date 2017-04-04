@@ -52,6 +52,7 @@ void LevelLoader::readLevel(std::ifstream &reader, Zone::LevelArea &area, Zone *
 		//LEVEL---------------------------------
 		if (area.level != nullptr)
 			delete area.level;
+
 		area.level = new Level();
 		LevelSerializer::readLevel(reader, *(area.level));
 		Log::msg("Reading level: " + area.level->getLevelName() + ".lvl\n");
@@ -247,6 +248,7 @@ bool LevelLoader::compileTMXFile(std::string name) {
 	std::ifstream *file = new std::ifstream(RL()->fileDir + (std::string)name + ".tmx");
 	std::stringstream *buffer = new std::stringstream;
 	xml_document<> *doc = new xml_document<>();
+	area.level = new Level();
 
 	if (!file->is_open()) {
 		return false;
@@ -262,10 +264,6 @@ bool LevelLoader::compileTMXFile(std::string name) {
 	doc->parse<0>(&content[0]);
 
 	//start reading it
-	if (area.level != nullptr)
-		delete area.level;
-	area.level = new Level();
-
 	Log::msg("Reading TMX file: " + name + "\n");
 
 	area.level->setLevelName(name);

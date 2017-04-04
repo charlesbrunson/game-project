@@ -26,7 +26,7 @@ void Log::msg(const std::string& m) {
 //value tracking
 void Log::track(const std::string& label, const std::string& val) {
 	trackedValues.insert(std::make_pair(label, val));
-	for (auto itr = listeners.cbegin(); itr != listeners.cend(); itr++) {
+	for (auto itr = listeners.begin(); itr != listeners.end(); itr++) {
 		(*itr)->trackersChanged();
 	}
 }
@@ -34,7 +34,7 @@ void Log::track(const std::string& label, const std::string& val) {
 //do this before deleting any tracked number
 void Log::remove(const std::string& label) {
 	trackedValues.erase(label);
-	for (auto itr = listeners.cbegin(); itr != listeners.cend(); itr++) {
+	for (auto itr = listeners.begin(); itr != listeners.end(); itr++) {
 		(*itr)->trackersChanged();
 	}
 }
@@ -45,7 +45,7 @@ std::string Log::getVal(std::string label) {
 
 void Log::updateValue(std::string label, std::string nVal) {
 	trackedValues.at(label) = nVal;
-	for (auto itr = listeners.cbegin(); itr != listeners.cend(); itr++) {
+	for (auto itr = listeners.begin(); itr != listeners.end(); itr++) {
 		(*itr)->trackersChanged();
 	}
 }

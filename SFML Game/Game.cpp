@@ -14,7 +14,6 @@
 
 // Constructor
 Game::Game() {
-	RL()->loadResources();
 
 	// Start an instance of GameplayState for our starting state
 	// Ideally this should be changed to a main menu or something
