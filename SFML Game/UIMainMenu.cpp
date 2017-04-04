@@ -3,6 +3,8 @@
 #include "CamRef.hpp"
 #include "Log.hpp"
 
+#include "GameplayState.hpp"
+
 UIMainMenu::UIMainMenu(ResourceLoader *r) : State(r), uiGraph(r) {
 	cameraPos = GAMEDIMENSIONS / 2.f;
 	gCameraPos = cameraPos;
@@ -17,11 +19,9 @@ UIMainMenu::UIMainMenu(ResourceLoader *r) : State(r), uiGraph(r) {
 	UIText* t1 = uiGraph.createUIText();
 	t1->setArea(sf::FloatRect(25.f, 25.f, 120.f, 35.f));
 	t1->copyTextOptions(text);
-	t1->setString("JUST A BUTTON\nNO REALLY JUST A BUTTON\nWOW");
+	t1->setString("START THE\nGAAAAAAAAME");
 	t1->setAlignment(UIText::CENTER, UIText::CENTER);
 	t1->updateText();
-	//uiElements.push_back(t1);
-
 
 	UIText* t2 = uiGraph.createUIText();
 	t2->copy(*t1);
@@ -29,7 +29,6 @@ UIMainMenu::UIMainMenu(ResourceLoader *r) : State(r), uiGraph(r) {
 	t2->setAlignment(UIText::START, UIText::END);
 	t2->setString("ANOTHER BUTTON\nDONT WORRY\nABOUT\nIT");
 	t2->updateText();
-	//uiElements.push_back(t2);
 
 	UIText* t3 = uiGraph.createUIText();
 	t3->copy(*t1);
@@ -37,7 +36,6 @@ UIMainMenu::UIMainMenu(ResourceLoader *r) : State(r), uiGraph(r) {
 	t3->setAlignment(UIText::END, UIText::START);
 	t3->setString("HEY\nGUESS WHAT\nTHATS RIGHT\nITS A BUTTON");
 	t3->updateText();
-	//uiElements.push_back(t3);
 
 	t1->connections[Cardinal::SOUTH] = t2;
 	t2->connections[Cardinal::SOUTH] = t3;
@@ -45,18 +43,25 @@ UIMainMenu::UIMainMenu(ResourceLoader *r) : State(r), uiGraph(r) {
 	t2->connections[Cardinal::NORTH] = t1;
 	t3->connections[Cardinal::NORTH] = t2;
 
-	t1->onActivate = std::bind(message, "BUTTON 1\n");
-	t2->onActivate = std::bind(message, "BUTTON 2\n");
-	t3->onActivate = std::bind(message, "BUTTON 3\n");
+	t1->onActivate = std::bind(&UIMainMenu::startGame, this);
+	t2->onActivate = std::bind(&UIMainMenu::message, this, "BUTTON 2\n");
+	t3->onActivate = std::bind(&UIMainMenu::message, this, "BUTTON 3\n");
+
+	uiGraph.setSelected(t1);
 }
 
 void UIMainMenu::update(sf::Time deltaTime) {
 	uiGraph.update(deltaTime);
 }
 
-
 void UIMainMenu::message(std::string s) {
 	Log::msg(s);
+}
+
+void UIMainMenu::startGame() {
+	removeStateOnChange = true;
+	toNextState = true;
+	nextState = new GameplayState(res);
 }
 
 void UIMainMenu::draw(sf::RenderTarget &target, sf::RenderStates states) const {

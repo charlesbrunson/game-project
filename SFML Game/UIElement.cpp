@@ -48,11 +48,19 @@ void UIElement::draw(sf::RenderTarget &target, sf::RenderStates states) const {
 	if (UI_Globals::Debug::UIDebug) {
 		sf::RectangleShape rect(sf::Vector2f(area.width, area.height));
 		rect.setPosition(sf::Vector2f(area.left, area.top));
+		rect.setOutlineThickness(-1.f);
 		switch (state) {
-		case NOT_SELECTED: rect.setFillColor(sf::Color(0, 0, 255, 128)); break;
+		case NOT_SELECTED: 
+			rect.setFillColor(sf::Color(0, 0, 255, 128)); 
+			rect.setOutlineColor(sf::Color::Black);
+			break;
 		case SELECTED:
-			rect.setFillColor(sf::Color(255, 255, 0, 128)); break;
-		case ACTIVATED: rect.setFillColor(sf::Color(255, 0, 0, 128)); break;
+			rect.setFillColor(sf::Color(255, 255, 0, 128));
+			rect.setOutlineColor(sf::Color::Black);
+			break;
+		case ACTIVATED: rect.setFillColor(sf::Color(255, 0, 0, 128));
+			rect.setOutlineColor(sf::Color(255, 255, 0));
+			break;
 		}
 		target.draw(rect, states);
 	}

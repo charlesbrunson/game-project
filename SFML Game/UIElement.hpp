@@ -46,7 +46,7 @@ protected:
 	bool delayedActivation = false;
 
 
-	bool capturesInput[DIR_COUNT];
+	bool capturesInput[Cardinal::DIR_COUNT];
 	bool capturesMouse = false;
 
 	virtual void draw(sf::RenderTarget &target, sf::RenderStates states) const;

@@ -17,14 +17,15 @@
 class UIGraph : public sf::Drawable, public ResourceUser {
 public:
 	UIGraph(ResourceLoader *r);
+	~UIGraph();
 
 	void update(sf::Time deltaTime);
-
-	~UIGraph();
 
 	UIText* createUIText();
 
 	void addElement(UIElement* e);
+
+	void setSelected(UIElement* e);
 
 protected:
 
@@ -32,8 +33,6 @@ protected:
 	UIElement* sElement = nullptr;
 	// last valid element
 	UIElement* lastElement = nullptr;
-	// default selection
-	UIElement* defaultElement = nullptr;
 	// last element in activated state
 	UIElement* lastPressed = nullptr;
 
@@ -46,7 +45,7 @@ protected:
 	void activateElement();
 
 	void changeSelection(UIElement* to);
-
+	
 	UIElement* findElementUnderMouse();
 
 	void draw(sf::RenderTarget &target, sf::RenderStates states) const;

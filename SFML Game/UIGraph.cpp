@@ -2,22 +2,29 @@
 #include "Controls.hpp"
 #include "Log.hpp"
 
+#include <assert.h>
+
 UIGraph::UIGraph(ResourceLoader *r) : ResourceUser(r) {
 
 }
 
 UIGraph::~UIGraph() {
-	for (const auto& i : uiStatic) {
-		delete i;
+	
+	for (auto it = uiStatic.begin(); it != uiStatic.end(); it++){
+		delete *it;
 	}
-	for (const auto& i : uiInteractive) {
-		delete i;
+	uiStatic.clear();
+
+	for (auto it = uiInteractive.begin(); it != uiInteractive.end(); it++){
+		delete *it;
 	}
+	uiInteractive.clear();
 };
 
 UIText* UIGraph::createUIText() {
-	uiStatic.push_back(new UIText(getResources()));
-	return (UIText*)uiStatic.back();
+	UIText* e = new UIText(getResources());
+	addElement(e);
+	return e;
 }
 
 void UIGraph::addElement(UIElement* e) {
@@ -29,6 +36,11 @@ void UIGraph::addElement(UIElement* e) {
 	}
 }
 
+void UIGraph::setSelected(UIElement* e) {
+	auto f = std::find(uiInteractive.begin(), uiInteractive.end(), e);
+	assert(!e || f != uiInteractive.end());
+	changeSelection(e);
+}
 
 UIElement* UIGraph::findElementUnderMouse() {
 
@@ -36,15 +48,18 @@ UIElement* UIGraph::findElementUnderMouse() {
 
 	auto e = std::find_if(uiInteractive.begin(), uiInteractive.end(),
 	[&m_pos](UIElement* e) {
-		return e->isInteractive() && e->getArea().contains(m_pos);
+		return e->getArea().contains(m_pos);
 	});
 
 	return (e != uiInteractive.end()) ? *e : nullptr;
 };
 
 void UIGraph::update(sf::Time deltaTime) {
-	//read input
+	//default to first interactive in list, if any
+	if (!sElement && !lastElement && !uiInteractive.empty())
+		changeSelection(*uiInteractive.begin());
 
+	//read input
 	if (sElement && sElement->getActiveState() == UIElement::ActiveState::ACTIVATED)
 		sElement->setActiveState(UIElement::ActiveState::SELECTED);
 
@@ -83,9 +98,8 @@ void UIGraph::update(sf::Time deltaTime) {
 		}
 	}
 
-
 	//keyboard and joystick directional input
-	static auto evalInput = [this](Cardinal dir) {
+	static auto evalInput = [](UIGraph* ui, Cardinal dir) {
 
 		//directions only
 		if (dir < 0 || dir >= 4)
@@ -95,32 +109,33 @@ void UIGraph::update(sf::Time deltaTime) {
 
 		if (Controls::isPressed(input)) {
 
-			if (!sElement && lastElement)
-				changeSelection(lastElement);
+			if (!ui->sElement && ui->lastElement)
+				ui->changeSelection(ui->lastElement);
 
-			if (sElement) {
+			if (ui->sElement) {
 
 				Controls::JumpActive.active = false;
 				Controls::JumpActive.confirmed = false;
 				Controls::confirmPress(input);
 
-				if (!sElement->capturesDir(dir)) {
-					if (sElement->connections[dir])
-						changeSelection(sElement->connections[dir]);
+				if (!ui->sElement->capturesDir(dir)) {
+					if (ui->sElement->connections[dir]) {
+						ui->changeSelection(ui->sElement->connections[dir]);
+					}
 				}
 				else {
 					//do a thing
-					activateElement();
-					sElement->setActiveState(UIElement::ActiveState::ACTIVATED);
+					ui->activateElement();
+					ui->sElement->setActiveState(UIElement::ActiveState::ACTIVATED);
 				}
 			}
 		}
 	};
 
-	evalInput(Cardinal::NORTH);
-	evalInput(Cardinal::EAST);
-	evalInput(Cardinal::SOUTH);
-	evalInput(Cardinal::WEST);
+	evalInput(this, Cardinal::NORTH);
+	evalInput(this, Cardinal::EAST);
+	evalInput(this, Cardinal::SOUTH);
+	evalInput(this, Cardinal::WEST);
 
 	//activation
 	//mouse
@@ -172,11 +187,12 @@ void UIGraph::update(sf::Time deltaTime) {
 	}
 
 	//update last valid element
-	if (lastElement != sElement && sElement)
+	if (sElement)
 		lastElement = sElement;
 
 	mousePressedLastFrame = Controls::mouseActive.input.active;
 	inputPressedLastFrame = Controls::isHeld(Controls::JUMP);
+
 };
 
 void UIGraph::activateElement() {

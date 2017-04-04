@@ -14,9 +14,11 @@ public:
 
 protected:
 
-	static void message(std::string s);
+	void message(std::string s);
 
 	UIGraph uiGraph;
+
+	void startGame();
 
 	void draw(sf::RenderTarget &target, sf::RenderStates states) const;
 };
