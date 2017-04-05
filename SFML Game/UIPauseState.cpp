@@ -58,6 +58,7 @@ void UIPauseState::resume() {
 void UIPauseState::quitToMenu() {
 	removeStateOnChange = true;
 	toNextState = true;
+	delete prev;
 	nextState = new UIMainMenu();
 }
 
