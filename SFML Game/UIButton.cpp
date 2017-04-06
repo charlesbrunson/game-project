@@ -38,20 +38,35 @@ UIButton::UIButton(std::string buttonLabel) {
 }
 
 void UIButton::setActiveState(ActiveState st) {
+
+	if (getActiveState() != st) {
+		if (getActiveState() == ACTIVATED) {
+			bText.shiftText(sf::Vector2f(0.f, -1.f));
+		}
+
+		if (st == NOT_SELECTED) {
+			bText.setTextColor(sf::Color::White);
+
+			if (!spr.isPlaying(anim_button_notselected))
+				spr.setAnimation(anim_button_notselected);
+		}
+		else if (st == SELECTED) {
+			bText.setTextColor(sf::Color(244, 226, 116, 255));
+
+			if (!spr.isPlaying(anim_button_selected))
+				spr.setAnimation(anim_button_selected);
+		}
+		else if (st == ACTIVATED) {
+			bText.setTextColor(sf::Color(244, 226, 116, 255));
+
+			bText.shiftText(sf::Vector2f(0.f, 1.f));
+			if (!spr.isPlaying(anim_button_activated))
+				spr.setAnimation(anim_button_activated);
+		}
+	}
+
 	UIElement::setActiveState(st);
 
-	if (st == NOT_SELECTED) {
-		if (!spr.isPlaying(anim_button_notselected))
-			spr.setAnimation(anim_button_notselected);
-	}
-	else if (st == SELECTED) {
-		if (!spr.isPlaying(anim_button_selected))
-			spr.setAnimation(anim_button_selected);
-	}
-	else if (st == ACTIVATED) {
-		if (!spr.isPlaying(anim_button_activated))
-			spr.setAnimation(anim_button_activated);
-	}
 }
 
 void UIButton::setArea(sf::FloatRect a) {

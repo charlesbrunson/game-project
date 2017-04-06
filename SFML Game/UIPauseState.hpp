@@ -15,6 +15,8 @@ private:
 
 	UIGraph uiGraph;
 
+	sf::RectangleShape backPanel;
+
 	void resume();
 	void quitToMenu();
 

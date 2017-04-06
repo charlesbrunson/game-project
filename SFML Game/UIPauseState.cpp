@@ -35,6 +35,10 @@ UIPauseState::UIPauseState(State* prevState) {
 
 	uiGraph.setSelected(t1);
 
+	backPanel.setFillColor(sf::Color(60, 166, 244));
+	backPanel.setSize(sf::Vector2f(80.f, 64.f));
+	backPanel.setPosition(Math::center(getCameraArea()) - backPanel.getSize() / 2.f);
+
 }
 
 void UIPauseState::update(sf::Time deltaTime) {
@@ -56,5 +60,6 @@ void UIPauseState::quitToMenu() {
 
 void UIPauseState::draw(sf::RenderTarget &target, sf::RenderStates states) const {
 	target.draw(*prev, states);
+	target.draw(backPanel, states);
 	target.draw(uiGraph, states);
 };

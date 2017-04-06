@@ -33,7 +33,12 @@ public:
 
 	TextLines* getText();
 	
+	void shiftText(sf::Vector2f m);
+	void setTextColor(sf::Color c);
+
 protected:
+
+	bool outlined = true;
 
 	//text object and offset from area topleft
 	TextLines lines;

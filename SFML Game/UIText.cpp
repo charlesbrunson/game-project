@@ -79,6 +79,17 @@ void UIText::updateText() {
 		vPos += bounds.height;
 	}
 }
+void UIText::shiftText(sf::Vector2f m) {
+	for (sf::Text& t : lines) {
+		t.setPosition(t.getPosition() + m);
+	}
+}
+void UIText::setTextColor(sf::Color c) {
+	styleGuide.setFillColor(c);
+	for (sf::Text& t : lines) {
+		t.setFillColor(c);
+	}
+}
 
 void UIText::setAlignment(Align h, Align v) {
 	halign = h;
@@ -103,6 +114,9 @@ void UIText::draw(sf::RenderTarget &target, sf::RenderStates states) const {
 		}
 		*/
 #endif
-		target.draw(t, RL()->getShader("noalpha.frag"));
+		if (outlined)
+			target.draw(t, RL()->getShader("noalpha.frag"));
+		else
+			target.draw(t, states);
 	}
 }
