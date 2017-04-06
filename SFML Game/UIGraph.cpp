@@ -27,6 +27,12 @@ UIText* UIGraph::createUIText() {
 	return e;
 }
 
+UIButton* UIGraph::createUIButton(std::string label) {
+	UIButton* e = new UIButton(label);
+	addElement(e);
+	return e;
+}
+
 void UIGraph::addElement(UIElement* e) {
 	if (e->isInteractive()) {
 		uiInteractive.push_back(e);
@@ -125,8 +131,9 @@ void UIGraph::update(sf::Time deltaTime) {
 				}
 				else {
 					//do a thing
-					ui->activateElement();
-					ui->sElement->setActiveState(UIElement::ActiveState::ACTIVATED);
+					//ui->activateElement();
+					ui->sElement->captureDirInput(dir);
+					//ui->sElement->setActiveState(UIElement::ActiveState::ACTIVATED);
 				}
 			}
 		}
@@ -192,6 +199,13 @@ void UIGraph::update(sf::Time deltaTime) {
 
 	mousePressedLastFrame = Controls::mouseActive.input.active;
 	inputPressedLastFrame = Controls::isHeld(Controls::JUMP);
+
+	//update uielements
+	for (auto it = uiStatic.begin(); it != uiStatic.end(); it++)
+		(*it)->update(deltaTime);
+
+	for (auto it = uiInteractive.begin(); it != uiInteractive.end(); it++)
+		(*it)->update(deltaTime);
 
 };
 

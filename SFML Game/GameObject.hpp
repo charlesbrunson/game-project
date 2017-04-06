@@ -18,7 +18,7 @@ public:
 		collisionBox = sf::FloatRect();
 	};
 
-	virtual void interact(GameObject *obj) {};
+	virtual void interact(GameObject* obj) {};
 
 	virtual void update(sf::Time deltaTime) {};
 	virtual void updateAnimation(sf::Time deltaTime) {};

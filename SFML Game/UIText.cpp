@@ -6,8 +6,8 @@
 #include "ResourceLoader.hpp"
 
 UIText::UIText() {
-	interactive = true;
-	delayedActivation = true;
+	//interactive = true;
+	//delayedActivation = true;
 }
 
 

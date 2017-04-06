@@ -227,7 +227,7 @@ void TransitionState::draw(sf::RenderTarget &target, sf::RenderStates states) co
 	auto objs = gameplayState->getObjectMan()->getObjects();
 	auto effects = gameplayState->getObjectMan()->getEffects();
 
-	sf::Shader *offsetter = RL()->getShader("offset.vert");
+	sf::Shader* offsetter = RL()->getShader("offset.vert");
 	offsetter->setUniform("offset", -toLvlOffset);
 	
 	//background

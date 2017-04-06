@@ -11,6 +11,7 @@
 
 #include "UIElement.hpp"
 #include "UIText.hpp"
+#include "UIButton.hpp"
 
 //incomplete
 
@@ -22,6 +23,7 @@ public:
 	void update(sf::Time deltaTime);
 
 	UIText* createUIText();
+	UIButton* createUIButton(std::string label = "");
 
 	void addElement(UIElement* e);
 

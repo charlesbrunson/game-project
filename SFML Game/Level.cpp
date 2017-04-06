@@ -52,7 +52,7 @@ void Level::update(sf::Time deltaTime, sf::FloatRect displayArea, sf::Vector2f c
 		i->second.update(deltaTime, gridArea, intersection, camCenter, reDraw);
 
 	if (!bgSpriteFilename.empty() && !bgSprite.getTexture()) {
-		bgSprite.setTexture(*RL()->getTexture("bg/" + bgSpriteFilename));
+		bgSprite.setTexture(RL()->getTexture("bg/" + bgSpriteFilename));
 		bgSprite.setTextureRect(sf::IntRect(0, 0, GAMEWIDTH, GAMEHEIGHT));
 	}
 	bgSprite.setPosition(snapToPixel(camCenter - sf::Vector2f(GAMEWIDTH / 2.f, GAMEHEIGHT / 2.f)));

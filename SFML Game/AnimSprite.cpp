@@ -34,8 +34,7 @@ void AnimSprite::update(sf::Time t) {
 	if (activeAnim->numOfFrames > 1 || activeAnim->loop != -1)
 		acc += t;
 
-	while (acc >= activeAnim->frameTimes[currentFrame]) {
-
+	while (acc >= activeAnim->frameTimes[currentFrame] && activeAnim->frameTimes[currentFrame] > sf::Time::Zero) {
 
 		acc -= activeAnim->frameTimes[currentFrame];
 

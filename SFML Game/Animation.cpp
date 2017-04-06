@@ -40,8 +40,18 @@ Animation::Animation(
 	chainTo = chain;
 	chainStartOnFrame = chainStartFrame;
 
+
+	for (const int& i : framesAsMS) {
+		frameTimes.push_back(sf::milliseconds(i));
+	}
+
+	/*
 	std::transform(framesAsMS.begin(), framesAsMS.end(), frameTimes.begin(),
-		[](int c) { return sf::milliseconds(c); });
+		[](int c) {
+			return sf::milliseconds(c); 
+		}
+	);
+	*/
 
 }
 

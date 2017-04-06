@@ -25,13 +25,15 @@ public:
 	const bool isInteractive();
 	const bool isActivationDelayed();
 	
+	virtual void update(sf::Time deltaTime) {};
+
 	virtual void setArea(sf::FloatRect a);
 	const sf::FloatRect getArea();
 
 	ActiveState getActiveState();
-	void setActiveState(ActiveState st);
+	virtual void setActiveState(ActiveState st);
 	
-	virtual void captureDirInput() {};
+	virtual void captureDirInput(Cardinal d) {};
 	virtual void captureMouseMove(sf::Vector2f m_pos) {};
 	
 protected:

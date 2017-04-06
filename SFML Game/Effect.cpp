@@ -21,7 +21,7 @@ Effect::Effect(std::string texFile, Animation ani, int onLayer, bool flip) {
 	//sprite.setResources(rMan);
 	sprite.setHFlip(flip);
 
-	sprite.getSprite()->setTexture(*RL()->getTexture(texFile));
+	sprite.getSprite()->setTexture(RL()->getTexture(texFile));
 
 	anim = ani;
 	layer = onLayer;

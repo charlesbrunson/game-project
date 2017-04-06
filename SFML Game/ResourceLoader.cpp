@@ -472,35 +472,55 @@ bool ResourceLoader::isTextureTileset(std::string filename) {
 		return false;
 }
 
-sf::Texture* ResourceLoader::getTexture(std::string filename) {
+const sf::Texture& ResourceLoader::getTexture(std::string filename) {
 	std::lock_guard<std::mutex> lock(m);
 
 	auto i = fetchResource<TexData>(filename, texResources);
-	if (i != nullptr)
-		return &i->t;
+	assert(i != nullptr);
+	return i->t;
+
+	/*if (i != nullptr)
+		return i->t;
 	else
 		return nullptr;
+		*/
 }
-sf::SoundBuffer* ResourceLoader::getSoundBuffer(std::string filename) {
+const sf::SoundBuffer& ResourceLoader::getSoundBuffer(std::string filename) {
 	std::lock_guard<std::mutex> lock(m);
-	return fetchResource<sf::SoundBuffer>(filename, audioResources);
+
+	auto i = fetchResource<sf::SoundBuffer>(filename, audioResources);
+	assert(i != nullptr);
+	return *i;
 }
-sf::Font* ResourceLoader::getFont(std::string filename) {
+const sf::Font& ResourceLoader::getFont(std::string filename) {
 	std::lock_guard<std::mutex> lock(m);
+
+	auto i = fetchResource<FontData>(filename, fontResources);
+	assert(i != nullptr);
+	return i->font;
+
+	/*
 	auto i = fetchResource<FontData>(filename, fontResources);
 	if (i != nullptr)
 		return &i->font;
 	else
 		return nullptr;
+		*/
 }
 
 sf::Shader* ResourceLoader::getShader(std::string filename) {
 	std::lock_guard<std::mutex> lock(m);
+
+	auto i = fetchResource<std::unique_ptr<sf::Shader>>(filename, shaderResources);
+	assert(i != nullptr);
+	return i->get();
+
+	/*
 	auto i = fetchResource<std::unique_ptr<sf::Shader>>(filename, shaderResources);
 	if (i != nullptr)
 		return i->get();
 	else
-		return nullptr;
+		return nullptr;*/
 }
 
 template <class T>

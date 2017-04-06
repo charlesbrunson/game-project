@@ -253,7 +253,7 @@ void ObjectManager::updateObjects(sf::Time deltaTime, int *score) {
 		std::string target = soundsToPlay.back().sound;
 
 		if (sounds.find(target) == sounds.end()) {
-			sounds.insert(std::pair<std::string, sf::Sound>(target, sf::Sound(*RL()->getSoundBuffer(target))));
+			sounds.insert(std::pair<std::string, sf::Sound>(target, sf::Sound(RL()->getSoundBuffer(target))));
 		}
 
 		if (sounds.at(target).getStatus() != sf::Sound::Status::Playing || sounds.at(target).getPlayingOffset() >= Gameplay_Globals::minSoundTime) {

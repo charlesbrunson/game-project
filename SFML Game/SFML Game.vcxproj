@@ -230,6 +230,7 @@
     <ClInclude Include="json.h" />
     <ClInclude Include="LevelLoader.hpp" />
     <ClInclude Include="PlayerRef.hpp" />
+    <ClInclude Include="UIButton.hpp" />
     <ClInclude Include="UIMainMenu.hpp" />
     <ClInclude Include="PixelSnap.hpp" />
     <ClInclude Include="PlayerAirState.hpp" />
@@ -247,6 +248,7 @@
     <ClCompile Include="TransitionHorizontalState.cpp" />
     <ClCompile Include="TransitionState.cpp" />
     <ClCompile Include="TransitionVerticalState.cpp" />
+    <ClCompile Include="UIButton.cpp" />
     <ClCompile Include="UIElement.cpp" />
     <ClCompile Include="UIGraph.cpp" />
     <ClCompile Include="UIMainMenu.cpp" />

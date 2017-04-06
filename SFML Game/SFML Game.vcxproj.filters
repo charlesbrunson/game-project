@@ -217,6 +217,9 @@
     <ClCompile Include="UIPauseState.cpp">
       <Filter>Source Files\States\UI</Filter>
     </ClCompile>
+    <ClCompile Include="UIButton.cpp">
+      <Filter>Source Files\States\UI\Util</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="rapidxml.hpp">
@@ -428,6 +431,9 @@
     </ClInclude>
     <ClInclude Include="UIGraph.hpp">
       <Filter>Source Files\States\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="UIButton.hpp">
+      <Filter>Source Files\States\UI\Util</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
