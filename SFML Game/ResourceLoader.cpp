@@ -81,7 +81,7 @@ public:
 	}
 };
 
-void ResourceLoader::loadResources() {
+bool ResourceLoader::loadResources() {
 
 	//loadFromFile();
 
@@ -91,7 +91,7 @@ void ResourceLoader::loadResources() {
 #endif
 
 	// Load resources from pack file
-	loadFromPack();
+	return loadFromPack();
 }
 
 
@@ -179,7 +179,7 @@ void ResourceLoader::writeToPack() {
 
 							// Get full file path from directory
 							std::string tmxFile = fileDir + directory + filename;
-							Log::msg("Compiling " + tmxFile + "\n");
+							Log::msg(tmxFile + " - needs recompile\n");
 							tmxFile.erase(tmxFile.length() - 4, tmxFile.length());
 							tmxFile.erase(0, fileDir.length());
 
@@ -288,10 +288,9 @@ void ResourceLoader::writeToPack() {
 }
 
 // Read file from pack
-void ResourceLoader::loadFromPack() {
+bool ResourceLoader::loadFromPack() {
 	
 	std::ifstream packReader(packName, std::ios_base::binary);
-
 	if (packReader.is_open()) {
 
 		// Read type count
@@ -430,8 +429,14 @@ void ResourceLoader::loadFromPack() {
 				packReader.seekg(headerPos, std::ios_base::beg);
 			}
 		}
+		loaded = true;
 	}
+	else {
+		Log::msg("Failed to load data.pck file\n");
+	}
+
 	packReader.close();	
+	return loaded;
 }
 
 sf::Vector2u ResourceLoader::getIdealTexSize(sf::Vector2u size) {
@@ -454,6 +459,7 @@ void ResourceLoader::dumpResources() {
 	fontResources.clear();
 	levels.clear();
 	shaderResources.clear();
+	loaded = false;
 }
 
 bool ResourceLoader::isTextureTileset(std::string filename) {

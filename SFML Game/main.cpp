@@ -11,12 +11,8 @@ int main() {
 	
 	// Start up the game loop
 	{
-		ResourceLoader::get()->loadResources();
-		{
-			Game g;
-			g.run();
-		}
-		ResourceLoader::get()->dumpResources();
+		Game g;
+		g.run();
 	}
 
 	return 0;

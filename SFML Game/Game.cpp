@@ -14,56 +14,61 @@
 
 // Constructor
 Game::Game() {
+	if (RL()->loadResources()) {
 
-	// Start an instance of GameplayState for our starting state
-	// Ideally this should be changed to a main menu or something
-	activeState = new GameplayState();
-	//activeState = new UIMainMenu();
+		// Start an instance of GameplayState for our starting state
+		// Ideally this should be changed to a main menu or something
+		activeState = new GameplayState();
+		//activeState = new UIMainMenu();
 
-	// Setup default FPS settings
-	_maxUpdatePerSec = 144.0;
-	_maxDrawPerSec = 144.0;
-	_uncappedFPS = true;
+		// Setup default FPS settings
+		_maxUpdatePerSec = 144.0;
+		_maxDrawPerSec = 144.0;
+		_uncappedFPS = true;
 
 #ifdef _DEBUG
-	// Setup debug values
-	_dFrameCount = 0;
-	_dUpdateCount = 0;
-	_dDrawFPS = 0;
-	_dUpdateFPS = 0;
+		// Setup debug values
+		_dFrameCount = 0;
+		_dUpdateCount = 0;
+		_dDrawFPS = 0;
+		_dUpdateFPS = 0;
 #endif
-	
-	// Read settings file and apply it
-	applySettings();
 
-	// Setup update/draw rates based on FPS caps
-	_timePerUpdate = sf::seconds(static_cast<float>(1.0 / _maxUpdatePerSec));
-	_timePerDraw = sf::seconds(static_cast<float>(1.0 / _maxDrawPerSec));
+		// Read settings file and apply it
+		applySettings();
 
-	// Setup window scale
-	sf::VideoMode desktop = sf::VideoMode::getDesktopMode();
-	{
-		_initialScale = (int)std::min(floor((float)desktop.width / GAMEWIDTH), floor((float)(desktop.height - 64) / GAMEHEIGHT));
+		// Setup update/draw rates based on FPS caps
+		_timePerUpdate = sf::seconds(static_cast<float>(1.0 / _maxUpdatePerSec));
+		_timePerDraw = sf::seconds(static_cast<float>(1.0 / _maxDrawPerSec));
 
-		// Make window a bit small after a certain threshold
-		if (_initialScale > 4)
-			_initialScale--;
+		// Setup window scale
+		sf::VideoMode desktop = sf::VideoMode::getDesktopMode();
+		{
+			_initialScale = (int)std::min(floor((float)desktop.width / GAMEWIDTH), floor((float)(desktop.height - 64) / GAMEHEIGHT));
 
-		_windowedSize = sf::Vector2i(GAMEWIDTH * _initialScale, GAMEHEIGHT * _initialScale);
+			// Make window a bit small after a certain threshold
+			if (_initialScale > 4)
+				_initialScale--;
+
+			_windowedSize = sf::Vector2i(GAMEWIDTH * _initialScale, GAMEHEIGHT * _initialScale);
+		}
+		// Create game window
+		create(sf::VideoMode(_windowedSize.x, _windowedSize.y, desktop.bitsPerPixel), _gameName, sf::Style::Default);
+
+		// Set window properties
+		setActive(false);
+		setFramerateLimit(0);
+		setKeyRepeatEnabled(false);
+
+		// Resize window to calculated scale
+		resizeWindow(GAMEWIDTH * _initialScale, GAMEHEIGHT * _initialScale);
+
+		// Setup window position
+		_windowedPos = getPosition();
 	}
-	// Create game window
-	create(sf::VideoMode(_windowedSize.x, _windowedSize.y, desktop.bitsPerPixel), _gameName, sf::Style::Default);
+	else {
 
-	// Set window properties
-	setActive(false);
-	setFramerateLimit(0);
-	setKeyRepeatEnabled(false);
-
-	// Resize window to calculated scale
-	resizeWindow(GAMEWIDTH * _initialScale, GAMEHEIGHT * _initialScale);
-
-	// Setup window position
-	_windowedPos = getPosition();
+	}
 }
 
 // Deconstructor
@@ -72,11 +77,17 @@ Game::~Game() {
 	// Eliminates active states
 	destroyState(activeState);
 
+	RL()->dumpResources();
 }
 
 
 // Main game loop
 void Game::run() {
+
+	if (!RL()->isLoaded()) {
+		Log::msg("Could not start game, resources failed to load\n");
+		return;
+	}
 
 #ifdef _DEBUG
 	std::string fpsLabel = "FPS";

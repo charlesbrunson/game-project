@@ -159,7 +159,7 @@ void LevelLoader::readLevel(std::ifstream &reader, Zone::LevelArea &area, Zone *
 
 void LevelLoader::saveLevel(std::string name, Zone::LevelArea &area) {
 
-	Log::msg("Writing level to native format: " + name + ".lvl\n");
+	Log::msg(name + " - writing to .lvl file\n");
 
 	//ResourceLoader *temp = area.level->getResources();
 	//area.level->setResources(nullptr);
@@ -228,7 +228,7 @@ void LevelLoader::saveLevel(std::string name, Zone::LevelArea &area) {
 
 	//area.level->setResources(temp);
 
-	Log::msg("Writing complete\n\n");
+	Log::msg(name + " - saved\n\n");
 
 	//yay!
 	writer.close();
@@ -264,7 +264,7 @@ bool LevelLoader::compileTMXFile(std::string name) {
 	doc->parse<0>(&content[0]);
 
 	//start reading it
-	Log::msg("Reading TMX file: " + name + "\n");
+	Log::msg(name + " - reading TMX file\n");
 
 	area.level->setLevelName(name);
 
@@ -312,7 +312,7 @@ bool LevelLoader::compileTMXFile(std::string name) {
 			}
 		}
 	}
-	Log::msg("Level dimensions: " + std::to_string(area.level->levelArea.width) + " by " + std::to_string(area.level->levelArea.height) + "\n");
+	Log::msg("Level dimensions: " + std::to_string(area.level->levelArea.width) + ", " + std::to_string(area.level->levelArea.height) + "\n");
 
 	//get tilesets used and store them temporarily
 
@@ -614,7 +614,7 @@ bool LevelLoader::compileTMXFile(std::string name) {
 	Log::msg("Building collision map\n");
 	area.level->generateCollisionMap();
 
-	Log::msg("Level successfully compiled\n\n");
+	Log::msg(name + " - successfully compiled\n\n");
 
 	LevelLoader::saveLevel(name, area);
 

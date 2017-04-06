@@ -69,7 +69,7 @@ public:
 	*/
 
 	// Allocating and Deallocating resources
-	void loadResources();
+	bool loadResources();
 	void dumpResources();
 
 	// Texture retrieval
@@ -120,13 +120,19 @@ public:
 	};
 	static const std::string fileTypes[TYPE_COUNT];
 	
+	bool isLoaded() {
+		return loaded;
+	}
+
 private:
+	bool loaded = false;
+
 	// Reads data directly from directory file
 	void loadFromFile();
 	// Writes data to resource pack file
 	void writeToPack();
 	// Read data from the resource pack file
-	void loadFromPack();
+	bool loadFromPack();
 
 	// Mutex to prevent multiple simultaneous access of resources
 	std::mutex m;

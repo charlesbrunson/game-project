@@ -12,7 +12,7 @@
 #include "Log.hpp"
 
 #include "ResourceLoader.hpp"
-//#include "ResourceUser.hpp"
+
 #include "Globals.hpp"
 #include "GridVector.hpp"
 #include "StandardSize.hpp"
@@ -33,8 +33,7 @@ struct Transition {
 	std::string levelName;
 };
 
-
-class Level /*, public sf::Drawable */{
+class Level {
 	friend class LevelSerializer;
 public:
 	
@@ -43,21 +42,10 @@ public:
 		
 	//CONSTRUCTOR -----------------------------------------------------------------------------
 	Level();
-	~Level() {
-		Log::msg("destroying " + getLevelName() + "\n");
-	};
 
 	void initializeTileProperties();
 
 	//ENUMS -----------------------------------------------------------------------------
-	/*
-	enum layers : int {
-		BGSPRITE,
-		PARALLAX,
-		BACKGROUND,
-		FOREGROUND,
-		DECORATIVE
-	};*/
 	enum TriggerType : int {
 		NULL_TRIGGER = 0,
 		DAMAGE,
