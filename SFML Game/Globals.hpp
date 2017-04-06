@@ -45,7 +45,7 @@ namespace UI_Globals {
 class Scale {
 	friend class Game;
 public:
-	static const int get() {
+	static int get() {
 		return scale;
 	}
 private:
@@ -57,3 +57,4 @@ private:
 };
 
 #endif
+

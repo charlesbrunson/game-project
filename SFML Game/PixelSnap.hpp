@@ -1,6 +1,8 @@
 #ifndef PIXELSNAP_H
 #define PIXELSNAP_H
 
+#include <cmath>
+
 #include <SFML/System.hpp>
 #include "Globals.hpp"
 
