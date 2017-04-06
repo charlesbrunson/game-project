@@ -1,4 +1,6 @@
 
+#include <math.h>
+
 #include "Math.hpp"
 
 const float PI_F = 3.14159265358979323846f;
@@ -7,12 +9,12 @@ const sf::Vector2f Math::diff(const sf::Vector2f& i, const sf::Vector2f& j) {
 	return i - j;
 };
 
-const float Math::dist(const sf::Vector2f& i, const sf::Vector2f& j) {
+float Math::dist(const sf::Vector2f& i, const sf::Vector2f& j) {
 	sf::Vector2f d = i - j;
 	return sqrtf(d.x * d.x + d.y * d.y);
 };
 
-const float Math::magnitude(const sf::Vector2f& v) {
+float Math::magnitude(const sf::Vector2f& v) {
 	return sqrtf(v.x * v.x + v.y * v.y);
 }
 
@@ -26,11 +28,11 @@ const sf::Vector2f Math::rotate(const sf::Vector2f& v, float rad) {
 	return sf::Vector2f(v.x * c - v.y * s, v.x * s + v.y * c);
 }
 
-const float Math::angle(const sf::Vector2f& v) {
+float Math::angle(const sf::Vector2f& v) {
 	return atan2f(v.y, v.x);
 };
 
-const float Math::angle(const sf::Vector2f& from, const sf::Vector2f& to) {
+float Math::angle(const sf::Vector2f& from, const sf::Vector2f& to) {
 	return angle(diff(from, to));
 };
 
@@ -62,11 +64,11 @@ const sf::Vector2f Math::center(const sf::FloatRect& a) {
 	return sf::Vector2f(a.left + a.width / 2.f, a.top + a.height / 2.f);
 };
 
-const float Math::toDeg(float rad) {
+float Math::toDeg(float rad) {
 	const  float m = 180.f / PI_F;
 	return rad * m;
 }
-const float Math::toRad(float deg) {
+float Math::toRad(float deg) {
 	const  float m = PI_F / 180.f;
 	return deg * m;
 }

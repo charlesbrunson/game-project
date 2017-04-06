@@ -6,7 +6,7 @@
 
 extern const float PI_F;
 
-const enum Cardinal {
+enum Cardinal {
 	NO_DIR = -1,
 	NORTH = 0,
 	EAST,
@@ -18,16 +18,16 @@ const enum Cardinal {
 namespace Math {
 	const sf::Vector2f diff(const sf::Vector2f& i, const sf::Vector2f& j);
 
-	const float dist(const sf::Vector2f& i, const sf::Vector2f& j);
+	float dist(const sf::Vector2f& i, const sf::Vector2f& j);
 
-	const float magnitude(const sf::Vector2f& v);
+	float magnitude(const sf::Vector2f& v);
 
 	const sf::Vector2f normalize(const sf::Vector2f& v);
 	
 	const sf::Vector2f rotate(const sf::Vector2f& v, float rad);
 
-	const float angle(const sf::Vector2f& v);
-	const float angle(const sf::Vector2f& from, const sf::Vector2f& to);
+	float angle(const sf::Vector2f& v);
+	float angle(const sf::Vector2f& from, const sf::Vector2f& to);
 
 	const sf::FloatRect boundingBox(const sf::FloatRect& a, const sf::FloatRect& b);
 
@@ -38,8 +38,8 @@ namespace Math {
 	const sf::Vector2f bottomright(const sf::FloatRect& a);
 	const sf::Vector2f center(const sf::FloatRect& a);
 
-	const float toDeg(float rad);
-	const float toRad(float deg);
+	float toDeg(float rad);
+	float toRad(float deg);
 };
 
 #endif
