@@ -1,5 +1,5 @@
 ﻿
-#if _DEBUG && _WIN32 && 1
+#if defined(_DEBUG) && defined(_WIN32) && 1
 	//Visual Leak Detector
 	#include <vld.h>
 #endif
@@ -11,8 +11,10 @@ int main() {
 	
 	// Start up the game loop
 	{
+		RL()->loadResources();
 		Game g;
 		g.run();
+		RL()->dumpResources();
 	}
 
 	return 0;

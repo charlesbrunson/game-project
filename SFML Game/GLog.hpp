@@ -11,7 +11,6 @@ class GLog : public sf::Drawable, public LogListener {
 public:
 
 	GLog();
-	~GLog();
 
 	void update(sf::Vector2f camCenter);
 

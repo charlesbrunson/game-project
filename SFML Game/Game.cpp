@@ -14,7 +14,7 @@
 
 // Constructor
 Game::Game() {
-	if (RL()->loadResources()) {
+	if (RL()->isLoaded()) {
 
 		// Start an instance of GameplayState for our starting state
 		// Ideally this should be changed to a main menu or something
@@ -66,9 +66,6 @@ Game::Game() {
 		// Setup window position
 		_windowedPos = getPosition();
 	}
-	else {
-
-	}
 }
 
 // Deconstructor
@@ -77,7 +74,6 @@ Game::~Game() {
 	// Eliminates active states
 	destroyState(activeState);
 
-	RL()->dumpResources();
 }
 
 

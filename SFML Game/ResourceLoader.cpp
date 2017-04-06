@@ -5,7 +5,7 @@
 #include <math.h>
 #include <thread>
 
-#if _DEBUG && _WIN32
+#if defined(_DEBUG) && defined(_WIN32)
 #include <Windows.h>
 #endif
 
@@ -150,8 +150,8 @@ void ResourceLoader::writeToPack() {
 					// Try and compile TMX files as native LVL files before achiving
 					if (fileTypeName == fileTypes[LEVEL]) {
 						bool toCompile = false;
-						
-#if _DEBUG && _WIN32
+
+#if defined(_DEBUG) && defined(_WIN32)
 						// Auto recompile .lvl file if older than the associated .tmx file
 						// Windows only for now
 						{

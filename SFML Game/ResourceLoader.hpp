@@ -25,7 +25,7 @@ class ResourceLoader {
 
 	// Destructors, deallocates all resources
 	~ResourceLoader() {
-		dumpResources();
+		//dumpResources();
 	};
 
 public:

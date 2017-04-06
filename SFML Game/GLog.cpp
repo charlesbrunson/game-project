@@ -9,7 +9,7 @@
 #include "ResourceLoader.hpp"
 
 GLog::GLog() {
-	//Log::addListener(this);
+	ResourceLoader* f = RL();
 
 	messageBox.setFont(*RL()->getFont("pixelated.ttf"));
 	messageBox.setCharacterSize(8);
@@ -18,9 +18,6 @@ GLog::GLog() {
 	messageBox.setOutlineThickness(1.f);
 
 	trackerBox = messageBox;
-}
-GLog::~GLog() {
-	//Log::removeListener(this);
 }
 
 void GLog::update(sf::Vector2f camCenter) {
