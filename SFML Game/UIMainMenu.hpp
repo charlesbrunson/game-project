@@ -20,6 +20,10 @@ protected:
 
 	void startGame();
 
+	void toOptions();
+
+	void quit();
+
 	void draw(sf::RenderTarget &target, sf::RenderStates states) const;
 };
 

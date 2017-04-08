@@ -220,6 +220,9 @@
     <ClCompile Include="UIButton.cpp">
       <Filter>Source Files\States\UI\Util</Filter>
     </ClCompile>
+    <ClCompile Include="UIOptions.cpp">
+      <Filter>Source Files\States\UI\Util</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="rapidxml.hpp">
@@ -434,6 +437,9 @@
     </ClInclude>
     <ClInclude Include="UIButton.hpp">
       <Filter>Source Files\States\UI\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="UIOptions.hpp">
+      <Filter>Source Files\States\UI</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

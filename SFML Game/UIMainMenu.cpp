@@ -1,9 +1,10 @@
 
-#include "UIMainMenu.hpp"
 #include "CamRef.hpp"
 #include "Log.hpp"
 
 #include "GameplayState.hpp"
+#include "UIMainMenu.hpp"
+#include "UIOptions.hpp"
 
 UIMainMenu::UIMainMenu() {
 	cameraPos = GAMEDIMENSIONS / 2.f;
@@ -32,8 +33,8 @@ UIMainMenu::UIMainMenu() {
 	t3->connections[Cardinal::NORTH] = t2;
 
 	t1->onActivate = std::bind(&UIMainMenu::startGame, this);
-	t2->onActivate = std::bind(&UIMainMenu::message, this, "BUTTON 2\n");
-	t3->onActivate = std::bind(&UIMainMenu::message, this, "BUTTON 3\n");
+	t2->onActivate = std::bind(&UIMainMenu::toOptions, this);
+	t3->onActivate = std::bind(&UIMainMenu::quit, this);
 
 	uiGraph.setSelected(t1);
 }
@@ -50,6 +51,17 @@ void UIMainMenu::startGame() {
 	removeStateOnChange = true;
 	toNextState = true;
 	nextState = new GameplayState();
+}
+
+void UIMainMenu::toOptions() {
+	removeStateOnChange = true;
+	toNextState = true;
+	nextState = new UIOptions();
+}
+
+void UIMainMenu::quit() {
+	removeStateOnChange = true;
+	quitGame = true;
 }
 
 void UIMainMenu::draw(sf::RenderTarget &target, sf::RenderStates states) const {
