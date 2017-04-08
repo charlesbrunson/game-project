@@ -27,7 +27,8 @@ public:
 
 	void setArea(sf::FloatRect a);
 
-	void updateText();
+
+	void update(sf::Time deltaTime);
 
 	void setAlignment(Align h, Align v);
 
@@ -36,9 +37,20 @@ public:
 	void shiftText(sf::Vector2f m);
 	void setTextColor(sf::Color c);
 
+	//not implemented yet
+	//void appendText(std::string);
 protected:
 
+	void updateText();
+
+	void setPosition(sf::Vector2f pos) {};
+
 	bool outlined = true;
+
+	bool dirtyFlag = true;
+
+	//not implemented yet
+	//bool autoWrap = false;
 
 	//text object and offset from area topleft
 	TextLines lines;

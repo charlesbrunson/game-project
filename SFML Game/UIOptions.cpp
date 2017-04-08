@@ -15,7 +15,7 @@ UIOptions::UIOptions() {
 	text.setOutlineThickness(1.f);
 
 	UIButton* back = uiGraph.createUIButton("BACK");
-	back->setArea(sf::FloatRect(25.f, Math::bottomleft(getCameraArea()).y - 60.f, 120.f, 35.f));
+	back->setPosition(sf::Vector2f(25.f, Math::bottomleft(getCameraArea()).y - 60.f));
 	back->onActivate = std::bind(&UIOptions::backToMain, this);
 
 	uiGraph.setSelected(back);

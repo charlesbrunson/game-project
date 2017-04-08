@@ -27,7 +27,8 @@ public:
 	
 	virtual void update(sf::Time deltaTime) {};
 
-	virtual void setArea(sf::FloatRect a);
+	virtual void setArea(sf::FloatRect a) = 0;
+	virtual void setPosition(sf::Vector2f pos) = 0;
 	const sf::FloatRect getArea();
 
 	ActiveState getActiveState();

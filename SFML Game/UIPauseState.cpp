@@ -15,19 +15,17 @@ UIPauseState::UIPauseState(State* prevState) {
 	pauseText.setOutlineColor(sf::Color::Black);
 	pauseText.setOutlineThickness(1.f);
 
-	sf::FloatRect area;
-	area.width = 64.f;
-	area.height = 16.f;
-	area.left = Math::center(getCameraArea()).x - area.width / 2.f;
-	area.top = Math::center(getCameraArea()).y - 16.f - area.height / 2.f;
+	sf::Vector2f pos;
+	pos.x = Math::center(getCameraArea()).x - 64.f / 2.f;
+	pos.y = Math::center(getCameraArea()).y - 16.f - 16.f / 2.f;
 
 	UIButton* t1 = uiGraph.createUIButton("RESUME");
-	t1->setArea(area);
+	t1->setPosition(pos);
 	t1->onActivate = std::bind(&UIPauseState::resume, this);
 
-	area.top += 32.f;
+	pos.y += 32.f;
 	UIButton* t2 = uiGraph.createUIButton("QUIT TO MENU");
-	t2->setArea(area);
+	t2->setPosition(pos);
 	t2->onActivate = std::bind(&UIPauseState::quitToMenu, this);
 
 	t1->connections[Cardinal::SOUTH] = t2;

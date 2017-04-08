@@ -11,13 +11,18 @@ public:
 
 	void setActiveState(ActiveState st);
 
-	void setArea(sf::FloatRect a);
+	//void setArea(sf::FloatRect a);
 
 	void update(sf::Time deltaTime);
 
 	static const sf::Vector2f buttonSize;
 
+	void setPosition(sf::Vector2f pos);
+
 private:
+
+	void setArea(sf::FloatRect a) {};
+
 	static Animation anim_button_notselected;
 	static Animation anim_button_selected;
 	static Animation anim_button_activated;

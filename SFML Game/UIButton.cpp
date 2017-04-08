@@ -69,6 +69,13 @@ void UIButton::setActiveState(ActiveState st) {
 
 }
 
+void UIButton::setPosition(sf::Vector2f pos) {
+	spr.getSprite()->setPosition(pos);
+	bText.setArea(sf::FloatRect(pos.x, pos.y, buttonSize.x, buttonSize.y));
+	//bText.updateText();
+}
+
+/*
 void UIButton::setArea(sf::FloatRect a) {
 	//center button into area
 	sf::Vector2f topLeft = Math::center(a) - buttonSize / 2.f;
@@ -78,9 +85,10 @@ void UIButton::setArea(sf::FloatRect a) {
 	bText.setArea(area);
 	bText.updateText();
 }
-
+*/
 
 void UIButton::update(sf::Time deltaTime) {
+	bText.update(deltaTime);
 	spr.update(deltaTime);
 	spr.updateFrame();
 }

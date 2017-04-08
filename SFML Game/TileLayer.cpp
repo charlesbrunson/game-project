@@ -140,18 +140,22 @@ void TileLayer::update(sf::Time deltaTime, sf::IntRect gridArea, sf::FloatRect d
 sf::Vector2f TileLayer::updateParallax(sf::Vector2f camCenter) {
 	
 	//top left of the camera
-	camCenter = snapToPixel(camCenter);
+	//camCenter = snapToPixel(camCenter);
 	sf::Vector2f camOffset = camCenter - sf::Vector2f((float)GAMEWIDTH / 2.f, (float)GAMEHEIGHT / 2.f);
 
 	sf::Vector2f _offset;
 	_offset.x = camOffset.x * parallax.parallaxRate.x;
 	_offset.y = camOffset.y * parallax.parallaxRate.y;
 
+	/*
 	sf::Vector2f snapped = snapToPixel(_offset);
 
 	sf::FloatRect parallaxArea(0.f, 0.f, (parallax.area.width * tileSpacing) - GAMEWIDTH, (parallax.area.height * tileSpacing) - GAMEHEIGHT);
 	_offset.x = parallaxArea.width > 0.f ? snapped.x : _offset.x;
 	_offset.y = parallaxArea.height > 0.f ? snapped.y : _offset.y;
+	*/
+
+	//_offset = snapToPixel(_offset);
 
 	return _offset;
 }
@@ -213,7 +217,7 @@ void TileLayer::updateSpriteAnimation(sf::Time t, bool isZoneTimer) {
 					}
 				}
 			}
-		}
+	}
 	}
 	else {
 

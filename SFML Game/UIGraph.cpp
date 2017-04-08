@@ -201,10 +201,10 @@ void UIGraph::update(sf::Time deltaTime) {
 	inputPressedLastFrame = Controls::isHeld(Controls::JUMP);
 
 	//update uielements
-	for (auto it = uiStatic.begin(); it != uiStatic.end(); it++)
+	for (auto it = uiInteractive.begin(); it != uiInteractive.end(); it++)
 		(*it)->update(deltaTime);
 
-	for (auto it = uiInteractive.begin(); it != uiInteractive.end(); it++)
+	for (auto it = uiStatic.begin(); it != uiStatic.end(); it++)
 		(*it)->update(deltaTime);
 
 };

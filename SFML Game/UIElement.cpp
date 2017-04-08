@@ -29,9 +29,6 @@ bool UIElement::hasConnections() {
 		|| connections[WEST];
 };
 
-void UIElement::setArea(sf::FloatRect a) { 
-	area = a; 
-};
 const sf::FloatRect UIElement::getArea() { 
 	return area; 
 };

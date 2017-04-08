@@ -221,7 +221,7 @@
       <Filter>Source Files\States\UI\Util</Filter>
     </ClCompile>
     <ClCompile Include="UIOptions.cpp">
-      <Filter>Source Files\States\UI\Util</Filter>
+      <Filter>Source Files\States\UI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

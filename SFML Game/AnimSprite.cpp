@@ -34,28 +34,30 @@ void AnimSprite::update(sf::Time t) {
 	if (activeAnim->numOfFrames > 1 || activeAnim->loop != -1)
 		acc += t;
 
-	while (acc >= activeAnim->frameTimes[currentFrame] && activeAnim->frameTimes[currentFrame] > sf::Time::Zero) {
+	if (activeAnim->frameTimes[currentFrame] > sf::Time::Zero) {
+		while (acc >= activeAnim->frameTimes[currentFrame]) {
 
-		acc -= activeAnim->frameTimes[currentFrame];
+			acc -= activeAnim->frameTimes[currentFrame];
 
-		if (atLastFrame()) {
-			completedCurrentAnim = true;
-			if (activeAnim->loop != 0){
-				loopCount++;
-				currentFrame = 0;
-				if (activeAnim->loop > 0 && loopCount <= activeAnim->loop) {
-					completedCurrentAnim = false;
+			if (atLastFrame()) {
+				completedCurrentAnim = true;
+				if (activeAnim->loop != 0){
+					loopCount++;
+					currentFrame = 0;
+					if (activeAnim->loop > 0 && loopCount <= activeAnim->loop) {
+						completedCurrentAnim = false;
+					}
+				}
+				if (completedCurrentAnim && activeAnim->chainTo != nullptr) {
+
+					currentFrame = activeAnim->chainStartOnFrame;
+					swapAnimation(*activeAnim->chainTo);
+
 				}
 			}
-			if (completedCurrentAnim && activeAnim->chainTo != nullptr) {
-
-				currentFrame = activeAnim->chainStartOnFrame;
-				swapAnimation(*activeAnim->chainTo);
-
+			else {
+				currentFrame++;
 			}
-		}
-		else {
-			currentFrame++;
 		}
 	}
 };

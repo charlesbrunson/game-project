@@ -10,25 +10,33 @@ UIText::UIText() {
 	//delayedActivation = true;
 }
 
+void UIText::update(sf::Time deltaTime) {
+	if (dirtyFlag)
+		updateText();
+}
 
 void UIText::copy(UIText& copy) {
 	styleGuide = copy.styleGuide;
 	str = copy.str;
-	UIElement::setArea(copy.getArea());
+	area = copy.getArea();
 	halign = copy.halign;
 	valign = copy.valign;
 	lines = copy.lines;
+	dirtyFlag = true;
 }
 
 void UIText::copyTextOptions(sf::Text guide) {
 	styleGuide = guide;
+	dirtyFlag = true;
 }
 void UIText::setString(std::string s) {
+	dirtyFlag |= str != s;
 	str = s;
 }
 
 void UIText::setArea(sf::FloatRect a) {
-	UIElement::setArea(a);
+	dirtyFlag |= area != a;
+	area = a;
 }
 
 void UIText::updateText() {
@@ -78,6 +86,7 @@ void UIText::updateText() {
 		t.setPosition(snapToPixel(pos + sf::Vector2f(1.f, -2.f)));
 		vPos += bounds.height;
 	}
+	dirtyFlag = false;
 }
 void UIText::shiftText(sf::Vector2f m) {
 	for (sf::Text& t : lines) {
@@ -92,8 +101,11 @@ void UIText::setTextColor(sf::Color c) {
 }
 
 void UIText::setAlignment(Align h, Align v) {
-	halign = h;
-	valign = v;
+	if (halign != h || valign != v) {
+		halign = h;
+		valign = v;
+		dirtyFlag = true;
+	}
 }
 
 UIText::TextLines* UIText::getText() {

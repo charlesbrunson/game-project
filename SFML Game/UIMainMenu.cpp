@@ -18,13 +18,13 @@ UIMainMenu::UIMainMenu() {
 	text.setOutlineThickness(1.f);
 
 	UIButton* t1 = uiGraph.createUIButton("START");
-	t1->setArea(sf::FloatRect(25.f, 25.f, 120.f, 35.f));
+	t1->setPosition(sf::Vector2f(25.f, 25.f));
 
 	UIButton* t2 = uiGraph.createUIButton("OPTIONS");
-	t2->setArea(sf::FloatRect(25.f, 25.f + 32.f, 120.f, 35.f));
+	t2->setPosition(sf::Vector2f(25.f, 25.f + 32.f));
 
 	UIButton* t3 = uiGraph.createUIButton("QUIT");
-	t3->setArea(sf::FloatRect(25.f, 25.f + 64.f, 120.f, 35.f));
+	t3->setPosition(sf::Vector2f(25.f, 25.f + 64.f));
 
 	t1->connections[Cardinal::SOUTH] = t2;
 	t2->connections[Cardinal::SOUTH] = t3;
