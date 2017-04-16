@@ -21,7 +21,6 @@ public:
 	bool hasConnections();
 	bool capturesDir(Cardinal d);
 
-	std::function<void(void)> onActivate;
 	const bool isInteractive();
 	const bool isActivationDelayed();
 	
@@ -37,6 +36,8 @@ public:
 	virtual void captureDirInput(Cardinal d) {};
 	virtual void captureMouseMove(sf::Vector2f m_pos) {};
 	
+	virtual void activate() {};
+
 protected:
 	
 	sf::FloatRect area;

@@ -18,6 +18,12 @@ UIOptions::UIOptions() {
 	back->setPosition(sf::Vector2f(25.f, Math::bottomleft(getCameraArea()).y - 60.f));
 	back->onActivate = std::bind(&UIOptions::backToMain, this);
 
+	UIToggle* test = uiGraph.createUIToggle();
+	test->setPosition(sf::Vector2f(25.f, Math::bottomleft(getCameraArea()).y - 100.f));
+
+	back->connections[Cardinal::NORTH] = test;
+	test->connections[Cardinal::SOUTH] = back;
+
 	uiGraph.setSelected(back);
 }
 

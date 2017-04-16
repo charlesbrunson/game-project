@@ -223,6 +223,9 @@
     <ClCompile Include="UIOptions.cpp">
       <Filter>Source Files\States\UI</Filter>
     </ClCompile>
+    <ClCompile Include="UIToggle.cpp">
+      <Filter>Source Files\States\UI\Util</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="rapidxml.hpp">
@@ -440,6 +443,9 @@
     </ClInclude>
     <ClInclude Include="UIOptions.hpp">
       <Filter>Source Files\States\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="UIToggle.hpp">
+      <Filter>Source Files\States\UI\Util</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

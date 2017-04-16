@@ -19,6 +19,8 @@ public:
 
 	void setPosition(sf::Vector2f pos);
 
+	void activate() { onActivate(); };
+	std::function<void(void)> onActivate;
 private:
 
 	void setArea(sf::FloatRect a) {};

@@ -74,7 +74,7 @@ void UIElement::draw(sf::RenderTarget &target, sf::RenderStates states) const {
 			sf::RectangleShape line(sf::Vector2f(Math::dist(start, end), 1.f));
 			line.setOrigin(sf::Vector2f(0.f, 0.5f));
 			line.setFillColor(sf::Color::Green);
-			line.setRotation(Math::toDeg(-Math::angle(start, end)));
+			line.setRotation(Math::toDeg(Math::angle(end, start)));
 			line.setPosition(start);
 			target.draw(line, states);
 		}

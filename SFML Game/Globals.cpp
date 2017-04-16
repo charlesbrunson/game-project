@@ -31,7 +31,7 @@ false;
 #endif
 
 
-bool UI_Globals::Debug::UIDebug = false;
-bool UI_Globals::Debug::UIConnectors = false;
+bool UI_Globals::Debug::UIDebug = true;
+bool UI_Globals::Debug::UIConnectors = true;
 
 int Scale::scale = 1;

@@ -12,6 +12,7 @@
 #include "UIElement.hpp"
 #include "UIText.hpp"
 #include "UIButton.hpp"
+#include "UIToggle.hpp"
 
 //incomplete
 
@@ -24,6 +25,7 @@ public:
 
 	UIText* createUIText();
 	UIButton* createUIButton(std::string label = "");
+	UIToggle* createUIToggle();
 
 	void addElement(UIElement* e);
 

@@ -33,6 +33,12 @@ UIButton* UIGraph::createUIButton(std::string label) {
 	return e;
 }
 
+UIToggle* UIGraph::createUIToggle() {
+	UIToggle* e = new UIToggle();
+	addElement(e);
+	return e;
+}
+
 void UIGraph::addElement(UIElement* e) {
 	if (e->isInteractive()) {
 		uiInteractive.push_back(e);
@@ -210,8 +216,8 @@ void UIGraph::update(sf::Time deltaTime) {
 };
 
 void UIGraph::activateElement() {
-	if (sElement && sElement->onActivate) {
-		sElement->onActivate();
+	if (sElement) {
+		sElement->activate();
 	}
 }
 

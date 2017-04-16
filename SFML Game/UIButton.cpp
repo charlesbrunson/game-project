@@ -71,7 +71,10 @@ void UIButton::setActiveState(ActiveState st) {
 
 void UIButton::setPosition(sf::Vector2f pos) {
 	spr.getSprite()->setPosition(pos);
-	bText.setArea(sf::FloatRect(pos.x, pos.y, buttonSize.x, buttonSize.y));
+	//bText.setArea(sf::FloatRect(pos.x, pos.y, buttonSize.x, buttonSize.y));
+
+	area = sf::FloatRect(pos.x, pos.y, buttonSize.x, buttonSize.y);
+	bText.setArea(area);
 	//bText.updateText();
 }
 

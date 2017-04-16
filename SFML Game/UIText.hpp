@@ -37,8 +37,10 @@ public:
 	void shiftText(sf::Vector2f m);
 	void setTextColor(sf::Color c);
 
-	//not implemented yet
-	//void appendText(std::string);
+	// not implemented yet
+	// will be for adding to text without having to fully recomposite
+	// void appendText(std::string);
+
 protected:
 
 	void updateText();
