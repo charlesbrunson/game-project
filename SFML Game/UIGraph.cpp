@@ -39,6 +39,12 @@ UIToggle* UIGraph::createUIToggle() {
 	return e;
 }
 
+UISlider* UIGraph::createUISlider(int min, int max, int step) {
+	UISlider* e = new UISlider(min, max, step);
+	addElement(e);
+	return e;
+}
+
 void UIGraph::addElement(UIElement* e) {
 	if (e->isInteractive()) {
 		uiInteractive.push_back(e);
@@ -94,6 +100,11 @@ void UIGraph::update(sf::Time deltaTime) {
 				changeSelection(nullptr);
 			}
 		}
+		else if (lastPressed && lastPressed->canCaptureMouse() && Controls::mouseInWindow
+			&& lastPressed->getArea().contains(Controls::mouseActive.position)) {
+
+			lastPressed->captureMouseMove(Controls::mousePosition);
+		}
 	}
 	//mouse button changed in state, update selection
 	if (Controls::mouseActive.input.active != mousePressedLastFrame 
@@ -107,6 +118,7 @@ void UIGraph::update(sf::Time deltaTime) {
 			&& sElement && sElement->isActivationDelayed()) {
 
 			activateElement();
+			lastPressed = nullptr;
 		}
 	}
 
@@ -130,7 +142,7 @@ void UIGraph::update(sf::Time deltaTime) {
 				Controls::JumpActive.confirmed = false;
 				Controls::confirmPress(input);
 
-				if (!ui->sElement->capturesDir(dir)) {
+				if (!ui->sElement->canCaptureDir(dir)) {
 					if (ui->sElement->connections[dir]) {
 						ui->changeSelection(ui->sElement->connections[dir]);
 					}
@@ -156,8 +168,14 @@ void UIGraph::update(sf::Time deltaTime) {
 		if (Controls::isMousePressed() && sElement->getArea().contains(Controls::mouseActive.position)) {
 			Controls::confirmedMousePress();
 
-			if (!sElement->isActivationDelayed()) 
+			if (!sElement->isActivationDelayed()) {
 				activateElement();
+			}
+			else {
+				lastPressed = sElement;
+				if (lastPressed->canCaptureMouse())
+					lastPressed->captureMouseMove(Controls::mousePosition);
+			}
 
 			sElement->setActiveState(UIElement::ActiveState::ACTIVATED);
 		}

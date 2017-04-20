@@ -18,7 +18,7 @@ Animation UIButton::anim_button_activated(
 	1, sf::Time::Zero);
 
 UIButton::UIButton(std::string buttonLabel) {
-	spr.getSprite()->setTexture(RL()->getTexture("button.png"));
+	spr.getSprite()->setTexture(RL()->getTexture("ui.png"));
 	spr.setAnimation(anim_button_notselected);
 
 	interactive = true;

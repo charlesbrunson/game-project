@@ -47,7 +47,9 @@ public:
 	};
 	struct MouseInput {
 		GameInput input;
-		// game world coordinates
+
+		// Where mouse press _STARTED_ in game world coordinates
+		// use Controls::mousePosition to track mouse movement instead
 		sf::Vector2f position;
 	};
 

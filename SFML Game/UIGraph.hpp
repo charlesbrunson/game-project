@@ -13,6 +13,7 @@
 #include "UIText.hpp"
 #include "UIButton.hpp"
 #include "UIToggle.hpp"
+#include "UISlider.hpp"
 
 //incomplete
 
@@ -26,6 +27,7 @@ public:
 	UIText* createUIText();
 	UIButton* createUIButton(std::string label = "");
 	UIToggle* createUIToggle();
+	UISlider* createUISlider(int min, int max, int step);
 
 	void addElement(UIElement* e);
 

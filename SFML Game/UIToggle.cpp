@@ -36,8 +36,6 @@ void UIToggle::draw(sf::RenderTarget &target, sf::RenderStates states) const {
 
 }
 
-
-
 /*
 void captureDirInput(Cardinal d) {
 

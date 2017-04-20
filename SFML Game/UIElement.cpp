@@ -13,8 +13,11 @@ UIElement::UIElement() {
 	capturesInput[WEST] = false;
 };
 
-bool UIElement::capturesDir(Cardinal d) {
+bool UIElement::canCaptureDir(Cardinal d) {
 	return capturesInput[d]; 
+};
+bool UIElement::canCaptureMouse() {
+	return capturesMouse;
 };
 const bool UIElement::isInteractive() {
 	return interactive; 

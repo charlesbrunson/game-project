@@ -254,6 +254,7 @@
     <ClCompile Include="UIMainMenu.cpp" />
     <ClCompile Include="UIOptions.cpp" />
     <ClCompile Include="UIPauseState.cpp" />
+    <ClCompile Include="UISlider.cpp" />
     <ClCompile Include="UIText.cpp" />
     <ClCompile Include="UIToggle.cpp" />
     <ClCompile Include="Zone.cpp" />
@@ -309,6 +310,7 @@
     <ClInclude Include="UIPauseState.hpp" />
     <ClInclude Include="UIGraph.hpp" />
     <ClInclude Include="Math.hpp" />
+    <ClInclude Include="UISlider.hpp" />
     <ClInclude Include="UIText.hpp" />
     <ClInclude Include="UIToggle.hpp" />
     <ClInclude Include="Zone.hpp" />

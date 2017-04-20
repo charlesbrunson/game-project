@@ -19,7 +19,8 @@ public:
 
 	UIElement* connections[Cardinal::DIR_COUNT];
 	bool hasConnections();
-	bool capturesDir(Cardinal d);
+	bool canCaptureDir(Cardinal d);
+	bool canCaptureMouse();
 
 	const bool isInteractive();
 	const bool isActivationDelayed();
