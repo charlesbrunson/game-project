@@ -12,12 +12,11 @@ obj/%.o: src/%.cpp
 	$(CXX) $(CFLAG) -c $< -o $@
 
 bin/sfml-game: $(OBJ)
-	rm -f bin/*
 	mkdir -p bin/data/
 	cp -r -u src/data/ bin/
 	$(CXX) -pthread $^ -o $@ $(LIB)
 
 .PHONY : clean
 clean :
-	rm -f obj/*.o
-	rm -f sfml-game
+	rm -f -r bin/
+	rm -f -r obj/
