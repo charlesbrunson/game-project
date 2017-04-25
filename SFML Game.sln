@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
 VisualStudioVersion = 12.0.21005.1
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SFML Game", "SFML Game\SFML Game.vcxproj", "{457EAABE-3CE1-4DD0-B2AB-837B3FA60E74}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{CAD271CA-BB5A-4864-8D57-57378A894388}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SFML Game", "src\SFML Game.vcxproj", "{457EAABE-3CE1-4DD0-B2AB-837B3FA60E74}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,11 +21,13 @@ Global
 		{457EAABE-3CE1-4DD0-B2AB-837B3FA60E74}.Debug|x64.Build.0 = Debug|x64
 		{457EAABE-3CE1-4DD0-B2AB-837B3FA60E74}.Release|Win32.ActiveCfg = Release|Win32
 		{457EAABE-3CE1-4DD0-B2AB-837B3FA60E74}.Release|Win32.Build.0 = Release|Win32
-		{457EAABE-3CE1-4DD0-B2AB-837B3FA60E74}.Release|Win32.Deploy.0 = Release|Win32
 		{457EAABE-3CE1-4DD0-B2AB-837B3FA60E74}.Release|x64.ActiveCfg = Release|x64
 		{457EAABE-3CE1-4DD0-B2AB-837B3FA60E74}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{457EAABE-3CE1-4DD0-B2AB-837B3FA60E74} = {CAD271CA-BB5A-4864-8D57-57378A894388}
 	EndGlobalSection
 EndGlobal
