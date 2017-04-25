@@ -45,7 +45,7 @@ void TileLayer::update(sf::Time deltaTime, sf::IntRect gridArea, sf::FloatRect d
 		sf::IntRect totalEffectedArea;
 
 		sf::IntRect intersection;
-		bool intersects = gridArea.intersects(lastFrameGridArea, intersection);
+		//bool intersects = gridArea.intersects(lastFrameGridArea, intersection);
 		
 		if (drawAll) {
 			totalEffectedArea = gridArea;
@@ -94,7 +94,7 @@ void TileLayer::update(sf::Time deltaTime, sf::IntRect gridArea, sf::FloatRect d
 				}
 				
 				inCurrent = gridArea.contains(position);
-				bool hasTile = tiles.find(wrapPos) != tiles.end();
+				//bool hasTile = tiles.find(wrapPos) != tiles.end();
 
 				if (inPrev == inCurrent) {
 					continue;
@@ -163,7 +163,7 @@ sf::Vector2f TileLayer::updateParallax(sf::Vector2f camCenter) {
 void TileLayer::updateScroll(sf::Time t, sf::FloatRect area, bool isZoneTimer) {
 
 	//sf::Vector2f snappedOffset;
-	sf::Vector2f lastOffset = parallax.scrollOffset;
+	//sf::Vector2f lastOffset = parallax.scrollOffset;
 
 	if (!isZoneTimer) {
 		parallax.scrollOffset += parallax.scrollSpeed * t.asSeconds();

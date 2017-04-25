@@ -51,7 +51,7 @@ public:
 
 	bool toDelete = false;
 
-	const bool isCollidable() { return hasCollidable; };
+	bool isCollidable() { return hasCollidable; };
 
 	int drawPriority = -1;
 	bool drawUnderBackground() {

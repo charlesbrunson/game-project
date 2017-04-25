@@ -47,9 +47,9 @@ int PlayerAirState::update(sf::Time deltaTime) {
 	
 	if (move != 0) {
 		
-		startVelX = std::min(abs(plr->vel().x), startVelX);
+		startVelX = std::min<float>(abs(plr->vel().x), startVelX);
 
-		float maxV = std::max(abs(startVelX), 75.f);
+		float maxV = std::max<float>(abs(startVelX), 75.f);
 
 		plr->setVelX(plr->vel().x + std::min(aircontrolAcc * 8.f, 600.f) * (move > 0 ? 1.f : -1.f) * deltaTime.asSeconds());
 		plr->setVelX(std::max(std::min(maxV, plr->vel().x), -maxV));
@@ -80,7 +80,7 @@ int PlayerAirState::update(sf::Time deltaTime) {
 
 	if (plr->collisionUp) {
 
-		if (endVelY > 100.f && (move == 0 || move > 0 != plr->vel().x > 0) && abs(plr->vel().x) <= runspeedMax) {
+		if (endVelY > 100.f && (move == 0 || (move > 0 != plr->vel().x > 0)) && abs(plr->vel().x) <= runspeedMax) {
 			plr->getAnimSprite().setAnimation(plr->anim_land);
 			plr->setVelX(0.f);
 

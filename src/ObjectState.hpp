@@ -6,6 +6,9 @@
 // Abstraction for gameobject state machines
 class ObjectState {
 public:
+
+	virtual ~ObjectState() = default;
+
 	virtual void enter() {};
 	virtual void exit() {};
 

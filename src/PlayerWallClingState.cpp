@@ -69,7 +69,7 @@ int PlayerWallClingState::update(sf::Time deltaTime) {
 		}
 
 		//pushing towards wall, try ledge grabbing
-		if (move != 0 && move < 0 == (side == LEFT)) {
+		if (move != 0 && (move < 0) == (side == LEFT)) {
 			PlayerLedgeState::LedgeGrab ledge =
 				PlayerLedgeState::canLedgeGrab(plr, side == LEFT ? PlayerLedgeState::LedgeGrab::Side::LEFT : PlayerLedgeState::LedgeGrab::Side::RIGHT, deltaTime, 5.f, true);
 			

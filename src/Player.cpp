@@ -99,14 +99,14 @@ Player::~Player() {
 
 ObjectState *Player::getObjectState(Player::PlayerState state) {
 	switch (state) {
-	case PlayerState::GROUND:	return groundState;
-	case PlayerState::CROUCH:	return crouchState;
-	case PlayerState::AIR:		return airState;
-	case PlayerState::DASH:		return dashState;
+	case PlayerState::GROUND:   return groundState;
+	case PlayerState::CROUCH:   return crouchState;
+	case PlayerState::AIR:      return airState;
+	case PlayerState::DASH:     return dashState;
 	case PlayerState::WALLCLING:return wallClingState;
-	case PlayerState::WALLJUMP:	return wallJumpState;
+	case PlayerState::WALLJUMP: return wallJumpState;
 	case PlayerState::BOOSTJUMP:return boostJumpState;
-	case PlayerState::LEDGE:	return ledgeState;
+	case PlayerState::LEDGE:    return ledgeState;
 	}
 	return nullptr;
 }
@@ -221,10 +221,12 @@ void Player::setInput(PlayerInput i, bool set) {
 }
 
 void Player::updateInput(sf::Time deltaTime) {
+	/*
 	bool controller = false;
 	if (sf::Joystick::isConnected(0)) {
 		controller = true;
 	}
+	*/
 
 	if (inputEnabled) {
 

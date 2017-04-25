@@ -263,6 +263,7 @@ void Game::applySettings() {
 			case SettingsField::CONTROLS_DASH: Controls::SprintK = k; break;
 			case SettingsField::CONTROLS_SELECT: Controls::SelectK = k; break;
 			case SettingsField::CONTROLS_START: Controls::StartK = k; break;
+			default: break;
 			}
 		}
 	}
@@ -282,6 +283,7 @@ void Game::applySettings() {
 			case SettingsField::JOYSTICK_DASH: Controls::SprintJ = j; break;
 			case SettingsField::JOYSTICK_SELECT: Controls::SelectJ = j; break;
 			case SettingsField::JOYSTICK_START: Controls::StartJ = j; break;
+			default: break;
 			}
 		}
 	}

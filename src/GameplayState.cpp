@@ -288,6 +288,7 @@ void GameplayState::readAlerts() {
 			toNextState = true;
 			break;
 		*/
+		default: break;
 		}
 	}
 }

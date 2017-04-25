@@ -105,11 +105,11 @@ Animation *AnimSprite::getActiveAnimation() {
 	return activeAnim;
 };
 
-const int AnimSprite::getLoopCount() {
+int AnimSprite::getLoopCount() {
 	return loopCount;
 }
 
-const float AnimSprite::getAnimProgress() {
+float AnimSprite::getAnimProgress() {
 	//float frame = 1.f / (activeAnim->numOfFrames);
 	//float p = (frame * currentFrame) + ((acc.asSeconds() / activeAnim->frameTimes[currentFrame].asSeconds()) * frame);
 

@@ -108,7 +108,7 @@ public:
 
 	void setGodMode(bool set) {	godMode = set; }
 	
-	const int getState() { return playerState; }
+	int getState() { return playerState; }
 	
 	const sf::Vector2f collisionStanding = sf::Vector2f(10.f, 30.f);
 	const sf::Vector2f collisionCrouched = sf::Vector2f(10.f, 16.f);

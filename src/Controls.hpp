@@ -136,6 +136,7 @@ public:
 				r.push_back(i);
 			}
 		}
+		return r;
 	}
 
 	//mouse input

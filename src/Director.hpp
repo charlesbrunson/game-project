@@ -10,6 +10,8 @@
 class Director {
 public:
 	Director(Zone *z, ObjectManager *o, GameCamera *c);
+	virtual ~Director() = default;
+
 	void update(sf::Time deltaTime, bool gamePaused = false);
 
 	// Director action to be implemented

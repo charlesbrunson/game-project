@@ -56,9 +56,9 @@ public:
 	
 	Animation *getActiveAnimation();
 
-	const int getLoopCount();
+	int getLoopCount();
 
-	const float getAnimProgress();
+	float getAnimProgress();
 
 	const sf::Time getAnimationLength(int frames = -1);
 

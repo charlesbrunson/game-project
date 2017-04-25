@@ -425,7 +425,7 @@ void ObjectManager::doCollidableCollision(Collidable *collidable, GameObject *ob
 	//adaptation of regular collision algorithm
 	
 	sf::FloatRect c = obj->getCollision();
-	sf::FloatRect oldC = obj->getPrevFrameCollision();
+	//sf::FloatRect oldC = obj->getPrevFrameCollision();
 	sf::Vector2f v = obj->getVelocity() - collidable->getParent()->getVelocity();
 	
 	std::vector<Collidable::Collider> *upCol = collidable->getColliders(Collidable::UP);
@@ -575,7 +575,7 @@ void ObjectManager::resolveCollisions(GameObject *obj, std::vector<Collision> *c
 	);
 
 	//resolve in order, double check they still apply
-	const Collision* col;
+	//const Collision* col;
 	int side;
 
 	for (const Collision& col : *collisions) {

@@ -103,12 +103,14 @@ void UISlider::setPosition(sf::Vector2f pos) {
 
 void UISlider::captureDirInput(Cardinal d) {
 
-	if (d == Cardinal::EAST) { 
-		curIndex = std::min(++curIndex, rangeCount); 
+	if (d == Cardinal::EAST) {
+		curIndex++;
+		curIndex = std::min(curIndex, rangeCount); 
 		trackDir = EAST;
 	}
-	else if (d == Cardinal::WEST) { 
-		curIndex = std::max(--curIndex, 0);
+	else if (d == Cardinal::WEST) {
+		curIndex--;
+		curIndex = std::max(curIndex, 0);
 		trackDir = WEST;
 	}
 
@@ -128,7 +130,7 @@ void UISlider::captureMouseMove(sf::Vector2f m_pos) {
 	float space = sliderSize.x / rangeCount;
 	p.x /= space;
 
-	moveCursor( (int)std::ceilf(p.x - 0.5f) );
+	moveCursor( (int)ceilf(p.x - 0.5f) );
 }
 
 void UISlider::moveCursor(int p) {

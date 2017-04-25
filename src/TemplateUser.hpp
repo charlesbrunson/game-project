@@ -33,7 +33,7 @@ protected:
 		templateName = name;
 	}
 
-	const bool hasTemplate() {
+	bool hasTemplate() {
 		return initialized;
 	}
 

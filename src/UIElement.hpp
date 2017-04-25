@@ -22,8 +22,8 @@ public:
 	bool canCaptureDir(Cardinal d);
 	bool canCaptureMouse();
 
-	const bool isInteractive();
-	const bool isActivationDelayed();
+	bool isInteractive();
+	bool isActivationDelayed();
 	
 	virtual void update(sf::Time deltaTime) {};
 

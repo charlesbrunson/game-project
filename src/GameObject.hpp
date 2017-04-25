@@ -45,7 +45,7 @@ public:
 
 	virtual objNode &getObjectNode() { return node; };
 
-	inline const bool getGrounded(){ return onGround; };
+	inline bool getGrounded(){ return onGround; };
 	void setGrounded(bool i){ onGround = i; };
 	
 	// Collision
@@ -94,7 +94,7 @@ public:
 	void createSound(std::string soundFile);
 
 	inline const sf::FloatRect getPrevFrameCollision() { return oldBox; };
-	inline const bool isDroppingThroughFloor() { return droppingThroughFloor; };
+	inline bool isDroppingThroughFloor() { return droppingThroughFloor; };
 
 	inline bool isAttackable() { return attackable; };
 	inline bool isPlayerAttackableOnly() { return playerAttackOnly; };

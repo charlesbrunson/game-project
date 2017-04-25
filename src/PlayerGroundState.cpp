@@ -74,7 +74,7 @@ void PlayerGroundState::enter() {
 
 	}
 
-	tempMaxSpeed = std::max(abs(plr->vel().x), runspeedMax);
+	tempMaxSpeed = std::max<float>(abs(plr->vel().x), runspeedMax);
 }
 void PlayerGroundState::exit()	{
 
@@ -85,14 +85,14 @@ void PlayerGroundState::exit()	{
 int PlayerGroundState::update(sf::Time deltaTime) {
 	int move = plr->getMoveDir();
 	
-	tempMaxSpeed = std::max(abs(plr->vel().x), runspeedMax);
+	tempMaxSpeed = std::max<float>(abs(plr->vel().x), runspeedMax);
 	if (!plr->isHeld(Player::PlayerInput::SPRINT))
 		tempMaxSpeed = std::max(runspeedMax, tempMaxSpeed - runspeedAcc * deltaTime.asSeconds());
 
-	if (move != 0 && move < 0 != plr->getAnimSprite().getHFlip() && move > 0 == plr->vel().x > 0)
+	if (move != 0 && (move < 0) != plr->getAnimSprite().getHFlip() && (move > 0) == (plr->vel().x > 0))
 		plr->getAnimSprite().setHFlip(move < 0);
 
-	if (move != 0 && (plr->vel().x == 0 || (move > 0 == plr->vel().x > 0))) {
+	if (move != 0 && (plr->vel().x == 0 || ((move > 0) == (plr->vel().x > 0)))) {
 
 		if (abs(plr->vel().x) <= runspeedStart) {
 			plr->setVelX(runspeedStart * (move > 0 ? 1 : -1));
@@ -107,7 +107,7 @@ int PlayerGroundState::update(sf::Time deltaTime) {
 	}
 	else {
 		//implement braking
-		if (abs(plr->vel().x) <= runspeedStart || plr->getAnimSprite().getHFlip() == plr->vel().x > 0) {
+		if ((abs(plr->vel().x) <= runspeedStart) || (plr->getAnimSprite().getHFlip() == plr->vel().x > 0)) {
 			plr->setVelX(0.f);
 			isBraking = false;
 		}

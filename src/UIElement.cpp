@@ -19,10 +19,10 @@ bool UIElement::canCaptureDir(Cardinal d) {
 bool UIElement::canCaptureMouse() {
 	return capturesMouse;
 };
-const bool UIElement::isInteractive() {
+bool UIElement::isInteractive() {
 	return interactive; 
 };
-const bool UIElement::isActivationDelayed() {
+bool UIElement::isActivationDelayed() {
 	return delayedActivation;
 }
 bool UIElement::hasConnections() {

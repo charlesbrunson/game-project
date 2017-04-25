@@ -54,7 +54,7 @@ void Enemy::tryWake() {
 	activeArea.height = (float)GAMEHEIGHT + (2 * (float)spawnMargin);
 
 	bool containsActive = activeArea.intersects(collisionBox);
-	bool containsCam = isVisible();
+	//bool containsCam = isVisible();
 	
 	if (asleep && !onScreen && containsActive) {
 		spawn();

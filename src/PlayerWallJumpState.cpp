@@ -83,7 +83,7 @@ int PlayerWallJumpState::update(sf::Time deltaTime) {
 }
 
 void PlayerWallJumpState::updateAnimation(sf::Time deltaTime) {
-	int move = plr->getMoveDir();
+	//int move = plr->getMoveDir();
 
 	if (plr->getAnimSprite().isPlaying(plr->anim_walljump)) {
 
