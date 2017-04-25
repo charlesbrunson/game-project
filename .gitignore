@@ -18,7 +18,6 @@ build/
 # Game Files
 SFML/
 SFML64/
-src/data/
 src/settings.txt
 *.pck
 
