@@ -209,6 +209,7 @@
     <ClCompile Include="Math.cpp" />
     <ClCompile Include="MusicPlayer.cpp" />
     <ClCompile Include="ObjectManager.cpp" />
+    <ClCompile Include="PixelSnap.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="PlayerAirState.cpp" />
     <ClCompile Include="PlayerBoostJumpState.cpp" />

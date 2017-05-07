@@ -23,7 +23,7 @@ public:
 		int animFrameCount = 0;
 	};
 
-	static TileData getTileData(std::string sheet, GridVector tilePos);
+	static const TileData& getTileData(std::string sheet, GridVector tilePos);
 
 	static void initTileData();
 

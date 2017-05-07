@@ -1,37 +1,31 @@
 #include "TileProperty.hpp"
-#include "Log.hpp"
-
-#include <fstream>
-#include <string>
-#include <assert.h>
 
 #include "json.h"
 
+#include "Log.hpp"
+
+//#include <fstream>
+//#include <string>
+#include <assert.h>
 
 std::map<std::string, std::map<GridVector, TileProperty::TileData>> TileProperty::tileDataMap;
 
-//ResourceLoader *TileProperty::resLoader = nullptr;
-
-TileProperty::TileData TileProperty::getTileData(std::string sheet, GridVector tilePos) {
-	//if (resLoader != nullptr && resLoader->getTexture(sheet) != nullptr && resLoader->isTextureTileset(sheet)) {
-		auto i = tileDataMap.find(sheet);
-		if (i != tileDataMap.end()) {
-			auto j = i->second.find(tilePos);
-			if (j != i->second.end()) {
-				return j->second;
-			}
+const TileProperty::TileData& TileProperty::getTileData(std::string sheet, GridVector tilePos) {
+	auto i = tileDataMap.find(sheet);
+	if (i != tileDataMap.end()) {
+		auto j = i->second.find(tilePos);
+		if (j != i->second.end()) {
+			return j->second;
 		}
-	//}
+	}
 
 	return TileData();
 };
-
 
 void TileProperty::initTileData() {
 	//TileProperty::resLoader = rm;
 
 	std::vector<std::string> tilesetNames;
-
 
 	Log::msg("Loading tileset data");
 
@@ -52,7 +46,6 @@ void TileProperty::initTileData() {
 				tilesetNames.push_back(i->asString());
 			}
 		}
-
 	}
 	iReader.close();
 
