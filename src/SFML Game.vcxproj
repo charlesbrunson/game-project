@@ -224,6 +224,7 @@
     <ClCompile Include="CamRef.cpp" />
     <ClCompile Include="ResourceLoader.cpp" />
     <ClInclude Include="Animation.hpp" />
+    <ClInclude Include="GameFile.hpp" />
     <ClInclude Include="GameSettings.hpp" />
     <ClInclude Include="GLog.hpp" />
     <ClInclude Include="Log.hpp" />
@@ -243,7 +244,9 @@
     <ClInclude Include="PlayerState.hpp" />
     <ClInclude Include="PlayerWallClingState.hpp" />
     <ClInclude Include="PlayerWallJumpState.hpp" />
+    <ClCompile Include="TextureFile.cpp" />
     <ClCompile Include="TestObject.cpp" />
+    <ClCompile Include="TextureFile.hpp" />
     <ClCompile Include="TileLayer.cpp" />
     <ClCompile Include="TileProperty.cpp" />
     <ClCompile Include="TransitionHorizontalState.cpp" />

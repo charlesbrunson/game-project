@@ -232,6 +232,12 @@
     <ClCompile Include="PixelSnap.cpp">
       <Filter>Source Files\Util</Filter>
     </ClCompile>
+    <ClCompile Include="TextureFile.hpp">
+      <Filter>Source Files\Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="TextureFile.cpp">
+      <Filter>Source Files\Resources</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="rapidxml.hpp">
@@ -455,6 +461,9 @@
     </ClInclude>
     <ClInclude Include="UISlider.hpp">
       <Filter>Source Files\States\UI\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="GameFile.hpp">
+      <Filter>Source Files\Resources</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

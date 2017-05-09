@@ -37,6 +37,7 @@ public:
 	int loop = -1;
 
 	//animation chains will automatically swap animations once this animation is complete
+	std::string chainToName = "";
 	Animation *chainTo = nullptr;
 	int chainStartOnFrame = 0;
 

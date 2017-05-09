@@ -53,7 +53,7 @@ void TileProperty::initTileData() {
 	std::ifstream propReader;
 	for (auto tileset = tilesetNames.begin(); tileset != tilesetNames.end(); tileset++) {
 
-		std::string tilesetDataPath = "data/tilesets/" + *tileset + ".txt";
+		std::string tilesetDataPath = "data/tilesets/" + *tileset + ".tile";
 
 		propReader.open(tilesetDataPath);
 		if (propReader.is_open()) {

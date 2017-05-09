@@ -27,6 +27,10 @@ public:
 
 	static void initTileData();
 
+	static void addTileMap(std::string texName, const std::map<GridVector, TileData>& data) {
+		tileDataMap[texName] = data;
+	}
+
 private:
 	static std::map<std::string, std::map<GridVector, TileData>> tileDataMap;
 	//static ResourceLoader *resLoader;
