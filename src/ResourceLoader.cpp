@@ -187,7 +187,7 @@ void ResourceLoader::writeToPack() {
 							LevelLoader::compileTMXFile(tmxFile);
 						}
 					}
-
+					
 
 					// Determine filesize
 					int fileSize = 0;

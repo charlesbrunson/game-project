@@ -18,15 +18,8 @@ class ResourceLoader {
 
 	static ResourceLoader resourceLoader;
 
-	// Constructor
-	ResourceLoader() {
-		//loadResources();
-	};
-
-	// Destructors, deallocates all resources
-	~ResourceLoader() {
-		//dumpResources();
-	};
+	ResourceLoader() = default;
+	~ResourceLoader() = default;
 
 public:
 
@@ -56,37 +49,21 @@ public:
 		bool valid = false;
 	};
 
-	/*
-	// Constructor
-	ResourceLoader() {
-		loadResources();
-	};
-
-	// Destructors, deallocates all resources
-	~ResourceLoader() {
-		dumpResources();
-	};
-	*/
-
 	// Allocating and Deallocating resources
 	bool loadResources();
 	void dumpResources();
 
 	// Texture retrieval
-	//sf::Texture* getTexture(std::string filename);
 	const sf::Texture& getTexture(std::string filename);
 	bool isTextureTileset(std::string filename);
 
 	// Sound buffer retrieval
-	//sf::SoundBuffer* getSoundBuffer(std::string filename);
 	const sf::SoundBuffer& getSoundBuffer(std::string filename);
 
 	// Font retrieval
-	//sf::Font* getFont(std::string filename);
 	const sf::Font& getFont(std::string filename);
 
 	// Shader retrieval
-	//sf::Shader* getShader(std::string filename);
 	sf::Shader* getShader(std::string filename);
 
 	// Determines optimal texture size, in powers of 2 (ie, 16x16, 32x32, etc)
