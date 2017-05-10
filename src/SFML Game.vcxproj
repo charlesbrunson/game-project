@@ -187,6 +187,8 @@
     <ClCompile Include="Collidable.cpp" />
     <ClCompile Include="Controls.cpp" />
     <ClCompile Include="Director.cpp" />
+    <ClCompile Include="FileStream.cpp" />
+    <ClCompile Include="GameFile.cpp" />
     <ClCompile Include="GameSettings.cpp" />
     <ClCompile Include="Effect.cpp" />
     <ClCompile Include="Enemy.cpp" />
@@ -224,6 +226,7 @@
     <ClCompile Include="CamRef.cpp" />
     <ClCompile Include="ResourceLoader.cpp" />
     <ClInclude Include="Animation.hpp" />
+    <ClInclude Include="FileStream.hpp" />
     <ClInclude Include="GameFile.hpp" />
     <ClInclude Include="GameSettings.hpp" />
     <ClInclude Include="GLog.hpp" />

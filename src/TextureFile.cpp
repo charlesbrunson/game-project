@@ -6,7 +6,18 @@
 #include "Log.hpp"
 #include "json.h"
 
+#include "StandardSize.hpp"
+
 #include <assert.h>
+#include <array>
+
+const sf::Texture& TextureFile::get() {
+	return tex;
+};
+const Animation* TextureFile::getAnimation(std::string animName) {
+	auto f = animations.find(animName);
+	return f != animations.end() ? &f->second : nullptr;
+};
 
 bool TextureFile::in_loadFromFile(std::string path) {
 	std::ifstream reader;
@@ -17,7 +28,6 @@ bool TextureFile::in_loadFromFile(std::string path) {
 		reader.open(path + ".anim");
 		if (reader.is_open()) {
 
-			//TODO
 			Json::Value root;
 			reader >> root;
 
@@ -175,14 +185,123 @@ bool TextureFile::in_loadFromFile(std::string path) {
 	return false;
 }
 
-bool TextureFile::in_loadFromStream(std::ifstream& str) {
+bool TextureFile::in_loadFromStream(FileStream* str) {
 
+	if (tex.loadFromStream(*str)) {
+		animations.clear();
 
+		//load remaining data (animations)
+		int animCount;
+		str->read(&animCount, StdSizes::intSize);
+		for (int i = 0; i < animCount; i++) {
+
+			std::pair<std::string, Animation> a;
+
+			//name
+			int animNameSize;
+			str->read(&animNameSize, StdSizes::intSize);
+			char c;
+			for (int j = 0; j < animNameSize; j++) {
+				str->read(&c, StdSizes::charSize);
+				a.first += c;
+			}
+
+			//area
+			str->read(&a.second.area.left, StdSizes::intSize);
+			str->read(&a.second.area.top, StdSizes::intSize);
+			str->read(&a.second.area.width, StdSizes::intSize);
+			str->read(&a.second.area.height, StdSizes::intSize);
+
+			//origin
+			str->read(&a.second.origin.x, StdSizes::floatSize);
+			str->read(&a.second.origin.y, StdSizes::floatSize);
+
+			//frames
+			int frameCount;
+			str->read(&frameCount, StdSizes::intSize);
+			for (int j = 0; j < frameCount; j++) {
+				float t;
+				str->read(&t, StdSizes::floatSize);
+				a.second.frameTimes.push_back(sf::seconds(t));
+			}
+
+			//loop
+			str->read(&a.second.loop, StdSizes::floatSize);
+
+			//chain name
+			int chainNameSize;
+			str->read(&chainNameSize, StdSizes::intSize);
+			char c;
+			for (int j = 0; j < chainNameSize; j++) {
+				str->read(&c, StdSizes::charSize);
+				a.second.chainToName += c;
+			}
+
+			//chain start frame
+			str->read(&a.second.chainStartOnFrame, StdSizes::intSize);
+
+			animations.insert(a);
+		}
+	}
 	return false;
 }
 
 void TextureFile::convertToData() {
+	delete[] data;
+	
+	std::ostringstream out;
 
+	// copy file to stream
+	std::ifstream file(filePath);
+	if (file) {
+		std::stringstream buffer;
+		out << file.rdbuf();
+		file.close();
+	}
+	// use image.loadFromImage on retrieval
+	
+	// write animations
+	int animCount = animations.size();
+	out.write((char*)&animCount, StdSizes::intSize);
+	for (const auto& a : animations) {
 
+		//name
+		int animNameSize = a.first.size();
+		out.write((char*)&animNameSize, StdSizes::intSize);
+		for (const char& c : a.first) {
+			out.write((char*)&c, StdSizes::charSize);
+		}
 
+		//area
+		out.write((char*)&a.second.area.left, StdSizes::intSize);
+		out.write((char*)&a.second.area.top, StdSizes::intSize);
+		out.write((char*)&a.second.area.width, StdSizes::intSize);
+		out.write((char*)&a.second.area.height, StdSizes::intSize);
+
+		//origin
+		out.write((char*)&a.second.origin.x, StdSizes::floatSize);
+		out.write((char*)&a.second.origin.y, StdSizes::floatSize);
+
+		//frames
+		int frameCount = a.second.frameTimes.size();
+		out.write((char*)&frameCount, StdSizes::intSize);
+		for (int i = 0; i < frameCount; i++) {
+			float t = a.second.frameTimes.at(i).asSeconds();
+			out.write((char*)&t, StdSizes::floatSize);
+		}
+
+		//loop
+		out.write((char*)&a.second.loop, StdSizes::floatSize);
+
+		//chain name
+		int chainSize = a.second.chainToName.size();
+		out.write((char*)&chainSize, StdSizes::intSize);
+		for (const char& c : a.second.chainToName) {
+			out.write((char*)&c, StdSizes::charSize);
+		}
+		//chain start frame
+		out.write((char*)&a.second.chainStartOnFrame, StdSizes::intSize);
+	}
+
+	// dont need to write tileproperty
 }

@@ -7,17 +7,14 @@
 class TextureFile : public GameFile {
 public:
 
-	const sf::Texture& get() { 
-		return tex; 
-	};
-	const Animation* getAnimation(std::string animName) { 
-		auto f = animations.find(animName);
-		return f != animations.end() ? &f->second : nullptr;
-	};
+	explicit TextureFile(std::string path, FileStream* str = nullptr) : GameFile(path, str) {};
+
+	const sf::Texture& get();
+	const Animation* getAnimation(std::string animName);
 
 private:
 	bool in_loadFromFile(std::string path);
-	bool in_loadFromStream(std::ifstream& str);
+	bool in_loadFromStream(FileStream* str);
 	void convertToData();
 
 	sf::Texture tex;

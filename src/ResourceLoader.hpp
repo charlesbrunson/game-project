@@ -12,6 +12,8 @@
 #include <fstream>
 #include <memory>
 
+#include "TextureFile.hpp"
+
 // Singleton
 // Loads and stores resources for program
 class ResourceLoader {
@@ -93,6 +95,7 @@ private:
 
 	// Maps containing resources
 	//TODO
+	std::map<std::string, TextureFile> textures;
 
 	// Name, data offset of levels in pack file
 	std::map<std::string, int> levels;

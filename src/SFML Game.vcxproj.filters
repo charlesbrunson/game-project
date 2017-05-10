@@ -53,6 +53,9 @@
     <Filter Include="Source Files\States\UI\Util">
       <UniqueIdentifier>{5dc73460-3c1a-4d59-9c9b-a1be99026c2f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Resources\FileHandles">
+      <UniqueIdentifier>{97f61a57-fe17-46b3-8a91-d36e8f63314d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Game.cpp">
@@ -233,9 +236,15 @@
       <Filter>Source Files\Util</Filter>
     </ClCompile>
     <ClCompile Include="TextureFile.hpp">
-      <Filter>Source Files\Resources</Filter>
+      <Filter>Source Files\Resources\FileHandles</Filter>
     </ClCompile>
     <ClCompile Include="TextureFile.cpp">
+      <Filter>Source Files\Resources\FileHandles</Filter>
+    </ClCompile>
+    <ClCompile Include="GameFile.cpp">
+      <Filter>Source Files\Resources\FileHandles</Filter>
+    </ClCompile>
+    <ClCompile Include="FileStream.cpp">
       <Filter>Source Files\Resources</Filter>
     </ClCompile>
   </ItemGroup>
@@ -463,6 +472,9 @@
       <Filter>Source Files\States\UI\Util</Filter>
     </ClInclude>
     <ClInclude Include="GameFile.hpp">
+      <Filter>Source Files\Resources\FileHandles</Filter>
+    </ClInclude>
+    <ClInclude Include="FileStream.hpp">
       <Filter>Source Files\Resources</Filter>
     </ClInclude>
   </ItemGroup>

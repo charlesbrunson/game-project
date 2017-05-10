@@ -20,6 +20,7 @@
 #include "TileProperty.hpp"
 #include "Log.hpp"
 
+#include "FileStream.hpp"
 
 ResourceLoader ResourceLoader::resourceLoader;
 
@@ -47,40 +48,6 @@ const std::string ResourceLoader::packName = "data.pck";
 // Allotted space in bytes for resource pack file header data, which contains information for faster navigation
 const int ResourceLoader::packHeaderSize = 1024;
 
-// Custom input stream for reading pack file
-class FileStream : public sf::InputStream {
-
-	std::ifstream *m_source;
-
-	int start, end;
-
-public:
-	explicit FileStream(std::ifstream *stream, int st, int en) : m_source(stream) {
-		start = st;
-		end = en;
-	}
-
-	sf::Int64 read(void* data, sf::Int64 size) override
-	{
-		m_source->read(static_cast<char*>(data), size);
-		return m_source->gcount();
-	}
-	sf::Int64 seek(sf::Int64 position) override
-	{
-		m_source->seekg(start + position, m_source->beg);
-
-		return m_source->gcount();
-	}
-	sf::Int64 tell() override
-	{
-		return (int)m_source->tellg() - start;
-	}
-	sf::Int64 getSize() override
-	{
-		return end - start;
-	}
-};
-
 bool ResourceLoader::loadResources() {
 
 	//loadFromFile();
@@ -99,14 +66,20 @@ void ResourceLoader::writeToPack() {
 	// Read file paths from index.txt, transfer those files to resource pack file
 
 	std::ifstream indexReader;
-	std::ifstream fileReader;
+	//std::ifstream fileReader;
 	std::ofstream packWriter;
 	
+	/*
+	struct File {
+		std::string filePath;
+		unsigned int size;
+	};
+
 	// Mapped files by type
 	std::map<std::string, std::vector<File>> files;
 
-	// Load tileset data
-	TileProperty::initTileData();
+	// tile data will be load when TextureFile loadFromFile is called
+	//TileProperty::initTileData();
 
 	// Open index file, which gives the file paths of everything that needs to be loaded
 	indexReader.open(fileDir + "index.txt");
@@ -200,8 +173,7 @@ void ResourceLoader::writeToPack() {
 					// Store file information for header
 					if (fileSize > 0) {
 						File f;
-						f.name = filename;
-						f.dir = directory;
+						f.filePath = path;
 						f.size = fileSize;
 						
 						files.at(fileTypeName).push_back(f);
@@ -212,7 +184,42 @@ void ResourceLoader::writeToPack() {
 	}
 	// Close index fle
 	indexReader.close();
+	*/
+
+	std::map<std::string, GameFile*> files;
+
+	indexReader.open(fileDir + "index.txt");
+	if (indexReader.is_open()) {
+		bool err = false;
+
+		// index file is in json
+		Json::Value root;
+		indexReader >> root;
+
+		if (root.isArray()) {
+			for (auto i = root.begin(); i != root.end() && !err; i++) {
+
+				// create file
+				GameFile* nFile = GameFile::createGameFile(i->asString());
+
+				if (!nFile) {
+					err = true;
+					break;
+				}
+
+				files.insert(std::make_pair(i->asString(), nFile));
+
+			}
+		}
+		else {
+			err = true;
+		}
+
+		assert(!err);
+	}
+	indexReader.close();
 	
+	/*
 	// Start writing header for pack file
 	packWriter.open(packName, std::ios_base::binary);
 	if (packWriter.is_open()) {
@@ -285,11 +292,73 @@ void ResourceLoader::writeToPack() {
 		}
 	}
 	packWriter.close();
+
+	*/
+
+	// Start writing header for pack file
+	packWriter.open(packName, std::ios_base::binary);
+	if (packWriter.is_open()) {
+		int fileSeek = 0;
+
+		int fileTypeCount = files.size();
+		packWriter.write((char*)&fileTypeCount, StdSizes::intSize);
+
+		// write meta data for files
+		for (auto i = files.begin(); i != files.end(); i++) {
+
+			// Write file name length
+			int fileNameLength = i->first.length();
+			packWriter.write((char*)&fileNameLength, StdSizes::intSize);
+
+			// Write file name
+			for (int t = 0; t < fileNameLength; t++)
+				packWriter.write((char*)&i->first.at(t), StdSizes::charSize);
+
+			// Write file size
+			int dataSize = i->second->getDataSize();
+			packWriter.write((char*)&dataSize, StdSizes::intSize);
+
+			// Write file seek
+			packWriter.write((char*)&fileSeek, StdSizes::intSize);
+			fileSeek += dataSize;
+		}
+
+		// Write files to resource pack file
+		packWriter.seekp(packHeaderSize);
+		// Loop through files
+		for (auto i = files.begin(); i != files.end(); i++) {
+
+			//write files
+			const int max_size = 128;
+			int remainingSize = i->second->getDataSize();
+
+			char * ptr = (char*)i->second->getData();
+
+			while (remainingSize > 0) {
+
+				int size = std::min(remainingSize, max_size);
+				//fileReader.read(data, size);
+					
+				packWriter.write(ptr, size);
+				remainingSize -= size;
+				ptr += size;
+			}
+			i->second->clearData();
+		}
+	}
+
+	//clean up files
+	for (auto i = files.begin(); i != files.end; i++)
+		delete i->second;
+
+	files.clear();
+
 }
 
 // Read file from pack
 bool ResourceLoader::loadFromPack() {
 	
+	/*
 	std::ifstream packReader(packName, std::ios_base::binary);
 	if (packReader.is_open()) {
 
@@ -436,6 +505,10 @@ bool ResourceLoader::loadFromPack() {
 	}
 
 	packReader.close();	
+	*/
+
+	//TODO
+
 	return loaded;
 }
 

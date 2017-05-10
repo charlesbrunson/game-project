@@ -4,39 +4,26 @@
 #include <vector>
 #include <string>
 
+#include "FileStream.hpp"
+
 class GameFile {
 public:
-	GameFile(std::string path) { 
-		filePath = path;
-		loadFromFile(path); 
+	enum FileType {
+		UNKNOWN = -1,
+		TEXTURE = 0,
+		FILETYPE_COUNT
 	};
-	GameFile(std::string fileName, std::ifstream& str) { 
-		filePath = fileName;
-		loadFromStream(str); 
-	};
+	
+	// loads information from file if FileStream not supplied
+	explicit GameFile(std::string path, FileStream* str = nullptr);
 
-	bool loadFromFile(std::string path) {
-		bool r = in_loadFromFile(path);
+	// factory methods for creating appropriate GameFile for file's type
+	static GameFile* createGameFile(std::string path, FileStream* str = nullptr);
 
-		if (r)
-			convertToData();
-
-		return r;
-	};
-	bool loadFromStream(std::ifstream& str) {
-		bool r = in_loadFromStream(str);
-
-		if (r)
-			convertToData();
-
-		return r;
-	};
-	const std::vector<char>& getData() {
-		if (data.empty())
-			convertToData();
-
-		return data;
-	}
+	// loads information from file if FileStream not supplied
+	bool load(std::string path, FileStream* str = nullptr);
+	const char* getData();
+	const int getDataSize();
 
 	void clearData();
 
@@ -44,15 +31,19 @@ public:
 
 protected:
 
+	FileType fileType = FileType::UNKNOWN;
+
 	std::string filePath = "";
 
 	virtual bool in_loadFromFile(std::string path) = 0;
-	virtual bool in_loadFromStream(std::ifstream& str) = 0;
+	virtual bool in_loadFromStream(FileStream* str) = 0;
 	virtual void convertToData() = 0;
 
 	bool isValid = false;
 
-	std::vector<char> data;
+	//std::vector<char> data;
+	char *data;
+	int dataSize = 0;
 };
 
 #endif //GAMEFILE_H
