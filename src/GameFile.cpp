@@ -2,6 +2,7 @@
 
 #include "Log.hpp"
 
+#include "GenericFile.hpp"
 #include "TextureFile.hpp"
 
 GameFile::GameFile(std::string path, FileStream* str) {
@@ -69,12 +70,12 @@ GameFile* create(std::string path, FileStream* str) {
 	// fragment shader
 	else if (extension == ".frag") {
 		Log::msg(".frag");
-		//TODO
+		return new GenericFile(path, str);
 	}
 	// vertex shader
 	else if (extension == ".vert") {
 		Log::msg(".vert");
-		//TODO
+		return new GenericFile(path, str);
 	}
 	Log::msg("\n");
 

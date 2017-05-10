@@ -36,8 +36,7 @@ bool GenericFile::in_loadFromFile(std::string path) {
 bool GenericFile::in_loadFromStream(FileStream* str) {
 
 	clearData();
-
-	str->read(&dataSize, StdSizes::intSize);
+	dataSize = str->getSize();
 
 	data = new char[dataSize];
 	str->read(data, dataSize);

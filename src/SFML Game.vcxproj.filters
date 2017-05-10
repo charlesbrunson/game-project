@@ -247,6 +247,9 @@
     <ClCompile Include="FileStream.cpp">
       <Filter>Source Files\Resources</Filter>
     </ClCompile>
+    <ClCompile Include="GenericFile.cpp">
+      <Filter>Source Files\Resources\FileHandles</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="rapidxml.hpp">
@@ -476,6 +479,9 @@
     </ClInclude>
     <ClInclude Include="FileStream.hpp">
       <Filter>Source Files\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="GenericFile.hpp">
+      <Filter>Source Files\Resources\FileHandles</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

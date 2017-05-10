@@ -194,6 +194,7 @@
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="EnemySpawner.cpp" />
     <ClCompile Include="Entity.cpp" />
+    <ClCompile Include="GenericFile.cpp" />
     <ClCompile Include="Globals.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameCamera.cpp" />
@@ -229,6 +230,7 @@
     <ClInclude Include="FileStream.hpp" />
     <ClInclude Include="GameFile.hpp" />
     <ClInclude Include="GameSettings.hpp" />
+    <ClInclude Include="GenericFile.hpp" />
     <ClInclude Include="GLog.hpp" />
     <ClInclude Include="Log.hpp" />
     <ClInclude Include="json-forwards.h" />

@@ -7,6 +7,11 @@ public:
 		fileType = FileType::GENERIC;
 	};
 	
+	std::string get() {
+		// turn char array into string
+		return std::string(data, data + dataSize);
+	}
+
 private:
 	bool in_loadFromFile(std::string path);
 	bool in_loadFromStream(FileStream* str);
