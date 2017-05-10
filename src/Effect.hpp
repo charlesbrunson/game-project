@@ -42,7 +42,7 @@ protected:
 	virtual void draw(sf::RenderTarget &target, sf::RenderStates states) const {
 		//draw sprite
 		target.draw(sprite, (!sfxWhite ? states : RL()->getShader("whiteout.frag")));
-
+	
 	};
 
 	Animation anim;

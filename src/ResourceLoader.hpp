@@ -15,7 +15,7 @@
 #include "TextureFile.hpp"
 
 // Singleton
-// Loads and stores resources for program
+// Loads and stores assets for program
 class ResourceLoader {
 
 	static ResourceLoader resourceLoader;
@@ -35,29 +35,17 @@ public:
 
 	// Texture retrieval
 	const sf::Texture& getTexture(std::string filename);
-	bool isTextureTileset(std::string filename);
+	//bool isTextureTileset(std::string filename);
 
 	// Sound buffer retrieval
-	const sf::SoundBuffer& getSoundBuffer(std::string filename);
+	//const sf::SoundBuffer& getSoundBuffer(std::string filename);
 
 	// Font retrieval
-	const sf::Font& getFont(std::string filename);
+	//const sf::Font& getFont(std::string filename);
 
 	// Shader retrieval
-	sf::Shader* getShader(std::string filename);
-
-	// Determines optimal texture size, in powers of 2 (ie, 16x16, 32x32, etc)
-	static sf::Vector2u getIdealTexSize(sf::Vector2u size);
+	//sf::Shader* getShader(std::string filename);
 	
-	// Retrieves position of level data in pack file
-	int getLevelOffset(std::string levelName) {
-		auto i = levels.find(levelName);
-		if (i != levels.end())
-			return i->second;
-
-		return -1;
-	}
-
 	// Resource directory and pack file constants
 	const static std::string fileDir;
 	const static std::string fileIndex;
@@ -95,7 +83,9 @@ private:
 
 	// Maps containing resources
 	//TODO
-	std::map<std::string, TextureFile> textures;
+	std::map<std::string, TextureFile*> textures;
+
+
 
 	// Name, data offset of levels in pack file
 	std::map<std::string, int> levels;
@@ -103,9 +93,6 @@ private:
 	// List of level names
 	//std::vector<std::string> levelPaths;
 	
-	// Retrieves files
-	template <class T>
-	T* fetchResource(std::string filename, std::map<std::string, T> &map);
 };
 
 //shorthand for ResourceLoader::get()

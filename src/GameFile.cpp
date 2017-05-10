@@ -12,9 +12,11 @@ GameFile::GameFile(std::string path, FileStream* str) {
 bool GameFile::load(std::string path, FileStream* str) {
 	bool r = str ? in_loadFromStream(str) : in_loadFromFile(path);
 
-	if (r && !str)
+	if (r && !str) {
 		convertToData();
+	}
 
+	validData = dataSize > 0;
 	return r;
 };
 
@@ -22,6 +24,7 @@ const char* GameFile::getData() {
 	if (dataSize == 0)
 		convertToData();
 
+	validData = dataSize > 0;
 	return data;
 }
 
@@ -29,11 +32,16 @@ const int GameFile::getDataSize() {
 	if (dataSize == 0)
 		convertToData();
 
+	validData = dataSize > 0;
 	return dataSize;
+}
+void GameFile::clearData() {
+	delete[] data;
+	validData = false;
 }
 
 // factory methods for creating appropriate GameFile for file's extension type
-GameFile* createFile(std::string path, FileStream* str) {
+GameFile* create(std::string path, FileStream* str) {
 
 	Log::msg("\nCreating file for " + path + "\n");
 
@@ -45,29 +53,30 @@ GameFile* createFile(std::string path, FileStream* str) {
 
 	// image file
 	if (extension == ".png") {
-		Log::msg(".png\n");
+		Log::msg(".png");
 		return new TextureFile(path, str);
 	}
 	// font
 	else if (extension == ".tff") {
-		Log::msg(".tff\n");
+		Log::msg(".tff");
 		//TODO
 	}
 	// level
 	else if (extension == ".lvl") {
-		Log::msg(".lvl\n");
+		Log::msg(".lvl");
 		//TODO
 	}
 	// fragment shader
 	else if (extension == ".frag") {
-		Log::msg(".frag\n");
+		Log::msg(".frag");
 		//TODO
 	}
 	// vertex shader
 	else if (extension == ".vert") {
-		Log::msg(".vert\n");
+		Log::msg(".vert");
 		//TODO
 	}
+	Log::msg("\n");
 
-
+	return nullptr;
 }

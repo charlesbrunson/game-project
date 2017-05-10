@@ -20,11 +20,12 @@ const Animation* TextureFile::getAnimation(std::string animName) {
 };
 
 bool TextureFile::in_loadFromFile(std::string path) {
-	std::ifstream reader;
+
 	if (tex.loadFromFile(path)) {
 		//check for associated files
 
 		//animation file
+		std::ifstream reader;
 		reader.open(path + ".anim");
 		if (reader.is_open()) {
 

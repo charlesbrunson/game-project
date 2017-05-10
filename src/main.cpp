@@ -5,15 +5,16 @@
 #endif
 
 // Game class
-#include "Game.hpp"
+//#include "Game.hpp"
+#include "ResourceLoader.hpp"
 
 int main() {
 	
 	// Start up the game loop
 	{
 		RL()->loadResources();
-		Game g;
-		g.run();
+		//Game g;
+		//g.run();
 		RL()->dumpResources();
 	}
 

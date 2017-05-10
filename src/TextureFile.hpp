@@ -7,7 +7,9 @@
 class TextureFile : public GameFile {
 public:
 
-	explicit TextureFile(std::string path, FileStream* str = nullptr) : GameFile(path, str) {};
+	explicit TextureFile(std::string path, FileStream* str = nullptr) : GameFile(path, str) {
+		fileType = FileType::TEXTURE;
+	};
 
 	const sf::Texture& get();
 	const Animation* getAnimation(std::string animName);
