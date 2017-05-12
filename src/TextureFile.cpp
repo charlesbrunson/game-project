@@ -31,10 +31,9 @@ bool TextureFile::loadFromFile(std::string path) {
 	animations.clear();
 
 	if (tex.loadFromFile(RL()->fileDir + path)) {
-		//check for associated files
+		// check for associated files
 
-		//animation file
-		//std::cout << RL()->fileDir + path + ".anim" << std::endl;
+		// animation file
 		std::ifstream reader(RL()->fileDir + path + ".anim");
 		if (reader.is_open()) {
 

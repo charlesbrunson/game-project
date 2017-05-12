@@ -13,11 +13,13 @@ public:
 		GENERIC = 0,
 		TEXTURE,
 		FONT,
+		LEVEL,
 		FILETYPE_COUNT
 	};
 
 	// loads information from file if FileStream not supplied
-	explicit GameFile(std::string path, FileStream* str = nullptr);
+	GameFile(std::string path, FileStream* str = nullptr);
+	virtual ~GameFile() = default;
 
 	// factory methods for creating appropriate GameFile for file's type
 	static GameFile* create(std::string path, FileStream* str = nullptr);

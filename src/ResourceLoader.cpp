@@ -49,7 +49,7 @@ void ResourceLoader::writeToPack() {
 
 	std::ofstream packWriter;
 
-	std::map<std::string, GameFile*> files;
+	std::vector<std::pair<std::string, GameFile*>> files;
 
 	std::ifstream indexReader(fileIndex);
 	if (indexReader.is_open()) {
@@ -70,7 +70,7 @@ void ResourceLoader::writeToPack() {
 					break;
 				}
 				else {
-					files.insert(std::make_pair(i->asString(), nFile));
+					files.push_back(std::make_pair(i->asString(), nFile));
 				}
 
 			}
@@ -136,7 +136,6 @@ void ResourceLoader::writeToPack() {
 			while (remainingSize > 0) {
 
 				int size = std::min(remainingSize, max_size);
-				//fileReader.read(data, size);
 
 				packWriter.write(ptr, size);
 				remainingSize -= size;
@@ -151,6 +150,8 @@ void ResourceLoader::writeToPack() {
 		delete i->second;
 
 	files.clear();
+
+	std::cout << "test\n";
 
 }
 
@@ -201,6 +202,7 @@ bool ResourceLoader::loadFromPack() {
 				case GameFile::FileType::GENERIC: generics.insert(std::make_pair(fileName, (GenericFile*)file)); break;
 				case GameFile::FileType::TEXTURE: textures.insert(std::make_pair(fileName, (TextureFile*)file)); break;
 				case GameFile::FileType::FONT: fonts.insert(std::make_pair(fileName, (FontFile*)file)); break;
+				case GameFile::FileType::LEVEL: levels.insert(std::make_pair(fileName, (LevelFile*)file)); break;
 				default: err = true;  break;
 				}
 			}
@@ -244,6 +246,10 @@ void ResourceLoader::dumpResources() {
 	fonts.clear();
 
 	// Levels
+	for (auto i = levels.begin(); i != levels.end(); i++) {
+		delete i->second;
+	}
+	levels.clear();
 
 	// Shaders
 
@@ -278,4 +284,17 @@ const sf::Font& ResourceLoader::getFont(std::string filename) {
 	assert(i != fonts.end());
 
 	return i->second->get();
+}
+sf::Shader* ResourceLoader::getShader(std::string filename) {
+	//TODO
+	return nullptr;
+}
+
+int ResourceLoader::getLevelOffset(std::string lvlname) {
+	std::lock_guard<std::mutex> lock(m);
+
+	auto i = levels.find(lvlname);
+	assert(i != levels.end());
+
+	return i->second->getPackPos();
 }

@@ -8,7 +8,7 @@
 class FontFile : public GameFile {
 public:
 
-	explicit FontFile(std::string path, FileStream* str = nullptr);
+	FontFile(std::string path, FileStream* str = nullptr);
 
 	const sf::Font& get();
 

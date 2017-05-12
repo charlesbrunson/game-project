@@ -6,7 +6,7 @@
 class GenericFile : public GameFile {
 public:
 
-	explicit GenericFile(std::string path, FileStream* str = nullptr);
+	GenericFile(std::string path, FileStream* str = nullptr);
 
 	const std::string& get();
 

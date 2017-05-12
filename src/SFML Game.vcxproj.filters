@@ -235,9 +235,6 @@
     <ClCompile Include="PixelSnap.cpp">
       <Filter>Source Files\Util</Filter>
     </ClCompile>
-    <ClCompile Include="TextureFile.hpp">
-      <Filter>Source Files\Resources\FileHandles</Filter>
-    </ClCompile>
     <ClCompile Include="TextureFile.cpp">
       <Filter>Source Files\Resources\FileHandles</Filter>
     </ClCompile>
@@ -251,6 +248,9 @@
       <Filter>Source Files\Resources\FileHandles</Filter>
     </ClCompile>
     <ClCompile Include="FontFile.cpp">
+      <Filter>Source Files\Resources\FileHandles</Filter>
+    </ClCompile>
+    <ClCompile Include="LevelFile.cpp">
       <Filter>Source Files\Resources\FileHandles</Filter>
     </ClCompile>
   </ItemGroup>
@@ -487,6 +487,12 @@
       <Filter>Source Files\Resources\FileHandles</Filter>
     </ClInclude>
     <ClInclude Include="FontFile.hpp">
+      <Filter>Source Files\Resources\FileHandles</Filter>
+    </ClInclude>
+    <ClInclude Include="LevelFile.hpp">
+      <Filter>Source Files\Resources\FileHandles</Filter>
+    </ClInclude>
+    <ClInclude Include="TextureFile.hpp">
       <Filter>Source Files\Resources\FileHandles</Filter>
     </ClInclude>
   </ItemGroup>

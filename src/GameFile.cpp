@@ -5,11 +5,11 @@
 #include "GenericFile.hpp"
 #include "TextureFile.hpp"
 #include "FontFile.hpp"
+#include "LevelFile.hpp"
 
 GameFile::GameFile(std::string path, FileStream* str) {
 	filePath = path;
 };
-
 
 bool GameFile::load(std::string path, FileStream* str) {
 	bool r = false;
@@ -54,42 +54,31 @@ GameFile* GameFile::create(std::string path, FileStream* str) {
 	Log::msg("\nCreating file for " + path + "\n");
 
 	std::string extension = path.substr(path.find_last_of('.'), path.size());
-
-	Log::msg("Extension detected: " + extension + "\n");
-
-	Log::msg("Creating GameFile type: ");
-
+	
 	// image file
 	if (extension == ".png") {
-		Log::msg(".png");
 		return new TextureFile(path, str);
 	}
 	// font
 	else if (extension == ".ttf") {
-		Log::msg(".ttf");
 		return new FontFile(path, str);
 	}
 	// level
 	else if (extension == ".lvl") {
-		Log::msg(".lvl");
-		//TODO
+		return new LevelFile(path, str);
 	}
 	// fragment shader
 	else if (extension == ".frag") {
-		Log::msg(".frag");
 		return new GenericFile(path, str);
 	}
 	// vertex shader
 	else if (extension == ".vert") {
-		Log::msg(".vert");
 		return new GenericFile(path, str);
 	}
 	// text
 	else if (extension == ".txt") {
-		Log::msg(".txt");
 		return new GenericFile(path, str);
 	}
-	Log::msg("\n");
 
 	return nullptr;
 }

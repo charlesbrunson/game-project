@@ -22,6 +22,7 @@ const TileProperty::TileData& TileProperty::getTileData(std::string sheet, GridV
 	return TileData();
 };
 
+/*
 void TileProperty::initTileData() {
 	//TileProperty::resLoader = rm;
 
@@ -115,3 +116,4 @@ void TileProperty::initTileData() {
 		propReader.close();
 	}
 }
+*/

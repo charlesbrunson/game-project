@@ -15,6 +15,7 @@
 #include "GenericFile.hpp"
 #include "TextureFile.hpp"
 #include "FontFile.hpp"
+#include "LevelFile.hpp"
 
 // Singleton
 // Loads and stores assets for program
@@ -40,6 +41,9 @@ public:
 	const sf::Texture& getTexture(std::string filename);
 	const std::string& getGeneric(std::string filename);
 	const sf::Font& getFont(std::string filename);
+	sf::Shader* getShader(std::string filename);
+
+	int getLevelOffset(std::string lvlname);
 
 	// Sound buffer retrieval
 	// const sf::SoundBuffer& getSoundBuffer(std::string filename);
@@ -92,10 +96,11 @@ private:
 	std::map<std::string, TextureFile*> textures;
 	std::map<std::string, GenericFile*> generics;
 	std::map<std::string, FontFile*> fonts;
+	std::map<std::string, LevelFile*> levels;
 
 
 	// Name, data offset of levels in pack file
-	std::map<std::string, int> levels;
+	//std::map<std::string, int> levels;
 
 	// List of level names
 	//std::vector<std::string> levelPaths;

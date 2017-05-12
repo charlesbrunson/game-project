@@ -202,6 +202,7 @@
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="GameplayState.cpp" />
     <ClCompile Include="GLog.cpp" />
+    <ClCompile Include="LevelFile.cpp" />
     <ClCompile Include="Log.cpp" />
     <ClCompile Include="GroundEnemy.cpp" />
     <ClCompile Include="Hurtbox.cpp" />
@@ -234,6 +235,7 @@
     <ClInclude Include="GameSettings.hpp" />
     <ClInclude Include="GenericFile.hpp" />
     <ClInclude Include="GLog.hpp" />
+    <ClInclude Include="LevelFile.hpp" />
     <ClInclude Include="Log.hpp" />
     <ClInclude Include="json-forwards.h" />
     <ClInclude Include="json.h" />
@@ -253,7 +255,7 @@
     <ClInclude Include="PlayerWallJumpState.hpp" />
     <ClCompile Include="TextureFile.cpp" />
     <ClCompile Include="TestObject.cpp" />
-    <ClCompile Include="TextureFile.hpp" />
+    <ClInclude Include="TextureFile.hpp" />
     <ClCompile Include="TileLayer.cpp" />
     <ClCompile Include="TileProperty.cpp" />
     <ClCompile Include="TransitionHorizontalState.cpp" />

@@ -25,7 +25,7 @@ public:
 
 	static const TileData& getTileData(std::string sheet, GridVector tilePos);
 
-	static void initTileData();
+	//static void initTileData();
 
 	static void addTileMap(std::string texName, const std::map<GridVector, TileData>& data) {
 		tileDataMap[texName] = data;
