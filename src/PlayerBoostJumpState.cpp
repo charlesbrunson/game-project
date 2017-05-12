@@ -133,7 +133,7 @@ void PlayerBoostJumpState::createFX() {
 		jetboost->toDelete = true;
 
 	jetboost = new Effect(
-		"player.png",
+		"sprites/player.png",
 		Animation(
 			sf::IntRect(192, 240, 9, 16),
 			sf::Vector2f(5.f, -1.f),
@@ -145,7 +145,7 @@ void PlayerBoostJumpState::createFX() {
 		);
 
 	Effect *smokeUnder = new Effect(
-		"player.png",
+		"sprites/player.png",
 		Animation(
 			sf::IntRect(0, 240, 32, 8),
 			sf::Vector2f(16.f, 5.f),
@@ -157,7 +157,7 @@ void PlayerBoostJumpState::createFX() {
 		);
 
 	Effect *smokeOver = new Effect(
-		"player.png",
+		"sprites/player.png",
 		Animation(
 			sf::IntRect(0, 248, 32, 8),
 			sf::Vector2f(16.f, 5.f),

@@ -51,7 +51,7 @@ void GameFile::clearData() {
 // factory methods for creating appropriate GameFile for file's extension type
 GameFile* GameFile::create(std::string path, FileStream* str) {
 
-	Log::msg("\nCreating file for " + path + "\n");
+	Log::msg("\nCreating file for " + path);
 
 	std::string extension = path.substr(path.find_last_of('.'), path.size());
 	

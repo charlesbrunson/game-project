@@ -8,7 +8,7 @@ UIOptions::UIOptions() {
 	gCameraPos = cameraPos;
 
 	sf::Text text;
-	text.setFont(RL()->getFont("pixelated.ttf"));
+	text.setFont(RL()->getFont("fonts/pixelated.ttf"));
 	text.setCharacterSize(8);
 	text.setFillColor(sf::Color::White);
 	text.setOutlineColor(sf::Color::Black);

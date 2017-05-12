@@ -18,7 +18,7 @@ Animation UIButton::anim_button_activated(
 	1, sf::Time::Zero);
 
 UIButton::UIButton(std::string buttonLabel) {
-	spr.getSprite()->setTexture(RL()->getTexture("ui.png"));
+	spr.getSprite()->setTexture(RL()->getTexture("sprites/ui.png"));
 	spr.setAnimation(anim_button_notselected);
 
 	interactive = true;
@@ -26,7 +26,7 @@ UIButton::UIButton(std::string buttonLabel) {
 
 	//button text
 	sf::Text text;
-	text.setFont(RL()->getFont("pixelated.ttf"));
+	text.setFont(RL()->getFont("fonts/pixelated.ttf"));
 	text.setCharacterSize(8);
 	text.setFillColor(sf::Color::White);
 	//text.setOutlineColor(sf::Color::Black);

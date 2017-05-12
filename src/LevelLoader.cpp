@@ -7,23 +7,6 @@
 #include "Math.hpp"
 
 void LevelLoader::loadLevel(std::string name, Zone::LevelArea &area, Zone *zone) {
-	/*
-	#ifdef _DEBUG
-	//load from .lvl file
-
-	//if (Gameplay_Globals::Debug::forceCompile) {
-	//	Log::msg("Forcing recompile...\n");
-	//	compileTMXFile(name, loader);
-	//}
-
-
-	std::ifstream stream((loader->fileDir + name).toAnsiString() + ".lvl", std::ios_base::binary);
-	if (stream.is_open()) {
-	Zone::readLevel(stream, area, loader, zone);
-	}
-	stream.close();
-
-	#else */
 
 	//load from pack archive
 	std::ifstream stream(RL()->packName, std::ios_base::binary);
@@ -34,7 +17,7 @@ void LevelLoader::loadLevel(std::string name, Zone::LevelArea &area, Zone *zone)
 
 		assert(seek > -1);
 
-		stream.seekg(RL()->packHeaderSize + seek, std::ios_base::beg);
+		stream.seekg(/*RL()->packHeaderSize +*/ seek, std::ios_base::beg);
 		LevelLoader::readLevel(stream, area, zone);
 	}
 	else {
@@ -42,7 +25,6 @@ void LevelLoader::loadLevel(std::string name, Zone::LevelArea &area, Zone *zone)
 	}
 	stream.close();
 
-	//#endif
 }
 
 void LevelLoader::readLevel(std::ifstream &reader, Zone::LevelArea &area, Zone *zone) {
@@ -338,7 +320,7 @@ bool LevelLoader::compileTMXFile(std::string name) {
 		xml_node<> * image = tilesetNode->first_node("image");
 
 		t.imageName = image->first_attribute("source")->value();
-		t.imageName.erase(0, std::string("tilesets/").length());
+		//t.imageName.erase(0, std::string("tilesets/").length());
 
 		t.width = std::stoi(image->first_attribute("width")->value());
 		t.height = std::stoi(image->first_attribute("height")->value());

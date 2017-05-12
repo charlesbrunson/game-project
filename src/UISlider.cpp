@@ -16,11 +16,11 @@ UISlider::UISlider(int min, int max, int step) {
 
 	capturesMouse = true;
 	
-	sliderBase.setTexture(RL()->getTexture("ui.png"));
+	sliderBase.setTexture(RL()->getTexture("sprites/ui.png"));
 	sliderBase.setTextureRect(sf::IntRect(sf::Vector2i(19, 51), sf::Vector2i(102, 10)));
 	sliderBase.setOrigin(sf::Vector2f(1.f, 0.f));
 
-	sliderCursor.setTexture(RL()->getTexture("ui.png"));
+	sliderCursor.setTexture(RL()->getTexture("sprites/ui.png"));
 	sliderCursor.setTextureRect(sf::IntRect(sf::Vector2i(0, 48), sf::Vector2i(5, 16)));
 	sliderCursor.setOrigin(2.f, 3.f);
 

@@ -7,7 +7,7 @@ TestObject::TestObject(Level *level) : GameObject(level) {
 	sprite.setAnimation(anim_idle);
 	sprite.updateFrame();
 
-	sprite.getSprite()->setTexture(RL()->getTexture("testenemy.png"));
+	sprite.getSprite()->setTexture(RL()->getTexture("sprites/testenemy.png"));
 
 	setCollisionSize(16, 32);
 

@@ -9,7 +9,7 @@
 #include "ResourceLoader.hpp"
 
 GLog::GLog() {
-	messageBox.setFont(RL()->getFont("pixelated.ttf"));
+	messageBox.setFont(RL()->getFont("fonts/pixelated.ttf"));
 	messageBox.setCharacterSize(8);
 	messageBox.setFillColor(sf::Color::White);
 	messageBox.setOutlineColor(sf::Color::Black);

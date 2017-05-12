@@ -109,7 +109,7 @@ void PlayerDashState::updateAnimation(sf::Time deltaTime) {
 void PlayerDashState::createFX() {
 
 	Effect *fx = new Effect(
-		"player.png",
+		"sprites/player.png",
 		Animation(
 			sf::IntRect(240, 240, 16, 16),
 			sf::Vector2f(18.f, 16.f),

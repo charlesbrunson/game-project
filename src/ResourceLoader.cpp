@@ -47,6 +47,8 @@ bool ResourceLoader::loadResources() {
 void ResourceLoader::writeToPack() {
 	// Read file paths from index.txt, transfer those files to resource pack file
 
+	
+
 	std::ofstream packWriter;
 
 	std::vector<std::pair<std::string, GameFile*>> files;
@@ -151,7 +153,7 @@ void ResourceLoader::writeToPack() {
 
 	files.clear();
 
-	std::cout << "test\n";
+	//std::cout << "test\n";
 
 }
 

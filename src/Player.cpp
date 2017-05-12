@@ -60,7 +60,7 @@ Player::Player(Level *l) : GameObject(l) {
 	sprite.setAnimation(anim_idle);
 	sprite.updateFrame();
 
-	sprite.getSprite()->setTexture(RL()->getTexture("player.png"));
+	sprite.getSprite()->setTexture(RL()->getTexture("sprites/player.png"));
 
 	stand();
 	

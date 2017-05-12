@@ -6,15 +6,15 @@
 
 // Game class
 #include "ResourceLoader.hpp"
-//#include "Game.hpp"
+#include "Game.hpp"
 
 int main() {
 	
 	// Start up the game loop
 	{
 		if (RL()->loadResources()) {
-			//Game g;
-			//g.run();
+			Game g;
+			g.run();
 		}
 		RL()->dumpResources();
 	}

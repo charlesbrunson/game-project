@@ -140,7 +140,7 @@ public:
 	sf::Sprite getBGSprite() {
 		//sprite not init, init before returning
 		if (!bgSpriteFilename.empty() && !bgSprite.getTexture()) {
-			bgSprite.setTexture(RL()->getTexture("bg/" + bgSpriteFilename));
+			bgSprite.setTexture(RL()->getTexture("sprites/bg/" + bgSpriteFilename));
 			bgSprite.setTextureRect(sf::IntRect(0, 0, GAMEWIDTH, GAMEHEIGHT));
 		}
 		return bgSprite;

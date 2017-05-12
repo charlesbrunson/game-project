@@ -17,8 +17,8 @@ public:
 
 private:
 
-	bool loadFromFile(std::string path);
-	bool loadFromStream(FileStream* str);
+	bool loadFromFile(std::string path) override;
+	bool loadFromStream(FileStream* str) override;
 	void convertToData();
 
 	sf::Texture tex;

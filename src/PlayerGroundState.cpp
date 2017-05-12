@@ -15,7 +15,7 @@ void PlayerGroundState::enter() {
 			0
 			);
 		Effect *landFXRO = new Effect(
-			"player.png", 
+			"sprites/player.png", 
 			landFXROani,
 			Effect::OVER,
 			true
@@ -29,7 +29,7 @@ void PlayerGroundState::enter() {
 			sf::seconds(4.f / 60.f),
 			0);
 		Effect *landFXLO = new Effect(
-			"player.png",
+			"sprites/player.png",
 			landFXLOani,
 			Effect::OVER,
 			false
@@ -42,7 +42,7 @@ void PlayerGroundState::enter() {
 			sf::seconds(4.f / 60.f),
 			0);
 		Effect *landFXRU = new Effect(
-			"player.png",
+			"sprites/player.png",
 			landFXRUani,
 			Effect::UNDER,
 			true
@@ -56,7 +56,7 @@ void PlayerGroundState::enter() {
 			sf::seconds(4.f / 60.f),
 			0);
 		Effect *landFXLU = new Effect(
-			"player.png",
+			"sprites/player.png",
 			landFXLUani,
 			Effect::UNDER,
 			false

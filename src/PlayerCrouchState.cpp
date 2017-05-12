@@ -146,7 +146,7 @@ int PlayerCrouchState::update(sf::Time deltaTime) {
 				if (plr->collisionUp && slideTimer >= startSmokeDelay && ceil(slideTimer / smokeInterval) < ceil((slideTimer + deltaTime) / smokeInterval)) {
 
 					Effect *smokeFX = new Effect(
-						"player.png",
+						"sprites/player.png",
 						Animation(
 							sf::IntRect(96, 232, 8, 8),
 							sf::Vector2f(8.f, 4.f),

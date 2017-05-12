@@ -228,7 +228,8 @@ void TransitionState::draw(sf::RenderTarget &target, sf::RenderStates states) co
 	auto effects = gameplayState->getObjectMan()->getEffects();
 
 	sf::Shader* offsetter = RL()->getShader("offset.vert");
-	offsetter->setUniform("offset", -toLvlOffset);
+	if (offsetter) 
+		offsetter->setUniform("offset", -toLvlOffset);
 	
 	//background
 	drawBG(target, states);

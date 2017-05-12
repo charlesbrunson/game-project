@@ -9,7 +9,7 @@ UIPauseState::UIPauseState(State* prevState) {
 	prev = prevState;
 	cameraPos = prev->cameraPos;
 
-	pauseText.setFont(RL()->getFont("pixelated.ttf"));
+	pauseText.setFont(RL()->getFont("fonts/pixelated.ttf"));
 	pauseText.setCharacterSize(8);
 	pauseText.setFillColor(sf::Color::White);
 	pauseText.setOutlineColor(sf::Color::Black);
