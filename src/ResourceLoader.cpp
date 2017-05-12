@@ -5,7 +5,7 @@
 #include <assert.h>
 
 //#if defined(_DEBUG) && defined(_WIN32)
-//	#include <Windows.h>
+//#include <Windows.h>
 //#endif
 
 #include <SFML/Graphics.hpp>
@@ -34,10 +34,10 @@ bool ResourceLoader::loadResources() {
 
 	//loadFromFile();
 
-#if defined(_DEBUG)
+	//#ifdef _DEBUG
 	// Create resource pack file
 	writeToPack();
-#endif
+	//#endif
 
 	// Load resources from pack file
 	return loadFromPack();
@@ -47,7 +47,6 @@ bool ResourceLoader::loadResources() {
 void ResourceLoader::writeToPack() {
 	// Read file paths from index.txt, transfer those files to resource pack file
 
-	//std::ifstream fileReader;
 	std::ofstream packWriter;
 
 	std::map<std::string, GameFile*> files;
@@ -70,8 +69,9 @@ void ResourceLoader::writeToPack() {
 					err = true;
 					break;
 				}
-
-				files.insert(std::make_pair(i->asString(), nFile));
+				else {
+					files.insert(std::make_pair(i->asString(), nFile));
+				}
 
 			}
 		}
@@ -114,6 +114,8 @@ void ResourceLoader::writeToPack() {
 			headerStream.write((char*)&fileSeek, StdSizes::intSize);
 			fileSeek += dataSize;
 		}
+
+		// write header length and content
 		std::string headerData = headerStream.str();
 		packHeaderSize = headerData.size() + StdSizes::intSize;
 
@@ -159,15 +161,14 @@ bool ResourceLoader::loadFromPack() {
 	bool err = false;
 	if (packReader.is_open()) {
 
-		// get header length
+		// get length of header
 		packReader.read((char*)&packHeaderSize, StdSizes::intSize);
 
-		// get number of files to load
 		int fileCount;
 		packReader.read((char*)&fileCount, StdSizes::intSize);
+
 		for (int i = 0; i < fileCount; i++) {
 
-			// read file meta data from header
 			int fileNameLength;
 			std::string fileName = "";
 			int fileSize;
@@ -184,22 +185,22 @@ bool ResourceLoader::loadFromPack() {
 			packReader.read((char*)&fileSize, StdSizes::intSize);
 			packReader.read((char*)&fileSeek, StdSizes::intSize);
 
-			// hold header position
+			//hold header position
 			int headerPos = packReader.tellg();
 
-			// go to file position
-			packReader.seekg(packHeaderSize + fileSeek, std::ios_base::beg);
+			//load file respective of type
+			int start = packHeaderSize + fileSeek;
+			int end = start + fileSize;
 
-			// load file respective of type
-			FileStream stream(&packReader, packReader.tellg(), (int)packReader.tellg() + fileSize);
-			GameFile* file = GameFile::create(fileName, &stream);
+			GameFile* file = GameFile::create(fileName, &FileStream(&packReader, start, end));
 
-			// add file to correct container
+			// add file
 			if (file != nullptr) {
 				switch (file->getType()) {
 				case GameFile::FileType::UNKNOWN: err = true; break;
 				case GameFile::FileType::GENERIC: generics.insert(std::make_pair(fileName, (GenericFile*)file)); break;
 				case GameFile::FileType::TEXTURE: textures.insert(std::make_pair(fileName, (TextureFile*)file)); break;
+				case GameFile::FileType::FONT: fonts.insert(std::make_pair(fileName, (FontFile*)file)); break;
 				default: err = true;  break;
 				}
 			}
@@ -208,13 +209,13 @@ bool ResourceLoader::loadFromPack() {
 				err = true;
 			}
 
-			// return to header position
+			//return to header
 			packReader.seekg(headerPos, std::ios_base::beg);
 
 			if (err) break;
 		}
 
-		loaded = !err;
+		loaded = true && !err;
 	}
 
 	return loaded;
@@ -237,12 +238,24 @@ void ResourceLoader::dumpResources() {
 	// Audio
 
 	// Fonts
+	for (auto i = fonts.begin(); i != fonts.end(); i++) {
+		delete i->second;
+	}
+	fonts.clear();
 
 	// Levels
 
 	// Shaders
 
 	loaded = false;
+}
+
+const std::string& ResourceLoader::getGeneric(std::string filename) {
+	std::lock_guard<std::mutex> lock(m);
+
+	auto i = generics.find(filename);
+	assert(i != generics.end());
+	return i->second->get();
 }
 
 const TextureFile& ResourceLoader::getTexFile(std::string filename) {
@@ -258,10 +271,11 @@ const sf::Texture& ResourceLoader::getTexture(std::string filename) {
 	return getTexFile(filename).get();
 }
 
-const std::string& ResourceLoader::getGeneric(std::string filename) {
+const sf::Font& ResourceLoader::getFont(std::string filename) {
 	std::lock_guard<std::mutex> lock(m);
 
-	auto i = generics.find(filename);
-	assert(i != generics.end());
+	auto i = fonts.find(filename);
+	assert(i != fonts.end());
+
 	return i->second->get();
 }

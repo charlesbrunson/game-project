@@ -12,6 +12,12 @@
 #include <array>
 #include <string.h>
 
+
+TextureFile::TextureFile(std::string path, FileStream* str) : GameFile(path, str) {
+	fileType = FileType::TEXTURE;
+	load(path, str);
+};
+
 const sf::Texture& TextureFile::get() const {
 	return tex;
 }
@@ -195,7 +201,7 @@ bool TextureFile::loadFromFile(std::string path) {
 }
 
 bool TextureFile::loadFromStream(FileStream* str) {
-	str->seek(0);
+	//str->seek(0);
 
 	int texSize = 0;
 	str->read(&texSize, StdSizes::intSize);

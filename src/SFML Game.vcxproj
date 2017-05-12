@@ -188,6 +188,7 @@
     <ClCompile Include="Controls.cpp" />
     <ClCompile Include="Director.cpp" />
     <ClCompile Include="FileStream.cpp" />
+    <ClCompile Include="FontFile.cpp" />
     <ClCompile Include="GameFile.cpp" />
     <ClCompile Include="GameSettings.cpp" />
     <ClCompile Include="Effect.cpp" />
@@ -228,6 +229,7 @@
     <ClCompile Include="ResourceLoader.cpp" />
     <ClInclude Include="Animation.hpp" />
     <ClInclude Include="FileStream.hpp" />
+    <ClInclude Include="FontFile.hpp" />
     <ClInclude Include="GameFile.hpp" />
     <ClInclude Include="GameSettings.hpp" />
     <ClInclude Include="GenericFile.hpp" />

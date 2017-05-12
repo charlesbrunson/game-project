@@ -4,10 +4,12 @@
 
 #include "GenericFile.hpp"
 #include "TextureFile.hpp"
+#include "FontFile.hpp"
 
 GameFile::GameFile(std::string path, FileStream* str) {
 	filePath = path;
 };
+
 
 bool GameFile::load(std::string path, FileStream* str) {
 	bool r = false;
@@ -22,7 +24,7 @@ bool GameFile::load(std::string path, FileStream* str) {
 		convertToData();
 	}
 
-	validData = !data.empty();
+	//validData = !data.empty();
 	return r;
 };
 
@@ -30,7 +32,7 @@ const std::string* GameFile::getData() {
 	if (data.empty())
 		convertToData();
 
-	validData = !data.empty();
+	//validData = !data.empty();
 	return &data;
 }
 
@@ -38,12 +40,12 @@ const int GameFile::getDataSize() {
 	if (data.empty())
 		convertToData();
 
-	validData = !data.empty();
+	//validData = !data.empty();
 	return data.size();
 }
 void GameFile::clearData() {
 	data.clear();
-	validData = false;
+	//validData = false;
 }
 
 // factory methods for creating appropriate GameFile for file's extension type
@@ -63,9 +65,9 @@ GameFile* GameFile::create(std::string path, FileStream* str) {
 		return new TextureFile(path, str);
 	}
 	// font
-	else if (extension == ".tff") {
-		Log::msg(".tff");
-		//TODO
+	else if (extension == ".ttf") {
+		Log::msg(".ttf");
+		return new FontFile(path, str);
 	}
 	// level
 	else if (extension == ".lvl") {

@@ -250,6 +250,9 @@
     <ClCompile Include="GenericFile.cpp">
       <Filter>Source Files\Resources\FileHandles</Filter>
     </ClCompile>
+    <ClCompile Include="FontFile.cpp">
+      <Filter>Source Files\Resources\FileHandles</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="rapidxml.hpp">
@@ -481,6 +484,9 @@
       <Filter>Source Files\Resources</Filter>
     </ClInclude>
     <ClInclude Include="GenericFile.hpp">
+      <Filter>Source Files\Resources\FileHandles</Filter>
+    </ClInclude>
+    <ClInclude Include="FontFile.hpp">
       <Filter>Source Files\Resources\FileHandles</Filter>
     </ClInclude>
   </ItemGroup>

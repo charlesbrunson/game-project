@@ -3,6 +3,7 @@
 FileStream::FileStream(std::ifstream *stream, int st, int en) : m_source(stream) {
 	start = st;
 	end = en;
+	stream->seekg(start);
 }
 
 sf::Int64 FileStream::read(void* data, sf::Int64 size)

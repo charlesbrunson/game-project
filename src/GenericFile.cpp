@@ -9,6 +9,17 @@
 #include <assert.h>
 #include <array>
 
+
+GenericFile::GenericFile(std::string path, FileStream* str) : GameFile(path, str) {
+	fileType = FileType::GENERIC;
+	load(path, str);
+};
+
+const std::string& GenericFile::get() {
+	// turn char array into string
+	return data;
+}
+
 bool GenericFile::loadFromFile(std::string path) {
 
 	clearData();
@@ -51,5 +62,5 @@ bool GenericFile::loadFromStream(FileStream* str) {
 }
 
 void GenericFile::convertToData() {
-	validData = data.size() > 0;
+
 }

@@ -12,6 +12,7 @@ public:
 		UNKNOWN = -1,
 		GENERIC = 0,
 		TEXTURE,
+		FONT,
 		FILETYPE_COUNT
 	};
 
@@ -44,7 +45,7 @@ protected:
 	virtual bool loadFromStream(FileStream* str) = 0;
 	virtual void convertToData() = 0;
 
-	bool validData = false;
+	//bool validData = false;
 
 	std::string data;
 };

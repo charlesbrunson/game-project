@@ -12,8 +12,9 @@
 #include <fstream>
 #include <memory>
 
-#include "TextureFile.hpp"
 #include "GenericFile.hpp"
+#include "TextureFile.hpp"
+#include "FontFile.hpp"
 
 // Singleton
 // Loads and stores assets for program
@@ -38,6 +39,7 @@ public:
 	const TextureFile& getTexFile(std::string filename);
 	const sf::Texture& getTexture(std::string filename);
 	const std::string& getGeneric(std::string filename);
+	const sf::Font& getFont(std::string filename);
 
 	// Sound buffer retrieval
 	// const sf::SoundBuffer& getSoundBuffer(std::string filename);
@@ -53,6 +55,20 @@ public:
 	const static std::string fileIndex;
 	const static std::string packName;
 	int packHeaderSize;
+
+	// Data type folder names
+	/*
+	enum fileTypeEnum : int {
+	SPRITE = 0,
+	TILESET,
+	SOUND,
+	FONT,
+	LEVEL,
+	SHADERS,
+	TYPE_COUNT
+	};
+	static const std::string fileTypes[TYPE_COUNT];
+	*/
 
 	bool isLoaded() {
 		return loaded;
@@ -75,6 +91,8 @@ private:
 	//TODO
 	std::map<std::string, TextureFile*> textures;
 	std::map<std::string, GenericFile*> generics;
+	std::map<std::string, FontFile*> fonts;
+
 
 	// Name, data offset of levels in pack file
 	std::map<std::string, int> levels;
