@@ -1,49 +1,55 @@
 #include "GenericFile.hpp"
+#include "ResourceLoader.hpp"
 
 #include <fstream>
+#include <sstream>
 
 #include "StandardSize.hpp"
 
 #include <assert.h>
 #include <array>
 
-bool GenericFile::in_loadFromFile(std::string path) {
+bool GenericFile::loadFromFile(std::string path) {
 
 	clearData();
 
-	std::ifstream reader;
-
-	// open at end of file
-	reader.open(path, std::ios_base::binary | std::ios_base::ate);
+	std::ifstream reader(RL()->fileDir + path, std::ios_base::binary);
 	if (reader.is_open()) {
-		// determine filesize
-		dataSize = reader.tellg();
 
-		// init data
-		data = new char[dataSize];
+		std::stringstream buffer;
+		buffer << reader.rdbuf();
 
-		// read file into data array
-		reader.beg();
-		while (!reader.eof()) {
-			reader >> data;
-		}
+		data.reserve(reader.tellg());
+		data = buffer.str();
+		data.shrink_to_fit();
+
+		reader.close();
+		return true;
 	}
-	reader.close();
 
 	return false;
 }
 
-bool GenericFile::in_loadFromStream(FileStream* str) {
+bool GenericFile::loadFromStream(FileStream* str) {
 
 	clearData();
-	dataSize = str->getSize();
+	int transferSize = 128;
+	int remaining = str->getSize();
 
-	data = new char[dataSize];
-	str->read(data, dataSize);
+	char* d = new char[transferSize];
 
-	return false;
+	while (remaining > 0) {
+		int size = std::min(remaining, transferSize);
+		str->read(d, size);
+		data.append(d, size);
+		remaining -= size;
+	}
+
+	delete[] d;
+
+	return true;
 }
 
 void GenericFile::convertToData() {
-	//file should be as data already, no conversion necessary
+	validData = data.size() > 0;
 }

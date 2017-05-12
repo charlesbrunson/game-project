@@ -1,3 +1,6 @@
+#ifndef GENERICFILE_H
+#define GENERICFILE_H
+
 #include "GameFile.hpp"
 
 class GenericFile : public GameFile {
@@ -5,15 +8,18 @@ public:
 
 	explicit GenericFile(std::string path, FileStream* str = nullptr) : GameFile(path, str) {
 		fileType = FileType::GENERIC;
+		load(path, str);
 	};
-	
-	std::string get() {
+
+	const std::string& get() {
 		// turn char array into string
-		return std::string(data, data + dataSize);
+		return data;
 	}
 
 private:
-	bool in_loadFromFile(std::string path);
-	bool in_loadFromStream(FileStream* str);
+	bool loadFromFile(std::string path) override;
+	bool loadFromStream(FileStream* str) override;
 	void convertToData();
 };
+
+#endif

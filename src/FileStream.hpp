@@ -15,6 +15,8 @@ class FileStream : public sf::InputStream {
 public:
 	explicit FileStream(std::ifstream *stream, int st, int en);
 
+	std::ifstream *getSource() { return m_source; };
+
 	sf::Int64 read(void* data, sf::Int64 size) override;
 	sf::Int64 seek(sf::Int64 position) override;
 	sf::Int64 tell() override;

@@ -7,42 +7,47 @@
 
 GameFile::GameFile(std::string path, FileStream* str) {
 	filePath = path;
-	load(path, str);
 };
 
 bool GameFile::load(std::string path, FileStream* str) {
-	bool r = str ? in_loadFromStream(str) : in_loadFromFile(path);
+	bool r = false;
+	if (str) {
+		r = loadFromStream(str);
+	}
+	else {
+		r = loadFromFile(path);
+	}
 
 	if (r && !str) {
 		convertToData();
 	}
 
-	validData = dataSize > 0;
+	validData = !data.empty();
 	return r;
 };
 
-const char* GameFile::getData() {
-	if (dataSize == 0)
+const std::string* GameFile::getData() {
+	if (data.empty())
 		convertToData();
 
-	validData = dataSize > 0;
-	return data;
+	validData = !data.empty();
+	return &data;
 }
 
 const int GameFile::getDataSize() {
-	if (dataSize == 0)
+	if (data.empty())
 		convertToData();
 
-	validData = dataSize > 0;
-	return dataSize;
+	validData = !data.empty();
+	return data.size();
 }
 void GameFile::clearData() {
-	delete[] data;
+	data.clear();
 	validData = false;
 }
 
 // factory methods for creating appropriate GameFile for file's extension type
-GameFile* create(std::string path, FileStream* str) {
+GameFile* GameFile::create(std::string path, FileStream* str) {
 
 	Log::msg("\nCreating file for " + path + "\n");
 
@@ -75,6 +80,11 @@ GameFile* create(std::string path, FileStream* str) {
 	// vertex shader
 	else if (extension == ".vert") {
 		Log::msg(".vert");
+		return new GenericFile(path, str);
+	}
+	// text
+	else if (extension == ".txt") {
+		Log::msg(".txt");
 		return new GenericFile(path, str);
 	}
 	Log::msg("\n");

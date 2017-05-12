@@ -12,9 +12,10 @@ int main() {
 	
 	// Start up the game loop
 	{
-		RL()->loadResources();
-		//Game g;
-		//g.run();
+		if (RL()->loadResources()) {
+			//Game g;
+			//g.run();
+		}
 		RL()->dumpResources();
 	}
 

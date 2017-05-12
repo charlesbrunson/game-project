@@ -10,39 +10,45 @@
 
 #include <assert.h>
 #include <array>
+#include <string.h>
 
-const sf::Texture& TextureFile::get() {
+const sf::Texture& TextureFile::get() const {
 	return tex;
-};
-const Animation* TextureFile::getAnimation(std::string animName) {
-	auto f = animations.find(animName);
-	return f != animations.end() ? &f->second : nullptr;
-};
+}
 
-bool TextureFile::in_loadFromFile(std::string path) {
+const Animation& TextureFile::getAnimation(std::string animName) const {
+	return animations.at(animName);
+}
 
-	if (tex.loadFromFile(path)) {
+bool TextureFile::loadFromFile(std::string path) {
+	data.clear();
+	animations.clear();
+
+	if (tex.loadFromFile(RL()->fileDir + path)) {
 		//check for associated files
 
 		//animation file
-		std::ifstream reader;
-		reader.open(path + ".anim");
+		//std::cout << RL()->fileDir + path + ".anim" << std::endl;
+		std::ifstream reader(RL()->fileDir + path + ".anim");
 		if (reader.is_open()) {
 
 			Json::Value root;
 			reader >> root;
 
 			for (auto anim = root.begin(); anim != root.end(); anim++) {
-				std::string animName = anim->asString();
+
+
+				//std::cout << anim.key().asString() << std::endl << a.write(*anim) << std::endl;
+				std::string animName = anim.key().asString();
 
 				Animation a;
 				bool err = false;
 
 				// area
 				Json::Value area = anim->get("area", Json::Value());
-				if (area.isArray() && area.size() == 4 && 
+				if (area.isArray() && area.size() == 4 &&
 					area[0].isInt() && area[1].isInt() && area[2].isInt() && area[3].isInt()) {
-					a.area = area[0].asInt;
+					a.area = sf::IntRect(area[0].asInt(), area[1].asInt(), area[2].asInt(), area[3].asInt());
 				}
 				else if (area.isNull()) {
 					a.area = sf::IntRect();
@@ -119,14 +125,16 @@ bool TextureFile::in_loadFromFile(std::string path) {
 					Log::msg("TextureFile: in_loadFromFile(), " + animName + ", error: Incorrect arguments");
 				}
 				else {
-					animations[animName] = a;
+					animations.insert(std::make_pair(animName, a));
 				}
 			}
 		}
 		reader.close();
 
+		//std::cout << animations.size() << std::endl;
+
 		//tile data file
-		reader.open(path + ".tile");
+		reader.open(RL()->fileDir + path + ".tile");
 		if (reader.is_open()) {
 
 			std::map<GridVector, TileProperty::TileData> tileData;
@@ -186,14 +194,24 @@ bool TextureFile::in_loadFromFile(std::string path) {
 	return false;
 }
 
-bool TextureFile::in_loadFromStream(FileStream* str) {
+bool TextureFile::loadFromStream(FileStream* str) {
+	str->seek(0);
 
-	if (tex.loadFromStream(*str)) {
+	int texSize = 0;
+	str->read(&texSize, StdSizes::intSize);
+
+	std::ifstream* fstr = str->getSource();
+	FileStream tStr(fstr, fstr->tellg(), (int)fstr->tellg() + texSize);
+
+	if (tex.loadFromStream(tStr)) {
 		animations.clear();
+
+		str->seek(StdSizes::intSize + texSize);
 
 		//load remaining data (animations)
 		int animCount;
 		str->read(&animCount, StdSizes::intSize);
+
 		for (int i = 0; i < animCount; i++) {
 
 			std::pair<std::string, Animation> a;
@@ -232,7 +250,7 @@ bool TextureFile::in_loadFromStream(FileStream* str) {
 			//chain name
 			int chainNameSize;
 			str->read(&chainNameSize, StdSizes::intSize);
-			char c;
+			//char c;
 			for (int j = 0; j < chainNameSize; j++) {
 				str->read(&c, StdSizes::charSize);
 				a.second.chainToName += c;
@@ -243,28 +261,37 @@ bool TextureFile::in_loadFromStream(FileStream* str) {
 
 			animations.insert(a);
 		}
+		return true;
 	}
 	return false;
 }
 
 void TextureFile::convertToData() {
-	delete[] data;
-	
-	std::ostringstream out;
+	data.clear();
+
+	std::stringstream out;
 
 	// copy file to stream
-	std::ifstream file(filePath);
+	std::ifstream file(RL()->fileDir + filePath, std::ios::binary | std::ios::ate);
+
 	if (file) {
-		std::stringstream buffer;
+		int size = file.tellg();
+		out.write((char*)&size, StdSizes::intSize);
+		file.seekg(0);
+
 		out << file.rdbuf();
 		file.close();
 	}
-	// use image.loadFromImage on retrieval
-	
+	else {
+		return;
+	}
+
 	// write animations
 	int animCount = animations.size();
 	out.write((char*)&animCount, StdSizes::intSize);
 	for (const auto& a : animations) {
+		const Animation& ani = a.second;
+
 
 		//name
 		int animNameSize = a.first.size();
@@ -274,35 +301,40 @@ void TextureFile::convertToData() {
 		}
 
 		//area
-		out.write((char*)&a.second.area.left, StdSizes::intSize);
-		out.write((char*)&a.second.area.top, StdSizes::intSize);
-		out.write((char*)&a.second.area.width, StdSizes::intSize);
-		out.write((char*)&a.second.area.height, StdSizes::intSize);
+		out.write((char*)&ani.area.left, StdSizes::intSize);
+		out.write((char*)&ani.area.top, StdSizes::intSize);
+		out.write((char*)&ani.area.width, StdSizes::intSize);
+		out.write((char*)&ani.area.height, StdSizes::intSize);
 
 		//origin
-		out.write((char*)&a.second.origin.x, StdSizes::floatSize);
-		out.write((char*)&a.second.origin.y, StdSizes::floatSize);
+		out.write((char*)&ani.origin.x, StdSizes::floatSize);
+		out.write((char*)&ani.origin.y, StdSizes::floatSize);
 
 		//frames
-		int frameCount = a.second.frameTimes.size();
+		int frameCount = ani.frameTimes.size();
 		out.write((char*)&frameCount, StdSizes::intSize);
 		for (int i = 0; i < frameCount; i++) {
-			float t = a.second.frameTimes.at(i).asSeconds();
+			float t = ani.frameTimes.at(i).asSeconds();
 			out.write((char*)&t, StdSizes::floatSize);
 		}
 
 		//loop
-		out.write((char*)&a.second.loop, StdSizes::floatSize);
+		out.write((char*)&ani.loop, StdSizes::floatSize);
 
 		//chain name
-		int chainSize = a.second.chainToName.size();
+		int chainSize = ani.chainToName.size();
 		out.write((char*)&chainSize, StdSizes::intSize);
-		for (const char& c : a.second.chainToName) {
+		for (const char& c : ani.chainToName) {
 			out.write((char*)&c, StdSizes::charSize);
 		}
 		//chain start frame
-		out.write((char*)&a.second.chainStartOnFrame, StdSizes::intSize);
+		out.write((char*)&ani.chainStartOnFrame, StdSizes::intSize);
 	}
 
-	// dont need to write tileproperty
+	// dont need to write tiledata
+
+	//copy stringstream to data
+	std::string dstr = out.str();
+	data.append(dstr.c_str(), dstr.size());
+
 }

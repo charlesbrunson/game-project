@@ -14,7 +14,7 @@ public:
 		TEXTURE,
 		FILETYPE_COUNT
 	};
-	
+
 	// loads information from file if FileStream not supplied
 	explicit GameFile(std::string path, FileStream* str = nullptr);
 
@@ -24,7 +24,7 @@ public:
 	// loads information from file if FileStream not supplied
 	bool load(std::string path, FileStream* str = nullptr);
 
-	const char* getData();
+	const std::string* getData();
 	const int getDataSize();
 	void clearData();
 
@@ -40,15 +40,13 @@ protected:
 
 	std::string filePath = "";
 
-	virtual bool in_loadFromFile(std::string path) = 0;
-	virtual bool in_loadFromStream(FileStream* str) = 0;
+	virtual bool loadFromFile(std::string path) = 0;
+	virtual bool loadFromStream(FileStream* str) = 0;
 	virtual void convertToData() = 0;
 
 	bool validData = false;
 
-	//std::vector<char> data;
-	char *data;
-	int dataSize = 0;
+	std::string data;
 };
 
 #endif //GAMEFILE_H

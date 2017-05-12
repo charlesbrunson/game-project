@@ -2,12 +2,10 @@
 #include "ResourceLoader.hpp"
 
 #include <fstream>
-//#include <math.h>
-//#include <thread>
 #include <assert.h>
 
 //#if defined(_DEBUG) && defined(_WIN32)
-//#include <Windows.h>
+//	#include <Windows.h>
 //#endif
 
 #include <SFML/Graphics.hpp>
@@ -16,9 +14,6 @@
 // JSON parser
 #include "json.h"
 
-//#include "Globals.hpp"
-//#include "LevelLoader.hpp"
-//#include "TileProperty.hpp"
 #include "FileStream.hpp"
 #include "StandardSize.hpp"
 #include "Log.hpp"
@@ -30,28 +25,16 @@ ResourceLoader* RL() {
 	return ResourceLoader::get();
 }
 
-const std::string ResourceLoader::fileTypes[TYPE_COUNT] = {
-	"sprite",
-	"tileset",
-	"sound",
-	"font",
-	"level",
-	"shaders"
-};
-
 // File directory constants
 const std::string ResourceLoader::fileDir = "data/";
 const std::string ResourceLoader::fileIndex = "data/index.txt";
 const std::string ResourceLoader::packName = "data.pck";
 
-// Allotted space in bytes for resource pack file header data, which contains information for faster navigation
-const int ResourceLoader::packHeaderSize = 1024;
-
 bool ResourceLoader::loadResources() {
 
 	//loadFromFile();
 
-#ifdef _DEBUG
+#if defined(_DEBUG)
 	// Create resource pack file
 	writeToPack();
 #endif
@@ -64,13 +47,12 @@ bool ResourceLoader::loadResources() {
 void ResourceLoader::writeToPack() {
 	// Read file paths from index.txt, transfer those files to resource pack file
 
-	std::ifstream indexReader;
 	//std::ifstream fileReader;
 	std::ofstream packWriter;
-	
+
 	std::map<std::string, GameFile*> files;
 
-	indexReader.open(fileDir + "index.txt");
+	std::ifstream indexReader(fileIndex);
 	if (indexReader.is_open()) {
 		bool err = false;
 
@@ -100,34 +82,43 @@ void ResourceLoader::writeToPack() {
 		assert(!err);
 	}
 	indexReader.close();
-	
+
 	// Start writing header for pack file
 	packWriter.open(packName, std::ios_base::binary);
 	if (packWriter.is_open()) {
 		int fileSeek = 0;
 
-		int fileTypeCount = files.size();
-		packWriter.write((char*)&fileTypeCount, StdSizes::intSize);
+		int headerSize = 0;
+		std::stringstream headerStream;
+
+		// write file count
+		int fileCount = files.size();
+		headerStream.write((char*)&fileCount, StdSizes::intSize);
 
 		// write meta data for files
 		for (auto i = files.begin(); i != files.end(); i++) {
 
 			// Write file name length
 			int fileNameLength = i->first.length();
-			packWriter.write((char*)&fileNameLength, StdSizes::intSize);
+			headerStream.write((char*)&fileNameLength, StdSizes::intSize);
 
 			// Write file name
 			for (int t = 0; t < fileNameLength; t++)
-				packWriter.write((char*)&i->first.at(t), StdSizes::charSize);
+				headerStream.write((char*)&i->first.at(t), StdSizes::charSize);
 
 			// Write file size
 			int dataSize = i->second->getDataSize();
-			packWriter.write((char*)&dataSize, StdSizes::intSize);
+			headerStream.write((char*)&dataSize, StdSizes::intSize);
 
 			// Write file seek
-			packWriter.write((char*)&fileSeek, StdSizes::intSize);
+			headerStream.write((char*)&fileSeek, StdSizes::intSize);
 			fileSeek += dataSize;
 		}
+		std::string headerData = headerStream.str();
+		packHeaderSize = headerData.size() + StdSizes::intSize;
+
+		packWriter.write((char*)&packHeaderSize, StdSizes::intSize);
+		packWriter.write(headerData.c_str(), packHeaderSize);
 
 		// Write files to resource pack file
 		packWriter.seekp(packHeaderSize);
@@ -138,13 +129,13 @@ void ResourceLoader::writeToPack() {
 			const int max_size = 128;
 			int remainingSize = i->second->getDataSize();
 
-			char * ptr = (char*)i->second->getData();
+			char * ptr = (char*)i->second->getData()->c_str();
 
 			while (remainingSize > 0) {
 
 				int size = std::min(remainingSize, max_size);
 				//fileReader.read(data, size);
-					
+
 				packWriter.write(ptr, size);
 				remainingSize -= size;
 				ptr += size;
@@ -154,7 +145,7 @@ void ResourceLoader::writeToPack() {
 	}
 
 	//clean up files
-	for (auto i = files.begin(); i != files.end; i++)
+	for (auto i = files.begin(); i != files.end(); i++)
 		delete i->second;
 
 	files.clear();
@@ -163,16 +154,20 @@ void ResourceLoader::writeToPack() {
 
 // Read file from pack
 bool ResourceLoader::loadFromPack() {
-	
+
 	std::ifstream packReader(packName, std::ios_base::binary);
 	bool err = false;
 	if (packReader.is_open()) {
 
+		// get header length
+		packReader.read((char*)&packHeaderSize, StdSizes::intSize);
+
+		// get number of files to load
 		int fileCount;
 		packReader.read((char*)&fileCount, StdSizes::intSize);
-
 		for (int i = 0; i < fileCount; i++) {
 
+			// read file meta data from header
 			int fileNameLength;
 			std::string fileName = "";
 			int fileSize;
@@ -189,41 +184,50 @@ bool ResourceLoader::loadFromPack() {
 			packReader.read((char*)&fileSize, StdSizes::intSize);
 			packReader.read((char*)&fileSeek, StdSizes::intSize);
 
-			//hold header position
+			// hold header position
 			int headerPos = packReader.tellg();
-			//go to file position
+
+			// go to file position
 			packReader.seekg(packHeaderSize + fileSeek, std::ios_base::beg);
 
-			//load file respective of type
+			// load file respective of type
 			FileStream stream(&packReader, packReader.tellg(), (int)packReader.tellg() + fileSize);
 			GameFile* file = GameFile::create(fileName, &stream);
-			
-			// add file
+
+			// add file to correct container
 			if (file != nullptr) {
 				switch (file->getType()) {
 				case GameFile::FileType::UNKNOWN: err = true; break;
+				case GameFile::FileType::GENERIC: generics.insert(std::make_pair(fileName, (GenericFile*)file)); break;
 				case GameFile::FileType::TEXTURE: textures.insert(std::make_pair(fileName, (TextureFile*)file)); break;
 				default: err = true;  break;
 				}
 			}
 			else {
+				delete file;
 				err = true;
 			}
 
-			//return to header
+			// return to header position
 			packReader.seekg(headerPos, std::ios_base::beg);
 
 			if (err) break;
 		}
 
-		loaded = true && !err;
+		loaded = !err;
 	}
-	
+
 	return loaded;
 }
 
 
 void ResourceLoader::dumpResources() {
+	//Generics
+	for (auto i = generics.begin(); i != generics.end(); i++) {
+		delete i->second;
+	}
+	generics.clear();
+
 	// Textures
 	for (auto i = textures.begin(); i != textures.end(); i++) {
 		delete i->second;
@@ -241,10 +245,23 @@ void ResourceLoader::dumpResources() {
 	loaded = false;
 }
 
-const sf::Texture& ResourceLoader::getTexture(std::string filename) {
+const TextureFile& ResourceLoader::getTexFile(std::string filename) {
 	std::lock_guard<std::mutex> lock(m);
-	
+
 	auto i = textures.find(filename);
 	assert(i != textures.end());
+
+	return *i->second;
+}
+
+const sf::Texture& ResourceLoader::getTexture(std::string filename) {
+	return getTexFile(filename).get();
+}
+
+const std::string& ResourceLoader::getGeneric(std::string filename) {
+	std::lock_guard<std::mutex> lock(m);
+
+	auto i = generics.find(filename);
+	assert(i != generics.end());
 	return i->second->get();
 }
