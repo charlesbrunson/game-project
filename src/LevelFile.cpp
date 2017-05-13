@@ -97,4 +97,3 @@ bool LevelFile::loadFromStream(FileStream* str) {
 void LevelFile::convertToData() {
 
 }
-

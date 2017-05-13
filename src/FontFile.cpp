@@ -81,4 +81,3 @@ void FontFile::convertToData() {
 	data.append(dstr.c_str(), dstr.size());
 
 }
-

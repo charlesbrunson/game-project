@@ -21,7 +21,7 @@ sf::Shader& ShaderFile::get() {
 }
 
 bool ShaderFile::loadFromFile(std::string path) {
-	return shader.loadFromFile(path, shaderType);
+	return shader.loadFromFile(RL()->fileDir + path, shaderType);
 }
 
 bool ShaderFile::loadFromStream(FileStream* str) {
