@@ -205,6 +205,7 @@ bool ResourceLoader::loadFromPack() {
 				case GameFile::FileType::TEXTURE: textures.insert(std::make_pair(fileName, (TextureFile*)file)); break;
 				case GameFile::FileType::FONT: fonts.insert(std::make_pair(fileName, (FontFile*)file)); break;
 				case GameFile::FileType::LEVEL: levels.insert(std::make_pair(fileName, (LevelFile*)file)); break;
+				case GameFile::FileType::SHADER: shaders.insert(std::make_pair(fileName, (ShaderFile*)file)); break;
 				default: err = true;  break;
 				}
 			}
@@ -254,6 +255,10 @@ void ResourceLoader::dumpResources() {
 	levels.clear();
 
 	// Shaders
+	for (auto i = shaders.begin(); i != shaders.end(); i++) {
+		delete i->second;
+	}
+	shaders.clear();
 
 	loaded = false;
 }
@@ -288,8 +293,12 @@ const sf::Font& ResourceLoader::getFont(std::string filename) {
 	return i->second->get();
 }
 sf::Shader* ResourceLoader::getShader(std::string filename) {
-	//TODO
-	return nullptr;
+	std::lock_guard<std::mutex> lock(m);
+
+	auto i = shaders.find(filename);
+	assert(i != shaders.end());
+
+	return &i->second->get();
 }
 
 int ResourceLoader::getLevelOffset(std::string lvlname) {

@@ -15,9 +15,7 @@ void LevelLoader::loadLevel(std::string name, Zone::LevelArea &area, Zone *zone)
 
 		int seek = RL()->getLevelOffset(name + ".lvl");
 
-		assert(seek > -1);
-
-		stream.seekg(/*RL()->packHeaderSize +*/ seek, std::ios_base::beg);
+		stream.seekg(seek);
 		LevelLoader::readLevel(stream, area, zone);
 	}
 	else {

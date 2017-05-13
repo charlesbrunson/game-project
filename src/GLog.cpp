@@ -66,6 +66,6 @@ void GLog::updateTextPosition(const sf::FloatRect& camArea) {
 }
 
 void GLog::draw(sf::RenderTarget &target, sf::RenderStates states) const {
-	target.draw(messageBox, RL()->getShader("noalpha.frag"));
-	target.draw(trackerBox, RL()->getShader("noalpha.frag"));
+	target.draw(messageBox, RL()->getShader("shaders/noalpha.frag"));
+	target.draw(trackerBox, RL()->getShader("shaders/noalpha.frag"));
 }

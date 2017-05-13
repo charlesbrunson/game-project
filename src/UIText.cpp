@@ -127,7 +127,7 @@ void UIText::draw(sf::RenderTarget &target, sf::RenderStates states) const {
 		*/
 #endif
 		if (outlined)
-			target.draw(t, RL()->getShader("noalpha.frag"));
+			target.draw(t, RL()->getShader("shaders/noalpha.frag"));
 		else
 			target.draw(t, states);
 	}

@@ -6,6 +6,7 @@
 #include "TextureFile.hpp"
 #include "FontFile.hpp"
 #include "LevelFile.hpp"
+#include "ShaderFile.hpp"
 
 GameFile::GameFile(std::string path, FileStream* str) {
 	filePath = path;
@@ -69,11 +70,11 @@ GameFile* GameFile::create(std::string path, FileStream* str) {
 	}
 	// fragment shader
 	else if (extension == ".frag") {
-		return new GenericFile(path, str);
+		return new ShaderFile(sf::Shader::Type::Fragment, path, str);
 	}
 	// vertex shader
 	else if (extension == ".vert") {
-		return new GenericFile(path, str);
+		return new ShaderFile(sf::Shader::Type::Vertex, path, str);
 	}
 	// text
 	else if (extension == ".txt") {

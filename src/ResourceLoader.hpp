@@ -16,6 +16,7 @@
 #include "TextureFile.hpp"
 #include "FontFile.hpp"
 #include "LevelFile.hpp"
+#include "ShaderFile.hpp"
 
 // Singleton
 // Loads and stores assets for program
@@ -97,6 +98,7 @@ private:
 	std::map<std::string, GenericFile*> generics;
 	std::map<std::string, FontFile*> fonts;
 	std::map<std::string, LevelFile*> levels;
+	std::map<std::string, ShaderFile*> shaders;
 
 
 	// Name, data offset of levels in pack file

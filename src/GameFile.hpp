@@ -14,6 +14,7 @@ public:
 		TEXTURE,
 		FONT,
 		LEVEL,
+		SHADER,
 		FILETYPE_COUNT
 	};
 
