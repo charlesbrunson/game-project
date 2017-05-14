@@ -29,84 +29,58 @@ class ResourceLoader {
 
 public:
 
-	static ResourceLoader* get() {
-		return &resourceLoader;
-	}
+	//Singleton access
+	static ResourceLoader* get();
 
 	// Allocating and Deallocating resources
 	bool loadResources();
 	void dumpResources();
 
-	// Texture retrieval
-	const TextureFile& getTexFile(std::string filename);
-	const sf::Texture& getTexture(std::string filename);
-	const std::string& getGeneric(std::string filename);
-	const sf::Font& getFont(std::string filename);
-	sf::Shader* getShader(std::string filename);
-
-	int getLevelOffset(std::string lvlname);
-
-	// Sound buffer retrieval
-	// const sf::SoundBuffer& getSoundBuffer(std::string filename);
-
-	// Font retrieval
-	// const sf::Font& getFont(std::string filename);
-
-	// Shader retrieval
-	// sf::Shader* getShader(std::string filename);
-
+	// Resource retrieval
+	const TextureFile& getTexFile     (const std::string& filename);
+	const sf::Texture& getTexture     (const std::string& filename);
+	const std::string& getGeneric     (const std::string& filename);
+	const sf::Font&	   getFont        (const std::string& filename);
+	sf::Shader*        getShader      (const std::string& filename);
+	int                getLevelOffset (const std::string& filename);
+	
 	// Resource directory and pack file constants
 	const static std::string fileDir;
 	const static std::string fileIndex;
 	const static std::string packName;
-	int packHeaderSize;
 
-	// Data type folder names
-	/*
-	enum fileTypeEnum : int {
-	SPRITE = 0,
-	TILESET,
-	SOUND,
-	FONT,
-	LEVEL,
-	SHADERS,
-	TYPE_COUNT
-	};
-	static const std::string fileTypes[TYPE_COUNT];
-	*/
-
-	bool isLoaded() {
-		return loaded;
-	}
+	inline int getPackHeaderSize() { return packHeaderSize; };
+	inline bool isLoaded() { return loaded; };
 
 private:
+	int packHeaderSize;
+
 	bool loaded = false;
 
 	// Reads data directly from directory file
+	// not implemented, probably depreciated
 	void loadFromFile();
+
 	// Writes data to resource pack file
 	void writeToPack();
+
 	// Read data from the resource pack file
 	bool loadFromPack();
+
+	bool addFile(const std::string& fileName, GameFile* file);
 
 	// Mutex to prevent multiple simultaneous access of resources
 	std::mutex m;
 
-	// Maps containing resources
-	//TODO
+	// Maps containing resources of verious types
 	std::map<std::string, TextureFile*> textures;
 	std::map<std::string, GenericFile*> generics;
 	std::map<std::string, FontFile*> fonts;
 	std::map<std::string, LevelFile*> levels;
 	std::map<std::string, ShaderFile*> shaders;
 
-
-	// Name, data offset of levels in pack file
-	//std::map<std::string, int> levels;
-
-	// List of level names
-	//std::vector<std::string> levelPaths;
-
+	template<class T>
+	T* getResource(std::map<std::string, T*>& map, const std::string& name);
 };
 
 //shorthand for ResourceLoader::get()

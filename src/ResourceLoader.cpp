@@ -4,10 +4,6 @@
 #include <fstream>
 #include <assert.h>
 
-//#if defined(_DEBUG) && defined(_WIN32)
-//#include <Windows.h>
-//#endif
-
 #include <SFML/Graphics.hpp>
 #include <SFML/System.hpp>
 
@@ -21,6 +17,9 @@
 
 ResourceLoader ResourceLoader::resourceLoader;
 
+ResourceLoader* ResourceLoader::get() {
+	return &resourceLoader;
+}
 ResourceLoader* RL() {
 	return ResourceLoader::get();
 }
@@ -34,10 +33,10 @@ bool ResourceLoader::loadResources() {
 
 	//loadFromFile();
 
-	//#ifdef _DEBUG
+#ifdef _DEBUG
 	// Create resource pack file
 	writeToPack();
-	//#endif
+#endif
 
 	// Load resources from pack file
 	return loadFromPack();
@@ -45,9 +44,6 @@ bool ResourceLoader::loadResources() {
 
 
 void ResourceLoader::writeToPack() {
-	// Read file paths from index.txt, transfer those files to resource pack file
-
-	
 
 	std::ofstream packWriter;
 
@@ -153,8 +149,6 @@ void ResourceLoader::writeToPack() {
 
 	files.clear();
 
-	//std::cout << "test\n";
-
 }
 
 // Read file from pack
@@ -198,16 +192,8 @@ bool ResourceLoader::loadFromPack() {
 			GameFile* file = GameFile::create(fileName, &FileStream(&packReader, start, end));
 
 			// add file
-			if (file != nullptr) {
-				switch (file->getType()) {
-				case GameFile::FileType::UNKNOWN: err = true; break;
-				case GameFile::FileType::GENERIC: generics.insert(std::make_pair(fileName, (GenericFile*)file)); break;
-				case GameFile::FileType::TEXTURE: textures.insert(std::make_pair(fileName, (TextureFile*)file)); break;
-				case GameFile::FileType::FONT: fonts.insert(std::make_pair(fileName, (FontFile*)file)); break;
-				case GameFile::FileType::LEVEL: levels.insert(std::make_pair(fileName, (LevelFile*)file)); break;
-				case GameFile::FileType::SHADER: shaders.insert(std::make_pair(fileName, (ShaderFile*)file)); break;
-				default: err = true;  break;
-				}
+			if (file) {
+				addFile(fileName, file);
 			}
 			else {
 				delete file;
@@ -226,6 +212,18 @@ bool ResourceLoader::loadFromPack() {
 	return loaded;
 }
 
+bool ResourceLoader::addFile(const std::string& fileName, GameFile* file) {
+	switch (file->getType()) {
+	case GameFile::FileType::UNKNOWN: return false;
+	case GameFile::FileType::GENERIC: generics.insert(std::make_pair(fileName, (GenericFile*)file)); break;
+	case GameFile::FileType::TEXTURE: textures.insert(std::make_pair(fileName, (TextureFile*)file)); break;
+	case GameFile::FileType::FONT:       fonts.insert(std::make_pair(fileName, (FontFile*)   file)); break;
+	case GameFile::FileType::LEVEL:     levels.insert(std::make_pair(fileName, (LevelFile*)  file)); break;
+	case GameFile::FileType::SHADER:   shaders.insert(std::make_pair(fileName, (ShaderFile*) file)); break;
+	default: return false;
+	}
+	return true;
+}
 
 void ResourceLoader::dumpResources() {
 	//Generics
@@ -263,49 +261,31 @@ void ResourceLoader::dumpResources() {
 	loaded = false;
 }
 
-const std::string& ResourceLoader::getGeneric(std::string filename) {
+template<class T>
+T* ResourceLoader::getResource(std::map<std::string, T*>& map, const std::string& name) {
 	std::lock_guard<std::mutex> lock(m);
 
-	auto i = generics.find(filename);
-	assert(i != generics.end());
-	return i->second->get();
+	auto i = map.find(name);
+	assert(i != map.end());
+
+	return i->second;
 }
 
-const TextureFile& ResourceLoader::getTexFile(std::string filename) {
-	std::lock_guard<std::mutex> lock(m);
-
-	auto i = textures.find(filename);
-	assert(i != textures.end());
-
-	return *i->second;
+const std::string& ResourceLoader::getGeneric(const std::string& filename) {
+	return getResource<GenericFile>(generics, filename)->get();
 }
-
-const sf::Texture& ResourceLoader::getTexture(std::string filename) {
+const TextureFile& ResourceLoader::getTexFile(const std::string& filename) {
+	return *getResource<TextureFile>(textures, filename);
+}
+const sf::Texture& ResourceLoader::getTexture(const std::string& filename) {
 	return getTexFile(filename).get();
 }
-
-const sf::Font& ResourceLoader::getFont(std::string filename) {
-	std::lock_guard<std::mutex> lock(m);
-
-	auto i = fonts.find(filename);
-	assert(i != fonts.end());
-
-	return i->second->get();
+const sf::Font& ResourceLoader::getFont(const std::string& filename) {
+	return getResource<FontFile>(fonts, filename)->get();
 }
-sf::Shader* ResourceLoader::getShader(std::string filename) {
-	std::lock_guard<std::mutex> lock(m);
-
-	auto i = shaders.find(filename);
-	assert(i != shaders.end());
-
-	return &i->second->get();
+sf::Shader* ResourceLoader::getShader(const std::string& filename) {
+	return &getResource<ShaderFile>(shaders, filename)->get();
 }
-
-int ResourceLoader::getLevelOffset(std::string lvlname) {
-	std::lock_guard<std::mutex> lock(m);
-
-	auto i = levels.find(lvlname);
-	assert(i != levels.end());
-
-	return i->second->getPackPos();
+int ResourceLoader::getLevelOffset(const std::string& filename) {
+	return getResource<LevelFile>(levels, filename)->getPackPos();
 }
