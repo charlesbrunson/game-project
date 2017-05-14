@@ -1,5 +1,5 @@
 ﻿
-#if defined(_DEBUG) && defined(_WIN32) && 1
+#if defined(_DEBUG) && defined(_WIN32) && 0
 	//Visual Leak Detector
 	#include <vld.h>
 #endif
@@ -19,5 +19,5 @@ int main() {
 		RL()->dumpResources();
 	}
 
-	return 0;
+	return EXIT_SUCCESS;
 }

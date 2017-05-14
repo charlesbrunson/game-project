@@ -3,14 +3,20 @@
 
 Effect::Effect(int type, bool flip) {
 
+	//depreciated, dont use this
+
 	//sprite.setResources(rloader);
 	sprite.setHFlip(flip);
 
+	/*
 	switch (type) {
 	default:
 		toDelete = true;
 		break;
 	}
+	*/
+	toDelete = true;
+
 	sprite.setAnimation(anim);
 	sprite.updateFrame();
 };
@@ -32,7 +38,7 @@ Effect::Effect(std::string texFile, Animation ani, int onLayer, bool flip) {
 void Effect::update(sf::Time deltaTime) {
 
 	//if sprite animation completes set to delete
-	if (sprite.completedCurrentAnimation()) {
+	if (sprite.isComplete()) {
 
 		toDelete = true;
 	}

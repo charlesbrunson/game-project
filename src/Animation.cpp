@@ -44,19 +44,19 @@ Animation::Animation(
 	for (const int& i : framesAsMS) {
 		frameTimes.push_back(sf::milliseconds(i));
 	}
-
-	/*
-	std::transform(framesAsMS.begin(), framesAsMS.end(), frameTimes.begin(),
-		[](int c) {
-			return sf::milliseconds(c); 
-		}
-	);
-	*/
-
 }
 
 void Animation::setFrameSpeed(sf::Time rate) {
 	for (sf::Time& t : frameTimes) {
 		t = rate;
 	}
+}
+
+const sf::Time Animation::duration(int frames) {
+	sf::Time sum;
+	int stop = frames > -1 ? std::min(frames, numOfFrames) : numOfFrames;
+	for (int i = 0; i < stop; i++)
+		sum += frameTimes[i];
+
+	return sum;
 }

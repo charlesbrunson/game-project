@@ -6,18 +6,26 @@ AnimSprite::AnimSprite() {
 };
 
 bool AnimSprite::isPlaying(Animation &a, bool includeChainTo) {
-	return activeAnim == &a || (includeChainTo && activeAnim->chainTo == &a);
+	return activeAnim == &a || (includeChainTo && activeAnim != nullptr && activeAnim->chainTo == &a);
 }
 
-void AnimSprite::setAnimation(Animation &anim) {
+void AnimSprite::setAnimation(Animation &anim, float timeScale) {
 	activeAnim = &anim;
 	currentFrame = 0;
 	completedCurrentAnim = false;
 	loopCount = 0;
 	acc = sf::Time::Zero;
+	animTimeScale = timeScale;
 };
+void AnimSprite::setTimeScale(float tScale) {
+	animTimeScale = tScale;
+}
 
 void AnimSprite::swapAnimation(Animation &anim) {
+	if (activeAnim == nullptr) {
+		setAnimation(anim, animTimeScale);
+		return;
+	}
 
 	if (activeAnim->numOfFrames > anim.numOfFrames) {
 		currentFrame = (currentFrame % anim.numOfFrames);
@@ -28,8 +36,10 @@ void AnimSprite::swapAnimation(Animation &anim) {
 }
 
 void AnimSprite::update(sf::Time t) {
-	if (t <= sf::Time::Zero) return;
-	if (activeAnim == nullptr) return;
+	t *= animTimeScale;
+
+	if (t <= sf::Time::Zero || activeAnim == nullptr) 
+		return;
 
 	if (activeAnim->numOfFrames > 1 || activeAnim->loop != -1)
 		acc += t;
@@ -39,7 +49,7 @@ void AnimSprite::update(sf::Time t) {
 
 			acc -= activeAnim->frameTimes[currentFrame];
 
-			if (atLastFrame()) {
+			if (onLastFrame()) {
 				completedCurrentAnim = true;
 				if (activeAnim->loop != 0){
 					loopCount++;
@@ -71,20 +81,22 @@ void AnimSprite::setFrame(int i) {
 	acc = sf::Time::Zero;
 };
 
-bool AnimSprite::atLastFrame() {
+bool AnimSprite::onLastFrame() {
+	if (activeAnim == nullptr) return false;
 	return currentFrame >= activeAnim->numOfFrames - 1;
 };
 
-bool AnimSprite::isSwitchingFramesNextStep(sf::Time deltaTime) {
-	return acc + deltaTime >= activeAnim->frameTimes[currentFrame];
+bool AnimSprite::isNextFrameWithin(sf::Time deltaTime) {
+	if (activeAnim == nullptr) return false;
+	return acc + (deltaTime * animTimeScale) >= activeAnim->frameTimes[currentFrame];
 }
 
-bool AnimSprite::completedCurrentAnimation() {
+bool AnimSprite::isComplete() {
 	return completedCurrentAnim;
 };
 
 //sprite ref
-sf::Sprite *AnimSprite::getSprite() {
+sf::Sprite* AnimSprite::getSprite() {
 	return &sprite;
 };
 
@@ -97,11 +109,12 @@ void AnimSprite::setHFlip(bool i) {
 	if (u) 
 		updateFrame();
 };
+
 bool AnimSprite::getHFlip() {
 	return hFlipped;
 };
 
-Animation *AnimSprite::getActiveAnimation() {
+Animation* AnimSprite::getAnimation() {
 	return activeAnim;
 };
 
@@ -110,21 +123,8 @@ int AnimSprite::getLoopCount() {
 }
 
 float AnimSprite::getAnimProgress() {
-	//float frame = 1.f / (activeAnim->numOfFrames);
-	//float p = (frame * currentFrame) + ((acc.asSeconds() / activeAnim->frameTimes[currentFrame].asSeconds()) * frame);
-
-	float p = (acc + getAnimationLength(currentFrame)) / getAnimationLength();
-
-	return p;
-}
-
-const sf::Time AnimSprite::getAnimationLength(int frames) {
-	sf::Time sum;
-	int stop = frames != -1 ? frames : activeAnim->numOfFrames;
-	for (int i = 0; i < stop; i++)
-		sum += activeAnim->frameTimes[i];
-
-	return sum;
+	if (activeAnim == nullptr) return 0.f;
+	return (acc + activeAnim->duration(currentFrame)) / activeAnim->duration();
 }
 
 //call this in update of entity
@@ -146,3 +146,14 @@ void AnimSprite::updateFrame() {
 
 	sprite.setScale(sf::Vector2f(1.f * flip, 1.f));
 };
+
+void AnimSprite::updateSpritePos(sf::Vector2f pos) {
+	sf::Vector2f ori = getAnimation() != nullptr ? getAnimation()->origin : sf::Vector2f();
+
+	float flippedOrigin = getHFlip() ? ori.x : -ori.x;
+
+	getSprite()->setPosition(snapToPixel(sf::Vector2f(pos.x + flippedOrigin, pos.y - ori.y)));
+
+	updateFrame();
+	position = pos;
+}

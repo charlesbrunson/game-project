@@ -236,23 +236,13 @@ void PlayerGroundState::updateAnimation(sf::Time deltaTime) {
 				if (abs(plr->vel().x) >= PlayerState::runspeedMax) {
 					plr->getAnimSprite().setFrame(1);
 				}
-				/*
-				if (abs(plr->vel().x) > PlayerState::runspeedMax) {
-					plr->getAnimSprite().setAnimation(plr->anim_running);
-					plr->getAnimSprite().setFrame(2);
-				}
-				else
-					plr->getAnimSprite().setAnimation(plr->anim_idle_to_run);
-				*/
+
 			}
 			else {
 
-				float fps = ceilf((runspeedMax / abs(plr->getVelocity().x)) * (5.f / 60) / (1.f / 60.f)) * (1.f / 60.f);
-				//plr->anim_idle_to_run.frameSpeed = sf::seconds(fps);
-				plr->anim_running.setFrameSpeed(sf::seconds(fps));
+				float speed = abs(plr->getVelocity().x) / runspeedMax;
 
-
-				//plr->anim_crouch_to_run.frameSpeed = sf::seconds(fps);
+				plr->getAnimSprite().setTimeScale( abs(plr->getVelocity().x) / runspeedMax );
 			}
 		}
 	}

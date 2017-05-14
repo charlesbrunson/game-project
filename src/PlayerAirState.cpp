@@ -163,7 +163,7 @@ void PlayerAirState::updateAnimation(sf::Time deltaTime) {
 
 		
 		if (plr->vel().y > 50.f) {
-			if (plr->getAnimSprite().isPlaying(plr->anim_jump_start) && plr->getAnimSprite().completedCurrentAnimation())
+			if (plr->getAnimSprite().isPlaying(plr->anim_jump_start) && plr->getAnimSprite().isComplete())
 				plr->getAnimSprite().setAnimation(plr->anim_jump_fall_transition);
 
 		}

@@ -32,6 +32,7 @@ public:
 
 	int numOfFrames = 1;
 	std::vector<sf::Time> frameTimes;
+	const sf::Time duration(int frames = -1);
 
 	//sf::Time frameSpeed = sf::seconds(1.f);
 	int loop = -1;

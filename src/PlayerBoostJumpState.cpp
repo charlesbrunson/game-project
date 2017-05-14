@@ -28,7 +28,7 @@ void PlayerBoostJumpState::enter() {
 		boostVel = jumpVel - 15.f;
 		plr->setVelY(boostVel);
 
-		boostDecc = abs(plr->vel().x) / plr->getAnimSprite().getAnimationLength().asSeconds();
+		boostDecc = abs(plr->vel().x) / plr->getAnimSprite().getAnimation()->duration().asSeconds();
 	}
 	else {
 		//convert to normal jump

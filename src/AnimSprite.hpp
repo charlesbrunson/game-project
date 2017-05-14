@@ -19,54 +19,39 @@ public:
 
 	AnimSprite();
 
+	void update(sf::Time t);
+	void updateFrame();
+	void updateSpritePos(sf::Vector2f pos);
+
 	bool isPlaying(Animation &a, bool includeChainTo = false);
-	
-	void setAnimation(Animation &anim);
+
+	void setAnimation(Animation &anim, float timeScale = 1.f);
+	void setTimeScale(float tScale);
 
 	void swapAnimation(Animation &anim);
-
-	void update(sf::Time t);
-
+	
 	int getFrame();
 	void setFrame(int i);
-
-	bool atLastFrame();
-
-	bool isSwitchingFramesNextStep(sf::Time deltaTime);
-
-	bool completedCurrentAnimation();
-
-	void updateSpritePos(sf::Vector2f pos) {
-		sf::Vector2f ori = getActiveAnimation() != nullptr ? getActiveAnimation()->origin : sf::Vector2f();
-
-		float flippedOrigin = getHFlip() ? ori.x : -ori.x;
-
-		getSprite()->setPosition(snapToPixel(sf::Vector2f(pos.x + flippedOrigin, pos.y - ori.y)));
-
-		updateFrame();
-		position = pos;
-	}
-
-	//sprite ref
-	sf::Sprite *getSprite();
+	bool onLastFrame();
+	bool isNextFrameWithin(sf::Time deltaTime);
+		
+	sf::Sprite* getSprite();
+	Animation* getAnimation();
 	
 	//horizontal flip
 	void setHFlip(bool i);
 	bool getHFlip();
 	
-	Animation *getActiveAnimation();
-
 	int getLoopCount();
-
 	float getAnimProgress();
-
-	const sf::Time getAnimationLength(int frames = -1);
-
-	//call this in update of entity
-	void updateFrame();
-
-protected:		
+	bool isComplete();
+	
+private:
 	Animation *activeAnim = nullptr;
+
+	// speed up or slow down animation
+	// carries through animation chains
+	float animTimeScale = 1.f;
 
 	//starts at one
 	int currentFrame = 0;
@@ -81,14 +66,12 @@ protected:
 
 	//how many times has this animation looped
 	int loopCount = 0;
-	
-private:
 
 	bool completedCurrentAnim = false;
 
 	sf::Vector2f position;
 
-	virtual void draw(sf::RenderTarget &target, sf::RenderStates states) const {
+	void draw(sf::RenderTarget &target, sf::RenderStates states) const {
 		if (activeAnim != nullptr)
 			target.draw(sprite, states);
 	};

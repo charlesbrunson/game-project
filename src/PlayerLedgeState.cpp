@@ -82,7 +82,7 @@ int PlayerLedgeState::update(sf::Time deltaTime) {
 
 	}
 	else {
-		if (plr->getAnimSprite().isPlaying(*climb1) && plr->getAnimSprite().completedCurrentAnimation()) {
+		if (plr->getAnimSprite().isPlaying(*climb1) && plr->getAnimSprite().isComplete()) {
 
 			if (mode == LEDGE) {
 				plr->setPosition(plr->pos() + sf::Vector2f(ledgeMove.x * (ledgeSide == LedgeGrab::Side::LEFT ? -1.f : 1.f), ledgeMove.y), true);
@@ -97,7 +97,7 @@ int PlayerLedgeState::update(sf::Time deltaTime) {
 		else if (plr->getAnimSprite().isPlaying(*climb2)) {
 
 			//slide?
-			if (plr->getAnimSprite().getFrame() == 0 && plr->getAnimSprite().isSwitchingFramesNextStep(deltaTime) &&
+			if (plr->getAnimSprite().getFrame() == 0 && plr->getAnimSprite().isNextFrameWithin(deltaTime) &&
 				!((PlayerCrouchState*)plr->getObjectState(Player::PlayerState::CROUCH))->canStand()) {
 
 				plr->setVelX(PlayerState::dashVel * (ledgeSide == LedgeGrab::Side::LEFT ? -1.f : 1.f));
@@ -106,7 +106,7 @@ int PlayerLedgeState::update(sf::Time deltaTime) {
 				
 			}
 			//crouch
-			else if (plr->getAnimSprite().completedCurrentAnimation()) {
+			else if (plr->getAnimSprite().isComplete()) {
 				plr->getAnimSprite().setAnimation(plr->anim_crouch);
 				plr->getAnimSprite().setFrame(plr->anim_crouch.numOfFrames - 1);
 				plr->setVelY(plr->vel().y + gravity * deltaTime.asSeconds());
