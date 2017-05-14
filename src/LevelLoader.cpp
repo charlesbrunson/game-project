@@ -8,20 +8,13 @@
 
 void LevelLoader::loadLevel(std::string name, Zone::LevelArea &area, Zone *zone) {
 
-	//load from pack archive
-	std::ifstream stream(RL()->packName, std::ios_base::binary);
-	if (stream.is_open()) {
-		Log::msg("Opening " + name + ".lvl\n");
+	std::ifstream stream;
 
-		int seek = RL()->getLevelOffset(name + ".lvl");
+	RL()->openLevelData(name + ".lvl", &stream);
+	LevelLoader::readLevel(stream, area, zone);
 
-		stream.seekg(seek);
-		LevelLoader::readLevel(stream, area, zone);
-	}
-	else {
-		Log::msg("Could not open " + name + ".lvl\n");
-	}
 	stream.close();
+
 
 }
 

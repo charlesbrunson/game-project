@@ -18,7 +18,7 @@ extern float volumeMusicPausedScale;
 
 static sf::Mutex drawLock;
 
-extern bool forcePackResources;
+//extern bool forcePackResources;
 extern bool pixelSnapping;
 
 namespace Gameplay_Globals {
@@ -34,6 +34,9 @@ namespace Gameplay_Globals {
 		extern bool scrollingParallax;
 		extern bool noZoom;
 	}
+}
+namespace Resource_Globals {
+	extern bool ignorePackFile;
 }
 namespace UI_Globals {
 	namespace Debug {

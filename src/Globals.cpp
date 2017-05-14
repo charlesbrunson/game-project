@@ -14,7 +14,7 @@ int globalGameScale;
 sf::Time Gameplay_Globals::minSoundTime = sf::seconds(1.f / 60.f);
 sf::Time Gameplay_Globals::soundTimeout = sf::seconds(30.f / 60.f);
 
-bool forcePackResources = true;
+//bool forcePackResources = true;
 bool pixelSnapping = false;
 
 bool Gameplay_Globals::Debug::objectCollision = false;
@@ -30,6 +30,7 @@ true;
 false;
 #endif
 
+bool Resource_Globals::ignorePackFile = true;
 
 bool UI_Globals::Debug::UIDebug = true;
 bool UI_Globals::Debug::UIConnectors = true;

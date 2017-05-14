@@ -14,6 +14,7 @@
 #include "StandardSize.hpp"
 #include "Log.hpp"
 
+#include "Globals.hpp"
 
 ResourceLoader ResourceLoader::resourceLoader;
 
@@ -31,17 +32,58 @@ const std::string ResourceLoader::packName = "data.pck";
 
 bool ResourceLoader::loadResources() {
 
-	//loadFromFile();
-
 #ifdef _DEBUG
 	// Create resource pack file
 	writeToPack();
 #endif
 
-	// Load resources from pack file
-	return loadFromPack();
+	if (Resource_Globals::ignorePackFile) {
+		return loadFromFile();
+	}
+	else {
+		return loadFromPack();
+	}
 }
 
+bool ResourceLoader::loadFromFile() {
+
+	std::ifstream indexReader(fileIndex);
+	if (indexReader.is_open()) {
+		bool err = false;
+
+		// index file is in json
+		Json::Value root;
+		indexReader >> root;
+
+		if (root.isArray()) {
+			for (auto i = root.begin(); i != root.end() && !err; i++) {
+				if (!i->isString()) {
+					err = true;
+					break;
+				}
+
+				// create file
+				GameFile* nFile = GameFile::create(i->asString());
+
+				if (nFile) {
+					addFile(i->asString(), nFile);
+				}
+				else {
+					err = true;
+					break;
+				}
+
+			}
+		}
+		else {
+			err = true;
+		}
+
+		indexReader.close();
+		loaded = true && !err;
+	}
+	return loaded;
+}
 
 void ResourceLoader::writeToPack() {
 
@@ -63,12 +105,12 @@ void ResourceLoader::writeToPack() {
 				// create file
 				GameFile* nFile = GameFile::create(i->asString());
 
-				if (!nFile) {
-					err = true;
-					break;
+				if (nFile) {
+					files.push_back(std::make_pair(i->asString(), nFile));
 				}
 				else {
-					files.push_back(std::make_pair(i->asString(), nFile));
+					err = true;
+					break;
 				}
 
 			}
@@ -286,6 +328,6 @@ const sf::Font& ResourceLoader::getFont(const std::string& filename) {
 sf::Shader* ResourceLoader::getShader(const std::string& filename) {
 	return &getResource<ShaderFile>(shaders, filename)->get();
 }
-int ResourceLoader::getLevelOffset(const std::string& filename) {
-	return getResource<LevelFile>(levels, filename)->getPackPos();
+bool ResourceLoader::openLevelData(const std::string& filename, std::ifstream* str) {
+	return getResource<LevelFile>(levels, filename)->access(str);
 }

@@ -18,10 +18,33 @@ LevelFile::LevelFile(std::string path, FileStream* str) : GameFile(path, str) {
 	load(path, str);
 };
 
+
+bool LevelFile::access(std::ifstream* str) {
+	if (str->is_open())
+		str->close();
+
+	if (packPos != -1) {
+		// find file in pack
+		str->open(RL()->packName, std::ios::binary);
+		if (str->is_open()) {
+			str->seekg(RL()->getPackHeaderSize() + packPos);
+			return true;
+		}
+	}
+	else {
+		//find file in data directory
+		str->open(RL()->fileDir + filePath, std::ios::binary);
+		return str->is_open();
+	}
+	return false;
+}
+
+/*
 const int LevelFile::getPackPos() {
 	// turn char array into string
 	return packPos;
 }
+*/
 
 bool LevelFile::loadFromFile(std::string path) {
 
@@ -90,7 +113,6 @@ bool LevelFile::loadFromFile(std::string path) {
 bool LevelFile::loadFromStream(FileStream* str) {
 	
 	packPos = str->getSource()->tellg();
-
 	return true;
 }
 

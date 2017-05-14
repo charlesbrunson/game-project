@@ -42,7 +42,9 @@ public:
 	const std::string& getGeneric     (const std::string& filename);
 	const sf::Font&	   getFont        (const std::string& filename);
 	sf::Shader*        getShader      (const std::string& filename);
-	int                getLevelOffset (const std::string& filename);
+
+	// modifies stream to read level data
+	bool openLevelData(const std::string& filename, std::ifstream* str);
 	
 	// Resource directory and pack file constants
 	const static std::string fileDir;
@@ -56,14 +58,13 @@ private:
 	int packHeaderSize;
 
 	bool loaded = false;
-
-	// Reads data directly from directory file
-	// not implemented, probably depreciated
-	void loadFromFile();
-
+	
 	// Writes data to resource pack file
 	void writeToPack();
 
+	// Reads data directly from directory file
+	// not implemented, probably depreciated
+	bool loadFromFile();
 	// Read data from the resource pack file
 	bool loadFromPack();
 
