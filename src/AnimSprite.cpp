@@ -51,7 +51,7 @@ const Animation* AnimSprite::getAnimation() {
 }
 
 void AnimSprite::setAnimation(const std::string& animName, float timeScale) {
-	setAnimation(tex->getAnimation(animName));
+	setAnimation(tex->getAnimation(animName), timeScale);
 }
 
 void AnimSprite::setAnimation(Animation* anim, float timeScale) {
