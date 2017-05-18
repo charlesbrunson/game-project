@@ -110,7 +110,7 @@ bool TextureFile::loadFromFile(std::string path) {
 				}
 
 				// loop count
-				Json::Value loop = anim->get("loop", -1);
+				Json::Value loop = anim->get("loop", 0);
 				if (loop.isInt())
 					a.loop = loop.asInt();
 				else

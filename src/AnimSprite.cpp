@@ -51,13 +51,7 @@ const Animation* AnimSprite::getAnimation() {
 }
 
 void AnimSprite::setAnimation(const std::string& animName, float timeScale) {
-	activeAnim = tex->getAnimation(animName);
-	currentFrame = 0;
-	completedCurrentAnim = false;
-	loopCount = 0;
-	acc = sf::Time::Zero;
-	animTimeScale = timeScale;
-	//updateFrame();
+	setAnimation(tex->getAnimation(animName));
 }
 
 void AnimSprite::setAnimation(Animation* anim, float timeScale) {
@@ -67,7 +61,6 @@ void AnimSprite::setAnimation(Animation* anim, float timeScale) {
 	loopCount = 0;
 	acc = sf::Time::Zero;
 	animTimeScale = timeScale;
-	//updateFrame();
 };
 
 
@@ -76,19 +69,7 @@ void AnimSprite::setTimeScale(float tScale) {
 }
 
 void AnimSprite::swapAnimation(const std::string& animName) {
-	Animation* a = tex->getAnimation(animName);
-
-	if (activeAnim == nullptr) {
-		setAnimation(a, animTimeScale);
-		return;
-	}
-
-	if (activeAnim->numOfFrames > a->numOfFrames) {
-		currentFrame = (currentFrame % a->numOfFrames);
-	}
-
-	activeAnim = a;
-	updateSpritePos(position);
+	swapAnimation(tex->getAnimation(animName));
 }
 
 void AnimSprite::swapAnimation(Animation* anim) {
@@ -122,9 +103,9 @@ void AnimSprite::update(sf::Time t) {
 			if (onLastFrame()) {
 				completedCurrentAnim = true;
 				if (activeAnim->loop != 0){
-					loopCount++;
 					currentFrame = 0;
-					if (activeAnim->loop > 0 && loopCount <= activeAnim->loop) {
+					if (activeAnim->loop > 0 && loopCount < activeAnim->loop) {
+						loopCount++;
 						completedCurrentAnim = false;
 					}
 				}

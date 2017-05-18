@@ -211,7 +211,7 @@ void PlayerGroundState::updateAnimation(sf::Time deltaTime) {
 				}
 
 			}
-			else {
+			else if (plr->getAnimSprite().isPlaying("running")) {
 
 				float speed = abs(plr->getVelocity().x) / runspeedMax;
 
