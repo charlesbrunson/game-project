@@ -25,9 +25,9 @@ private:
 
 	void setArea(sf::FloatRect a) {};
 
-	static Animation anim_button_notselected;
-	static Animation anim_button_selected;
-	static Animation anim_button_activated;
+	//static Animation anim_button_notselected;
+	//static Animation anim_button_selected;
+	//static Animation anim_button_activated;
 
 	AnimSprite spr;
 

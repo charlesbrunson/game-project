@@ -41,11 +41,13 @@ bool ResourceLoader::loadResources() {
 		return loadFromFile();
 	}
 	else {
-		return loadFromPack();
+		// try load from pack first, load from file if that fails
+		return loadFromPack() || loadFromFile();
 	}
 }
 
 bool ResourceLoader::loadFromFile() {
+	Log::msg("Loading assets from file");
 
 	std::ifstream indexReader(fileIndex);
 	if (indexReader.is_open()) {
@@ -86,6 +88,7 @@ bool ResourceLoader::loadFromFile() {
 }
 
 void ResourceLoader::writeToPack() {
+	Log::msg("Writing assets to pack");
 
 	std::ofstream packWriter;
 
@@ -195,6 +198,8 @@ void ResourceLoader::writeToPack() {
 
 // Read file from pack
 bool ResourceLoader::loadFromPack() {
+	Log::msg("Loading assets from pack");
+
 
 	std::ifstream packReader(packName, std::ios_base::binary);
 	bool err = false;
@@ -316,7 +321,7 @@ T* ResourceLoader::getResource(std::map<std::string, T*>& map, const std::string
 const std::string& ResourceLoader::getGeneric(const std::string& filename) {
 	return getResource<GenericFile>(generics, filename)->get();
 }
-const TextureFile& ResourceLoader::getTexFile(const std::string& filename) {
+TextureFile& ResourceLoader::getTexFile(const std::string& filename) {
 	return *getResource<TextureFile>(textures, filename);
 }
 const sf::Texture& ResourceLoader::getTexture(const std::string& filename) {
@@ -329,5 +334,5 @@ sf::Shader* ResourceLoader::getShader(const std::string& filename) {
 	return &getResource<ShaderFile>(shaders, filename)->get();
 }
 bool ResourceLoader::openLevelData(const std::string& filename, std::ifstream* str) {
-	return getResource<LevelFile>(levels, filename)->access(str);
+	return getResource<LevelFile>(levels, filename)->openData(str);
 }

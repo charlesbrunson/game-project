@@ -1,7 +1,7 @@
 #include "UIButton.hpp"
 
 const sf::Vector2f UIButton::buttonSize(64.f, 16.f);
-
+/*
 Animation UIButton::anim_button_notselected(
 	sf::IntRect(0, 0, UIButton::buttonSize.x, UIButton::buttonSize.y), 
 	sf::Vector2f(0.f, 0.f), 
@@ -16,10 +16,10 @@ Animation UIButton::anim_button_activated(
 	sf::IntRect(0, UIButton::buttonSize.y * 2.f, UIButton::buttonSize.x, UIButton::buttonSize.y), 
 	sf::Vector2f(0.f, 0.f), 
 	1, sf::Time::Zero);
-
+*/
 UIButton::UIButton(std::string buttonLabel) {
-	spr.getSprite()->setTexture(RL()->getTexture("sprites/ui.png"));
-	spr.setAnimation(anim_button_notselected);
+	spr.setTexFile(RL()->getTexFile("sprites/ui.png"));
+	spr.setAnimation("button-inactive");
 
 	interactive = true;
 	delayedActivation = true;
@@ -47,21 +47,21 @@ void UIButton::setActiveState(ActiveState st) {
 		if (st == NOT_SELECTED) {
 			bText.setTextColor(sf::Color::White);
 
-			if (!spr.isPlaying(anim_button_notselected))
-				spr.setAnimation(anim_button_notselected);
+			if (!spr.isPlaying("button-inactive"))
+				spr.setAnimation("button-inactive");
 		}
 		else if (st == SELECTED) {
 			bText.setTextColor(sf::Color(244, 226, 116, 255));
 
-			if (!spr.isPlaying(anim_button_selected))
-				spr.setAnimation(anim_button_selected);
+			if (!spr.isPlaying("button-selected"))
+				spr.setAnimation("button-selected");
 		}
 		else if (st == ACTIVATED) {
 			bText.setTextColor(sf::Color(244, 226, 116, 255));
 
 			bText.shiftText(sf::Vector2f(0.f, 1.f));
-			if (!spr.isPlaying(anim_button_activated))
-				spr.setAnimation(anim_button_activated);
+			if (!spr.isPlaying("button-activated"))
+				spr.setAnimation("button-activated");
 		}
 	}
 
@@ -70,7 +70,7 @@ void UIButton::setActiveState(ActiveState st) {
 }
 
 void UIButton::setPosition(sf::Vector2f pos) {
-	spr.getSprite()->setPosition(pos);
+	spr.setPosition(pos);
 	//bText.setArea(sf::FloatRect(pos.x, pos.y, buttonSize.x, buttonSize.y));
 
 	area = sf::FloatRect(pos.x, pos.y, buttonSize.x, buttonSize.y);

@@ -1,19 +1,17 @@
 #include "TestObject.hpp"
 #include "PlayerRef.hpp"
 
-Animation TestObject::anim_idle(sf::IntRect(0, 0, 16, 32), sf::Vector2f(8, 32), 1, sf::seconds(1.f));
+//Animation TestObject::anim_idle(sf::IntRect(0, 0, 16, 32), sf::Vector2f(8, 32), 1, sf::seconds(1.f));
 
 TestObject::TestObject(Level *level) : GameObject(level) {
-	sprite.setAnimation(anim_idle);
-	sprite.updateFrame();
 
-	sprite.getSprite()->setTexture(RL()->getTexture("sprites/testenemy.png"));
+	sprite.setTexFile(RL()->getTexFile("sprites/testenemy.png"));
+	sprite.setAnimation("idle");
 
 	setCollisionSize(16, 32);
 
 	drawPriority = 100;
 	objectType = type::NEUTRAL;
-	//objectID = ID;
 
 	collisionActive = true;
 	isGlobal = false;

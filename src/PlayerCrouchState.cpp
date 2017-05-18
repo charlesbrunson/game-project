@@ -11,8 +11,8 @@ void PlayerCrouchState::enter() {
 	
 	sliding = abs(plr->vel().x) >= PlayerState::dashVel;
 
-	if ((!plr->getAnimSprite().isPlaying(plr->anim_land) || plr->getAnimSprite().getFrame() > 2) && (!sliding && !plr->getAnimSprite().isPlaying(plr->anim_crouch))) 
-		plr->getAnimSprite().setAnimation(sliding ? plr->anim_slide : plr->anim_idle_to_crouch);
+	if ((!plr->getAnimSprite().isPlaying("land") || plr->getAnimSprite().getFrame() > 2) && (!sliding && !plr->getAnimSprite().isPlaying("crouch"))) 
+		plr->getAnimSprite().setAnimation(sliding ? "slide" : "idle-to-crouch");
 	
 	if (sliding) {
 		slideTimer = sf::Time::Zero;
@@ -23,29 +23,29 @@ void PlayerCrouchState::exit() {
 	AnimSprite *plrSpr = &plr->getAnimSprite();
 	if (plr->collisionUp) {
 
-		if (plrSpr->isPlaying(plr->anim_idle_to_crouch)) {
+		if (plrSpr->isPlaying("idle-to-crouch")) {
 
 			int f = plrSpr->getFrame();
 
-			if (f >= plr->anim_crouch_to_idle.numOfFrames - 1) {
-				plrSpr->setAnimation(plr->anim_crouch_to_idle);
-				plrSpr->setFrame(plr->anim_crouch_to_idle.numOfFrames - 1 - f);
+			if (f >= plrSpr->getTexFile()->getAnimation("crouch-to-idle")->numOfFrames - 1) {
+				plrSpr->setAnimation("crouch-to-idle");
+				plrSpr->setFrame(plrSpr->getAnimation()->numOfFrames - 1 - f);
 			}
 		}
-		else if (plrSpr->isPlaying(plr->anim_crouch, true) || sliding) {
+		else if (plrSpr->isPlaying("crouch", true) || sliding) {
 			int move = plr->getMoveDir();
 
 			if (move != 0) {
-				plrSpr->setAnimation(plr->anim_crouch_to_run);
+				plrSpr->setAnimation("crouch-to-run");
 			}
 			else {
-				plrSpr->setAnimation(plr->anim_crouch_to_idle);
+				plrSpr->setAnimation("crouch-to-idle");
 			}
 		}
 
 	}
-	else if (!plrSpr->isPlaying(plr->anim_jump_start)) {
-		plrSpr->setAnimation(plr->anim_jump_start);
+	else if (!plrSpr->isPlaying("jump-start")) {
+		plrSpr->setAnimation("jump-start");
 		if (plr->vel().y >= 0)
 			plrSpr->setFrame(3);
 	}
@@ -127,7 +127,7 @@ int PlayerCrouchState::update(sf::Time deltaTime) {
 			if (!sliding) {
 
 				plr->setVelX(0.f);
-				if (move != 0 && plr->getAnimSprite().isPlaying(plr->anim_crouch))
+				if (move != 0 && plr->getAnimSprite().isPlaying("crouch"))
 					plr->getAnimSprite().setHFlip(move < 0);
 
 
@@ -147,12 +147,7 @@ int PlayerCrouchState::update(sf::Time deltaTime) {
 
 					Effect *smokeFX = new Effect(
 						"sprites/player.png",
-						Animation(
-							sf::IntRect(96, 232, 8, 8),
-							sf::Vector2f(8.f, 4.f),
-							5,
-							sf::seconds(4.f / 60.f),
-							0),
+						"smoke-FX",
 						Effect::UNDER,
 						plr->getAnimSprite().getHFlip()
 						);
@@ -178,7 +173,7 @@ int PlayerCrouchState::update(sf::Time deltaTime) {
 						if (move != 0) {
 
 							if (plr->getAnimSprite().getHFlip() != move < 0)
-								plr->getAnimSprite().setAnimation(plr->anim_slide);
+								plr->getAnimSprite().setAnimation("slide");
 
 							plr->getAnimSprite().setHFlip(move < 0);
 						}
@@ -187,7 +182,7 @@ int PlayerCrouchState::update(sf::Time deltaTime) {
 					}
 					else {
 						sliding = false;
-						plr->getAnimSprite().setAnimation(plr->anim_slide_to_crouch);
+						plr->getAnimSprite().setAnimation("slide-to-crouch");
 					}
 				}
 			}
@@ -206,11 +201,11 @@ int PlayerCrouchState::update(sf::Time deltaTime) {
 }
 void PlayerCrouchState::updateAnimation(sf::Time deltaTime){
 
-	if (plr->getAnimSprite().isPlaying(plr->anim_slide) && !sliding) {
-		plr->getAnimSprite().setAnimation(plr->anim_crouch);
+	if (plr->getAnimSprite().isPlaying("slide") && !sliding) {
+		plr->getAnimSprite().setAnimation("crouch");
 	}
-	else if (!plr->getAnimSprite().isPlaying(plr->anim_slide) && sliding) {
-		plr->getAnimSprite().setAnimation(plr->anim_slide);
+	else if (!plr->getAnimSprite().isPlaying("slide") && sliding) {
+		plr->getAnimSprite().setAnimation("slide");
 	}
 
 	plr->getAnimSprite().update(deltaTime);

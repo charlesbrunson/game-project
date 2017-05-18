@@ -19,7 +19,7 @@ LevelFile::LevelFile(std::string path, FileStream* str) : GameFile(path, str) {
 };
 
 
-bool LevelFile::access(std::ifstream* str) {
+bool LevelFile::openData(std::ifstream* str) {
 	if (str->is_open())
 		str->close();
 
@@ -38,13 +38,6 @@ bool LevelFile::access(std::ifstream* str) {
 	}
 	return false;
 }
-
-/*
-const int LevelFile::getPackPos() {
-	// turn char array into string
-	return packPos;
-}
-*/
 
 bool LevelFile::loadFromFile(std::string path) {
 

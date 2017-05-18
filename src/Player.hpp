@@ -112,7 +112,7 @@ public:
 	
 	const sf::Vector2f collisionStanding = sf::Vector2f(10.f, 30.f);
 	const sf::Vector2f collisionCrouched = sf::Vector2f(10.f, 16.f);
-
+	/*
 	static Animation anim_idle;
 	static Animation anim_idle_to_run;
 	static Animation anim_running;
@@ -147,7 +147,7 @@ public:
 	static Animation anim_boostjump;
 	static Animation anim_boostdash;
 	static Animation anim_boostdash_to_fall_transition;
-	
+	*/
 	void useBoost();
 	bool hasBoost();
 	void rechargeBoost();

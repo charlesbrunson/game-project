@@ -13,7 +13,7 @@ public:
 	TextureFile(std::string path, FileStream* str = nullptr);
 
 	const sf::Texture& get() const;
-	const Animation& getAnimation(std::string animName) const;
+	Animation* getAnimation(std::string animName);
 
 private:
 
@@ -24,6 +24,7 @@ private:
 	sf::Texture tex;
 	std::map<std::string, Animation> animations;
 
+	void linkAnimations();
 };
 
 #endif

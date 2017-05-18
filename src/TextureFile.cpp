@@ -22,8 +22,8 @@ const sf::Texture& TextureFile::get() const {
 	return tex;
 }
 
-const Animation& TextureFile::getAnimation(std::string animName) const {
-	return animations.at(animName);
+Animation* TextureFile::getAnimation(std::string animName) {
+	return &animations.at(animName);
 }
 
 bool TextureFile::loadFromFile(std::string path) {
@@ -40,6 +40,8 @@ bool TextureFile::loadFromFile(std::string path) {
 			Json::Value root;
 			reader >> root;
 
+			animations.clear();
+
 			for (auto anim = root.begin(); anim != root.end(); anim++) {
 
 
@@ -47,6 +49,7 @@ bool TextureFile::loadFromFile(std::string path) {
 				std::string animName = anim.key().asString();
 
 				Animation a;
+				a.name = animName;
 				bool err = false;
 
 				// area
@@ -78,18 +81,20 @@ bool TextureFile::loadFromFile(std::string path) {
 
 				// frame count
 				Json::Value count = anim->get("count", 0);
-				int animCount;
+				//int animCount;
 				if (count.isInt())
-					animCount = count.asInt();
+					a.numOfFrames = count.asInt();
 				else
 					err = true;
 
 				// framerate
-				Json::Value frameRateMS = anim->get("frameRateMS", Json::nullValue);
-				if (frameRateMS.isConvertibleTo(Json::realValue) || frameRateMS.isArray()) {
-					if (frameRateMS.isConvertibleTo(Json::realValue)) {
+				Json::Value frameRateMS = anim->get("framerateMS", Json::nullValue);
+				if (frameRateMS.isNumeric() || frameRateMS.isArray()) {
+					if (frameRateMS.isNumeric()) {
 
-						a.frameTimes = std::vector<sf::Time>(animCount, sf::seconds(frameRateMS.asFloat() / 1000.f));
+						float f = frameRateMS.asFloat();
+						a.frameTimes.insert(a.frameTimes.begin(), a.numOfFrames, sf::seconds(f / 1000.f));
+						//a.frameTimes = std::vector<sf::Time>(animCount, sf::seconds(frameRateMS.asFloat() / 1000.f));
 
 					}
 					else if (frameRateMS.isArray()) {
@@ -97,7 +102,7 @@ bool TextureFile::loadFromFile(std::string path) {
 						for (auto time = frameRateMS.begin(); time != frameRateMS.end(); time++) {
 							a.frameTimes.push_back(sf::seconds(time->asFloat()) / 1000.f);
 						}
-
+						a.numOfFrames = a.frameTimes.size();
 					}
 				}
 				else {
@@ -200,7 +205,6 @@ bool TextureFile::loadFromFile(std::string path) {
 }
 
 bool TextureFile::loadFromStream(FileStream* str) {
-	//str->seek(0);
 
 	int texSize = 0;
 	str->read(&texSize, StdSizes::intSize);
@@ -217,6 +221,7 @@ bool TextureFile::loadFromStream(FileStream* str) {
 		int animCount;
 		str->read(&animCount, StdSizes::intSize);
 
+		animations.clear();
 		for (int i = 0; i < animCount; i++) {
 
 			std::pair<std::string, Animation> a;
@@ -229,6 +234,7 @@ bool TextureFile::loadFromStream(FileStream* str) {
 				str->read(&c, StdSizes::charSize);
 				a.first += c;
 			}
+			a.second.name = a.first;
 
 			//area
 			str->read(&a.second.area.left, StdSizes::intSize);
@@ -248,6 +254,7 @@ bool TextureFile::loadFromStream(FileStream* str) {
 				str->read(&t, StdSizes::floatSize);
 				a.second.frameTimes.push_back(sf::seconds(t));
 			}
+			a.second.numOfFrames = a.second.frameTimes.size();
 
 			//loop
 			str->read(&a.second.loop, StdSizes::floatSize);
@@ -266,13 +273,13 @@ bool TextureFile::loadFromStream(FileStream* str) {
 
 			animations.insert(a);
 		}
+		linkAnimations();
 		return true;
 	}
 	return false;
 }
 
 void TextureFile::convertToData() {
-	data.clear();
 
 	std::stringstream out;
 
@@ -296,7 +303,6 @@ void TextureFile::convertToData() {
 	out.write((char*)&animCount, StdSizes::intSize);
 	for (const auto& a : animations) {
 		const Animation& ani = a.second;
-
 
 		//name
 		int animNameSize = a.first.size();
@@ -335,6 +341,7 @@ void TextureFile::convertToData() {
 		//chain start frame
 		out.write((char*)&ani.chainStartOnFrame, StdSizes::intSize);
 	}
+	linkAnimations();
 
 	// dont need to write tiledata
 
@@ -342,4 +349,24 @@ void TextureFile::convertToData() {
 	std::string dstr = out.str();
 	data.append(dstr.c_str(), dstr.size());
 
+}
+
+void TextureFile::linkAnimations() {
+	if (animations.size() < 2)
+		return;
+
+	for (auto a = animations.begin(); a != animations.end(); a++) {
+		if (a->second.chainToName.empty() || a->second.chainTo)
+			continue;
+
+		for (auto b = animations.begin(); b != animations.end(); b++) {
+			if (a == b)
+				continue;
+
+			if (a->second.chainToName == b->first) {
+				a->second.chainTo = &b->second;
+				break;
+			}
+		}
+	}
 }

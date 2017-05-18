@@ -10,11 +10,12 @@ void LevelLoader::loadLevel(std::string name, Zone::LevelArea &area, Zone *zone)
 
 	std::ifstream stream;
 
-	RL()->openLevelData(name + ".lvl", &stream);
+	if (!RL()->openLevelData(name + ".lvl", &stream)) {
+		assert(false);
+	}
 	LevelLoader::readLevel(stream, area, zone);
 
 	stream.close();
-
 
 }
 

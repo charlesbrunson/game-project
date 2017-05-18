@@ -17,21 +17,21 @@ Effect::Effect(int type, bool flip) {
 	*/
 	toDelete = true;
 
-	sprite.setAnimation(anim);
+	//sprite.setAnimation(anim);
 	sprite.updateFrame();
 };
 
 // Custom constuctor
-Effect::Effect(std::string texFile, Animation ani, int onLayer, bool flip) {
+Effect::Effect(std::string texFile, std::string ani, int onLayer, bool flip) {
 
 	//sprite.setResources(rMan);
 	sprite.setHFlip(flip);
 
-	sprite.getSprite()->setTexture(RL()->getTexture(texFile));
+	sprite.setTexFile(RL()->getTexFile(texFile));
 
-	anim = ani;
+	//anim = ani;
 	layer = onLayer;
-	sprite.setAnimation(anim);
+	sprite.setAnimation(ani);
 	sprite.updateFrame();
 };
 

@@ -1,37 +1,107 @@
 #include "AnimSprite.hpp"
 
+#include <set>
 
 AnimSprite::AnimSprite() {
 
 };
 
-bool AnimSprite::isPlaying(Animation &a, bool includeChainTo) {
-	return activeAnim == &a || (includeChainTo && activeAnim != nullptr && activeAnim->chainTo == &a);
+void AnimSprite::setPosition(sf::Vector2f pos) {
+	sprite.setPosition(pos);
 }
 
-void AnimSprite::setAnimation(Animation &anim, float timeScale) {
-	activeAnim = &anim;
+void AnimSprite::setTexFile(TextureFile& texFile) {
+	tex = &texFile;
+	sprite.setTexture(tex->get());
+}
+
+TextureFile* AnimSprite::getTexFile() {
+	return tex;
+}
+
+bool AnimSprite::isPlaying(const std::string& animName, bool includeChainTo) {
+	Animation *playing = tex->getAnimation(animName);
+	//TODO implement some iteration through animation chain
+	/*
+	std::set<Animation*> onChain;
+
+	if (!playing || !activeAnim)
+		return false;
+
+	if (playing == activeAnim) {
+		return true;
+	}
+	else if (includeChainTo) {
+		Animation* st = activeAnim;
+		onChain.insert(st);
+		while (st->chainTo && onChain.find(st->chainTo) == onChain.end()) {
+			st = st->chainTo;
+			if (st == activeAnim) {
+				return true;
+			}
+			onChain.insert(st);
+		}
+		return false;
+	}
+	*/
+	return activeAnim == playing || (includeChainTo && activeAnim != nullptr && activeAnim->chainTo == playing);
+}
+const Animation* AnimSprite::getAnimation() {
+	return activeAnim;
+}
+
+void AnimSprite::setAnimation(const std::string& animName, float timeScale) {
+	activeAnim = tex->getAnimation(animName);
 	currentFrame = 0;
 	completedCurrentAnim = false;
 	loopCount = 0;
 	acc = sf::Time::Zero;
 	animTimeScale = timeScale;
+	//updateFrame();
+}
+
+void AnimSprite::setAnimation(Animation* anim, float timeScale) {
+	activeAnim = anim;
+	currentFrame = 0;
+	completedCurrentAnim = false;
+	loopCount = 0;
+	acc = sf::Time::Zero;
+	animTimeScale = timeScale;
+	//updateFrame();
 };
+
+
 void AnimSprite::setTimeScale(float tScale) {
 	animTimeScale = tScale;
 }
 
-void AnimSprite::swapAnimation(Animation &anim) {
+void AnimSprite::swapAnimation(const std::string& animName) {
+	Animation* a = tex->getAnimation(animName);
+
+	if (activeAnim == nullptr) {
+		setAnimation(a, animTimeScale);
+		return;
+	}
+
+	if (activeAnim->numOfFrames > a->numOfFrames) {
+		currentFrame = (currentFrame % a->numOfFrames);
+	}
+
+	activeAnim = a;
+	updateSpritePos(position);
+}
+
+void AnimSprite::swapAnimation(Animation* anim) {
 	if (activeAnim == nullptr) {
 		setAnimation(anim, animTimeScale);
 		return;
 	}
 
-	if (activeAnim->numOfFrames > anim.numOfFrames) {
-		currentFrame = (currentFrame % anim.numOfFrames);
+	if (activeAnim->numOfFrames > anim->numOfFrames) {
+		currentFrame = (currentFrame % anim->numOfFrames);
 	}
 
-	activeAnim = &anim;
+	activeAnim = anim;
 	updateSpritePos(position);
 }
 
@@ -43,7 +113,7 @@ void AnimSprite::update(sf::Time t) {
 
 	if (activeAnim->numOfFrames > 1 || activeAnim->loop != -1)
 		acc += t;
-
+	
 	if (activeAnim->frameTimes[currentFrame] > sf::Time::Zero) {
 		while (acc >= activeAnim->frameTimes[currentFrame]) {
 
@@ -61,7 +131,7 @@ void AnimSprite::update(sf::Time t) {
 				if (completedCurrentAnim && activeAnim->chainTo != nullptr) {
 
 					currentFrame = activeAnim->chainStartOnFrame;
-					swapAnimation(*activeAnim->chainTo);
+					swapAnimation(activeAnim->chainTo);
 
 				}
 			}
@@ -96,8 +166,8 @@ bool AnimSprite::isComplete() {
 };
 
 //sprite ref
-sf::Sprite* AnimSprite::getSprite() {
-	return &sprite;
+const sf::Sprite& AnimSprite::getSprite() {
+	return sprite;
 };
 
 //horizontal flip
@@ -112,10 +182,6 @@ void AnimSprite::setHFlip(bool i) {
 
 bool AnimSprite::getHFlip() {
 	return hFlipped;
-};
-
-Animation* AnimSprite::getAnimation() {
-	return activeAnim;
 };
 
 int AnimSprite::getLoopCount() {
@@ -148,11 +214,11 @@ void AnimSprite::updateFrame() {
 };
 
 void AnimSprite::updateSpritePos(sf::Vector2f pos) {
-	sf::Vector2f ori = getAnimation() != nullptr ? getAnimation()->origin : sf::Vector2f();
+	sf::Vector2f ori = activeAnim != nullptr ? activeAnim->origin : sf::Vector2f();
 
 	float flippedOrigin = getHFlip() ? ori.x : -ori.x;
 
-	getSprite()->setPosition(snapToPixel(sf::Vector2f(pos.x + flippedOrigin, pos.y - ori.y)));
+	sprite.setPosition(snapToPixel(sf::Vector2f(pos.x + flippedOrigin, pos.y - ori.y)));
 
 	updateFrame();
 	position = pos;

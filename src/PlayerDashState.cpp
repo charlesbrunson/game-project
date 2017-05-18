@@ -11,8 +11,8 @@ void PlayerDashState::enter() {
 	if (move != 0)
 		plr->getAnimSprite().setHFlip(move < 0);
 	
-	if (!plr->getAnimSprite().isPlaying(plr->anim_dash))
-		plr->getAnimSprite().setAnimation(plr->anim_dash);
+	if (!plr->getAnimSprite().isPlaying("dash"))
+		plr->getAnimSprite().setAnimation("dash");
 
 	createFX();
 }
@@ -94,7 +94,7 @@ int PlayerDashState::update(sf::Time deltaTime) {
 
 		}
 
-		plr->getAnimSprite().setAnimation(plr->anim_dash_to_run);
+		plr->getAnimSprite().setAnimation("dash-to-run");
 		return Player::PlayerState::GROUND;
 	}
 	return objectState;
@@ -110,12 +110,7 @@ void PlayerDashState::createFX() {
 
 	Effect *fx = new Effect(
 		"sprites/player.png",
-		Animation(
-			sf::IntRect(240, 240, 16, 16),
-			sf::Vector2f(18.f, 16.f),
-			4,
-			sf::seconds(5.f / 60.f),
-			0),
+		"dash-FX",
 		Effect::UNDER,
 		plr->getAnimSprite().getHFlip());
 

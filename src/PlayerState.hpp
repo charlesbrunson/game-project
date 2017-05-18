@@ -19,7 +19,7 @@ protected:
 
 	void jump(bool crouchJump = false) {
 		int move = plr->getMoveDir();
-		plr->getAnimSprite().setAnimation(plr->anim_jump_start);
+		plr->getAnimSprite().setAnimation("jump-start");
 
 		float j = crouchJump ? crouchJumpVel : jumpVel;
 		

@@ -5,59 +5,32 @@ void PlayerGroundState::enter() {
 	plr->rechargeBoost();
 
 	//create effect if playing full land animation
-	if (plr->getAnimSprite().isPlaying(plr->anim_land) && plr->getAnimSprite().getFrame() == 0) {
+	if (plr->getAnimSprite().isPlaying("land") && plr->getAnimSprite().getFrame() == 0) {
 
-		Animation landFXROani(
-			sf::IntRect(0, 232, 16, 8),
-			sf::Vector2f(16.f, 8.f),
-			6,
-			sf::seconds(4.f / 60.f),
-			0
-			);
 		Effect *landFXRO = new Effect(
 			"sprites/player.png", 
-			landFXROani,
+			"land-FXover",
 			Effect::OVER,
 			true
 			);
 
-
-		Animation landFXLOani(
-			sf::IntRect(0, 232, 16, 8),
-			sf::Vector2f(16.f, 8.f),
-			6,
-			sf::seconds(4.f / 60.f),
-			0);
 		Effect *landFXLO = new Effect(
 			"sprites/player.png",
-			landFXLOani,
+			"land-FXover",
 			Effect::OVER,
 			false
 			);
 
-		Animation landFXRUani(
-			sf::IntRect(0, 224, 16, 8),
-			sf::Vector2f(16.f, 8.f),
-			6,
-			sf::seconds(4.f / 60.f),
-			0);
 		Effect *landFXRU = new Effect(
 			"sprites/player.png",
-			landFXRUani,
+			"land-FXunder",
 			Effect::UNDER,
 			true
 			);
 
-
-		Animation landFXLUani(
-			sf::IntRect(0, 224, 16, 8),
-			sf::Vector2f(16.f, 8.f),
-			6,
-			sf::seconds(4.f / 60.f),
-			0);
 		Effect *landFXLU = new Effect(
 			"sprites/player.png",
-			landFXLUani,
+			"land-FXunder",
 			Effect::UNDER,
 			false
 			);
@@ -181,11 +154,11 @@ int PlayerGroundState::update(sf::Time deltaTime) {
 		return Player::PlayerState::DASH;
 		
 	}
-	else if (plr->isHeld(Player::PlayerInput::DOWN) && !(plr->getAnimSprite().isPlaying(plr->anim_land) && plr->getAnimSprite().getFrame() < 2)) {
+	else if (plr->isHeld(Player::PlayerInput::DOWN) && !(plr->getAnimSprite().isPlaying("land") && plr->getAnimSprite().getFrame() < 2)) {
 
 		//smoothing transition from landing animation to crouching a bit
-		if (plr->getAnimSprite().isPlaying(plr->anim_land) && plr->getAnimSprite().getFrame() == 2) {
-			plr->getAnimSprite().setAnimation(plr->anim_idle_to_crouch);
+		if (plr->getAnimSprite().isPlaying("land") && plr->getAnimSprite().getFrame() == 2) {
+			plr->getAnimSprite().setAnimation("idle-to-crouch");
 			plr->getAnimSprite().setFrame(1);
 		}
 
@@ -201,11 +174,11 @@ int PlayerGroundState::update(sf::Time deltaTime) {
 
 void PlayerGroundState::updateAnimation(sf::Time deltaTime) {
 	
-	if (!plr->getAnimSprite().isPlaying(plr->anim_jump_start) && !plr->getAnimSprite().isPlaying(plr->anim_idle_to_crouch)) {
+	if (!plr->getAnimSprite().isPlaying("jump-start") && !plr->getAnimSprite().isPlaying("idle-to-crouch")) {
 		if (plr->vel().x == 0) {
-			if (!plr->getAnimSprite().isPlaying(plr->anim_idle, true)) {
+			if (!plr->getAnimSprite().isPlaying("idle", true)) {
 
-				plr->getAnimSprite().setAnimation(plr->anim_idle);
+				plr->getAnimSprite().setAnimation("idle");
 
 			}
 		}
@@ -214,8 +187,8 @@ void PlayerGroundState::updateAnimation(sf::Time deltaTime) {
 				startBraking = false;
 				if (abs(plr->vel().x) > runspeedStart) {
 
-					if (!plr->getAnimSprite().isPlaying(plr->anim_brake)) {
-						plr->getAnimSprite().setAnimation(plr->anim_brake);
+					if (!plr->getAnimSprite().isPlaying("brake")) {
+						plr->getAnimSprite().setAnimation("brake");
 
 						if (abs(plr->vel().x) < runspeedMax - 25.f) {
 							plr->getAnimSprite().setFrame(3);
@@ -224,14 +197,14 @@ void PlayerGroundState::updateAnimation(sf::Time deltaTime) {
 
 				}
 			}
-			if (abs(plr->vel().x) >= runspeedMax - 25.f && plr->getAnimSprite().isPlaying(plr->anim_brake)) {
+			if (abs(plr->vel().x) >= runspeedMax - 25.f && plr->getAnimSprite().isPlaying("brake")) {
 				plr->getAnimSprite().setFrame(0);
 			}
 		}
 		else {
-			if (!plr->getAnimSprite().isPlaying(plr->anim_running, true)) {
+			if (!plr->getAnimSprite().isPlaying("running", true)) {
 
-				plr->getAnimSprite().setAnimation(plr->anim_idle_to_run);
+				plr->getAnimSprite().setAnimation("idle-to-run");
 
 				if (abs(plr->vel().x) >= PlayerState::runspeedMax) {
 					plr->getAnimSprite().setFrame(1);

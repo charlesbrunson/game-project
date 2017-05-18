@@ -3,7 +3,7 @@
 #include "PlayerAirState.hpp"
 
 void PlayerWallJumpState::enter() {
-	plr->getAnimSprite().setAnimation(plr->anim_walljump);
+	plr->getAnimSprite().setAnimation("walljump");
 	
 	plr->setVelY(-280.f);
 	plr->setVelX(wallJumpVel * (!plr->getAnimSprite().getHFlip() ? 1.f : -1.f));
@@ -18,7 +18,7 @@ void PlayerWallJumpState::exit() {
 int PlayerWallJumpState::update(sf::Time deltaTime) {
 	int move = plr->getMoveDir();
 	
-	if (plr->getAnimSprite().isPlaying(plr->anim_walljump) || plr->getAnimSprite().isPlaying(plr->anim_jump_fall_transition)) {
+	if (plr->getAnimSprite().isPlaying("walljump") || plr->getAnimSprite().isPlaying("jump-fall-transition")) {
 
 		if (!cancelling && (move != 0 && plr->getAnimSprite().getHFlip() == move > 0 && plr->getAnimSprite().getFrame() > 1) || plr->vel().x == 0.f)
 			cancelling = true;
@@ -69,7 +69,7 @@ int PlayerWallJumpState::update(sf::Time deltaTime) {
 		
 		if (plr->collisionUp)
 			return Player::PlayerState::GROUND;
-		else if (plr->collisionDown || (cancelling && plr->getAnimSprite().isPlaying(plr->anim_jump_fall_transition)))
+		else if (plr->collisionDown || (cancelling && plr->getAnimSprite().isPlaying("jump-fall-transition")))
 			return Player::PlayerState::AIR;
 		else
 			return Player::PlayerState::WALLJUMP;
@@ -85,7 +85,7 @@ int PlayerWallJumpState::update(sf::Time deltaTime) {
 void PlayerWallJumpState::updateAnimation(sf::Time deltaTime) {
 	//int move = plr->getMoveDir();
 
-	if (plr->getAnimSprite().isPlaying(plr->anim_walljump)) {
+	if (plr->getAnimSprite().isPlaying("walljump")) {
 
 		if (plr->vel().y < -150.f && plr->getAnimSprite().getFrame() >= 0)
 			plr->getAnimSprite().setFrame(0);
@@ -99,7 +99,7 @@ void PlayerWallJumpState::updateAnimation(sf::Time deltaTime) {
 void PlayerWallJumpState::walljump(bool left, sf::Time deltaTime, Player *plr) {
 
 	plr->getAnimSprite().setHFlip(!left);
-	plr->getAnimSprite().setAnimation(plr->anim_walljump);
+	plr->getAnimSprite().setAnimation("walljump");
 
 	//move away from wall, to prevent clipping
 	plr->setVelX((!left ? -1.f : 1.f) * (6.f / deltaTime.asSeconds()));

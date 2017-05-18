@@ -12,7 +12,7 @@ public:
 	void updateAnimation(sf::Time deltaTime);
 
 private:
-	static Animation anim_idle;
+	//static Animation anim_idle;
 
 };
 

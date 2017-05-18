@@ -20,9 +20,9 @@ void PlayerLedgeState::enter() {
 
 	isClimbing = toAutoClimb || mode == CLAMBER;
 	if (isClimbing)
-		plr->getAnimSprite().setAnimation(*climb1);
-	else if (!plr->getAnimSprite().isPlaying(plr->anim_ledgehang, true)) {
-		plr->getAnimSprite().setAnimation(plr->anim_ledgehang);
+		plr->getAnimSprite().setAnimation(climb1);
+	else if (!plr->getAnimSprite().isPlaying("ledgehang", true)) {
+		plr->getAnimSprite().setAnimation("ledgehang");
 	}
 }
 
@@ -39,11 +39,11 @@ int PlayerLedgeState::update(sf::Time deltaTime) {
 	if (!isClimbing) {
 
 		if (move != 0 && move > 0 == (ledgeSide == LedgeGrab::Side::LEFT)) {
-			if (!plr->getAnimSprite().isPlaying(plr->anim_ledgehang_look))
-				plr->getAnimSprite().setAnimation(plr->anim_ledgehang_look);
+			if (!plr->getAnimSprite().isPlaying("ledgehang-look"))
+				plr->getAnimSprite().setAnimation("ledgehang-look");
 		}
-		else if (plr->getAnimSprite().isPlaying(plr->anim_ledgehang_look)) {
-			plr->getAnimSprite().setAnimation(plr->anim_ledgehang_look_return);
+		else if (plr->getAnimSprite().isPlaying("ledgehang-look")) {
+			plr->getAnimSprite().setAnimation("ledgehang-look-return");
 		}
 
 		if (plr->isPressed(Player::PlayerInput::JUMP, sf::milliseconds(100))) {
@@ -77,12 +77,12 @@ int PlayerLedgeState::update(sf::Time deltaTime) {
 		}
 		else if (plr->isHeld(Player::PlayerInput::UP)) {
 			isClimbing = true;
-			plr->getAnimSprite().setAnimation(*climb1);
+			plr->getAnimSprite().setAnimation(climb1);
 		}
 
 	}
 	else {
-		if (plr->getAnimSprite().isPlaying(*climb1) && plr->getAnimSprite().isComplete()) {
+		if (plr->getAnimSprite().isPlaying(climb1) && plr->getAnimSprite().isComplete()) {
 
 			if (mode == LEDGE) {
 				plr->setPosition(plr->pos() + sf::Vector2f(ledgeMove.x * (ledgeSide == LedgeGrab::Side::LEFT ? -1.f : 1.f), ledgeMove.y), true);
@@ -92,9 +92,9 @@ int PlayerLedgeState::update(sf::Time deltaTime) {
 			}
 
 			plr->crouch();
-			plr->getAnimSprite().setAnimation(*climb2);
+			plr->getAnimSprite().setAnimation(climb2);
 		}
-		else if (plr->getAnimSprite().isPlaying(*climb2)) {
+		else if (plr->getAnimSprite().isPlaying(climb2)) {
 
 			//slide?
 			if (plr->getAnimSprite().getFrame() == 0 && plr->getAnimSprite().isNextFrameWithin(deltaTime) &&
@@ -107,8 +107,8 @@ int PlayerLedgeState::update(sf::Time deltaTime) {
 			}
 			//crouch
 			else if (plr->getAnimSprite().isComplete()) {
-				plr->getAnimSprite().setAnimation(plr->anim_crouch);
-				plr->getAnimSprite().setFrame(plr->anim_crouch.numOfFrames - 1);
+				plr->getAnimSprite().setAnimation("crouch");
+				plr->getAnimSprite().setFrame(plr->getAnimSprite().getAnimation()->numOfFrames - 1);
 				plr->setVelY(plr->vel().y + gravity * deltaTime.asSeconds());
 				return Player::PlayerState::CROUCH;
 			}
@@ -118,10 +118,10 @@ int PlayerLedgeState::update(sf::Time deltaTime) {
 		off.x *= ledgeSide == LedgeGrab::Side::LEFT ? -1.f : 1.f;
 		off /= 2.f;
 
-		if (plr->getAnimSprite().isPlaying(*climb1)) {
+		if (plr->getAnimSprite().isPlaying(climb1)) {
 			plr->camFollowOffset = off * plr->getAnimSprite().getAnimProgress();
 		}
-		else if(plr->getAnimSprite().isPlaying(*climb2)) {
+		else if(plr->getAnimSprite().isPlaying(climb2)) {
 			plr->camFollowOffset = (off * plr->getAnimSprite().getAnimProgress()) - off;
 		}
 

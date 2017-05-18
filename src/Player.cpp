@@ -11,6 +11,7 @@
 #include "PlayerLedgeState.hpp"
 
 //defining animations
+/*
 Animation Player::anim_idle(sf::IntRect(0, 0, 16, 32), sf::Vector2f(8, 32), 4, sf::seconds(12.f / 60));
 Animation Player::anim_idle_to_run(sf::IntRect(320, 0, 16, 32), sf::Vector2f(8, 32), 2, sf::seconds(4.f / 60), 0, &anim_running);
 Animation Player::anim_running(sf::IntRect(64, 0, 32, 32), sf::Vector2f(16, 32), 8, sf::seconds(5.f / 60));
@@ -46,7 +47,7 @@ Animation Player::anim_boostjump(sf::IntRect(224, 112, 32, 48), sf::Vector2f(16,
 
 Animation Player::anim_boostdash(sf::IntRect(256, 80, 32, 32), sf::Vector2f(16, 32), 4, sf::seconds(4.f / 60));
 Animation Player::anim_boostdash_to_fall_transition(sf::IntRect(384, 80, 32, 32), sf::Vector2f(16, 32), 2, sf::seconds(5.f / 60), 0, &anim_jump_fall_transition);
-
+*/
 //----------------------
 
 Player::Player(Level *l) : GameObject(l) {
@@ -57,10 +58,11 @@ Player::Player(Level *l) : GameObject(l) {
 	godMode = Gameplay_Globals::Debug::playerInvulnerable;
 	dead = false;
 
-	sprite.setAnimation(anim_idle);
-	sprite.updateFrame();
+	sprite.setTexFile(RL()->getTexFile("sprites/player.png"));
+	sprite.setAnimation("idle");
+	//sprite.updateFrame();
 
-	sprite.getSprite()->setTexture(RL()->getTexture("sprites/player.png"));
+	//sprite.getSprite()->setTexture(RL()->getTexture("sprites/player.png"));
 
 	stand();
 	
@@ -82,11 +84,13 @@ Player::Player(Level *l) : GameObject(l) {
 	playerState = PlayerState::GROUND;
 
 	Log::track("Player Pos", std::to_string((int)pos().x) + ", " + std::to_string((int)pos().y));
+	Log::track("PlayerAnim", sprite.getAnimation()->name);
 };
 
 Player::~Player() {
 
 	Log::remove("Player Pos");
+	Log::remove("PlayerAnim");
 	delete groundState;
 	delete airState;
 	delete dashState;
@@ -130,6 +134,7 @@ void Player::interact(GameObject *obj) {
 void Player::update(sf::Time deltaTime) {
 
 	Log::updateValue("Player Pos", std::to_string((int)pos().x) + ", " + std::to_string((int)pos().y));
+	Log::updateValue("PlayerAnim", sprite.getAnimation()->name);
 	lifeTime += deltaTime;
 		
 	//manage states

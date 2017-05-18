@@ -9,6 +9,8 @@ const float PlayerBoostJumpState::maxSpeed = 100.f;
 const float PlayerBoostJumpState::horizontalAcc = 600.f;
 
 void PlayerBoostJumpState::enter() {
+	AnimSprite* spr = &plr->getAnimSprite();
+
 	if (!plr->collisionUp) {
 		plr->useBoost();
 
@@ -18,7 +20,7 @@ void PlayerBoostJumpState::enter() {
 
 		boostTimer = sf::Time::Zero;
 
-		plr->getAnimSprite().setAnimation(plr->anim_boostjump);
+		spr->setAnimation("boostjump");
 		
 		int move = plr->getMoveDir();
 		if (move != 0)
@@ -27,13 +29,13 @@ void PlayerBoostJumpState::enter() {
 
 		boostVel = jumpVel - 15.f;
 		plr->setVelY(boostVel);
-
-		boostDecc = abs(plr->vel().x) / plr->getAnimSprite().getAnimation()->duration().asSeconds();
+		
+		boostDecc = abs(plr->vel().x) / spr->getAnimation()->duration().asSeconds();
 	}
 	else {
 		//convert to normal jump
 		jump();
-		plr->getAnimSprite().setAnimation(plr->anim_jump_start);
+		spr->setAnimation("jump-start");
 	}
 }
 
@@ -50,7 +52,7 @@ int PlayerBoostJumpState::update(sf::Time deltaTime) {
 		jetboost = nullptr;
 
 	if (plr->collisionUp) {
-		if (plr->getAnimSprite().isPlaying(plr->anim_boostjump))
+		if (plr->getAnimSprite().isPlaying("boostjump"))
 			return Player::PlayerState::GROUND;
 		else {
 			return Player::PlayerState::AIR;
@@ -119,7 +121,7 @@ int PlayerBoostJumpState::update(sf::Time deltaTime) {
 		return Player::PlayerState::AIR;
 	}
 
-	if (!plr->getAnimSprite().isPlaying(plr->anim_boostjump))
+	if (!plr->getAnimSprite().isPlaying("boostjump"))
 		return Player::PlayerState::AIR;
 	else
 		return Player::PlayerState::BOOSTJUMP;
@@ -134,36 +136,21 @@ void PlayerBoostJumpState::createFX() {
 
 	jetboost = new Effect(
 		"sprites/player.png",
-		Animation(
-			sf::IntRect(192, 240, 9, 16),
-			sf::Vector2f(5.f, -1.f),
-			5,
-			sf::seconds(4.f/60.f),
-			0),
+		"boostjump-jet",
 		Effect::UNDER,
 		plr->getAnimSprite().getHFlip()
 		);
 
 	Effect *smokeUnder = new Effect(
 		"sprites/player.png",
-		Animation(
-			sf::IntRect(0, 240, 32, 8),
-			sf::Vector2f(16.f, 5.f),
-			6,
-			sf::seconds(4.f / 60.f),
-			0),
+		"boostjump-smoke-under",
 		Effect::UNDER,
 		plr->getAnimSprite().getHFlip()
 		);
 
 	Effect *smokeOver = new Effect(
 		"sprites/player.png",
-		Animation(
-			sf::IntRect(0, 248, 32, 8),
-			sf::Vector2f(16.f, 5.f),
-			6,
-			sf::seconds(4.f / 60.f),
-			0),
+		"boostjump-smoke-over",
 		Effect::OVER,
 		plr->getAnimSprite().getHFlip()
 		);

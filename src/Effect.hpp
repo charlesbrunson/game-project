@@ -26,7 +26,7 @@ public:
 	Effect(int type, bool flip);
 
 	// Constuctor, with animation to play and texture to use
-	Effect(std::string texFile, Animation ani, int onLayer, bool flip);
+	Effect(std::string texFile, std::string ani, int onLayer, bool flip);
 
 	void update(sf::Time deltaTime);
 

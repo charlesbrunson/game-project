@@ -19,25 +19,33 @@ public:
 
 	AnimSprite();
 
+	void setPosition(sf::Vector2f pos);
+
+	void setTexFile(TextureFile& texFile);
+	TextureFile* getTexFile();
+
 	void update(sf::Time t);
 	void updateFrame();
 	void updateSpritePos(sf::Vector2f pos);
 
-	bool isPlaying(Animation &a, bool includeChainTo = false);
+	bool isPlaying(const std::string& animName, bool includeChainTo = false);
 
-	void setAnimation(Animation &anim, float timeScale = 1.f);
+	void setAnimation(const std::string& animName, float timeScale = 1.f);
+	void setAnimation(Animation* anim, float timeScale = 1.f);
 	void setTimeScale(float tScale);
 
-	void swapAnimation(Animation &anim);
+	const Animation* getAnimation();
+
+	void swapAnimation(const std::string& animName);
+	void swapAnimation(Animation* anim);
 	
 	int getFrame();
 	void setFrame(int i);
 	bool onLastFrame();
 	bool isNextFrameWithin(sf::Time deltaTime);
-		
-	sf::Sprite* getSprite();
-	Animation* getAnimation();
 	
+	const sf::Sprite& getSprite();
+
 	//horizontal flip
 	void setHFlip(bool i);
 	bool getHFlip();
@@ -47,7 +55,10 @@ public:
 	bool isComplete();
 	
 private:
-	Animation *activeAnim = nullptr;
+	
+	TextureFile* tex;
+
+	Animation* activeAnim = nullptr;
 
 	// speed up or slow down animation
 	// carries through animation chains

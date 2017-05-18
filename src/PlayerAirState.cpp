@@ -11,19 +11,20 @@ void PlayerAirState::enter() {
 	startVelX = abs(plr->vel().x);
 	endVelY = 0.f;
 
-	if (!plr->getAnimSprite().isPlaying(plr->anim_jump_start) && 
-		!plr->getAnimSprite().isPlaying(plr->anim_jump_fall_transition) && 
-		!plr->getAnimSprite().isPlaying(plr->anim_jump_fall) &&
-		!plr->getAnimSprite().isPlaying(plr->anim_boostdash_to_fall_transition)) {
+	AnimSprite* spr = &plr->getAnimSprite();
+
+	if (!spr->isPlaying("jump-start") &&
+		!spr->isPlaying("jump-fall-transition") &&
+		!spr->isPlaying("jump-fall") /*&&
+		!spr->isPlaying("boostdash_to_fall_transition")*/) {
 
 
 		if (plr->getVelocity().y < 0) {
-			plr->getAnimSprite().setAnimation(plr->anim_jump_start);
-			plr->getAnimSprite().setFrame(plr->anim_jump_start.numOfFrames - 1);
+			spr->setAnimation("jump-start");
+			spr->setFrame(spr->getAnimation()->numOfFrames - 1);
 		}
 		else {
-
-			plr->getAnimSprite().setAnimation(plr->anim_jump_fall_transition);
+			spr->setAnimation("jump-fall-transition");
 		}
 	}
 }
@@ -81,7 +82,7 @@ int PlayerAirState::update(sf::Time deltaTime) {
 	if (plr->collisionUp) {
 
 		if (endVelY > 100.f && (move == 0 || (move > 0 != plr->vel().x > 0)) && abs(plr->vel().x) <= runspeedMax) {
-			plr->getAnimSprite().setAnimation(plr->anim_land);
+			plr->getAnimSprite().setAnimation("land");
 			plr->setVelX(0.f);
 
 			if (endVelY < softLandingThreshold)
@@ -91,7 +92,7 @@ int PlayerAirState::update(sf::Time deltaTime) {
 
 		}
 		else {
-			plr->getAnimSprite().setAnimation(plr->anim_idle);
+			plr->getAnimSprite().setAnimation("idle");
 		}
 
 		if (plr->isHeld(Player::PlayerInput::DOWN) && plr->isHeld(Player::PlayerInput::SPRINT)) {
@@ -99,7 +100,7 @@ int PlayerAirState::update(sf::Time deltaTime) {
 			if (plr->vel().x != 0.f)
 				plr->getAnimSprite().setHFlip(plr->vel().x < 0);
 
-			plr->getAnimSprite().setAnimation(plr->anim_idle_to_crouch);
+			plr->getAnimSprite().setAnimation("idle-to-crouch");
 			return Player::PlayerState::CROUCH;
 		}
 		else
@@ -159,12 +160,12 @@ int PlayerAirState::update(sf::Time deltaTime) {
 
 void PlayerAirState::updateAnimation(sf::Time deltaTime) {
 
-	if (!plr->getAnimSprite().isPlaying(plr->anim_crouch, true) && !plr->getAnimSprite().isPlaying(plr->anim_idle, true)) {
+	if (!plr->getAnimSprite().isPlaying("crouch", true) && !plr->getAnimSprite().isPlaying("idle", true)) {
 
 		
 		if (plr->vel().y > 50.f) {
-			if (plr->getAnimSprite().isPlaying(plr->anim_jump_start) && plr->getAnimSprite().isComplete())
-				plr->getAnimSprite().setAnimation(plr->anim_jump_fall_transition);
+			if (plr->getAnimSprite().isPlaying("jump-start") && plr->getAnimSprite().isComplete())
+				plr->getAnimSprite().setAnimation("jump-fall-transition");
 
 		}
 		/*
@@ -180,6 +181,6 @@ void PlayerAirState::downDash(Player* plr) {
 	plr->setVelX(std::min(runspeedMax, std::max(plr->vel().x, -runspeedMax)));
 	plr->setVelY(200.f);
 
-	if (!plr->getAnimSprite().isPlaying(plr->anim_jump_fall) && !plr->getAnimSprite().isPlaying(plr->anim_jump_fall_transition))
-		plr->getAnimSprite().setAnimation(plr->anim_jump_fall_transition);
+	if (!plr->getAnimSprite().isPlaying("jump-fall") && !plr->getAnimSprite().isPlaying("jump-fall-transition"))
+		plr->getAnimSprite().setAnimation("jump-fall-transition");
 }

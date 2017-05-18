@@ -51,15 +51,15 @@ public:
 
 	//head height climb
 	void goLedgeMode() {
-		climb1 = &plr->anim_ledgeclimb_1;
-		climb2 = &plr->anim_ledgeclimb_2;
+		climb1 = "ledgeclimb-full";
+		climb2 = "ledgeclimb-half";
 		mode = LEDGE;
 	}
 
 	//waistheight climb
 	void goClamberMode() {
-		climb1 = &plr->anim_clamber_1;
-		climb2 = &plr->anim_clamber_2;
+		climb1 = "clamber-full";
+		climb2 = "clamber-half";
 		mode = CLAMBER;
 	}
 
@@ -79,8 +79,8 @@ protected:
 
 	Mode mode = LEDGE;
 
-	Animation *climb1;
-	Animation *climb2;
+	std::string climb1;
+	std::string climb2;
 
 };
 

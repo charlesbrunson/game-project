@@ -27,12 +27,14 @@ public:
 		Animation *chain = nullptr,
 		int chainStartFrame = 0);
 
+	std::string name = "";
+
 	sf::IntRect area;
 	sf::Vector2f origin;
 
 	int numOfFrames = 1;
 	std::vector<sf::Time> frameTimes;
-	const sf::Time duration(int frames = -1);
+	const sf::Time duration(int frames = -1) const;
 
 	//sf::Time frameSpeed = sf::seconds(1.f);
 	int loop = -1;

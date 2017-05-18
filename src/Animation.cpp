@@ -40,7 +40,6 @@ Animation::Animation(
 	chainTo = chain;
 	chainStartOnFrame = chainStartFrame;
 
-
 	for (const int& i : framesAsMS) {
 		frameTimes.push_back(sf::milliseconds(i));
 	}
@@ -52,7 +51,7 @@ void Animation::setFrameSpeed(sf::Time rate) {
 	}
 }
 
-const sf::Time Animation::duration(int frames) {
+const sf::Time Animation::duration(int frames) const {
 	sf::Time sum;
 	int stop = frames > -1 ? std::min(frames, numOfFrames) : numOfFrames;
 	for (int i = 0; i < stop; i++)

@@ -15,18 +15,18 @@ void PlayerWallClingState::enter() {
 	plr->setVelY(std::max(plr->vel().y, clingVelMin));
 
 	plr->getAnimSprite().setHFlip(side != LEFT);
-	plr->getAnimSprite().setAnimation(plr->anim_wallcling);
+	plr->getAnimSprite().setAnimation("wallcling");
 
 	stickTimer = sf::Time::Zero;
 }
 
 void PlayerWallClingState::exit() {
 	if (plr->collisionUp) {
-		plr->getAnimSprite().setAnimation(plr->anim_land);
+		plr->getAnimSprite().setAnimation("land");
 		plr->getAnimSprite().setFrame(3);
 	}
 	else {
-		plr->getAnimSprite().setAnimation(plr->anim_jump_fall_transition);
+		plr->getAnimSprite().setAnimation("jump-fall-transition");
 	}
 	
 }
