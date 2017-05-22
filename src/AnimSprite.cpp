@@ -22,8 +22,6 @@ TextureFile* AnimSprite::getTexFile() {
 bool AnimSprite::isPlaying(const std::string& animName, bool includeChainTo) {
 	Animation *playing = tex->getAnimation(animName);
 	
-	std::set<Animation*> onChain;
-
 	if (!playing || !activeAnim) {
 		return false;
 	}
@@ -33,7 +31,8 @@ bool AnimSprite::isPlaying(const std::string& animName, bool includeChainTo) {
 	else if (includeChainTo) {
 		// follow animation chain
 		Animation* st = activeAnim;
-		onChain.insert(st);
+		std::set<Animation*> onChain = { st };
+
 		while (st->chainTo && onChain.find(st->chainTo) == onChain.end()) {
 			st = st->chainTo;
 			if (st == playing) {
