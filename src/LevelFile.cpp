@@ -88,7 +88,12 @@ bool LevelFile::loadFromFile(std::string path) {
 
 		// Get full file path from directory
 		std::string tmxFile = tmxName;
-		Log::msg(tmxFile + " - needs recompile\n");
+		if (Gameplay_Globals::Debug::forceCompile) {
+			Log::msg("Recompiling " + tmxFile + " --- Forced\n");
+		}
+		else {
+			Log::msg("Recompiling " + tmxFile + "\n");
+		}
 		tmxFile.erase(tmxFile.length() - 4, tmxFile.length());
 		tmxFile.erase(0, RL()->fileDir.length());
 

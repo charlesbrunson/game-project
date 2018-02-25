@@ -9,10 +9,10 @@ int volumeGame = 50;
 int volumeMusic = 0;
 float volumeMusicPausedScale = 0.5f;
 
-int globalGameScale;
-
 sf::Time Gameplay_Globals::minSoundTime = sf::seconds(1.f / 60.f);
 sf::Time Gameplay_Globals::soundTimeout = sf::seconds(30.f / 60.f);
+
+int Gameplay_Globals::gameScale = 1;
 
 //bool forcePackResources = true;
 bool pixelSnapping = false;

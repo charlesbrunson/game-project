@@ -21,7 +21,7 @@ void Zone::createZone(std::string startLevel, ObjectManager *objMan, GameCamera 
 	//construct level
 	LevelArea area;
 	LevelLoader::loadLevel(startLevel, area, this);
-	Log::msg("Loaded " + startLevel + "\n");
+	Log::msg("Loaded " + startLevel);
 	objMan->gameLevel = area.level;
 
 	activeLevels.insert(std::pair<std::string, LevelArea>(startLevel, area));
@@ -52,7 +52,7 @@ void Zone::createZone(std::string startLevel, ObjectManager *objMan, GameCamera 
 void Zone::switchLevels(Transition destination, bool movePlayer, ObjectManager *objMan, GameCamera *cam) {
 	//depreciated
 	/*
-	Log("Transitioning to " + destination.levelName + "\n");
+	Log("Transitioning to " + destination.levelName);
 
 
 	completeThread();
@@ -111,7 +111,7 @@ void Zone::switchLevels(Transition destination, bool movePlayer, ObjectManager *
 void Zone::purgeInactiveLevels() {
 	for (auto j = activeLevels.begin(); j != activeLevels.end();) {
 		if (!currentLevel->level->hasTransition(j->first) && currentLevel->levelName != j->first) {
-			Log::msg("Deleting " + j->first + "\n");
+			Log::msg("Deleting " + j->first);
 			delete j->second.level;
 			j = activeLevels.erase(j);
 		}
@@ -197,7 +197,7 @@ void Zone::loadAdjacentLevels(std::vector<std::string> *activeNames, std::vector
 			LevelLoader::loadLevel(t->levelName, area, zone);
 			zone->levelsToAdd.insert(std::pair<std::string, LevelArea>(t->levelName, area));
 			activeNames->push_back(t->levelName);
-			Log::msg("Loaded " + t->levelName + "\n");
+			Log::msg("Loaded " + t->levelName);
 		}
 	}
 

@@ -105,8 +105,10 @@ void ResourceLoader::writeToPack() {
 		if (root.isArray()) {
 			for (auto i = root.begin(); i != root.end() && !err; i++) {
 
+				Log::msg("Adding " + i->asString());
 				// create file
 				GameFile* nFile = GameFile::create(i->asString());
+				Log::msg("");
 
 				if (nFile) {
 					files.push_back(std::make_pair(i->asString(), nFile));

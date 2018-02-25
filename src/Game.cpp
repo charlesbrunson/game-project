@@ -53,7 +53,9 @@ Game::Game() {
 			_windowedSize = sf::Vector2i(GAMEWIDTH * _initialScale, GAMEHEIGHT * _initialScale);
 		}
 		// Create game window
-		create(sf::VideoMode(_windowedSize.x, _windowedSize.y, desktop.bitsPerPixel), _gameName, sf::Style::Default);
+		sf::ContextSettings context;
+		context.antialiasingLevel = 0;
+		create(sf::VideoMode(_windowedSize.x, _windowedSize.y, desktop.bitsPerPixel), _gameName, sf::Style::Default, context);
 
 		// Set window properties
 		setActive(false);
@@ -677,6 +679,7 @@ void Game::resizeWindow(int width, int height) {
 
 	// Update scale values
 	_gameScale = scale;
+	Gameplay_Globals::gameScale = scale;
 
 	// Update window view
 	setView(view);

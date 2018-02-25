@@ -217,7 +217,7 @@ void TileLayer::updateSpriteAnimation(sf::Time t, bool isZoneTimer) {
 					}
 				}
 			}
-	}
+		}
 	}
 	else {
 
@@ -255,7 +255,11 @@ void TileLayer::updateSpritePosition(sf::Vector2f pOffset, sf::Vector2f sOffset,
 	
 	for (auto j = sprites.begin(); j != sprites.end(); j++) {
 		sf::Vector2f tilePos(sf::Vector2f(j->first) * (float)tileSpacing);
-		j->second.setPosition(snapToPixel(tilePos + pOffset + sOffset));
+		if (isParallax())
+			tilePos += pOffset;
+		if (isScrolling())
+			tilePos += sOffset;
+		j->second.setPosition(snapToPixel(tilePos));
 	}
 }
 
@@ -310,7 +314,7 @@ void TileLayer::setTile(sf::Vector2i gridPosition, int tileSpr, sf::Vector2i off
 	t.tileSprite = tileSpr;
 	t.spritePos = offset;
 
-	TileProperty::TileData tileData = TileProperty::getTileData(tilesetNames->at(t.tileSprite), GridVector(t.spritePos.x, t.spritePos.y));
+	const TileProperty::TileData tileData = TileProperty::getTileData(tilesetNames->at(t.tileSprite), GridVector(t.spritePos.x, t.spritePos.y));
 
 	t.tileProperty = tileData.tileProperty;
 	t.occluding = tileData.occluding;

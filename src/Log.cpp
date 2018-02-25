@@ -8,8 +8,8 @@ std::set<LogListener*> Log::listeners;
 
 void Log::message(const std::string& m) {
 #ifdef _DEBUG
-	std::cout << m;
-	messages.push_back(m);
+	std::cout << m << std::endl;
+	messages.push_back(m + "\n");
 	if (messages.size() > messagesMax)
 		messages.pop_front();
 

@@ -193,9 +193,11 @@ bool TextureFile::loadFromFile(std::string path) {
 						t.animFrameCount = framecount;
 					}
 					tileData[w] = t;
+					Log::msg("Add tile data (" +std::to_string(w.x)+ ", " +std::to_string(w.y)+ ", "+type+")");
 				}
 			}
-			TileProperty::addTileMap(filePath, tileData);
+			Log::msg("Created tile map: " + filePath);
+			TileProperty::addTileMap(filePath, &tileData);
 		}
 		reader.close();
 

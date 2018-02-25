@@ -24,6 +24,7 @@ extern bool pixelSnapping;
 namespace Gameplay_Globals {
 	extern sf::Time minSoundTime;
 	extern sf::Time soundTimeout;
+	extern int gameScale;
 
 	namespace Debug {
 		extern bool objectCollision;

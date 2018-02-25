@@ -10,7 +10,7 @@
 
 std::map<std::string, std::map<GridVector, TileProperty::TileData>> TileProperty::tileDataMap;
 
-const TileProperty::TileData& TileProperty::getTileData(std::string sheet, GridVector tilePos) {
+const TileProperty::TileData TileProperty::getTileData(std::string sheet, GridVector tilePos) {
 	auto i = tileDataMap.find(sheet);
 	if (i != tileDataMap.end()) {
 		auto j = i->second.find(tilePos);
@@ -20,7 +20,11 @@ const TileProperty::TileData& TileProperty::getTileData(std::string sheet, GridV
 	}
 
 	return TileData();
-};
+}
+
+void TileProperty::addTileMap(std::string texName, std::map<GridVector, TileData>* data) {
+	tileDataMap[texName] = *data;
+}
 
 /*
 void TileProperty::initTileData() {

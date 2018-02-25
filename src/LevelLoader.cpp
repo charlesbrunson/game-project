@@ -300,7 +300,7 @@ bool LevelLoader::compileTMXFile(std::string name) {
 	};
 	std::list<tileset> tilesetList;
 
-	Log::msg("\n Required tilesets:\n");
+	Log::msg("Required tilesets:");
 
 	tileset t;
 
@@ -320,10 +320,10 @@ bool LevelLoader::compileTMXFile(std::string name) {
 		t.lastgid = t.firstgid + (floor(t.width / tileSpacing) * floor(t.height / tileSpacing)) - 1;
 		
 		tilesetList.push_front(t);
-		Log::msg(t.imageName + "\n");
+		Log::msg("\t" + t.imageName);
 
 	}
-	Log::msg("\n");
+	Log::msg("");
 
 	//populate layers
 	area.level->getParallaxLayers()->clear();
@@ -346,7 +346,7 @@ bool LevelLoader::compileTMXFile(std::string name) {
 		int parallax = -1;
 
 		std::string name = layer->first_attribute("name")->value();
-		Log::msg("Building Layer: " + name + "\n");
+		Log::msg("Building Layer: " + name);
 
 		if (name == "Foreground") {
 			cLayer = Layer::FOREGROUND;
