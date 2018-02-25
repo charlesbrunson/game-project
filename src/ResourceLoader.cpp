@@ -232,11 +232,12 @@ bool ResourceLoader::loadFromPack() {
 			//hold header position
 			int headerPos = packReader.tellg();
 
-			//load file respective of type
+			//load file of respective type
 			int start = packHeaderSize + fileSeek;
 			int end = start + fileSize;
 
-			GameFile* file = GameFile::create(fileName, &FileStream(&packReader, start, end));
+			FileStream gameFileStream(&packReader, start, end);
+			GameFile* file = GameFile::create(fileName, &gameFileStream);
 
 			// add file
 			if (file) {
@@ -262,11 +263,11 @@ bool ResourceLoader::loadFromPack() {
 bool ResourceLoader::addFile(const std::string& fileName, GameFile* file) {
 	switch (file->getType()) {
 	case GameFile::FileType::UNKNOWN: return false;
-	case GameFile::FileType::GENERIC: generics.insert(std::make_pair(fileName, (GenericFile*)file)); break;
-	case GameFile::FileType::TEXTURE: textures.insert(std::make_pair(fileName, (TextureFile*)file)); break;
-	case GameFile::FileType::FONT:       fonts.insert(std::make_pair(fileName, (FontFile*)   file)); break;
-	case GameFile::FileType::LEVEL:     levels.insert(std::make_pair(fileName, (LevelFile*)  file)); break;
-	case GameFile::FileType::SHADER:   shaders.insert(std::make_pair(fileName, (ShaderFile*) file)); break;
+	case GameFile::FileType::GENERIC: generics.insert(std::make_pair(fileName, (GenericFile*) file)); break;
+	case GameFile::FileType::TEXTURE: textures.insert(std::make_pair(fileName, (TextureFile*) file)); break;
+	case GameFile::FileType::FONT	:    fonts.insert(std::make_pair(fileName, (FontFile*)    file)); break;
+	case GameFile::FileType::LEVEL	:   levels.insert(std::make_pair(fileName, (LevelFile*)   file)); break;
+	case GameFile::FileType::SHADER	:  shaders.insert(std::make_pair(fileName, (ShaderFile*)  file)); break;
 	default: return false;
 	}
 	return true;

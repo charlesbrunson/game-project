@@ -11,6 +11,10 @@
 
 #if defined(_DEBUG) && defined(_WIN32)
 #include <Windows.h>
+#elif defined(_DEBUG) && defined(__linux__)
+#include <time.h>
+#include <sys/stat.h>
+#include <sys/types.h>
 #endif
 
 LevelFile::LevelFile(std::string path, FileStream* str) : GameFile(path, str) {
@@ -51,24 +55,32 @@ bool LevelFile::loadFromFile(std::string path) {
 
 #if defined(_DEBUG) && defined(_WIN32)
 	// Auto recompile .lvl file if older than the associated .tmx file
-	// Windows only for now
-	{
 
-		HANDLE lvlFileHandle = CreateFile(lvlName.c_str(), GENERIC_READ, 0, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
-		HANDLE tmxFileHandle = CreateFile(tmxName.c_str(), GENERIC_READ, 0, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
+	HANDLE lvlFileHandle = CreateFile(lvlName.c_str(), GENERIC_READ, 0, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
+	HANDLE tmxFileHandle = CreateFile(tmxName.c_str(), GENERIC_READ, 0, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
 
-		FILETIME tmxWriteTime,
-			lvlWriteTime;
+	FILETIME tmxWriteTime, lvlWriteTime;
 
-		bool tmxExists = GetFileTime(tmxFileHandle, NULL, NULL, &tmxWriteTime) != 0;
-		bool lvlExists = GetFileTime(lvlFileHandle, NULL, NULL, &lvlWriteTime) != 0;
+	bool lvlExists = GetFileTime(lvlFileHandle, NULL, NULL, &lvlWriteTime) != 0;
+	bool tmxExists = GetFileTime(tmxFileHandle, NULL, NULL, &tmxWriteTime) != 0;
 
-		CloseHandle(lvlFileHandle);
-		CloseHandle(tmxFileHandle);
+	CloseHandle(lvlFileHandle);
+	CloseHandle(tmxFileHandle);
 
-		// lvl is older than tmx file, needs recompile
-		toCompile = tmxExists && (!lvlExists || (lvlExists && CompareFileTime(&lvlWriteTime, &tmxWriteTime) < 0));
-	}
+	// lvl is older than tmx file, needs recompile
+	toCompile = tmxExists && (!lvlExists || (lvlExists && CompareFileTime(&lvlWriteTime, &tmxWriteTime) < 0));
+
+#elif defined(_DEBUG) && defined(__linux__)
+
+	struct stat lvlFileHandle;
+	struct stat tmxFileHandle;
+
+	bool lvlExists = stat(lvlName.c_str(), &lvlFileHandle) == 0;
+	bool tmxExists = stat(tmxName.c_str(), &tmxFileHandle) == 0;
+
+	// lvl is older than tmx file, needs recompile
+	toCompile = tmxExists && (!lvlExists || (lvlExists && lvlFileHandle.st_mtime < tmxFileHandle.st_mtime));
+
 #endif
 
 	// If the .lvl file needs to be recompiled, do so

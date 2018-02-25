@@ -92,7 +92,7 @@ void GameSettings::writeSettingsFile() {
 	for (int i = 0; i < SettingsField::COUNT; i++) {
 
 		if (!settings[i].c.empty())
-			writer << "#" << settings[i].c << "\n";
+			writer << "# " << settings[i].c << "\n";
 
 		writer << settings[i].s << "=" << settings[i].v << "\n" << (settings[i].emptyLine? "\n" : "");
 

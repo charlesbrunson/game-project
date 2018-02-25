@@ -45,19 +45,5 @@ namespace UI_Globals {
 	}
 }
 
-class Scale {
-	friend class Game;
-public:
-	static int get() {
-		return scale;
-	}
-private:
-	static void set(int s) {
-		scale = s;
-	}
-
-	static int scale;
-};
-
 #endif
 

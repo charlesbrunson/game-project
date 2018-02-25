@@ -35,9 +35,7 @@ public:
 	FileType getType() {
 		return fileType;
 	}
-
-	bool valid();
-
+	
 protected:
 
 	FileType fileType = FileType::UNKNOWN;
@@ -47,9 +45,7 @@ protected:
 	virtual bool loadFromFile(std::string path) = 0;
 	virtual bool loadFromStream(FileStream* str) = 0;
 	virtual void convertToData() = 0;
-
-	//bool validData = false;
-
+	
 	std::string data;
 };
 

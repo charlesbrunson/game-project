@@ -148,18 +148,10 @@ void Game::run() {
 				else {
 					while (_timeSinceLastUpdate >= _timePerUpdate) {
 						// If capped, update at set interval until caught up
-
 						Controls::updateGameInputs();
 						update(_timePerUpdate);
 						Controls::mouseLastMoved += _timePerUpdate;
-
-						// Clear debug log
-						//ClearLog::msg();
-
-#ifdef _DEBUG
-						//Log::msg("FPS:  " + std::to_string((int)_dDrawFPS) + (_dDrawFPS < 100 ? "\t\t" : "\t") + "UPS:  " + std::to_string((int)_dUpdateFPS) + "\n");
-#endif
-
+						
 						// Reset update time accumulator
 						_timeSinceLastUpdate -= _timePerUpdate;
 					}
@@ -479,6 +471,7 @@ void Game::handleEvents() {
 		case sf::Event::EventType::GainedFocus:
 			_focus = true;
 			_gameClock.restart();
+			//reset active keys
 			break;
 
 			// Window has been closed
@@ -647,10 +640,8 @@ void Game::resizeWindow(int width, int height) {
 
 	// Integer scaling method
 	int scale = static_cast<int>(std::min(floor((double)size.x / GAMEWIDTH), floor((double)size.y / GAMEHEIGHT)));
-
 	// Fit scaling method
 	//float scale = std::min((float)size.x / GAMEWIDTH, (float)size.y / GAMEHEIGHT);
-
 	// Fill scaling method
 	//float scale = std::max((float)size.x / GAMEWIDTH, (float)size.y / GAMEHEIGHT);
 
@@ -686,7 +677,6 @@ void Game::resizeWindow(int width, int height) {
 
 	// Update scale values
 	_gameScale = scale;
-	Scale::set(scale);
 
 	// Update window view
 	setView(view);

@@ -37,14 +37,9 @@ public:
 	void render();
 	
 private:
-
-	//void updateMousePos() {
-		//Controls::mousePosition = mapPixelToCoords(sf::Mouse::getPosition() - getPosition());
-	//};
-
+	
 	// GameLog containing recent debug messages
 	GLog gLog;
-
 
 	// Number of frames processed since program start
 	unsigned long long int _frameCounter = 0;

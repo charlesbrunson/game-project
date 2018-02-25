@@ -34,5 +34,3 @@ bool Resource_Globals::ignorePackFile = true;
 
 bool UI_Globals::Debug::UIDebug = true;
 bool UI_Globals::Debug::UIConnectors = true;
-
-int Scale::scale = 1;

@@ -25,7 +25,6 @@ bool GameFile::load(std::string path, FileStream* str) {
 		convertToData();
 	}
 
-	//validData = !data.empty();
 	return r;
 };
 
@@ -33,7 +32,6 @@ const std::string* GameFile::getData() {
 	if (data.empty())
 		convertToData();
 
-	//validData = !data.empty();
 	return &data;
 }
 
@@ -41,12 +39,10 @@ const int GameFile::getDataSize() {
 	if (data.empty())
 		convertToData();
 
-	//validData = !data.empty();
 	return data.size();
 }
 void GameFile::clearData() {
 	data.clear();
-	//validData = false;
 }
 
 // factory methods for creating appropriate GameFile for file's extension type

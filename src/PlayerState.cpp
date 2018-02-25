@@ -17,11 +17,8 @@ const float PlayerState::dashDownVel = 150.f;
 bool PlayerState::hasJumpClearance() {
 	sf::FloatRect headRoom;
 
-	if (!plr->isCrouched()) {
-		headRoom = plr->getCollision();
-	}
-	else {
-		headRoom = plr->getCollision();
+	headRoom = plr->getCollision();
+	if (plr->isCrouched()) {
 		headRoom.top -= (plr->collisionStanding.y - headRoom.height);
 		headRoom.height = plr->collisionStanding.y;
 	}
