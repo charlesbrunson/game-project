@@ -23,7 +23,7 @@ public:
 	int layer = OVER;
 
 	// Generic constuctor of predefined effect types
-	Effect(int type, bool flip);
+	Effect();
 
 	// Constuctor, with animation to play and texture to use
 	Effect(std::string texFile, std::string ani, int onLayer, bool flip);

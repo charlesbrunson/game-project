@@ -17,7 +17,7 @@ void UIToggle::setActiveState(UIElement::ActiveState st) {
 	state = st;
 }
 
-void UIToggle::update(sf::Time deltaTime) {
+void UIToggle::update(sf::Time) {
 
 }
 
@@ -27,7 +27,7 @@ void UIToggle::setPosition(sf::Vector2f pos) {
 
 void UIToggle::activate() {
 	toggleState = !toggleState;
-	Log::msg(std::to_string(toggleState) + "\n");
+	Log::msg(std::to_string(toggleState));
 }
 
 void UIToggle::draw(sf::RenderTarget &target, sf::RenderStates states) const {

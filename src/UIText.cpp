@@ -10,7 +10,7 @@ UIText::UIText() {
 	//delayedActivation = true;
 }
 
-void UIText::update(sf::Time deltaTime) {
+void UIText::update(sf::Time) {
 	if (dirtyFlag)
 		updateText();
 }

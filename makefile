@@ -11,12 +11,14 @@ obj/%.o: src/%.cpp
 	@mkdir -p $(@D)
 	$(CXX) $(CFLAG) -c $< -o $@
 
-bin/sfml-game: $(OBJ)
-	mkdir -p bin/data/
-	cp -r -u src/data/ bin/
+sfml-game: $(OBJ)
+	cp -r -u src/data/ .
 	$(CXX) -pthread $^ -o $@ $(LIB)
+	echo "#!/bin/sh\n./sfml-game" > run.sh
+	chmod +x run.sh
 
 .PHONY : clean
 clean :
-	rm -f -r bin/
+	rm -f -r data/
+	rm -f sfml-game
 	rm -f -r obj/

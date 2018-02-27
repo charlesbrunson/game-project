@@ -81,7 +81,7 @@ int PlayerAirState::update(sf::Time deltaTime) {
 
 	if (plr->collisionUp) {
 
-		if (endVelY > 100.f && (move == 0 || (move > 0 != plr->vel().x > 0)) && abs(plr->vel().x) <= runspeedMax) {
+		if (endVelY > 100.f && ((move == 0) || ((move > 0) != (plr->vel().x > 0))) && abs(plr->vel().x) <= runspeedMax) {
 			plr->getAnimSprite().setAnimation("land");
 			plr->setVelX(0.f);
 

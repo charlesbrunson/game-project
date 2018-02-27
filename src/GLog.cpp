@@ -18,7 +18,7 @@ GLog::GLog() {
 	trackerBox = messageBox;
 }
 
-void GLog::update(sf::Vector2f camCenter) {
+void GLog::update() {
 	sf::FloatRect camArea = getCameraArea();
 
 	if (trackDirty)
@@ -65,7 +65,7 @@ void GLog::updateTextPosition(const sf::FloatRect& camArea) {
 		+ sf::Vector2f(3.f, 0.f));
 }
 
-void GLog::draw(sf::RenderTarget &target, sf::RenderStates states) const {
+void GLog::draw(sf::RenderTarget &target, sf::RenderStates) const {
 	target.draw(messageBox, RL()->getShader("shaders/noalpha.frag"));
 	target.draw(trackerBox, RL()->getShader("shaders/noalpha.frag"));
 }

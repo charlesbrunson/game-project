@@ -32,7 +32,7 @@ public:
 	sf::Vector2f getVelocity();
 
 	// Position
-	virtual void setPosition(sf::Vector2f pos, bool updateOldBox = true) {
+	virtual void setPosition(sf::Vector2f pos, bool = true) {
 		position = pos;
 
 		updateSpritePos(position);

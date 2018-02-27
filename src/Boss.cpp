@@ -76,7 +76,8 @@ void Boss::die(sf::Time deltaTime) {
 		pos.x += rand() % ((int)(getCollision().width * 0.8f) + 1);
 		pos.y += rand() % ((int)(getCollision().height * 0.8f) + 1);
 
-		Effect *fx = new Effect(Effect::EffectType::EXPLOSION, false);
+		//Effect *fx = new Effect(Effect::EffectType::EXPLOSION, false);
+		Effect *fx = new Effect();
 		fx->setPosition(pos);
 		createEffect(fx);
 		
@@ -93,7 +94,7 @@ void Boss::die(sf::Time deltaTime) {
 
 		sf::Vector2f center(collisionBox.left + collisionBox.width / 2, collisionBox.top + collisionBox.height / 2);
 
-		Effect *fx = new Effect(Effect::EffectType::DEATH_GENERIC, false);
+		Effect *fx = new Effect();
 		fx->setPosition(center);
 		createEffect(fx);
 

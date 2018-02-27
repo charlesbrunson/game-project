@@ -48,8 +48,6 @@ std::ostream& LevelSerializer::writeLevel(std::ostream& os, Level& lvl)
 		for (char c : i->second)
 			write(c, os);
 
-		//Log::msg(i->second + "\n");
-		
 	}
 
 	writeTileLayer(os, lvl.decorativeLayer);

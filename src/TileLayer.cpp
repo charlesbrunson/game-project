@@ -131,7 +131,7 @@ void TileLayer::update(sf::Time deltaTime, sf::IntRect gridArea, sf::FloatRect d
 	
 	//update parallax & scrolling
 	if ((isParallax() && camPrevPosition != camCenter) || isScrolling()) {
-		updateSpritePosition(parallax.offset, parallax.scrollOffset, pArea);
+		updateSpritePosition(parallax.offset, parallax.scrollOffset);
 	}
 	lastFrameDisplayArea = displayArea;
 	camPrevPosition = camCenter;
@@ -249,7 +249,7 @@ void TileLayer::updateSpriteAnimation(sf::Time t, bool isZoneTimer) {
 	}
 }
 
-void TileLayer::updateSpritePosition(sf::Vector2f pOffset, sf::Vector2f sOffset, sf::FloatRect pArea) {
+void TileLayer::updateSpritePosition(sf::Vector2f pOffset, sf::Vector2f sOffset) {
 	if (!isParallax() && !isScrolling())
 		return;
 	
@@ -337,7 +337,7 @@ void TileLayer::setTile(sf::Vector2i gridPosition, int tileSpr, sf::Vector2i off
 	tiles[v] = t;
 }
 
-int TileLayer::getTileSpriteName(GridVector gridpos, int layer) const {
+int TileLayer::getTileSpriteName(GridVector gridpos) const {
 	auto i = tiles.find(gridpos);
 	if (i != tiles.end())
 		return tiles.at(gridpos).tileSprite;

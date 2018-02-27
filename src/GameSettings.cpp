@@ -59,7 +59,7 @@ void GameSettings::readSettingsFile() {
 		line.erase(remove_if(line.begin(), line.end(), isspace), line.end());
 
 		//parse line
-		int p = line.find_first_of('=');
+		const unsigned long p = line.find_first_of('=');
 
 		if (p == line.length() || p == std::string::npos)
 			continue;

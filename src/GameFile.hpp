@@ -29,7 +29,7 @@ public:
 	bool load(std::string path, FileStream* str = nullptr);
 
 	const std::string* getData();
-	const int getDataSize();
+	int getDataSize();
 	void clearData();
 
 	FileType getType() {

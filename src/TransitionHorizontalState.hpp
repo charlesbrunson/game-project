@@ -23,4 +23,4 @@ protected:
 	void drawBG(sf::RenderTarget &target, sf::RenderStates states) const;
 };
 
-#endif TRANSITIONHORIZONTALSTATE_H
+#endif //TRANSITIONHORIZONTALSTATE_H

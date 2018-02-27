@@ -118,13 +118,10 @@ void UISlider::captureDirInput(Cardinal d) {
 	scroller.timer = scroller.curTier->timePerOption;
 	scroller.optionsCounted = 0;
 
-	//Log::msg(std::to_string(curIndex) + ", " + std::to_string(getValue()) + "\n");
-
 	updateCursorSprite();
 }
 
 void UISlider::captureMouseMove(sf::Vector2f m_pos) {
-	//Log::msg(std::to_string((int)m_pos.x) + ", " + std::to_string((int)m_pos.y) + "\n");
 
 	sf::Vector2f p = m_pos - Math::topleft(area);
 	float space = sliderSize.x / rangeCount;
@@ -135,7 +132,7 @@ void UISlider::captureMouseMove(sf::Vector2f m_pos) {
 
 void UISlider::moveCursor(int p) {
 	curIndex = std::max(0, std::min(p, rangeCount));
-	Log::msg(std::to_string(getValue()) + "\n");
+	Log::msg(std::to_string(getValue()));
 	updateCursorSprite();
 }
 

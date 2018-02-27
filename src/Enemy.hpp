@@ -93,7 +93,8 @@ protected:
 	void facePlayer();
 	
 	void createDeathFX(sf::Vector2f offset) {
-		Effect *deathfx = new Effect(Effect::DEATH_GENERIC, false);
+//		Effect *deathfx = new Effect(Effect::DEATH_GENERIC, false);
+		Effect *deathfx = new Effect();
 		deathfx->setPosition(getPosition() + offset);
 		createEffect(deathfx);
 	};

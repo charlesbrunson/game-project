@@ -38,7 +38,7 @@ int PlayerLedgeState::update(sf::Time deltaTime) {
 
 	if (!isClimbing) {
 
-		if (move != 0 && move > 0 == (ledgeSide == LedgeGrab::Side::LEFT)) {
+		if (move != 0 && (move > 0) == (ledgeSide == LedgeGrab::Side::LEFT)) {
 			if (!plr->getAnimSprite().isPlaying("ledgehang-look"))
 				plr->getAnimSprite().setAnimation("ledgehang-look");
 		}

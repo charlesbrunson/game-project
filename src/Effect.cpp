@@ -1,24 +1,8 @@
 #include "Effect.hpp"
 
 
-Effect::Effect(int type, bool flip) {
-
-	//depreciated, dont use this
-
-	//sprite.setResources(rloader);
-	sprite.setHFlip(flip);
-
-	/*
-	switch (type) {
-	default:
-		toDelete = true;
-		break;
-	}
-	*/
+Effect::Effect() {
 	toDelete = true;
-
-	//sprite.setAnimation(anim);
-	sprite.updateFrame();
 };
 
 // Custom constuctor

@@ -309,7 +309,7 @@ void Level::syncLayerTimers(sf::Time zoneTimer) {
 
 void Level::setInvisibleWall(int index, bool prop) {
 	if (index < 0 || index > 3) {
-		Log::msg("ERROR: Can't set invisible wall, index out of bounds\n");
+		Log::msg("ERROR: Can't set invisible wall, index out of bounds");
 		return;
 	}
 

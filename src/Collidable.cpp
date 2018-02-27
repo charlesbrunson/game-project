@@ -215,7 +215,7 @@ bool Collidable::isColliding(GameObject* obj) {
 	return false;
 }
 
-void Collidable::updateCollider(sf::Time deltaTime) {
+void Collidable::updateCollider(sf::Time) {
 
 	sf::Vector2f pos;
 	sf::FloatRect nBoundingBox;

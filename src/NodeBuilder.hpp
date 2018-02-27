@@ -41,7 +41,7 @@ static GameObject* gBuildObject(objNode objN, Level* lvl, bool giveNode = true) 
 		obj->name = objN.name;
 	}
 	else {
-		Log::msg("Build failed: " + objN.name + " - " + objN.type + "\n");
+		Log::msg("Build failed: " + objN.name + " - " + objN.type);
 		assert(obj != nullptr);
 	}
 	return obj;

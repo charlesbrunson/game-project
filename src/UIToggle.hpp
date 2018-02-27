@@ -25,7 +25,7 @@ private:
 	
 	bool toggleState = false;
 
-	void setArea(sf::FloatRect a) {};
+	void setArea(sf::FloatRect) {};
 
 	AnimSprite spr;
 

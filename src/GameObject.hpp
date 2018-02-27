@@ -18,10 +18,10 @@ public:
 		collisionBox = sf::FloatRect();
 	};
 
-	virtual void interact(GameObject* obj) {};
+	virtual void interact(GameObject*) {};
 
-	virtual void update(sf::Time deltaTime) {};
-	virtual void updateAnimation(sf::Time deltaTime) {};
+	virtual void update(sf::Time) {};
+	virtual void updateAnimation(sf::Time) {};
 
 	virtual bool hasObjectNode() { return hasNode; }
 
@@ -68,7 +68,7 @@ public:
 	};
 
 	//only enemies should use stuntime
-	virtual bool hurt(int amount, sf::Time stunTime = sf::seconds(0)) { return false; };
+	virtual bool hurt(int, sf::Time = sf::seconds(0)) { return false; };
 	virtual void kill() { toDelete = true; };
 
 	//-1 == infinite/undefined

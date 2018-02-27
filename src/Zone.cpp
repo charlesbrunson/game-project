@@ -17,7 +17,7 @@
 //constructs zone and starting level
 //------------------------------------------------------------------
 
-void Zone::createZone(std::string startLevel, ObjectManager *objMan, GameCamera *cam, bool ignorePlayer) {
+void Zone::createZone(std::string startLevel, ObjectManager *objMan, GameCamera*, bool ignorePlayer) {
 	//construct level
 	LevelArea area;
 	LevelLoader::loadLevel(startLevel, area, this);
@@ -49,7 +49,7 @@ void Zone::createZone(std::string startLevel, ObjectManager *objMan, GameCamera 
 //initiates level transitions
 //------------------------------------------------------------------
 
-void Zone::switchLevels(Transition destination, bool movePlayer, ObjectManager *objMan, GameCamera *cam) {
+//void Zone::switchLevels(Transition, bool, ObjectManager*, GameCamera*) {
 	//depreciated
 	/*
 	Log("Transitioning to " + destination.levelName);
@@ -107,7 +107,8 @@ void Zone::switchLevels(Transition destination, bool movePlayer, ObjectManager *
 	//start loading adjacent levels
 	beginLoadingAdjacentLevels();
 	*/
-};
+//};
+
 void Zone::purgeInactiveLevels() {
 	for (auto j = activeLevels.begin(); j != activeLevels.end();) {
 		if (!currentLevel->level->hasTransition(j->first) && currentLevel->levelName != j->first) {

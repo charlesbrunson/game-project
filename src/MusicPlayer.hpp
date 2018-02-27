@@ -27,7 +27,7 @@ public:
 		return currentSong.musicFile;
 	}
 
-	static const bool isPlaying() {
+	static bool isPlaying() {
 		return playing;
 	}
 

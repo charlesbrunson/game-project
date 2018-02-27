@@ -23,7 +23,7 @@ public:
 	std::function<void(void)> onActivate;
 private:
 
-	void setArea(sf::FloatRect a) {};
+	void setArea(sf::FloatRect) {};
 
 	//static Animation anim_button_notselected;
 	//static Animation anim_button_selected;

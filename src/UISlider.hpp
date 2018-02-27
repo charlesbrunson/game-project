@@ -67,7 +67,7 @@ private:
 	int rangeStep = 0;
 	int rangeCount = 1;
 
-	void setArea(sf::FloatRect a) {};
+	void setArea(sf::FloatRect) {};
 
 	void draw(sf::RenderTarget &target, sf::RenderStates states) const;
 };

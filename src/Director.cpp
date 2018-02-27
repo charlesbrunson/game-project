@@ -7,7 +7,7 @@ Director::Director(Zone *z, ObjectManager *o, GameCamera *c) {
 	waitTimer = sf::Time::Zero;
 }
 
-void Director::update(sf::Time deltaTime, bool gamePaused) {
+void Director::update(sf::Time deltaTime, bool) {
 	if (waitTimer > sf::Time::Zero)
 		waitTimer -= deltaTime;
 	else {

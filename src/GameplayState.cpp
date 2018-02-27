@@ -128,7 +128,7 @@ void GameplayState::updateGame(sf::Time deltaTime) {
 	updateCamera(deltaTime);
 
 	//update level sprite
-	int drawMargin = 0;
+	//int drawMargin = 0;
 	//sf::IntRect camArea = sf::IntRect(getCameraArea());
 	currentZone->update(deltaTime);
 	currentZone->getCurrentLevel()->update(playerAlive ? deltaTime : sf::Time::Zero, getCameraArea(), cam.getPosition());

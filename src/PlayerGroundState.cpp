@@ -80,7 +80,7 @@ int PlayerGroundState::update(sf::Time deltaTime) {
 	}
 	else {
 		//implement braking
-		if ((abs(plr->vel().x) <= runspeedStart) || (plr->getAnimSprite().getHFlip() == plr->vel().x > 0)) {
+		if ((abs(plr->vel().x) <= runspeedStart) || (plr->getAnimSprite().getHFlip() == (plr->vel().x > 0))) {
 			plr->setVelX(0.f);
 			isBraking = false;
 		}
@@ -93,7 +93,7 @@ int PlayerGroundState::update(sf::Time deltaTime) {
 
 			//deccelerate
 			//brake faster if player is holding other direction
-			float deccelMag = move != 0 && (move > 0 != plr->vel().x > 0) ? 8.f : 3.f;
+			float deccelMag = move != 0 && ((move > 0) != (plr->vel().x > 0)) ? 8.f : 3.f;
 			float deccel = runspeedDecc * deccelMag * (plr->vel().x > 0 ? 1 : -1);
 			plr->setVelX(plr->vel().x - deccel * deltaTime.asSeconds());
 		}
@@ -213,7 +213,7 @@ void PlayerGroundState::updateAnimation(sf::Time deltaTime) {
 			}
 			else if (plr->getAnimSprite().isPlaying("running")) {
 
-				float speed = abs(plr->getVelocity().x) / runspeedMax;
+				//float speed = abs(plr->getVelocity().x) / runspeedMax;
 
 				plr->getAnimSprite().setTimeScale( abs(plr->getVelocity().x) / runspeedMax );
 			}

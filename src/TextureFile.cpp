@@ -138,6 +138,7 @@ bool TextureFile::loadFromFile(std::string path) {
 					animations.insert(std::make_pair(animName, a));
 				}
 			}
+			Log::msg("Created animation: " + filePath);
 		}
 		reader.close();
 
@@ -193,7 +194,6 @@ bool TextureFile::loadFromFile(std::string path) {
 						t.animFrameCount = framecount;
 					}
 					tileData[w] = t;
-					Log::msg("Add tile data (" +std::to_string(w.x)+ ", " +std::to_string(w.y)+ ", "+type+")");
 				}
 			}
 			Log::msg("Created tile map: " + filePath);

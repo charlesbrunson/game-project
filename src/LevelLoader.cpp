@@ -29,7 +29,7 @@ void LevelLoader::readLevel(std::ifstream &reader, Zone::LevelArea &area, Zone *
 
 		area.level = new Level();
 		LevelSerializer::readLevel(reader, *(area.level));
-		Log::msg("Reading level: " + area.level->getLevelName() + ".lvl\n");
+		Log::msg("Reading level: " + area.level->getLevelName() + ".lvl");
 
 		//OBJECTS---------------------------------
 
@@ -106,7 +106,7 @@ void LevelLoader::readLevel(std::ifstream &reader, Zone::LevelArea &area, Zone *
 
 		//if can't find try to compile .tmx tile of same name
 		//Log::msg("Couldn't open " + name + ".lvl\n");
-		Log::msg("Attemping to compile " + area.level->getLevelName() + ".tmx\n");
+		Log::msg("Attempting to compile " + area.level->getLevelName() + ".tmx\n");
 
 		bool attempt = compileTMXFile(area.level->getLevelName());
 
@@ -133,7 +133,7 @@ void LevelLoader::readLevel(std::ifstream &reader, Zone::LevelArea &area, Zone *
 
 void LevelLoader::saveLevel(std::string name, Zone::LevelArea &area) {
 
-	Log::msg(name + " - writing to .lvl file\n");
+	Log::msg(name + " - writing to .lvl file");
 
 	//ResourceLoader *temp = area.level->getResources();
 	//area.level->setResources(nullptr);
@@ -202,7 +202,7 @@ void LevelLoader::saveLevel(std::string name, Zone::LevelArea &area) {
 
 	//area.level->setResources(temp);
 
-	Log::msg(name + " - saved\n\n");
+	Log::msg(name + " - saved\n");
 
 	//yay!
 	writer.close();
@@ -238,7 +238,7 @@ bool LevelLoader::compileTMXFile(std::string name) {
 	doc->parse<0>(&content[0]);
 
 	//start reading it
-	Log::msg(name + " - reading TMX file\n");
+	Log::msg(name + " - reading TMX file");
 
 	area.level->setLevelName(name);
 
@@ -286,7 +286,7 @@ bool LevelLoader::compileTMXFile(std::string name) {
 			}
 		}
 	}
-	Log::msg("Level dimensions: " + std::to_string(area.level->levelArea.width) + ", " + std::to_string(area.level->levelArea.height) + "\n");
+	Log::msg("Level dimensions: " + std::to_string(area.level->levelArea.width) + ", " + std::to_string(area.level->levelArea.height));
 
 	//get tilesets used and store them temporarily
 
@@ -448,6 +448,7 @@ bool LevelLoader::compileTMXFile(std::string name) {
 				case Layer::FOREGROUND: area.level->getForegroundLayer()->setTile(pos, targetTileset, sprPos); break;
 				case Layer::BACKGROUND: area.level->getBackgroundLayer()->setTile(pos, targetTileset, sprPos); break;
 				case Layer::PARALLAX: area.level->getParallaxLayers()->at(parallax).setTile(pos, targetTileset, sprPos); break;
+				default: break;
 				}
 			}
 			pos.x += 1;
@@ -458,7 +459,7 @@ bool LevelLoader::compileTMXFile(std::string name) {
 		}
 	}
 
-	Log::msg("\nReading object data...\n");
+	Log::msg("\nReading object data...");
 
 	//read and generate objects
 	xml_node<> * objData = rootNode->first_node("objectgroup");
@@ -469,7 +470,7 @@ bool LevelLoader::compileTMXFile(std::string name) {
 		std::string groupName;
 		ss >> groupName;
 
-		Log::msg("Reading object group: " + groupName + "\n");
+		Log::msg("Reading object group: " + groupName);
 
 		if (groupName == "Entities") {
 
@@ -482,7 +483,7 @@ bool LevelLoader::compileTMXFile(std::string name) {
 
 				objN.type = object->first_attribute("type")->value();
 
-				Log::msg(objN.type + "\n");
+				Log::msg(objN.type);
 
 				objN.width = std::stoi(object->first_attribute("width")->value());
 				objN.height = std::stoi(object->first_attribute("height")->value());
@@ -493,7 +494,7 @@ bool LevelLoader::compileTMXFile(std::string name) {
 				if (hasArgs) {
 					for (xml_node<> * prop = object->first_node("properties")->first_node("property"); prop; prop = prop->next_sibling("property")) {
 						std::string name = prop->first_attribute("name")->value();
-						Log::msg("\t" + name + " " + prop->first_attribute("value")->value() + "\n");
+						Log::msg("\t" + name + " " + prop->first_attribute("value")->value());
 
 						if (name == "FACELEFT") {
 							objN.faceLeft = std::stoi(prop->first_attribute("value")->value()) != 0;
@@ -585,10 +586,10 @@ bool LevelLoader::compileTMXFile(std::string name) {
 	delete doc;
 
 	//generate collision map
-	Log::msg("Building collision map\n");
+	Log::msg("Building collision map");
 	area.level->generateCollisionMap();
 
-	Log::msg(name + " - successfully compiled\n\n");
+	Log::msg(name + " - successfully compiled\n");
 
 	LevelLoader::saveLevel(name, area);
 

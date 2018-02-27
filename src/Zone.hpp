@@ -29,7 +29,7 @@ public:
 				
 		if (!activeLevels.empty()) {
 			for (auto it = activeLevels.begin(); it != activeLevels.end(); it++) {
-				Log::msg("Deleting " + it->first + "\n");
+				Log::msg("Deleting " + it->first);
 
 				if (it->second.level != nullptr) {
 					delete it->second.level;
@@ -37,7 +37,6 @@ public:
 				}
 
 				it->second.objects.clear();
-				//it->second.platforms.clear();
 			}
 
 			activeLevels.clear();
@@ -49,7 +48,7 @@ public:
 	void createZone(std::string startLevel, ObjectManager *objMan, GameCamera *cam, bool ignorePlayer = false);
 
 	//transition to another level
-	void switchLevels(Transition destination, bool movePlayer, ObjectManager *objMan, GameCamera *cam);
+	//void switchLevels(Transition destination, bool movePlayer, ObjectManager *objMan, GameCamera *cam);
 
 	struct LevelArea {
 		std::string levelName;

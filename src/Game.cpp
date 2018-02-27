@@ -117,14 +117,14 @@ void Game::run() {
 
 		if (_focus) {
 			if (t.getElapsedTime() > _timePerUpdate)
-				Log::msg("check " + std::to_string(t.restart().asMicroseconds()) + "\n");
+				Log::msg("check " + std::to_string(t.restart().asMicroseconds()));
 
 			elapsed = _gameClock.restart();
 
 			_timeSinceLastUpdate += elapsed;
 			_timeSinceLastDraw += elapsed;
 
-			bool toSleep = false;
+			//bool toSleep = false;
 
 			// Step 1: Update state
 			if (_timeSinceLastUpdate >= _timePerUpdate || _uncappedFPS) {
@@ -136,13 +136,6 @@ void Game::run() {
 					sf::Time dt = std::min(_timeSinceLastUpdate, _minUpdateSpeed);
 					update(dt);
 					Controls::mouseLastMoved += dt;
-
-					// Clear debug log
-					//ClearLog::msg();
-
-#ifdef _DEBUG
-					//Log::msg("FPS:  " + std::to_string((int)_dDrawFPS) + (_dDrawFPS < 100 ? "\t\t" : "\t") + "UPS:  " + std::to_string((int)_dUpdateFPS) + "\n");
-#endif
 
 					// Reset update time accumulator
 					_timeSinceLastUpdate = sf::Time::Zero;
@@ -303,7 +296,7 @@ sf::Keyboard::Key Game::getKey(std::string k) {
 	}
 
 	// Input couldn't be found, unbind it
-	Log::msg("Unknown key: " + key + "\n");
+	Log::msg("Unknown key: " + key);
 	return sf::Keyboard::Unknown;
 }
 
@@ -336,7 +329,7 @@ Controls::JoystickInput Game::getJoystickInput(std::string j) {
 	}
 
 	// Input couldn't be found, unbind it
-	Log::msg("Unknown joystick input: " + in + "\n");
+	Log::msg("Unknown joystick input: " + in);
 	return Controls::JoystickInput(-1);
 }
 
@@ -434,7 +427,7 @@ void Game::update(sf::Time t) {
 
 #ifdef _DEBUG
 	// Update ingame Log text
-	gLog.update(v);
+	gLog.update();
 #endif
 
 }
@@ -507,7 +500,8 @@ void Game::handleEvents() {
 			// Joystick Input
 		case sf::Event::EventType::JoystickButtonPressed:
 			for (int i = 0; i < Controls::INPUT_COUNT; i++) {
-				if (Controls::joystickKeys[i]->isButton && e.joystickButton.button == Controls::joystickKeys[i]->buttonNum) {
+				if (Controls::joystickKeys[i]->isButton &&
+					(int)e.joystickButton.button == Controls::joystickKeys[i]->buttonNum) {
 					Controls::inputs[i]->active = true;
 					break;
 				}
@@ -516,7 +510,8 @@ void Game::handleEvents() {
 
 		case sf::Event::EventType::JoystickButtonReleased:
 			for (int i = 0; i < Controls::INPUT_COUNT; i++) {
-				if (Controls::joystickKeys[i]->isButton && e.joystickButton.button == Controls::joystickKeys[i]->buttonNum) {
+				if (Controls::joystickKeys[i]->isButton &&
+					(int)e.joystickButton.button == Controls::joystickKeys[i]->buttonNum) {
 					Controls::inputs[i]->active = false;
 					break;
 				}
@@ -539,7 +534,7 @@ void Game::handleEvents() {
 						// If another input is assigned to same axis but opposite direction, disable it
 						for (int j = i; j < Controls::INPUT_COUNT; j++) {
 							if (Controls::joystickKeys[j]->isAxis
-								&& e.joystickMove.axis == Controls::joystickKeys[j]->axis == Controls::joystickKeys[i]->axis
+								&& (e.joystickMove.axis == Controls::joystickKeys[j]->axis) == Controls::joystickKeys[i]->axis
 								&& Controls::joystickKeys[j]->activeOnAxisPositive != Controls::joystickKeys[i]->activeOnAxisPositive) {
 
 								Controls::inputs[i]->active = false;
@@ -573,7 +568,7 @@ void Game::handleEvents() {
 
 		case sf::Event::MouseButtonPressed:
 			if (getCameraArea().contains(Controls::mousePosition) && Controls::mouseInWindow
-				&& e.mouseButton.button == sf::Mouse::Left || e.mouseButton.button == sf::Mouse::Right) {
+				&& (e.mouseButton.button == sf::Mouse::Left || e.mouseButton.button == sf::Mouse::Right)) {
 
 				Controls::mouseActive.input.active = true;
 				Controls::mouseActive.position = Controls::mousePosition;
@@ -586,6 +581,7 @@ void Game::handleEvents() {
 				Controls::mouseActive.position = Controls::mousePosition;
 			}
 			break;
+		default: break;
 		}
 	}
 	
@@ -632,7 +628,7 @@ void Game::resizeWindow(int width, int height) {
 	}
 
 	// Resize window if new size is different from old size
-	if (size.x != width || size.y != height)
+	if ((int)size.x != width || (int)size.y != height)
 		setSize(size);
 
 	// Update the view to the new size of the window

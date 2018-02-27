@@ -25,7 +25,7 @@ public:
 	bool isInteractive();
 	bool isActivationDelayed();
 	
-	virtual void update(sf::Time deltaTime) {};
+	virtual void update(sf::Time) {};
 
 	virtual void setArea(sf::FloatRect a) = 0;
 	virtual void setPosition(sf::Vector2f pos) = 0;
@@ -34,8 +34,8 @@ public:
 	ActiveState getActiveState();
 	virtual void setActiveState(ActiveState st);
 	
-	virtual void captureDirInput(Cardinal d) {};
-	virtual void captureMouseMove(sf::Vector2f m_pos) {};
+	virtual void captureDirInput(Cardinal) {};
+	virtual void captureMouseMove(sf::Vector2f) {};
 	
 	virtual void activate() {};
 

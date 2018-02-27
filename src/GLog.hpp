@@ -12,7 +12,7 @@ public:
 
 	GLog();
 
-	void update(sf::Vector2f camCenter);
+	void update();
 
 	void fixMessage();
 	void fixTracker();

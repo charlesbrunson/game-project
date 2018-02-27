@@ -20,12 +20,12 @@ int PlayerWallJumpState::update(sf::Time deltaTime) {
 	
 	if (plr->getAnimSprite().isPlaying("walljump") || plr->getAnimSprite().isPlaying("jump-fall-transition")) {
 
-		if (!cancelling && (move != 0 && plr->getAnimSprite().getHFlip() == move > 0 && plr->getAnimSprite().getFrame() > 1) || plr->vel().x == 0.f)
+		if ((!cancelling && (move != 0 && plr->getAnimSprite().getHFlip() == (move > 0) && plr->getAnimSprite().getFrame() > 1)) || plr->vel().x == 0.f)
 			cancelling = true;
 
 		plr->setVelY(plr->vel().y + gravity * deltaTime.asSeconds());
 
-		if (abs(plr->vel().x) < wallJumpVel && move != 0 && move > 0 != plr->getAnimSprite().getHFlip()) {
+		if (abs(plr->vel().x) < wallJumpVel && move != 0 && (move > 0) != plr->getAnimSprite().getHFlip()) {
 			plr->setVelX(plr->vel().x + wallJumpAcc * (move > 0 ? 1.f : -1.f));
 			plr->setVelX(std::min(std::max(-wallJumpVel, plr->vel().x), wallJumpVel));
 		}
@@ -38,7 +38,7 @@ int PlayerWallJumpState::update(sf::Time deltaTime) {
 		}
 		
 		//clinging/walljump
-		if ((move == 0 || move > 0 != plr->getAnimSprite().getHFlip()) && PlayerWallClingState::canCling(plr, plr->getAnimSprite().getHFlip())) {
+		if ((move == 0 || (move > 0) != plr->getAnimSprite().getHFlip()) && PlayerWallClingState::canCling(plr, plr->getAnimSprite().getHFlip())) {
 			
 
 			if (plr->isPressed(Player::PlayerInput::JUMP, sf::milliseconds(100))) {

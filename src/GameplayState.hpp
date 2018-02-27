@@ -34,7 +34,7 @@ public:
 	void update(sf::Time deltaTime);
 	void updateCamera(sf::Time deltaTime);
 
-	bool passEvent(sf::Event e) {
+	bool passEvent(sf::Event) {
 		return true;
 	};
 

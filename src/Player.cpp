@@ -127,7 +127,7 @@ void Player::stand() {
 	crouched = false;
 }
 
-void Player::interact(GameObject *obj) {
+void Player::interact(GameObject*) {
 	//...
 }
 
@@ -180,16 +180,13 @@ void Player::updateAnimation(sf::Time deltaTime) {
 	//figure out collisions in this frame, by comparing current vel to oldvel
 	if (deltaTime > sf::Time::Zero) {
 		setGrounded(collisionUp && velocity.y >= 0);
-		bool left = collisionRight;
-		bool right = collisionLeft;
-		bool ceiling = collisionDown;
 	}
 
 	if (state_ != nullptr)
 		state_->updateAnimation(deltaTime);
 }
 
-bool Player::hurt(int amount, sf::Time stunTime) {
+bool Player::hurt(int, sf::Time) {
 
 	return false;
 };

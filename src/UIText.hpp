@@ -45,7 +45,7 @@ protected:
 
 	void updateText();
 
-	void setPosition(sf::Vector2f pos) {};
+	void setPosition(sf::Vector2f) {};
 
 	bool outlined = true;
 

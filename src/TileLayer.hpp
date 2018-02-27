@@ -70,7 +70,7 @@ public:
 	sf::Vector2f updateParallax(sf::Vector2f camCenter);
 	void updateScroll(sf::Time t, sf::FloatRect area, bool isZoneTimer = false);
 	void updateSpriteAnimation(sf::Time t, bool isZoneTimer = false);
-	void updateSpritePosition(sf::Vector2f pOffset, sf::Vector2f sOffset, sf::FloatRect pArea);
+	void updateSpritePosition(sf::Vector2f pOffset, sf::Vector2f sOffset);
 
 	//updates scrolling offset, returns whether mirror tiles need to be updated
 	//bool updateScroll(sf::Time t, sf::FloatRect area, bool isZoneTimer = false);
@@ -82,7 +82,7 @@ public:
 	//insert tile data into
 	void setTile(sf::Vector2i gridPosition, int tileSpr, sf::Vector2i offset);
 
-	int getTileSpriteName(GridVector gridpos, int layer) const;
+	int getTileSpriteName(GridVector gridpos) const;
 
 	void syncTimersWithZone(sf::Time zoneTimer);
 

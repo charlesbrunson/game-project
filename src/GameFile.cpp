@@ -8,11 +8,13 @@
 #include "LevelFile.hpp"
 #include "ShaderFile.hpp"
 
-GameFile::GameFile(std::string path, FileStream* str) {
+GameFile::GameFile(std::string path, FileStream*) {
 	filePath = path;
 };
 
 bool GameFile::load(std::string path, FileStream* str) {
+	filePath = path;
+
 	bool r = false;
 	if (str) {
 		r = loadFromStream(str);
@@ -35,7 +37,7 @@ const std::string* GameFile::getData() {
 	return &data;
 }
 
-const int GameFile::getDataSize() {
+int GameFile::getDataSize() {
 	if (data.empty())
 		convertToData();
 

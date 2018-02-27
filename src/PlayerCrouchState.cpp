@@ -110,7 +110,7 @@ int PlayerCrouchState::update(sf::Time deltaTime) {
 			}
 			if (hasJumpClearance()) {
 
-				if (sliding && move != 0 && (move < 0 != plr->getAnimSprite().getHFlip())) {
+				if (sliding && move != 0 && ((move < 0) != plr->getAnimSprite().getHFlip())) {
 					plr->setVelX(0.f);
 					plr->getAnimSprite().setHFlip(!plr->getAnimSprite().getHFlip());
 				}
@@ -164,7 +164,7 @@ int PlayerCrouchState::update(sf::Time deltaTime) {
 				
 				if ((slideTimer >= slideDuration && standable) || plr->vel().x == 0) {
 
-					if (move == 0 || plr->vel().x > 0 != move > 0)
+					if (move == 0 || ((plr->vel().x > 0) != (move > 0)))
 						plr->setVelX(0.f);
 
 					if (plr->isPressed(Player::PlayerInput::SPRINT, sf::milliseconds(250)) && plr->isHeld(Player::PlayerInput::DOWN)) {
@@ -172,7 +172,7 @@ int PlayerCrouchState::update(sf::Time deltaTime) {
 
 						if (move != 0) {
 
-							if (plr->getAnimSprite().getHFlip() != move < 0)
+							if (plr->getAnimSprite().getHFlip() != (move < 0))
 								plr->getAnimSprite().setAnimation("slide");
 
 							plr->getAnimSprite().setHFlip(move < 0);

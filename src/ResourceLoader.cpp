@@ -133,7 +133,7 @@ void ResourceLoader::writeToPack() {
 	if (packWriter.is_open()) {
 		int fileSeek = 0;
 
-		int headerSize = 0;
+		//int headerSize = 0;
 		std::stringstream headerStream;
 
 		// write file count
