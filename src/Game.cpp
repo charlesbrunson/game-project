@@ -116,6 +116,7 @@ void Game::run() {
 		handleEvents();
 
 		if (_focus) {
+			//debug, test if there was an unexpected delay
 			if (t.getElapsedTime() > _timePerUpdate)
 				Log::msg("check " + std::to_string(t.restart().asMicroseconds()));
 

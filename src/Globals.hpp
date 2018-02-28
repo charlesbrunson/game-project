@@ -22,22 +22,27 @@ static sf::Mutex drawLock;
 extern bool pixelSnapping;
 
 namespace Gameplay_Globals {
-	extern sf::Time minSoundTime;
-	extern sf::Time soundTimeout;
+	extern const sf::Time minSoundTime;
+	extern const sf::Time soundTimeout;
 	extern int gameScale;
 
 	namespace Debug {
 		extern bool objectCollision;
 		extern bool levelCollision;
 		extern bool platformPathing;
-		extern bool forceCompile;
 		extern bool playerInvulnerable;
 		extern bool scrollingParallax;
 		extern bool noZoom;
+		constexpr bool forceCompile =
+			#if defined(_DEBUG)
+				true;
+			#else
+				false;
+			#endif
 	}
 }
 namespace Resource_Globals {
-	extern bool ignorePackFile;
+	extern const bool ignorePackFile;
 }
 namespace UI_Globals {
 	namespace Debug {

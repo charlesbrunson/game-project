@@ -19,7 +19,11 @@ private:
 
 	bool loadFromFile(std::string path) override;
 	bool loadFromStream(FileStream* str) override;
-	void convertToData();
+
+	bool loadAnimationFile(const std::string& path);
+	bool loadTileDataFile(const std::string& path);
+
+	void convertToData() override;
 
 	sf::Texture tex;
 	std::map<std::string, Animation> animations;

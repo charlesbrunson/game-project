@@ -12,6 +12,7 @@ void PlayerBoostJumpState::enter() {
 	AnimSprite* spr = &plr->getAnimSprite();
 
 	if (!plr->collisionUp) {
+		//comment for unlimited boost
 		plr->useBoost();
 
 		createFX();
@@ -119,6 +120,15 @@ int PlayerBoostJumpState::update(sf::Time deltaTime) {
 
 		PlayerAirState::downDash(plr);
 		return Player::PlayerState::AIR;
+	}
+
+	if (plr->hasBoost() &&
+		plr->getAnimSprite().isPlaying("boostjump") &&
+		plr->getAnimSprite().getFrame() > 5 &&
+		plr->isPressed(Player::PlayerInput::JUMP, sf::milliseconds(100))) {
+
+		plr->confirmPress(Player::PlayerInput::JUMP);
+		enter();
 	}
 
 	if (!plr->getAnimSprite().isPlaying("boostjump"))

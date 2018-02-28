@@ -84,18 +84,21 @@ bool ResourceLoader::loadFromFile() {
 		indexReader.close();
 		loaded = true && !err;
 	}
+	else {
+		Log::msg("Could not read index file: " + fileIndex);
+	}
 	return loaded;
 }
 
-void ResourceLoader::writeToPack() {
+bool ResourceLoader::writeToPack() {
 	Log::msg("Writing assets to pack");
 
-	std::ofstream packWriter;
 
 	std::vector<std::pair<std::string, GameFile*>> files;
 
 	std::ifstream indexReader(fileIndex);
-	if (indexReader.is_open()) {
+	bool success = indexReader.is_open();
+	if (success) {
 		bool err = false;
 
 		// index file is in json
@@ -124,69 +127,79 @@ void ResourceLoader::writeToPack() {
 			err = true;
 		}
 
-		assert(!err);
+		success = success && err;
 	}
 	indexReader.close();
 
-	// Start writing header for pack file
-	packWriter.open(packName, std::ios_base::binary);
-	if (packWriter.is_open()) {
-		int fileSeek = 0;
+	if (!success) {
+		Log::msg("Failed to read index file: " + fileIndex);	
+		Log::msg("Aborting writeToPack()");	
+	}
+	else {
+		// Start writing header for pack file
+		std::ofstream packWriter;
+		packWriter.open(packName, std::ios_base::binary);
+		if (packWriter.is_open() && success) {
+			int fileSeek = 0;
 
-		//int headerSize = 0;
-		std::stringstream headerStream;
+			//int headerSize = 0;
+			std::stringstream headerStream;
 
-		// write file count
-		int fileCount = files.size();
-		headerStream.write((char*)&fileCount, StdSizes::intSize);
+			// write file count
+			int fileCount = files.size();
+			headerStream.write((char*)&fileCount, StdSizes::intSize);
 
-		// write meta data for files
-		for (auto i = files.begin(); i != files.end(); i++) {
+			// write meta data for files
+			for (auto i = files.begin(); i != files.end(); i++) {
 
-			// Write file name length
-			int fileNameLength = i->first.length();
-			headerStream.write((char*)&fileNameLength, StdSizes::intSize);
+				// Write file name length
+				int fileNameLength = i->first.length();
+				headerStream.write((char*)&fileNameLength, StdSizes::intSize);
 
-			// Write file name
-			for (int t = 0; t < fileNameLength; t++)
-				headerStream.write((char*)&i->first.at(t), StdSizes::charSize);
+				// Write file name
+				for (int t = 0; t < fileNameLength; t++)
+					headerStream.write((char*)&i->first.at(t), StdSizes::charSize);
 
-			// Write file size
-			int dataSize = i->second->getDataSize();
-			headerStream.write((char*)&dataSize, StdSizes::intSize);
+				// Write file size
+				int dataSize = i->second->getDataSize();
+				headerStream.write((char*)&dataSize, StdSizes::intSize);
 
-			// Write file seek
-			headerStream.write((char*)&fileSeek, StdSizes::intSize);
-			fileSeek += dataSize;
-		}
-
-		// write header length and content
-		std::string headerData = headerStream.str();
-		packHeaderSize = headerData.size() + StdSizes::intSize;
-
-		packWriter.write((char*)&packHeaderSize, StdSizes::intSize);
-		packWriter.write(headerData.c_str(), packHeaderSize);
-
-		// Write files to resource pack file
-		packWriter.seekp(packHeaderSize);
-		// Loop through files
-		for (auto i = files.begin(); i != files.end(); i++) {
-
-			//write files
-			const int max_size = 128;
-			int remainingSize = i->second->getDataSize();
-
-			char * ptr = (char*)i->second->getData()->c_str();
-
-			while (remainingSize > 0) {
-
-				int size = std::min(remainingSize, max_size);
-
-				packWriter.write(ptr, size);
-				remainingSize -= size;
-				ptr += size;
+				// Write file seek
+				headerStream.write((char*)&fileSeek, StdSizes::intSize);
+				fileSeek += dataSize;
 			}
-			i->second->clearData();
+
+			// write header length and content
+			std::string headerData = headerStream.str();
+			packHeaderSize = headerData.size() + StdSizes::intSize;
+
+			packWriter.write((char*)&packHeaderSize, StdSizes::intSize);
+			packWriter.write(headerData.c_str(), packHeaderSize);
+
+			// Write files to resource pack file
+			packWriter.seekp(packHeaderSize);
+			for (auto i = files.begin(); i != files.end(); i++) {
+
+				//write files
+				const int max_size = 128;
+				int remainingSize = i->second->getDataSize();
+
+				char * ptr = (char*)i->second->getData()->c_str();
+
+				while (remainingSize > 0) {
+
+					int size = std::min(remainingSize, max_size);
+
+					packWriter.write(ptr, size);
+					remainingSize -= size;
+					ptr += size;
+				}
+				i->second->clearData();
+			}
+		}
+		else {
+			success = false;
+			Log::msg("Could not write to pack: " + packName);
 		}
 	}
 
@@ -196,6 +209,7 @@ void ResourceLoader::writeToPack() {
 
 	files.clear();
 
+	return success;
 }
 
 // Read file from pack

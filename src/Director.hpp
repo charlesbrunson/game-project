@@ -1,8 +1,16 @@
 #ifndef DIRECTOR_H
 #define DIRECTOR_H
 
-#include "ObjectManager.hpp"
-#include "Zone.hpp"
+//#include "ObjectManager.hpp"
+//#include "Zone.hpp"
+
+#include <map>
+#include "SFML/System.hpp"
+
+class GameCamera;
+class GameObject;
+class ObjectManager;
+class Zone;
 //#include "MusicPlayer.hpp"
 
 // Manages level events, basically a level script

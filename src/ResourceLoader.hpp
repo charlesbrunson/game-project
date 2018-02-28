@@ -37,7 +37,7 @@ public:
 	void dumpResources();
 
 	// Resource retrieval
-	TextureFile& getTexFile     (const std::string& filename);
+	TextureFile& 	   getTexFile     (const std::string& filename);
 	const sf::Texture& getTexture     (const std::string& filename);
 	const std::string& getGeneric     (const std::string& filename);
 	const sf::Font&	   getFont        (const std::string& filename);
@@ -60,7 +60,7 @@ private:
 	bool loaded = false;
 	
 	// Writes data to resource pack file
-	void writeToPack();
+	bool writeToPack();
 
 	// Reads data directly from directory file
 	// not implemented, probably depreciated

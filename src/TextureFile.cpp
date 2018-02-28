@@ -29,181 +29,203 @@ Animation* TextureFile::getAnimation(std::string animName) {
 bool TextureFile::loadFromFile(std::string path) {
 	data.clear();
 	animations.clear();
+	std::string fullPath = RL()->fileDir + path;
 
-	if (tex.loadFromFile(RL()->fileDir + path)) {
+	if (tex.loadFromFile(fullPath)) {
 		// check for associated files
 
 		// animation file
-		std::ifstream reader(RL()->fileDir + path + ".anim");
-		if (reader.is_open()) {
-
-			Json::Value root;
-			reader >> root;
-
-			animations.clear();
-
-			for (auto anim = root.begin(); anim != root.end(); anim++) {
-
-
-				//std::cout << anim.key().asString() << std::endl << a.write(*anim) << std::endl;
-				std::string animName = anim.key().asString();
-
-				Animation a;
-				a.name = animName;
-				bool err = false;
-
-				// area
-				Json::Value area = anim->get("area", Json::Value());
-				if (area.isArray() && area.size() == 4 &&
-					area[0].isInt() && area[1].isInt() && area[2].isInt() && area[3].isInt()) {
-					a.area = sf::IntRect(area[0].asInt(), area[1].asInt(), area[2].asInt(), area[3].asInt());
-				}
-				else if (area.isNull()) {
-					a.area = sf::IntRect();
-				}
-				else {
-					err = true;
-				}
-
-				// origin
-				Json::Value origin = anim->get("origin", Json::Value());
-				if (origin.isArray() && origin.size() == 2 &&
-					origin[0].isConvertibleTo(Json::realValue) && origin[1].isConvertibleTo(Json::realValue)) {
-
-					a.origin = sf::Vector2f(origin[0].asFloat(), origin[1].asFloat());
-				}
-				else if (origin.isNull()) {
-					a.origin = sf::Vector2f();
-				}
-				else {
-					err = true;
-				}
-
-				// frame count
-				Json::Value count = anim->get("count", 0);
-				//int animCount;
-				if (count.isInt())
-					a.numOfFrames = count.asInt();
-				else
-					err = true;
-
-				// framerate
-				Json::Value frameRateMS = anim->get("framerateMS", Json::nullValue);
-				if (frameRateMS.isNumeric() || frameRateMS.isArray()) {
-					if (frameRateMS.isNumeric()) {
-
-						float f = frameRateMS.asFloat();
-						a.frameTimes.insert(a.frameTimes.begin(), a.numOfFrames, sf::seconds(f / 1000.f));
-						//a.frameTimes = std::vector<sf::Time>(animCount, sf::seconds(frameRateMS.asFloat() / 1000.f));
-
-					}
-					else if (frameRateMS.isArray()) {
-
-						for (auto time = frameRateMS.begin(); time != frameRateMS.end(); time++) {
-							a.frameTimes.push_back(sf::seconds(time->asFloat()) / 1000.f);
-						}
-						a.numOfFrames = a.frameTimes.size();
-					}
-				}
-				else {
-					err = true;
-				}
-
-				// loop count
-				Json::Value loop = anim->get("loop", 0);
-				if (loop.isInt())
-					a.loop = loop.asInt();
-				else
-					err = true;
-
-				// chain animation name
-				Json::Value chain = anim->get("chainTo", "");
-				if (chain.isString())
-					a.chainToName = chain.asString();
-				else
-					err = true;
-
-				// chain start frame
-				Json::Value chainToStartFrame = anim->get("chainToStartFrame", 0);
-				if (chainToStartFrame.isInt())
-					a.chainStartOnFrame = chainToStartFrame.asInt();
-				else
-					err = true;
-
-
-				if (err) {
-					Log::msg("TextureFile: in_loadFromFile(), " + animName + ", error: Incorrect arguments");
-				}
-				else {
-					animations.insert(std::make_pair(animName, a));
-				}
-			}
-			Log::msg("Created animation: " + filePath);
-		}
-		reader.close();
-
-		//std::cout << animations.size() << std::endl;
+		if (!loadAnimationFile(fullPath + ".anim"))
+			Log::msg(fullPath + ".anim not found");
 
 		//tile data file
-		reader.open(RL()->fileDir + path + ".tile");
-		if (reader.is_open()) {
-
-			std::map<GridVector, TileProperty::TileData> tileData;
-
-			int currentProp = TileProperty::tileProps::TILE_DEFAULT;
-
-			//parse json
-			Json::Value root;
-			reader >> root;
-
-			for (auto prop = root.begin(); prop != root.end(); prop++) {
-				std::string type = prop->get("type", "").asString();
-				assert(type != "");
-
-				int framerate = -1, framecount = -1;
-
-				if (type == "nocollision") {
-					currentProp = TileProperty::tileProps::TILE_NOCOLLISION;
-				}
-				else if (type == "oneway") {
-					currentProp = TileProperty::tileProps::TILE_ONEWAY;
-				}
-				else if (type == "animated") {
-					currentProp = TileProperty::tileProps::TILE_ANIMATED;
-
-					framerate = prop->get("framerate", -1).asInt();
-					framecount = prop->get("framecount", -1).asInt();
-				}
-
-				auto tileList = prop->get("tiles", 0);
-				assert(tileList.isArray());
-
-				//add tile data
-				for (auto tileIndex = tileList.begin(); tileIndex != tileList.end(); tileIndex++) {
-					TileProperty::TileData t;
-					GridVector w;
-
-					w.x = tileIndex->get("x", 0).asInt();
-					w.y = tileIndex->get("y", 0).asInt();
-					t.occluding = tileIndex->get("occluding", true).asBool();
-					t.tileProperty = currentProp;
-
-					if (currentProp == TileProperty::tileProps::TILE_ANIMATED) {
-						assert(framerate > -1 && framecount > -1);
-						t.animFrameRate = sf::milliseconds(framerate);
-						t.animFrameCount = framecount;
-					}
-					tileData[w] = t;
-				}
-			}
-			Log::msg("Created tile map: " + filePath);
-			TileProperty::addTileMap(filePath, &tileData);
-		}
-		reader.close();
+		if (!loadTileDataFile(fullPath + ".tile"))
+			Log::msg(fullPath + ".tile not found");
 
 		return true;
 	}
 	return false;
+}
+
+bool TextureFile::loadAnimationFile(const std::string& path) {
+
+	std::ifstream reader(path);
+	bool err = false;
+
+	if (reader.is_open()) {
+
+		Json::Value root;
+		reader >> root;
+
+		animations.clear();
+
+		for (auto anim = root.begin(); anim != root.end(); anim++) {
+
+			std::string animName = anim.key().asString();
+
+			Animation a;
+			a.name = animName;
+
+			// area
+			Json::Value area = anim->get("area", Json::Value());
+			if (area.isArray() && area.size() == 4 &&
+				area[0].isInt() && area[1].isInt() && area[2].isInt() && area[3].isInt()) {
+				a.area = sf::IntRect(area[0].asInt(), area[1].asInt(), area[2].asInt(), area[3].asInt());
+			}
+			else if (area.isNull()) {
+				a.area = sf::IntRect();
+			}
+			else {
+				err = true;
+			}
+
+			// origin
+			Json::Value origin = anim->get("origin", Json::Value());
+			if (origin.isArray() && origin.size() == 2 &&
+				origin[0].isConvertibleTo(Json::realValue) && origin[1].isConvertibleTo(Json::realValue)) {
+
+				a.origin = sf::Vector2f(origin[0].asFloat(), origin[1].asFloat());
+			}
+			else if (origin.isNull()) {
+				a.origin = sf::Vector2f();
+			}
+			else {
+				err = true;
+			}
+
+			Json::Value count = anim->get("count", 0);
+			if (count.isInt())
+				a.numOfFrames = count.asInt();
+			else
+				err = true;
+
+			// framerate
+			Json::Value frameRateMS = anim->get("framerateMS", Json::nullValue);
+			if (frameRateMS.isNumeric() || frameRateMS.isArray()) {
+				if (frameRateMS.isNumeric()) {
+
+					float f = frameRateMS.asFloat();
+					a.frameTimes.insert(a.frameTimes.begin(), a.numOfFrames, sf::seconds(f / 1000.f));
+					//a.frameTimes = std::vector<sf::Time>(animCount, sf::seconds(frameRateMS.asFloat() / 1000.f));
+
+				}
+				else if (frameRateMS.isArray()) {
+
+					for (auto time = frameRateMS.begin(); time != frameRateMS.end(); time++) {
+						a.frameTimes.push_back(sf::seconds(time->asFloat()) / 1000.f);
+					}
+					a.numOfFrames = a.frameTimes.size();
+				}
+			}
+			else {
+				err = true;
+			}
+
+			// loop count
+			Json::Value loop = anim->get("loop", 0);
+			if (loop.isInt())
+				a.loop = loop.asInt();
+			else
+				err = true;
+
+			// chain animation name
+			Json::Value chain = anim->get("chainTo", "");
+			if (chain.isString())
+				a.chainToName = chain.asString();
+			else
+				err = true;
+
+			// chain start frame
+			Json::Value chainToStartFrame = anim->get("chainToStartFrame", 0);
+			if (chainToStartFrame.isInt())
+				a.chainStartOnFrame = chainToStartFrame.asInt();
+			else
+				err = true;
+
+
+			if (err) {
+				Log::msg("TextureFile: in_loadFromFile(), " + animName + ", error: Incorrect arguments");
+			}
+			else {
+				animations.insert(std::make_pair(animName, a));
+			}
+		}
+		Log::msg("Created animation: " + filePath);
+	}
+	else {
+		return false;
+	}
+	reader.close();
+	return !err;
+}
+
+bool TextureFile::loadTileDataFile(const std::string& path) {
+
+	bool err = false;
+	std::ifstream reader(path);
+
+	if (reader.is_open()) {
+
+		std::map<GridVector, TileProperty::TileData> tileData;
+
+		int currentProp = TileProperty::tileProps::TILE_DEFAULT;
+
+		//parse json
+		Json::Value root;
+		reader >> root;
+
+		for (auto prop = root.begin(); prop != root.end(); prop++) {
+			std::string type = prop->get("type", "").asString();
+			assert(type != "");
+
+			int framerate = -1, framecount = -1;
+
+			if (type == "nocollision") {
+				currentProp = TileProperty::tileProps::TILE_NOCOLLISION;
+			}
+			else if (type == "oneway") {
+				currentProp = TileProperty::tileProps::TILE_ONEWAY;
+			}
+			else if (type == "animated") {
+				currentProp = TileProperty::tileProps::TILE_ANIMATED;
+
+				framerate = prop->get("framerate", -1).asInt();
+				framecount = prop->get("framecount", -1).asInt();
+			}
+			else {
+				//unknown type encountered
+				err = true;
+			}
+
+			auto tileList = prop->get("tiles", 0);
+			assert(tileList.isArray());
+
+			//add tile data
+			for (auto tileIndex = tileList.begin(); tileIndex != tileList.end(); tileIndex++) {
+				TileProperty::TileData t;
+				GridVector w;
+
+				w.x = tileIndex->get("x", 0).asInt();
+				w.y = tileIndex->get("y", 0).asInt();
+				t.occluding = tileIndex->get("occluding", true).asBool();
+				t.tileProperty = currentProp;
+
+				if (currentProp == TileProperty::tileProps::TILE_ANIMATED) {
+					assert(framerate > -1 && framecount > -1);
+					t.animFrameRate = sf::milliseconds(framerate);
+					t.animFrameCount = framecount;
+				}
+				tileData[w] = t;
+			}
+		}
+		Log::msg("Created tile map: " + filePath);
+		TileProperty::addTileMap(filePath, tileData);
+	}
+	else {
+		return false;
+	}
+	reader.close();
+	return !err;
 }
 
 bool TextureFile::loadFromStream(FileStream* str) {
