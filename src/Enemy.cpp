@@ -1,7 +1,8 @@
 #include "Enemy.hpp"
-#include "GameplayState.hpp"
 
 #include "PlayerRef.hpp"
+#include "Collidable.hpp"
+#include "CamRef.hpp"
 
 void Enemy::despawn() {
 	if (!toDelete && removeOnDespawn && spawnCounter > 0) {

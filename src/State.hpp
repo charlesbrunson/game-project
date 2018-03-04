@@ -1,5 +1,5 @@
-#ifndef GAMESTATE_H
-#define GAMESTATE_H
+#ifndef STATE_H
+#define STATE_H
 
 #include <SFML/Graphics.hpp>
 

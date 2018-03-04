@@ -1,5 +1,5 @@
-#ifndef GAMEWORLD_H
-#define GAMEWORLD_H
+#ifndef GAMEPLAYSTATE_H
+#define GAMEPLAYSTATE_H
 
 #include <SFML/Graphics.hpp>
 

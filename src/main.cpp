@@ -8,16 +8,15 @@
 
 // Game class
 #include "ResourceLoader.hpp"
-#include "Game.hpp"
-#include "Log.hpp"
+#include "Engine.hpp"
 
-int main(int /*argc*/, char** /*argv*/) {
+int main() {
 	
 	// Start up the game loop
 	{
 		if (RL()->loadResources()) {
-			Game g;
-			g.run();
+			Engine e;
+			e.run();
 		}
 		RL()->dumpResources();
 	}

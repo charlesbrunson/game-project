@@ -1,5 +1,6 @@
 #include "EnemySpawner.hpp"
 #include "Enemy.hpp"
+#include "CamRef.hpp"
 
 #include "NodeBuilder.hpp"
 

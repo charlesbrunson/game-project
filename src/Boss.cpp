@@ -2,6 +2,7 @@
 //#include "Coin.hpp"
 
 #include "PlayerRef.hpp"
+#include "AlertSystem.hpp"
 
 Boss::Boss(Level *l) : Enemy(l) {
 	respawning = false;

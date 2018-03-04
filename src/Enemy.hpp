@@ -2,7 +2,7 @@
 #define ENEMY_H
 
 #include "GameObject.hpp"
-#include "GameplayState.hpp"
+#include "Hurtbox.hpp"
 
 class Enemy : public GameObject {
 public:

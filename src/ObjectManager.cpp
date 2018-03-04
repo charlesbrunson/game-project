@@ -1,10 +1,10 @@
 #include "ObjectManager.hpp"
-#include "GameplayState.hpp"
 
 #include "ObjectTypes.hpp"
 #include "NodeBuilder.hpp"
 #include "TemplateUser.hpp"
 #include "Math.hpp"
+#include "CamRef.hpp"
 
 #include "PlayerRef.hpp"
 
@@ -326,8 +326,7 @@ void ObjectManager::insertObject(GameObject* obj) {
 	std::unique_ptr<GameObject> uPtr(obj);
 
 	//prevent more than one player being made
-	bool c = plr == nullptr || obj->objectType != GameObject::PLAYER;
-	assert(c);
+	assert(plr == nullptr || obj->objectType != GameObject::PLAYER);
 
 	for (std::vector<std::unique_ptr<GameObject>>::iterator e = objects.begin(); e != objects.end(); e++) {
 
