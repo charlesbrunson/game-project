@@ -512,6 +512,24 @@ void Engine::handleEvents() {
 				Gameplay_Globals::Debug::scrollingParallax = !Gameplay_Globals::Debug::scrollingParallax;
 				Log::msg("Debug: scrolling parallax = " + std::to_string(Gameplay_Globals::Debug::scrollingParallax));
 			}
+			else if (e.key.code == sf::Keyboard::Numpad5) {
+				Gameplay_Globals::Debug::playerInvulnerable = !Gameplay_Globals::Debug::playerInvulnerable;
+				Log::msg("Debug: player invulnerable = " + std::to_string(Gameplay_Globals::Debug::playerInvulnerable));
+			}
+			else if (e.key.code == sf::Keyboard::Numpad6) {
+				// ...
+			}
+			else if (e.key.code == sf::Keyboard::Numpad7) {
+				// ...
+			}
+			else if (e.key.code == sf::Keyboard::Numpad8) {
+				UI_Globals::Debug::UIDebug = !UI_Globals::Debug::UIDebug;
+				Log::msg("Debug: UI debug = " + std::to_string(UI_Globals::Debug::UIDebug));
+			}
+			else if (e.key.code == sf::Keyboard::Numpad9) {
+				UI_Globals::Debug::UIConnectors = !UI_Globals::Debug::UIConnectors;
+				Log::msg("Debug: UI connectors = " + std::to_string(UI_Globals::Debug::UIConnectors));
+			}
 
 #endif
 			break;
