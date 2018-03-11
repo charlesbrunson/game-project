@@ -33,7 +33,7 @@ namespace Gameplay_Globals {
 		extern bool playerInvulnerable;
 		extern bool scrollingParallax;
 		extern bool noZoom;
-		constexpr bool forceCompile =
+		const bool forceCompile =
 			#if defined(_DEBUG)
 				true;
 			#else

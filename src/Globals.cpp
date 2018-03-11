@@ -1,7 +1,7 @@
 #include "Globals.hpp"
 
-constexpr int GAMEWIDTH = 320; //20 tiles
-constexpr int GAMEHEIGHT = 240; //15 tiles
+const int GAMEWIDTH = 320; //20 tiles
+const int GAMEHEIGHT = 240; //15 tiles
 
 const sf::Vector2f GAMEDIMENSIONS(GAMEWIDTH, GAMEHEIGHT);
 

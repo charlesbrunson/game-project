@@ -58,9 +58,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Game.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -256,6 +253,9 @@
     <ClCompile Include="ShaderFile.cpp">
       <Filter>Source Files\Resources\FileHandles</Filter>
     </ClCompile>
+    <ClCompile Include="Engine.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="rapidxml.hpp">
@@ -268,9 +268,6 @@
       <Filter>Source Files\RapidXML</Filter>
     </ClInclude>
     <ClInclude Include="Globals.hpp">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Game.hpp">
       <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="Controls.hpp">
@@ -500,6 +497,12 @@
     </ClInclude>
     <ClInclude Include="ShaderFile.hpp">
       <Filter>Source Files\Resources\FileHandles</Filter>
+    </ClInclude>
+    <ClInclude Include="CollisionManager.hpp">
+      <Filter>Source Files\States\Gameplay</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine.hpp">
+      <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
