@@ -489,6 +489,31 @@ void Engine::handleEvents() {
 					Controls::inputs[i]->active = true;
 				}
 			}
+#if defined(_DEBUG)
+
+			if (e.key.code == sf::Keyboard::Numpad0) {
+				Gameplay_Globals::Debug::objectCollision = !Gameplay_Globals::Debug::objectCollision;
+				Log::msg("Debug: object collision = " + std::to_string(Gameplay_Globals::Debug::objectCollision));
+			}
+			else if (e.key.code == sf::Keyboard::Numpad1) {
+				Gameplay_Globals::Debug::levelCollision = !Gameplay_Globals::Debug::levelCollision;
+				Log::msg("Debug: level collision = " + std::to_string(Gameplay_Globals::Debug::levelCollision));
+			}
+			else if (e.key.code == sf::Keyboard::Numpad2) {
+				Gameplay_Globals::Debug::noZoom = !Gameplay_Globals::Debug::noZoom;
+				resizeWindow(getSize().x, getSize().y);
+				Log::msg("Debug: view zoom = " + std::to_string(Gameplay_Globals::Debug::noZoom));
+			}
+			else if (e.key.code == sf::Keyboard::Numpad3) {
+				Gameplay_Globals::Debug::platformPathing = !Gameplay_Globals::Debug::platformPathing;
+				Log::msg("Debug: platform pathing = " + std::to_string(Gameplay_Globals::Debug::platformPathing));
+			}
+			else if (e.key.code == sf::Keyboard::Numpad4) {
+				Gameplay_Globals::Debug::scrollingParallax = !Gameplay_Globals::Debug::scrollingParallax;
+				Log::msg("Debug: scrolling parallax = " + std::to_string(Gameplay_Globals::Debug::scrollingParallax));
+			}
+
+#endif
 			break;
 
 		case sf::Event::EventType::KeyReleased:

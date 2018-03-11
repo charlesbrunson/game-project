@@ -359,16 +359,8 @@ void ObjectManager::doLevelCollision(GameObject *obj, std::vector<Collision> *co
 
 	const sf::FloatRect c = obj->getCollision();
 	const sf::FloatRect oldC = obj->getPrevFrameCollision();
-	const sf::Vector2f vel = obj->getVelocity();
 	
 	//create bounding box for object's current frame collision box and previous frame collision box
-	/*const sf::FloatRect bb(
-		std::min(oldC.left, c.left), 
-		std::min(oldC.top, c.top),
-		std::max((oldC.left + oldC.width) - c.left, (c.left + c.width) - oldC.left),
-		std::max((oldC.top + oldC.height) - c.top, (c.top + c.height) - oldC.top)
-		);*/
-
 	const sf::FloatRect bb(Math::boundingBox(c, oldC));
 		
 	std::vector<sf::FloatRect> *rightCols = gameLevel->getRightCol();
@@ -387,7 +379,8 @@ void ObjectManager::doLevelCollision(GameObject *obj, std::vector<Collision> *co
 	};
 
 	//do right
-	if (vel.x < 0.f) {
+	//if (vel.x < 0.f) {
+	if (c.left < oldC.left) {
 		for (auto i = rightCols->cbegin(); i != rightCols->cend(); i++) {
 			if (i->intersects(bb) && bb.left <= i->left + i->width && oldC.left >= i->left + i->width) {
 				collisions->push_back(makeCol(*i, i->left + i->width - c.left, 1));
@@ -396,7 +389,8 @@ void ObjectManager::doLevelCollision(GameObject *obj, std::vector<Collision> *co
 		
 	}
 	//do left
-	else if (vel.x > 0.f) {
+	//else if (vel.x > 0.f) {
+	else if (c.left + c.width > oldC.left + oldC.width) {	
 		for (auto i = leftCols->cbegin(); i != leftCols->cend(); i++) {
 			if (i->intersects(bb) && bb.left + bb.width >= i->left && oldC.left + oldC.width <= i->left) {
 				collisions->push_back(makeCol(*i, i->left - c.left - c.width, 3));
@@ -404,7 +398,8 @@ void ObjectManager::doLevelCollision(GameObject *obj, std::vector<Collision> *co
 		}
 	}
 	//do up
-	if (vel.y > 0.f && !obj->isDroppingThroughFloor()) {
+	//if (vel.y > 0.f && !obj->isDroppingThroughFloor()) {
+	if (c.top > oldC.top && !obj->isDroppingThroughFloor()) {
 		for (auto i = upCols->cbegin(); i != upCols->cend(); i++) {
 			if (i->intersects(bb) && bb.top + bb.height >= i->top && oldC.top + oldC.height <= i->top) {
 				collisions->push_back(makeCol(*i, i->top - c.top - c.height, 0));
@@ -412,7 +407,8 @@ void ObjectManager::doLevelCollision(GameObject *obj, std::vector<Collision> *co
 		}
 	}
 	//do down
-	else if (vel.y < 0.f) {
+	//else if (vel.y < 0.f) {
+	else if (c.top + c.height < oldC.top + oldC.height) {
 		for (auto i = downCols->cbegin(); i != downCols->cend(); i++) {
 			if (i->intersects(bb) && bb.top <= i->top + i->height && oldC.top >= i->top + i->height) {
 				collisions->push_back(makeCol(*i, i->top + i->height - c.top, 0));
@@ -426,7 +422,6 @@ void ObjectManager::doCollidableCollision(Collidable *collidable, GameObject *ob
 	
 	sf::FloatRect c = obj->getCollision();
 	sf::FloatRect oldC = obj->getPrevFrameCollision();
-	//sf::Vector2f v = obj->getVelocity() - collidable->getParent()->getVelocity();
 	
 	std::vector<Collidable::Collider> *upCol = collidable->getColliders(Collidable::UP);
 	std::vector<Collidable::Collider> *rightCol = collidable->getColliders(Collidable::RIGHT);
