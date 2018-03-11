@@ -35,12 +35,10 @@ bool TextureFile::loadFromFile(std::string path) {
 		// check for associated files
 
 		// animation file
-		if (!loadAnimationFile(fullPath + ".anim"))
-			Log::msg(fullPath + ".anim not found");
+		loadAnimationFile(fullPath + ".anim");
 
 		//tile data file
-		if (!loadTileDataFile(fullPath + ".tile"))
-			Log::msg(fullPath + ".tile not found");
+		loadTileDataFile(fullPath + ".tile");
 
 		return true;
 	}
@@ -150,7 +148,8 @@ bool TextureFile::loadAnimationFile(const std::string& path) {
 				animations.insert(std::make_pair(animName, a));
 			}
 		}
-		Log::msg("Created animation: " + filePath);
+		//Log::msg("Created animation: " + filePath);
+		Log::msg("\tAdded animation");
 	}
 	else {
 		return false;
@@ -218,7 +217,8 @@ bool TextureFile::loadTileDataFile(const std::string& path) {
 				tileData[w] = t;
 			}
 		}
-		Log::msg("Created tile map: " + filePath);
+		//Log::msg("Created tile map: " + filePath);
+		Log::msg("\tAdded tile map");
 		TileProperty::addTileMap(filePath, tileData);
 	}
 	else {

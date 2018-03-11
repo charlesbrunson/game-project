@@ -57,7 +57,7 @@ void ObjectManager::clearExceptGlobals() {
 	effects.clear();
 	sounds.clear();
 
-	auto i = getObjects()->begin(); 
+	auto i = getObjects()->begin();
 	while (i != getObjects()->end()) {
 		if (!i->get()->isGlobalObject()) {
 			//remove
@@ -425,8 +425,8 @@ void ObjectManager::doCollidableCollision(Collidable *collidable, GameObject *ob
 	//adaptation of regular collision algorithm
 	
 	sf::FloatRect c = obj->getCollision();
-	//sf::FloatRect oldC = obj->getPrevFrameCollision();
-	sf::Vector2f v = obj->getVelocity() - collidable->getParent()->getVelocity();
+	sf::FloatRect oldC = obj->getPrevFrameCollision();
+	//sf::Vector2f v = obj->getVelocity() - collidable->getParent()->getVelocity();
 	
 	std::vector<Collidable::Collider> *upCol = collidable->getColliders(Collidable::UP);
 	std::vector<Collidable::Collider> *rightCol = collidable->getColliders(Collidable::RIGHT);
@@ -443,7 +443,8 @@ void ObjectManager::doCollidableCollision(Collidable *collidable, GameObject *ob
 	};
 
 	//do right
-	if (v.x < 0.f) {
+	//if (v.x < 0.f) {
+	if (c.left < oldC.left) {
 		for (auto i = rightCol->cbegin(); i != rightCol->cend(); i++) {
 			if (i->box.intersects(c)) {
 				collisions->push_back(makeCol(i->box, i->box.left + i->box.width - c.left));
@@ -451,7 +452,8 @@ void ObjectManager::doCollidableCollision(Collidable *collidable, GameObject *ob
 		}
 	}
 	//do left
-	else if (v.x > 0.f) {
+	//else if (v.x > 0.f) {
+	else if (c.left + c.width > oldC.left + oldC.width) {
 		for (auto i = leftCol->begin(); i != leftCol->end(); i++) {
 			if (i->box.intersects(c)) {
 				collisions->push_back(makeCol(i->box, i->box.left - c.left - c.width));
@@ -459,7 +461,8 @@ void ObjectManager::doCollidableCollision(Collidable *collidable, GameObject *ob
 		}
 	}
 	//do up
-	if (v.y > 0.f) {
+	//if (v.y > 0.f) {
+	if (c.top > oldC.top) {
 		for (auto i = upCol->begin(); i != upCol->end(); i++) {
 			if (i->box.intersects(c)) {
 				collisions->push_back(makeCol(i->box, i->box.top - c.top - c.height));
@@ -467,7 +470,8 @@ void ObjectManager::doCollidableCollision(Collidable *collidable, GameObject *ob
 		}
 	}
 	//do down
-	else if (v.y < 0.f) {
+	//else if (v.y < 0.f) {
+	else if (c.top + c.height < oldC.top + oldC.height) {
 		for (auto i = downCol->begin(); i != downCol->end(); i++) {
 			if (i->box.intersects(c)) {
 				collisions->push_back(makeCol(i->box, i->box.top + i->box.height - c.top));

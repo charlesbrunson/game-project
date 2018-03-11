@@ -466,34 +466,34 @@ void GameplayState::draw(sf::RenderTarget &target, sf::RenderStates states) cons
 		sf::RectangleShape r;
 
 		//top - red
-		r.setFillColor(sf::Color(255, 255, 255, 128));
+		r.setFillColor(sf::Color(255, 255, 255, 255));
 		for (std::vector<sf::FloatRect>::const_iterator it = lvl->getUpCol()->begin(); it != lvl->getUpCol()->end(); it++) {
 			r.setPosition(sf::Vector2f(it->left, it->top));
-			r.setSize(sf::Vector2f(it->width, it->height - 8));
+			r.setSize(sf::Vector2f(it->width, 1.f));
 			target.draw(r);
 		}
 
 		//right - green
-		r.setFillColor(sf::Color(0, 255, 0, 128));
+		r.setFillColor(sf::Color(0, 255, 0, 255));
 		for (std::vector<sf::FloatRect>::const_iterator it = lvl->getRightCol()->begin(); it != lvl->getRightCol()->end(); it++) {
-			r.setPosition(sf::Vector2f(it->left + 8, it->top));
-			r.setSize(sf::Vector2f(it->width - 8, it->height));
+			r.setPosition(sf::Vector2f(it->left + it->width - 1.f, it->top));
+			r.setSize(sf::Vector2f(1.f, it->height));
 			target.draw(r);
 		}
 
 		//left - blue
-		r.setFillColor(sf::Color(0, 0, 255, 128));
+		r.setFillColor(sf::Color(0, 0, 255, 255));
 		for (std::vector<sf::FloatRect>::const_iterator it = lvl->getLeftCol()->begin(); it != lvl->getLeftCol()->end(); it++) {
 			r.setPosition(sf::Vector2f(it->left, it->top));
-			r.setSize(sf::Vector2f(it->width - 8, it->height));
+			r.setSize(sf::Vector2f(1.f, it->height));
 			target.draw(r);
 		}
 
 		//down - yellow
-		r.setFillColor(sf::Color(255, 0, 0, 128));
+		r.setFillColor(sf::Color(255, 0, 0, 255));
 		for (std::vector<sf::FloatRect>::const_iterator it = lvl->getDownCol()->begin(); it != lvl->getDownCol()->end(); it++) {
-			r.setPosition(sf::Vector2f(it->left, it->top + 8));
-			r.setSize(sf::Vector2f(it->width, it->height - 8));
+			r.setPosition(sf::Vector2f(it->left, it->top + it->height - 1.f));
+			r.setSize(sf::Vector2f(it->width, 1.f));
 			target.draw(r);
 		}
 	}

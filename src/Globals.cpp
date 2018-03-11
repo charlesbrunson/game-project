@@ -17,8 +17,8 @@ int Gameplay_Globals::gameScale = 1;
 //bool forcePackResources = true;
 bool pixelSnapping = false;
 
-bool Gameplay_Globals::Debug::objectCollision = false;
-bool Gameplay_Globals::Debug::levelCollision = false;
+bool Gameplay_Globals::Debug::objectCollision = true;
+bool Gameplay_Globals::Debug::levelCollision = true;
 bool Gameplay_Globals::Debug::platformPathing = false;
 bool Gameplay_Globals::Debug::scrollingParallax = false;
 bool Gameplay_Globals::Debug::noZoom = false;

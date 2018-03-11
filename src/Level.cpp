@@ -85,27 +85,29 @@ Level::LevelCollision Level::getTileCollisionBox(sf::Vector2i gridPosition) {
 	gridArea.width /= tileSpacing;
 	gridArea.height /= tileSpacing;
 
-	auto neighborTester = [&gridArea, &fTiles](const GridVector &pos, bool &col) {
+	auto neighborTester = [&gridArea, &fTiles](const GridVector &pos) -> bool {
+		bool r = false;
 		if (gridArea.contains(pos)) {
-			col = fTiles->find(pos) == fTiles->end();
-			if (col == false) {
+			r = fTiles->find(pos) == fTiles->end();
+			if (!r) {
 				int t = fTiles->find(pos)->second.tileProperty;
-				col = col || t == TileProperty::TILE_ONEWAY || t == TileProperty::TILE_NOCOLLISION;
+				r = r || t == TileProperty::TILE_ONEWAY || t == TileProperty::TILE_NOCOLLISION;
 			}
 		}
+		return r;
 	};
 
 	//check top
-	neighborTester(GridVector(gridPosition.x, gridPosition.y - 1), c.upCol);
+	c.upCol = neighborTester(GridVector(gridPosition.x, gridPosition.y - 1));
 	if (t == fTiles->end() || t->second.tileProperty != TileProperty::TILE_ONEWAY) {
 		//check right
-		neighborTester(GridVector(gridPosition.x + 1, gridPosition.y), c.rightCol);
+		c.rightCol = neighborTester(GridVector(gridPosition.x + 1, gridPosition.y));
 
 		//check down
-		neighborTester(GridVector(gridPosition.x, gridPosition.y + 1), c.downCol);
+		c.downCol = neighborTester(GridVector(gridPosition.x, gridPosition.y + 1));
 
 		//check left
-		neighborTester(GridVector(gridPosition.x - 1, gridPosition.y), c.leftCol);
+		c.leftCol = neighborTester(GridVector(gridPosition.x - 1, gridPosition.y));
 	}
 	return c;
 }

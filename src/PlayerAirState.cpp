@@ -67,7 +67,7 @@ int PlayerAirState::update(sf::Time deltaTime) {
 			plr->setVelX(0.f);
 
 		//down dash
-		if (plr->vel().y >= -50.f && plr->vel().y < 200.f && plr->isHeld(Player::PlayerInput::DOWN) && plr->isPressed(Player::PlayerInput::SPRINT, sf::milliseconds(100))) {
+		if (plr->vel().y >= -50.f && plr->vel().y < 200.f && plr->isHeld(Player::PlayerInput::DOWN) && plr->isPressed(Player::PlayerInput::SPRINT, sf::milliseconds(250))) {
 
 			plr->confirmPress(Player::PlayerInput::SPRINT);
 

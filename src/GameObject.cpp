@@ -159,18 +159,20 @@ void GameObject::draw(sf::RenderTarget &target, sf::RenderStates states) const {
 		sf::RectangleShape oColRect;
 		sf::RectangleShape posRect;
 
-		//place rectshape over collision rect and draw it
-		colRect.setPosition(sf::Vector2f(collisionBox.left, collisionBox.top));
-		colRect.setSize(sf::Vector2f(collisionBox.width, collisionBox.height));
-		colRect.setFillColor(sf::Color(0, 255, 0, 100));
-
-		target.draw(colRect, states);
-
 		oColRect.setPosition(sf::Vector2f(oldBox.left, oldBox.top));
 		oColRect.setSize(sf::Vector2f(oldBox.width, oldBox.height));
 		oColRect.setFillColor(sf::Color(0, 0, 255, 100));
 
 		target.draw(oColRect, states);
+
+		//place rectshape over collision rect and draw it
+		colRect.setPosition(sf::Vector2f(collisionBox.left, collisionBox.top));
+		colRect.setSize(sf::Vector2f(collisionBox.width, collisionBox.height));
+		colRect.setFillColor(sf::Color(0, 255, 0, 0));
+		colRect.setOutlineColor(sf::Color(0, 255, 0, 255));
+		colRect.setOutlineThickness(-1.f);
+
+		target.draw(colRect, states);
 
 		posRect.setPosition(position + sf::Vector2f(-0.5f, -0.5f));
 		posRect.setSize(sf::Vector2f(1, 1));
