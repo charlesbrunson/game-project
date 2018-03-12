@@ -433,7 +433,7 @@ void ObjectManager::doCollidableCollision(Collidable *collidable, GameObject *ob
 		col.rect = r;
 		col.magnitude = mag;
 		col.parent = collidable;
-		col.velocity = collidable->getParent()->getVelocity();
+		col.parentVel = collidable->getParent()->getVelocity();
 		return col;
 	};
 

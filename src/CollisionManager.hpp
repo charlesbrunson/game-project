@@ -23,17 +23,21 @@ public:
 
 	//add physics object to pool
 	//void addObject(const GameObject* obj);
+	Static* createStatic(sf::FloatRect area, Static::CollisionType colType);
+	Solid* createSolid(sf::FloatRect area);
+
+	Static* removeStatic(Static* statObj);
+	Solid* removeSolid(Solid* solid);
 
 	inline const std::vector<Static>& getStatics() { return statics; };
 
 private:
 	std::vector<Static> statics;
-	std::map<GridVector, Static*> staticsByGrid;
-	std::vector<Solid*> solids;
+	std::map<GridVector, std::vector<Static*>> staticsByGrid;
+	std::vector<Solid> solids;
 
 	//TODO
-	void doLevelCollision();
-	void doCollidableCollision();
+	void collide();
 	void validateCollisions();
 	void resolveCollisions();
 };

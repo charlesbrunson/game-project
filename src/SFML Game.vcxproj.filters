@@ -256,6 +256,9 @@
     <ClCompile Include="Engine.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="CollisionManager.cpp">
+      <Filter>Source Files\States\Gameplay\GameplayUtil</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="rapidxml.hpp">
@@ -498,11 +501,14 @@
     <ClInclude Include="ShaderFile.hpp">
       <Filter>Source Files\Resources\FileHandles</Filter>
     </ClInclude>
-    <ClInclude Include="CollisionManager.hpp">
-      <Filter>Source Files\States\Gameplay</Filter>
-    </ClInclude>
     <ClInclude Include="Engine.hpp">
       <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CollisionManager.hpp">
+      <Filter>Source Files\States\Gameplay\GameplayUtil</Filter>
+    </ClInclude>
+    <ClInclude Include="Collision.hpp">
+      <Filter>Source Files\States\Gameplay\GameplayUtil</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

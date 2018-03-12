@@ -24,7 +24,7 @@ public:
 		bool horizontal = true;
 		float magnitude = 0;
 		sf::FloatRect rect;
-		sf::Vector2f velocity = sf::Vector2f(0.f, 0.f);
+		sf::Vector2f parentVel = sf::Vector2f(0.f, 0.f);
 
 		Collidable *parent = nullptr;
 
