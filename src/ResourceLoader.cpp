@@ -325,6 +325,17 @@ void ResourceLoader::dumpResources() {
 	loaded = false;
 }
 
+bool ResourceLoader::reloadTextures() {
+	bool r = true;
+	for (auto i = textures.begin(); i != textures.end(); i++) {
+		r = r && i->second->load(i->second->getFilePath());
+		if (!r)
+			Log::msg("Failed to load " + i->second->getFilePath());
+	}
+	return r;
+}
+
+
 template<class T>
 T* ResourceLoader::getResource(std::map<std::string, T*>& map, const std::string& name) {
 	std::lock_guard<std::mutex> lock(m);

@@ -4,7 +4,7 @@
 #include <SFML/System.hpp>
 #include "TileProperty.hpp"
 
-const int tileSpacing = 16;
+const float tileSpacing = 16.f;
 
 struct Tile {
 	// The sprite to be used for this tile

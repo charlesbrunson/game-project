@@ -105,12 +105,14 @@ void UISlider::captureDirInput(Cardinal d) {
 
 	if (d == Cardinal::EAST) {
 		curIndex++;
-		curIndex = std::min(curIndex, rangeCount); 
+		curIndex = std::min(curIndex, rangeCount - 1);
+		Log::msg(std::to_string(getValue()));
 		trackDir = EAST;
 	}
 	else if (d == Cardinal::WEST) {
 		curIndex--;
 		curIndex = std::max(curIndex, 0);
+		Log::msg(std::to_string(getValue()));
 		trackDir = WEST;
 	}
 
@@ -131,7 +133,7 @@ void UISlider::captureMouseMove(sf::Vector2f m_pos) {
 }
 
 void UISlider::moveCursor(int p) {
-	curIndex = std::max(0, std::min(p, rangeCount));
+	curIndex = std::max(0, std::min(p, rangeCount - 1));
 	Log::msg(std::to_string(getValue()));
 	updateCursorSprite();
 }

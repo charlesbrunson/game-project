@@ -166,7 +166,7 @@ int PlayerGroundState::update(sf::Time deltaTime) {
 	}
 
 	if (!plr->collisionUp) {
-		plr->setVelX(plr->vel().x / 2.f);
+		plr->setVelX(plr->vel().x * 0.75f);
 		return Player::PlayerState::AIR;
 	}
 	return objectState;

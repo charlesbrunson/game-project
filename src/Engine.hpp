@@ -56,6 +56,8 @@ private:
 	// This window is currently in focus
 	bool _focus = true;
 
+	//debug
+	float timeScale = 1.f;
 
 	// Toggles for VSync for both fullscreen and windowed mode
 	bool _windowedVSync = false;

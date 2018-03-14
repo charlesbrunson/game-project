@@ -30,6 +30,7 @@ namespace Math {
 	float angle(const sf::Vector2f& from, const sf::Vector2f& to);
 
 	const sf::FloatRect boundingBox(const sf::FloatRect& a, const sf::FloatRect& b);
+	const sf::IntRect gridBounds(const sf::FloatRect& a);
 
 	const sf::Vector2f size(const sf::FloatRect& a);
 	const sf::Vector2f topleft(const sf::FloatRect& a);

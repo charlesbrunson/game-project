@@ -35,6 +35,7 @@ public:
 	FileType getType() {
 		return fileType;
 	}
+	inline const std::string& getFilePath() { return filePath; };
 	
 protected:
 

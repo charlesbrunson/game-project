@@ -26,7 +26,7 @@ Engine::Engine() {
 		// Setup default FPS settings
 		_maxUpdatePerSec = 144.0;
 		_maxDrawPerSec = 144.0;
-		_uncappedFPS = true;
+		_uncappedFPS = false;
 
 #ifdef _DEBUG
 		// Setup debug values
@@ -137,7 +137,7 @@ void Engine::run() {
 
 					Controls::updateGameInputs();
 					sf::Time dt = std::min(_timeSinceLastUpdate, _minUpdateSpeed);
-					update(dt);
+					update(dt * timeScale);
 					Controls::mouseLastMoved += dt;
 
 					// Reset update time accumulator
@@ -147,7 +147,7 @@ void Engine::run() {
 					while (_timeSinceLastUpdate >= _timePerUpdate) {
 						// If capped, update at set interval until caught up
 						Controls::updateGameInputs();
-						update(_timePerUpdate);
+						update(_timePerUpdate * timeScale);
 						Controls::mouseLastMoved += _timePerUpdate;
 						
 						// Reset update time accumulator
@@ -262,7 +262,7 @@ void Engine::applySettings() {
 	for (int a = SettingsField::JOYSTICK_UP; a != SettingsField::JOYSTICK_START; a++) {
 		Controls::JoystickInput j = getJoystickInput(GameSettings::getSettingValue(static_cast<SettingsField>(a)));
 
-		if (j.buttonNum != -1) {
+		if (j.isAxis || j.isButton) {
 			switch (a) {
 			case SettingsField::JOYSTICK_UP: Controls::UpJ = j; break;
 			case SettingsField::JOYSTICK_DOWN: Controls::DownJ = j; break;
@@ -490,7 +490,9 @@ void Engine::handleEvents() {
 				}
 			}
 #if defined(_DEBUG)
+			//Debug Hotkeys
 
+			//Numpad
 			if (e.key.code == sf::Keyboard::Numpad0) {
 				Gameplay_Globals::Debug::objectCollision = !Gameplay_Globals::Debug::objectCollision;
 				Log::msg("Debug: object collision = " + std::to_string(Gameplay_Globals::Debug::objectCollision));
@@ -517,7 +519,8 @@ void Engine::handleEvents() {
 				Log::msg("Debug: player invulnerable = " + std::to_string(Gameplay_Globals::Debug::playerInvulnerable));
 			}
 			else if (e.key.code == sf::Keyboard::Numpad6) {
-				// ...
+				pixelSnapping = !pixelSnapping;
+				Log::msg("Debug: pixel snapping = " + std::to_string(pixelSnapping));
 			}
 			else if (e.key.code == sf::Keyboard::Numpad7) {
 				// ...
@@ -526,9 +529,29 @@ void Engine::handleEvents() {
 				UI_Globals::Debug::UIDebug = !UI_Globals::Debug::UIDebug;
 				Log::msg("Debug: UI debug = " + std::to_string(UI_Globals::Debug::UIDebug));
 			}
+			else if (e.key.code == sf::Keyboard::Add) {
+				timeScale += 0.1f;	
+				Log::msg("Debug: time scale = " + std::to_string(timeScale));
+			}
+			else if (e.key.code == sf::Keyboard::Subtract) {
+				timeScale -= 0.1f;	
+				timeScale = std::max(0.f, timeScale);
+				Log::msg("Debug: time scale = " + std::to_string(timeScale));
+			}
 			else if (e.key.code == sf::Keyboard::Numpad9) {
 				UI_Globals::Debug::UIConnectors = !UI_Globals::Debug::UIConnectors;
 				Log::msg("Debug: UI connectors = " + std::to_string(UI_Globals::Debug::UIConnectors));
+			}
+			//Function Keys
+			else if (e.key.code == sf::Keyboard::F5) {
+				Log::msg("Debug: Reloading all textures from file");
+				if (!RL()->reloadTextures()) {
+					Log::msg("Failed to reload all textures, closing game!!!");
+					close();
+				}
+				else {
+					Log::msg("Finished reloading all textures from file");
+				}
 			}
 
 #endif

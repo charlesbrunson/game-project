@@ -13,6 +13,8 @@ class CollisionManager {
 public:
 
 	//get level collision map from level
+	CollisionManager();
+	CollisionManager(sf::Vector2i staticSize);
 	CollisionManager(Level* lvl);
 
 	//update collision for all objects
@@ -34,12 +36,14 @@ public:
 private:
 	std::vector<Static> statics;
 	std::map<GridVector, std::vector<Static*>> staticsByGrid;
+	std::map<Static::CollisionType, std::vector<Static*>> staticsByType;
 	std::vector<Solid> solids;
 
 	//TODO
-	void collide();
-	void validateCollisions();
-	void resolveCollisions();
+	void collide(Solid* solid);
+	void collideWithStatic(Solid* solid, std::vector<Collision> *collisions);
+	void validateCollisions(std::vector<Collision> *collisions);
+	void resolveCollisions(Solid* solid, std::vector<Collision> *collisions);
 };
 
 #endif

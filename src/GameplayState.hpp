@@ -87,7 +87,7 @@ private:
 	sf::Time pauseTime = sf::Time::Zero;
 
 	//debug
-	float timeScale;
+	//float timeScale;
 	
 	int moveOut(Player &p, sf::FloatRect r);
 	

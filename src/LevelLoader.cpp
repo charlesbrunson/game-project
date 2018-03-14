@@ -198,14 +198,15 @@ void LevelLoader::saveLevel(std::string name, Zone::LevelArea &area) {
 			}
 		}
 
+		writer.close();
+		Log::msg(name + " - saved\n");
+	}
+	else {
+		Log::msg(name + " - failed\n");
 	}
 
 	//area.level->setResources(temp);
 
-	Log::msg(name + " - saved\n");
-
-	//yay!
-	writer.close();
 };
 
 //------------------------------------------------------------------
@@ -423,7 +424,7 @@ bool LevelLoader::compileTMXFile(std::string name) {
 							h -= (ts->width / tileSpacing);
 							sprPos.y++;
 						}
-						sprPos.x = localgid % (ts->width / tileSpacing);
+						sprPos.x = localgid % (ts->width / (int)tileSpacing);
 
 						bool f = false;
 						for (auto z = area.level->getTilesetList()->begin(); z != area.level->getTilesetList()->end(); z++) {

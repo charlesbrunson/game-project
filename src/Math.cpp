@@ -2,6 +2,7 @@
 #include <math.h>
 
 #include "Math.hpp"
+#include "Tile.hpp"
 
 const float PI_F = 3.14159265358979323846f;
 
@@ -42,6 +43,15 @@ const sf::FloatRect Math::boundingBox(const sf::FloatRect& a, const sf::FloatRec
 	r.top = std::min(a.top, b.top);
 	r.width = std::max(a.left + a.width, b.left + b.width) - r.left;
 	r.height = std::max(a.top + a.height, b.top + b.height) - r.top;
+	return r;
+};
+
+const sf::IntRect Math::gridBounds(const sf::FloatRect& a) {
+	sf::IntRect r;
+	r.left = (int)(a.left / tileSpacing);
+	r.width = (int)ceilf((a.left + a.width) / tileSpacing) - r.left;
+	r.top = (int)(a.top / tileSpacing);
+	r.height = (int)ceilf((a.top + a.height) / tileSpacing) - r.top;
 	return r;
 };
 

@@ -13,7 +13,7 @@ extern const sf::Vector2f GAMEDIMENSIONS;
 
 
 extern int volumeGame;
-extern int volumeMusic; 
+extern int volumeMusic;
 extern float volumeMusicPausedScale;
 
 static sf::Mutex drawLock;

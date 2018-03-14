@@ -1,6 +1,7 @@
 #include "PlayerBoostJumpState.hpp"
 #include "PlayerAirState.hpp"
 #include "PlayerWallClingState.hpp"
+#include "PlayerLedgeState.hpp"
 #include "PlayerWallJumpState.hpp"
 
 const sf::Time PlayerBoostJumpState::boostDuration = sf::seconds(16.f / 60.f);

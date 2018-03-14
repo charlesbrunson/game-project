@@ -36,6 +36,8 @@ public:
 	bool loadResources();
 	void dumpResources();
 
+	bool reloadTextures();
+
 	// Resource retrieval
 	TextureFile& 	   getTexFile     (const std::string& filename);
 	const sf::Texture& getTexture     (const std::string& filename);

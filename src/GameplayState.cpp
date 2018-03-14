@@ -18,7 +18,7 @@
 #include <fstream>
 
 GameplayState::GameplayState() {
-	timeScale = 1.f;
+	//timeScale = 1.f;
 	
 	LevelDef::initLevelDefs();
 
@@ -71,9 +71,9 @@ void GameplayState::update(sf::Time deltaTime) {
 
 	removeStateOnChange = true;
 
-	sf::Time updateTime = deltaTime * timeScale;
+	//sf::Time updateTime = deltaTime * timeScale;
 
-	updateGame(updateTime);
+	updateGame(deltaTime);
 }
 
 void GameplayState::updateGame(sf::Time deltaTime) {

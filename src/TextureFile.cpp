@@ -27,18 +27,21 @@ Animation* TextureFile::getAnimation(std::string animName) {
 }
 
 bool TextureFile::loadFromFile(std::string path) {
-	data.clear();
-	animations.clear();
 	std::string fullPath = RL()->fileDir + path;
 
 	if (tex.loadFromFile(fullPath)) {
 		// check for associated files
+		Log::msg("Loaded " + path);
+		data.clear();
+		animations.clear();
 
 		// animation file
-		loadAnimationFile(fullPath + ".anim");
+		if (animations.empty())
+			loadAnimationFile(fullPath + ".anim");
 
 		//tile data file
-		loadTileDataFile(fullPath + ".tile");
+		if (data.empty())
+			loadTileDataFile(fullPath + ".tile");
 
 		return true;
 	}
