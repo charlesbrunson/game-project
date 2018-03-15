@@ -18,6 +18,8 @@ TransitionState::TransitionState(GameplayState *game, Transition *activatedTrans
 	zone->completeThread();
 	toLevelArea = zone->getLevelByName(transition.levelName);
 	assert(toLevelArea != nullptr);
+	
+	fract = 0.f;
 
 	plr = objMan->getPlayer();
 	//figure player start

@@ -23,12 +23,5 @@ int main() {
 		RL()->dumpResources();
 	}
 
-//	CollisionManager man(sf::Vector2i(16,16));
-//	man.createStatic(sf::FloatRect(0,16,16,16), Static::CollisionType::FLOOR);
-//	man.createStatic(sf::FloatRect(0,16,16,16), Static::CollisionType::RIGHTWALL);
-//	Solid* solid = man.createSolid(sf::FloatRect(0,0,16,16));
-//	solid->setArea(sf::FloatRect(0, 5, 16, 16));
-//	man.update(sf::Time::Zero);
-	
 	return EXIT_SUCCESS;
 }
