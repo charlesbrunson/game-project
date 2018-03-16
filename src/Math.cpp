@@ -19,6 +19,14 @@ float Math::magnitude(const sf::Vector2f& v) {
 	return sqrtf(v.x * v.x + v.y * v.y);
 }
 
+float Math::lerp(float a, float b, float perc) {
+	return ((1.f - perc) * a) + (perc * b);
+};
+
+const sf::Vector2f Math::lerp(sf::Vector2f a, sf::Vector2f b, float perc) {
+	return sf::Vector2f(lerp(a.x, b.x, perc), lerp(a.y, b.y, perc));
+};
+
 const sf::Vector2f Math::normalize(const sf::Vector2f& v) {
 	return v / magnitude(v);
 }
@@ -44,6 +52,14 @@ const sf::FloatRect Math::boundingBox(const sf::FloatRect& a, const sf::FloatRec
 	r.width = std::max(a.left + a.width, b.left + b.width) - r.left;
 	r.height = std::max(a.top + a.height, b.top + b.height) - r.top;
 	return r;
+};
+
+const sf::FloatRect Math::lerpBox(const sf::FloatRect& a, const sf::FloatRect& b, float perc) {
+	sf::Vector2f lerpSize = lerp(size(a), size(b), perc);
+	sf::Vector2f lerpCenter = lerp(center(a), center(b), perc);
+
+	return sf::FloatRect(lerpCenter - lerpSize * 0.5f, lerpSize);
+
 };
 
 const sf::IntRect Math::gridBounds(const sf::FloatRect& a) {

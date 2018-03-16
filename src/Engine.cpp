@@ -530,11 +530,11 @@ void Engine::handleEvents() {
 				Log::msg("Debug: UI debug = " + std::to_string(UI_Globals::Debug::UIDebug));
 			}
 			else if (e.key.code == sf::Keyboard::Add) {
-				timeScale += 0.1f;	
+				timeScale += timeScale <= 2.f ? 0.1f : 1.f;	
 				Log::msg("Debug: time scale = " + std::to_string(timeScale));
 			}
 			else if (e.key.code == sf::Keyboard::Subtract) {
-				timeScale -= 0.1f;	
+				timeScale -= (timeScale <= 2.f ? 0.1f : 1.f);	
 				timeScale = std::max(0.f, timeScale);
 				Log::msg("Debug: time scale = " + std::to_string(timeScale));
 			}

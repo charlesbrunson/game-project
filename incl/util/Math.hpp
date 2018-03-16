@@ -22,6 +22,9 @@ namespace Math {
 
 	float magnitude(const sf::Vector2f& v);
 
+	float lerp(float a, float b, float perc);
+	const sf::Vector2f lerp(sf::Vector2f a, sf::Vector2f b, float perc);
+
 	const sf::Vector2f normalize(const sf::Vector2f& v);
 	
 	const sf::Vector2f rotate(const sf::Vector2f& v, float rad);
@@ -30,6 +33,7 @@ namespace Math {
 	float angle(const sf::Vector2f& from, const sf::Vector2f& to);
 
 	const sf::FloatRect boundingBox(const sf::FloatRect& a, const sf::FloatRect& b);
+	const sf::FloatRect lerpBox(const sf::FloatRect& a, const sf::FloatRect& b, float perc = 0.5f);
 	const sf::IntRect gridBounds(const sf::FloatRect& a);
 
 	const sf::Vector2f size(const sf::FloatRect& a);

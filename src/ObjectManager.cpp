@@ -576,6 +576,7 @@ void ObjectManager::resolveCollisions(GameObject *obj, std::vector<Collision> *c
 	//resolve in order, double check they still apply
 	//const Collision* col;
 	int side;
+	sf::FloatRect bb;
 
 	for (const Collision& col : *collisions) {
 		//col = &(*collisions)[i];
@@ -583,7 +584,8 @@ void ObjectManager::resolveCollisions(GameObject *obj, std::vector<Collision> *c
 		if (!col.valid)
 			continue;
 		
-		if (obj->getCollision().intersects(col.rect)) {
+		bb = Math::boundingBox(plr->getPrevFrameCollision(), plr->getCollision());
+		if (bb.intersects(col.rect)) {
 
 			side = -1;
 			if (col.horizontal) {

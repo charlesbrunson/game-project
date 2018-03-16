@@ -160,17 +160,19 @@ void Player::update(sf::Time deltaTime) {
 	updateInput(deltaTime);
 
 	droppingThroughFloor = false;
-	if (state_ != nullptr) {
+	if (state_ != nullptr && deltaTime > sf::Time::Zero) {
 		playerState = state_->update(deltaTime);
 		if (state_->updatePos())
 			setPosition(position += velocity * deltaTime.asSeconds());
 	}
 	
-	onGround = false;
-	collisionUp = false;
-	collisionRight = false;
-	collisionLeft = false;
-	collisionDown = false;
+	if (deltaTime > sf::Time::Zero) {
+		onGround = false;
+		collisionUp = false;
+		collisionRight = false;
+		collisionLeft = false;
+		collisionDown = false;
+	}
 	if (ledgeGrabDisabledFor > sf::Time::Zero)
 		ledgeGrabDisabledFor -= deltaTime;
 }
