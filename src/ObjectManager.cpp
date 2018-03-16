@@ -584,7 +584,7 @@ void ObjectManager::resolveCollisions(GameObject *obj, std::vector<Collision> *c
 		if (!col.valid)
 			continue;
 		
-		bb = Math::boundingBox(plr->getPrevFrameCollision(), plr->getCollision());
+		bb = Math::boundingBox(obj->getPrevFrameCollision(), obj->getCollision());
 		if (bb.intersects(col.rect)) {
 
 			side = -1;

@@ -167,11 +167,12 @@ void Player::update(sf::Time deltaTime) {
 	}
 	
 	if (deltaTime > sf::Time::Zero) {
-		onGround = false;
-		collisionUp = false;
-		collisionRight = false;
-		collisionLeft = false;
-		collisionDown = false;
+		resetCollisionFlags();
+//		onGround = false;
+//		collisionUp = false;
+//		collisionRight = false;
+//		collisionLeft = false;
+//		collisionDown = false;
 	}
 	if (ledgeGrabDisabledFor > sf::Time::Zero)
 		ledgeGrabDisabledFor -= deltaTime;
