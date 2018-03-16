@@ -1,14 +1,14 @@
-#include "Player.hpp"
-#include "Enemy.hpp"
+#include "obj/plr/Player.hpp"
+#include "obj/Enemy.hpp"
 
-#include "PlayerGroundState.hpp"
-#include "PlayerAirState.hpp"
-#include "PlayerDashState.hpp"
-#include "PlayerWallClingState.hpp"
-#include "PlayerWallJumpState.hpp"
-#include "PlayerCrouchState.hpp"
-#include "PlayerBoostJumpState.hpp"
-#include "PlayerLedgeState.hpp"
+#include "obj/plr/PlayerGroundState.hpp"
+#include "obj/plr/PlayerAirState.hpp"
+#include "obj/plr/PlayerDashState.hpp"
+#include "obj/plr/PlayerWallClingState.hpp"
+#include "obj/plr/PlayerWallJumpState.hpp"
+#include "obj/plr/PlayerCrouchState.hpp"
+#include "obj/plr/PlayerBoostJumpState.hpp"
+#include "obj/plr/PlayerLedgeState.hpp"
 
 //defining animations
 /*

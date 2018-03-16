@@ -1,8 +1,8 @@
 
 #include <math.h>
 
-#include "Math.hpp"
-#include "Tile.hpp"
+#include "util/Math.hpp"
+#include "game/lvl/Tile.hpp"
 
 const float PI_F = 3.14159265358979323846f;
 

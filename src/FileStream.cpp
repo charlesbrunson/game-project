@@ -1,4 +1,4 @@
-#include "FileStream.hpp"
+#include "res/FileStream.hpp"
 
 FileStream::FileStream(std::ifstream *stream, int st, int en) : m_source(stream) {
 	start = st;

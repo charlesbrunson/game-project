@@ -1,12 +1,12 @@
-#include "TextureFile.hpp"
+#include "res/TextureFile.hpp"
 
 #include <fstream>
 
-#include "TileProperty.hpp"
-#include "Log.hpp"
+#include "game/lvl/TileProperty.hpp"
+#include "util/Log.hpp"
 #include "json.h"
 
-#include "StandardSize.hpp"
+#include "util/StandardSize.hpp"
 
 #include <assert.h>
 #include <array>
@@ -32,16 +32,12 @@ bool TextureFile::loadFromFile(std::string path) {
 	if (tex.loadFromFile(fullPath)) {
 		// check for associated files
 		Log::msg("Loaded " + path);
-		data.clear();
-		animations.clear();
 
 		// animation file
-		if (animations.empty())
-			loadAnimationFile(fullPath + ".anim");
+		loadAnimationFile(fullPath + ".anim");
 
 		//tile data file
-		if (data.empty())
-			loadTileDataFile(fullPath + ".tile");
+		loadTileDataFile(fullPath + ".tile");
 
 		return true;
 	}
@@ -58,7 +54,7 @@ bool TextureFile::loadAnimationFile(const std::string& path) {
 		Json::Value root;
 		reader >> root;
 
-		animations.clear();
+		//animations.clear();
 
 		for (auto anim = root.begin(); anim != root.end(); anim++) {
 
@@ -148,7 +144,14 @@ bool TextureFile::loadAnimationFile(const std::string& path) {
 				Log::msg("TextureFile: in_loadFromFile(), " + animName + ", error: Incorrect arguments");
 			}
 			else {
-				animations.insert(std::make_pair(animName, a));
+				auto anim = animations.find(animName);
+				if (anim != animations.end()) {
+					anim->second = a;
+				}
+				else {
+					animations.insert(std::make_pair(animName, a));
+				}
+
 			}
 		}
 		//Log::msg("Created animation: " + filePath);
@@ -158,6 +161,7 @@ bool TextureFile::loadAnimationFile(const std::string& path) {
 		return false;
 	}
 	reader.close();
+	linkAnimations();
 	return !err;
 }
 

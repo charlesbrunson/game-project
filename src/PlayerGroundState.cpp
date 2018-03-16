@@ -1,5 +1,5 @@
-#include "PlayerGroundState.hpp"
-#include "PlayerLedgeState.hpp"
+#include "obj/plr/PlayerGroundState.hpp"
+#include "obj/plr/PlayerLedgeState.hpp"
 
 void PlayerGroundState::enter() {
 	plr->rechargeBoost();

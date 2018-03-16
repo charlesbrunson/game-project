@@ -1,12 +1,12 @@
-#include "GLog.hpp"
+#include "ui/GLog.hpp"
 
-#include "Math.hpp"
+#include "util/Math.hpp"
 
 #include <string>
 
-#include "CamRef.hpp"
+#include "game/CamRef.hpp"
 
-#include "ResourceLoader.hpp"
+#include "res/ResourceLoader.hpp"
 
 GLog::GLog() {
 	messageBox.setFont(RL()->getFont("fonts/pixelated.ttf"));

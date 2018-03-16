@@ -1,8 +1,8 @@
-#include "TransitionState.hpp"
+#include "trans/TransitionState.hpp"
 
 #include <algorithm>
 
-#include "PlayerState.hpp"
+#include "obj/plr/PlayerState.hpp"
 
 
 const sf::Time TransitionState::transDuration = sf::seconds(1.f);
@@ -163,6 +163,21 @@ void TransitionState::update(sf::Time deltaTime) {
 		// move new objects + camera back to actually be in level
 		for (auto o = objMan->getObjects()->begin(); o != objMan->getObjects()->end(); o++) {
 			o->get()->setPosition(o->get()->getPosition() + toLvlOffset);
+
+			std::vector<Effect*>* effects = &o->get()->createdEffects;
+			for (auto e = effects->begin(); e != effects->end(); e++) {
+				(*e)->setPosition((*e)->getPosition() + toLvlOffset);
+			}
+
+			std::vector<GameObject*>* objects = &o->get()->createdObjs;
+			for (auto c = objects->begin(); c != objects->end(); c++) {
+				(*c)->setPosition((*c)->getPosition() + toLvlOffset);
+			}
+		}
+
+		// move effects
+		for (auto o = objMan->getEffects()->begin(); o != objMan->getEffects()->end(); o++) {
+			o->get()->setPosition(o->get()->getPosition() + toLvlOffset);
 		}
 
 		// remove levels not directly connected to this one
@@ -172,13 +187,13 @@ void TransitionState::update(sf::Time deltaTime) {
 		z->beginLoadingAdjacentLevels();
 
 		//delete non parented effects
-		if (!isFake) {
-			for (auto e = objMan->getEffects()->begin(); e != objMan->getEffects()->end(); e++) {
-				if (e->get()->getParent() != plr) {
-					e->get()->toDelete = true;
-				}
-			}
-		}
+//		if (!isFake) {
+//			for (auto e = objMan->getEffects()->begin(); e != objMan->getEffects()->end(); e++) {
+//				if (e->get()->getParent() != plr) {
+//					e->get()->toDelete = true;
+//				}
+//			}
+//		}
 
 		// update camera
 		gameplayState->getGameCamera()->setPosition(gameplayState->getGameCamera()->getPosition() + toLvlOffset);

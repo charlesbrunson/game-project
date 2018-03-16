@@ -1,6 +1,6 @@
-#include "TransitionHorizontalState.hpp"
+#include "trans/TransitionHorizontalState.hpp"
 
-#include "Math.hpp"
+#include "util/Math.hpp"
 
 TransitionHorizontalState::TransitionHorizontalState(GameplayState *game, Transition *activatedTransition) :
 TransitionState(game, activatedTransition) {

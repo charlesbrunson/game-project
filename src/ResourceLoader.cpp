@@ -1,5 +1,5 @@
 
-#include "ResourceLoader.hpp"
+#include "res/ResourceLoader.hpp"
 
 #include <fstream>
 #include <assert.h>
@@ -10,9 +10,9 @@
 // JSON parser
 #include "json.h"
 
-#include "FileStream.hpp"
-#include "StandardSize.hpp"
-#include "Log.hpp"
+#include "res/FileStream.hpp"
+#include "util/StandardSize.hpp"
+#include "util/Log.hpp"
 
 #include "Globals.hpp"
 

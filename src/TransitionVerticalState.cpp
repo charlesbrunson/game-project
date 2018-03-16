@@ -1,4 +1,4 @@
-#include "TransitionVerticalState.hpp"
+#include "trans/TransitionVerticalState.hpp"
 
 TransitionVerticalState::TransitionVerticalState(GameplayState *game, Transition *activatedTransition) :
 TransitionState(game, activatedTransition) {

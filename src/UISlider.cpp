@@ -1,6 +1,7 @@
-#include "UISlider.hpp"
+#include "ui/UISlider.hpp"
+#include "res/ResourceLoader.hpp"
 
-#include "Log.hpp"
+#include "util/Log.hpp"
 #include "Controls.hpp"
 
 #include <assert.h>

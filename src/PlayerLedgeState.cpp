@@ -1,7 +1,7 @@
-#include "PlayerLedgeState.hpp"
-#include "PlayerWallJumpState.hpp"
-#include "PlayerCrouchState.hpp"
-#include "PlayerAirState.hpp"
+#include "obj/plr/PlayerLedgeState.hpp"
+#include "obj/plr/PlayerWallJumpState.hpp"
+#include "obj/plr/PlayerCrouchState.hpp"
+#include "obj/plr/PlayerAirState.hpp"
 
 bool contains(const sf::FloatRect r, const sf::Vector2f p);
 

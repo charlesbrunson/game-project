@@ -1,8 +1,9 @@
 
-#include "UIPauseState.hpp"
-#include "CamRef.hpp"
+#include "ui/UIPauseState.hpp"
+#include "game/CamRef.hpp"
 
-#include "UIMainMenu.hpp"
+#include "ui/UIMainMenu.hpp"
+#include "res/ResourceLoader.hpp"
 
 UIPauseState::UIPauseState(State* prevState) {
 

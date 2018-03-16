@@ -1,10 +1,11 @@
 
-#include "CamRef.hpp"
-#include "Log.hpp"
+#include "res/ResourceLoader.hpp"
+#include "game/CamRef.hpp"
+#include "util/Log.hpp"
 
-#include "GameplayState.hpp"
-#include "UIMainMenu.hpp"
-#include "UIOptions.hpp"
+#include "game/GameplayState.hpp"
+#include "ui/UIMainMenu.hpp"
+#include "ui/UIOptions.hpp"
 
 UIMainMenu::UIMainMenu() {
 	cameraPos = GAMEDIMENSIONS / 2.f;

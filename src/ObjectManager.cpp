@@ -1,12 +1,12 @@
-#include "ObjectManager.hpp"
+#include "game/ObjectManager.hpp"
 
-#include "ObjectTypes.hpp"
-#include "NodeBuilder.hpp"
-#include "TemplateUser.hpp"
-#include "Math.hpp"
-#include "CamRef.hpp"
+#include "obj/ObjectTypes.hpp"
+#include "game/lvl/NodeBuilder.hpp"
+#include "obj/TemplateUser.hpp"
+#include "util/Math.hpp"
+#include "game/CamRef.hpp"
 
-#include "PlayerRef.hpp"
+#include "obj/plr/PlayerRef.hpp"
 
 void ObjectManager::clear() {
 

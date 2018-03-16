@@ -1,10 +1,10 @@
-#include "GenericFile.hpp"
-#include "ResourceLoader.hpp"
+#include "res/GenericFile.hpp"
+#include "res/ResourceLoader.hpp"
 
 #include <fstream>
 #include <sstream>
 
-#include "StandardSize.hpp"
+#include "util/StandardSize.hpp"
 
 #include <assert.h>
 #include <array>

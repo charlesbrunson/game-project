@@ -1,5 +1,5 @@
-#include "Hurtbox.hpp"
-#include "AlertSystem.hpp"
+#include "obj/Hurtbox.hpp"
+#include "game/AlertSystem.hpp"
 
 void Hurtbox::update() {
 	if (isActive) {

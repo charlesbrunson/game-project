@@ -1,6 +1,6 @@
-#include "UIGraph.hpp"
+#include "ui/UIGraph.hpp"
 #include "Controls.hpp"
-#include "Log.hpp"
+#include "util/Log.hpp"
 
 #include <assert.h>
 

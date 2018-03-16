@@ -1,5 +1,5 @@
-#include "PlayerDashState.hpp"
-#include "PlayerLedgeState.hpp"
+#include "obj/plr/PlayerDashState.hpp"
+#include "obj/plr/PlayerLedgeState.hpp"
 
 const sf::Time PlayerDashState::dashDuration = sf::seconds(0.25f);
 

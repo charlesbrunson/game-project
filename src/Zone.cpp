@@ -9,9 +9,9 @@
 #include <assert.h>
 
 #include "Globals.hpp"
-#include "Zone.hpp"
-#include "Player.hpp"
-#include "LevelLoader.hpp"
+#include "game/Zone.hpp"
+#include "obj/plr/Player.hpp"
+#include "game/lvl/LevelLoader.hpp"
 
 //------------------------------------------------------------------
 //constructs zone and starting level

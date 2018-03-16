@@ -1,4 +1,5 @@
-#include "UIElement.hpp"
+#include "ui/UIElement.hpp"
+#include "res/ResourceLoader.hpp"
 
 
 UIElement::UIElement() {

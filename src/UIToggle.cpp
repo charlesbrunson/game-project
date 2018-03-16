@@ -1,6 +1,7 @@
-#include "UIToggle.hpp"
+#include "ui/UIToggle.hpp"
+#include "res/ResourceLoader.hpp"
 
-#include "Log.hpp"
+#include "util/Log.hpp"
 
 const sf::Vector2f UIToggle::toggleSize = sf::Vector2f(32.f, 32.f);
 

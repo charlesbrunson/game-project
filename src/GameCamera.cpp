@@ -1,8 +1,8 @@
 #define _USE_MATH_DEFINES
 #include <math.h>
 
-#include "GameCamera.hpp"
-#include "Player.hpp"
+#include "game/GameCamera.hpp"
+#include "obj/plr/Player.hpp"
 
 GameCamera::GameCamera() {
 	followOffset = sf::Vector2f(0.f, -16.f);

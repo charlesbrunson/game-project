@@ -1,11 +1,11 @@
 #include <math.h>
 
-#include "TileLayer.hpp"
-#include "TileProperty.hpp"
+#include "game/lvl/TileLayer.hpp"
+#include "game/lvl/TileProperty.hpp"
 #include "Globals.hpp"
 
-#include "PixelSnap.hpp"
-#include "Log.hpp"
+#include "util/PixelSnap.hpp"
+#include "util/Log.hpp"
 
 //#include "CamRef.hpp"
 

@@ -1,7 +1,7 @@
-#include "GameObject.hpp"
 #include <cfloat>
 #include <math.h>
 
+#include "obj/GameObject.hpp"
 
 void GameObject::setCollision(sf::FloatRect col) {
 	collisionBox = col;

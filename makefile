@@ -1,7 +1,7 @@
 # A simple makefile for linux version
 
 CXX=g++
-CFLAG=-std=c++14 -g -Wall -Wextra -D_DEBUG -ISFML/include
+CFLAG=-std=c++14 -g -Wall -Wextra -D_DEBUG -I SFML/include -I incl -I incl/ext
 LIB=-lsfml-graphics -lsfml-window -lsfml-system -lsfml-audio
 
 CPP=$(wildcard src/*.cpp)

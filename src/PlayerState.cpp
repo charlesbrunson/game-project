@@ -1,4 +1,4 @@
-#include "PlayerState.hpp"
+#include "obj/plr/PlayerState.hpp"
 
 const float PlayerState::gravity = 605.f;
 

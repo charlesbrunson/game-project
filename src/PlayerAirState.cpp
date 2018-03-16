@@ -1,7 +1,7 @@
-#include "PlayerAirState.hpp"
-#include "PlayerWallClingState.hpp"
-#include "PlayerWallJumpState.hpp"
-#include "PlayerLedgeState.hpp"
+#include "obj/plr/PlayerAirState.hpp"
+#include "obj/plr/PlayerWallClingState.hpp"
+#include "obj/plr/PlayerWallJumpState.hpp"
+#include "obj/plr/PlayerLedgeState.hpp"
 
 const float PlayerAirState::maxAirControl = 200.f;
 const float PlayerAirState::softLandingThreshold = 225.f;

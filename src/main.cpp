@@ -1,5 +1,4 @@
-﻿
-#if defined(_DEBUG) && defined(_WIN32) && 0
+﻿#if defined(_DEBUG) && defined(_WIN32) && 0
 	//Visual Leak Detector
 	#include <vld.h>
 #endif
@@ -7,10 +6,8 @@
 #include <string>
 
 // Game class
-#include "ResourceLoader.hpp"
+#include "res/ResourceLoader.hpp"
 #include "Engine.hpp"
-
-#include "CollisionManager.hpp"
 
 int main() {
 	

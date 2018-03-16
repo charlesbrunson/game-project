@@ -1,8 +1,8 @@
-#include "Enemy.hpp"
+#include "obj/Enemy.hpp"
 
-#include "PlayerRef.hpp"
-#include "Collidable.hpp"
-#include "CamRef.hpp"
+#include "obj/plr/PlayerRef.hpp"
+#include "phys/Collidable.hpp"
+#include "game/CamRef.hpp"
 
 void Enemy::despawn() {
 	if (!toDelete && removeOnDespawn && spawnCounter > 0) {

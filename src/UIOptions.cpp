@@ -1,6 +1,7 @@
-#include "UIMainMenu.hpp"
-#include "UIOptions.hpp"
-#include "CamRef.hpp"
+#include "res/ResourceLoader.hpp"
+#include "ui/UIMainMenu.hpp"
+#include "ui/UIOptions.hpp"
+#include "game/CamRef.hpp"
 
 UIOptions::UIOptions() {
 

@@ -1,18 +1,18 @@
 
 #include <SFML/Graphics.hpp>
 
-#include "GameplayState.hpp"
-#include "GameCamera.hpp"
-#include "Player.hpp"
-#include "PlayerRef.hpp"
+#include "game/GameplayState.hpp"
+#include "game/GameCamera.hpp"
+#include "obj/plr/Player.hpp"
+#include "obj/plr/PlayerRef.hpp"
 
-#include "LevelList.hpp"
-#include "PixelSnap.hpp"
+#include "game/LevelList.hpp"
+#include "util/PixelSnap.hpp"
 
 //other states
-#include "UIPauseState.hpp"
-#include "TransitionHorizontalState.hpp"
-#include "TransitionVerticalState.hpp"
+#include "ui/UIPauseState.hpp"
+#include "trans/TransitionHorizontalState.hpp"
+#include "trans/TransitionVerticalState.hpp"
 
 #include <cmath>
 #include <fstream>

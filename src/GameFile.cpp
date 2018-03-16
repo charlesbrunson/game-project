@@ -1,12 +1,11 @@
-#include "GameFile.hpp"
+#include "util/Log.hpp"
 
-#include "Log.hpp"
-
-#include "GenericFile.hpp"
-#include "TextureFile.hpp"
-#include "FontFile.hpp"
-#include "LevelFile.hpp"
-#include "ShaderFile.hpp"
+#include "res/GameFile.hpp"
+#include "res/GenericFile.hpp"
+#include "res/TextureFile.hpp"
+#include "res/FontFile.hpp"
+#include "res/LevelFile.hpp"
+#include "res/ShaderFile.hpp"
 
 GameFile::GameFile(std::string path, FileStream*) {
 	filePath = path;

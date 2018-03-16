@@ -1,5 +1,5 @@
-#include "PlayerCrouchState.hpp"
-#include "PlayerLedgeState.hpp"
+#include "obj/plr/PlayerCrouchState.hpp"
+#include "obj/plr/PlayerLedgeState.hpp"
 
 const sf::Time PlayerCrouchState::slideDuration = sf::seconds(0.5f);
 
@@ -131,7 +131,7 @@ int PlayerCrouchState::update(sf::Time deltaTime) {
 					plr->getAnimSprite().setHFlip(move < 0);
 
 
-				if (plr->isPressed(Player::PlayerInput::SPRINT, sf::milliseconds(100))) {
+				if (plr->isPressed(Player::PlayerInput::SPRINT, sf::milliseconds(250))) {
 
 
 					plr->confirmPress(Player::PlayerInput::SPRINT);

@@ -1,9 +1,9 @@
-#include "UIText.hpp"
+#include "ui/UIText.hpp"
+#include "res/ResourceLoader.hpp"
 
-#include "Math.hpp"
-#include "PixelSnap.hpp"
+#include "util/Math.hpp"
+#include "util/PixelSnap.hpp"
 
-#include "ResourceLoader.hpp"
 
 UIText::UIText() {
 	//interactive = true;

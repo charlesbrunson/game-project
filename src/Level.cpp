@@ -1,10 +1,9 @@
 #include <SFML/Graphics.hpp>
-#include "Level.hpp"
+#include "game/lvl/Level.hpp"
 
 //#include "CamRef.hpp"
-#include "PixelSnap.hpp"
-
-#include "Math.hpp"
+#include "util/PixelSnap.hpp"
+#include "util/Math.hpp"
 
 Level::Level() :
 	decorativeLayer(&tilesets),

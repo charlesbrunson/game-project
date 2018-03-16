@@ -1,4 +1,4 @@
-#include "GroundEnemy.hpp"
+#include "obj/GroundEnemy.hpp"
 
 
 void GroundEnemy::setSpawn() {

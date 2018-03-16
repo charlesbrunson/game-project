@@ -1,8 +1,8 @@
-#include "TileProperty.hpp"
+#include "game/lvl/TileProperty.hpp"
 
 #include "json.h"
 
-#include "Log.hpp"
+#include "util/Log.hpp"
 
 //#include <fstream>
 //#include <string>

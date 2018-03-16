@@ -1,10 +1,10 @@
 #include <assert.h>
 #include <sstream>
 
-#include "LevelLoader.hpp"
 #include "rapidxml.hpp"
 
-#include "Math.hpp"
+#include "game/lvl/LevelLoader.hpp"
+#include "util/Math.hpp"
 
 void LevelLoader::loadLevel(std::string name, Zone::LevelArea &area, Zone *zone) {
 

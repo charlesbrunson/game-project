@@ -1,6 +1,6 @@
-#include "Director.hpp"
-#include "ObjectManager.hpp"
-#include "Zone.hpp"
+#include "game/Director.hpp"
+#include "game/ObjectManager.hpp"
+#include "game/Zone.hpp"
 
 Director::Director(Zone *z, ObjectManager *o, GameCamera *c) {
 	zone = z;

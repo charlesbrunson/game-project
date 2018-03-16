@@ -1,7 +1,7 @@
-#include "PlayerWallClingState.hpp"
-#include "PlayerWallJumpState.hpp"
-#include "PlayerAirState.hpp"
-#include "PlayerLedgeState.hpp"
+#include "obj/plr/PlayerWallClingState.hpp"
+#include "obj/plr/PlayerWallJumpState.hpp"
+#include "obj/plr/PlayerAirState.hpp"
+#include "obj/plr/PlayerLedgeState.hpp"
 
 const float PlayerWallClingState::clingVelMin = -50.f; //-50.f;
 const float PlayerWallClingState::clingVelMax = 100.f;

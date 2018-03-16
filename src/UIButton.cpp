@@ -1,4 +1,5 @@
-#include "UIButton.hpp"
+#include "ui/UIButton.hpp"
+#include "res/ResourceLoader.hpp"
 
 const sf::Vector2f UIButton::buttonSize(64.f, 16.f);
 /*

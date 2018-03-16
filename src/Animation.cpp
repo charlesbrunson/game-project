@@ -1,4 +1,4 @@
-#include "Animation.hpp"
+#include "anim/Animation.hpp"
 
 
 Animation::Animation() {
@@ -43,6 +43,18 @@ Animation::Animation(
 	for (const int& i : framesAsMS) {
 		frameTimes.push_back(sf::milliseconds(i));
 	}
+}
+Animation& Animation::operator=(const Animation& anim) {
+	area = anim.area;
+	origin = anim.origin;
+	numOfFrames = anim.numOfFrames;
+	loop = anim.loop;
+	chainTo = anim.chainTo;
+	chainStartOnFrame = anim.chainStartOnFrame;
+
+	frameTimes = anim.frameTimes;
+	return *this;
+
 }
 
 void Animation::setFrameSpeed(sf::Time rate) {

@@ -2,15 +2,15 @@
 #include <assert.h>
 #include <thread>
 
-#include "ResourceLoader.hpp"
+#include "res/ResourceLoader.hpp"
 #include "Engine.hpp"
 
 #include "MusicPlayer.hpp"
-#include "GameSettings.hpp"
+#include "game/GameSettings.hpp"
 
-#include "UIMainMenu.hpp"
-#include "GameplayState.hpp"
-#include "CamRef.hpp"
+#include "ui/UIMainMenu.hpp"
+#include "game/GameplayState.hpp"
+#include "game/CamRef.hpp"
 
 
 // Constructor

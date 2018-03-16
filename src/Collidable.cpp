@@ -1,5 +1,5 @@
-#include "Collidable.hpp"
-#include "Math.hpp"
+#include "phys/Collidable.hpp"
+#include "util/Math.hpp"
 
 void Collidable::moveCollidingObj(GameObject *collidedObj, int dir, const sf::Time deltaTime) {
 

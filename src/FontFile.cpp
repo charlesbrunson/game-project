@@ -1,9 +1,9 @@
-#include "FontFile.hpp"
+#include "res/FontFile.hpp"
 
 #include <sstream>
 
-#include "ResourceLoader.hpp"
-#include "StandardSize.hpp"
+#include "res/ResourceLoader.hpp"
+#include "util/StandardSize.hpp"
 
 
 FontFile::FontFile(std::string path, FileStream* str) : GameFile(path, str) {

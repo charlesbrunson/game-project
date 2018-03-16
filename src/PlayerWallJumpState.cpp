@@ -1,6 +1,6 @@
-#include "PlayerWallJumpState.hpp"
-#include "PlayerWallClingState.hpp"
-#include "PlayerAirState.hpp"
+#include "obj/plr/PlayerWallJumpState.hpp"
+#include "obj/plr/PlayerWallClingState.hpp"
+#include "obj/plr/PlayerAirState.hpp"
 
 void PlayerWallJumpState::enter() {
 	plr->getAnimSprite().setAnimation("walljump");

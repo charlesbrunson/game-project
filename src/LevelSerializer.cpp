@@ -1,6 +1,6 @@
-#include "LevelSerializer.hpp"
+#include "game/lvl/LevelSerializer.hpp"
 
-#include "Math.hpp"
+#include "util/Math.hpp"
 
 std::ostream& LevelSerializer::writeLevel(std::ostream& os, Level& lvl)
 {

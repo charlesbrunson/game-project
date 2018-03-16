@@ -1,8 +1,8 @@
-#include "PlayerBoostJumpState.hpp"
-#include "PlayerAirState.hpp"
-#include "PlayerWallClingState.hpp"
-#include "PlayerLedgeState.hpp"
-#include "PlayerWallJumpState.hpp"
+#include "obj/plr/PlayerBoostJumpState.hpp"
+#include "obj/plr/PlayerAirState.hpp"
+#include "obj/plr/PlayerWallClingState.hpp"
+#include "obj/plr/PlayerLedgeState.hpp"
+#include "obj/plr/PlayerWallJumpState.hpp"
 
 const sf::Time PlayerBoostJumpState::boostDuration = sf::seconds(16.f / 60.f);
 

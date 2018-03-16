@@ -1,13 +1,13 @@
-#include "LevelFile.hpp"
+#include "res/LevelFile.hpp"
 
 #include <sstream>
 
-#include "ResourceLoader.hpp"
-#include "Log.hpp"
-#include "StandardSize.hpp"
+#include "res/ResourceLoader.hpp"
+#include "util/Log.hpp"
+#include "util/StandardSize.hpp"
 #include "Globals.hpp"
 
-#include "LevelLoader.hpp"
+#include "game/lvl/LevelLoader.hpp"
 
 #if defined(_DEBUG) && defined(_WIN32)
 #include <Windows.h>

@@ -1,5 +1,5 @@
-#include "CamRef.hpp"
-#include "PixelSnap.hpp"
+#include "game/CamRef.hpp"
+#include "util/PixelSnap.hpp"
 
 //position references
 sf::Vector2f gCameraPos = sf::Vector2f(0.f, 0.f);

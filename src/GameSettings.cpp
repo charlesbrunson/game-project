@@ -1,6 +1,7 @@
 #include <fstream>
-#include "GameSettings.hpp"
-#include "Log.hpp"
+
+#include "game/GameSettings.hpp"
+#include "util/Log.hpp"
 
 
 const std::string GameSettings::SETTINGSPATH = "settings.txt";

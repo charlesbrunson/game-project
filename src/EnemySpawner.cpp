@@ -1,8 +1,8 @@
-#include "EnemySpawner.hpp"
-#include "Enemy.hpp"
-#include "CamRef.hpp"
+#include "obj/EnemySpawner.hpp"
+#include "obj/Enemy.hpp"
+#include "game/CamRef.hpp"
 
-#include "NodeBuilder.hpp"
+#include "game/lvl/NodeBuilder.hpp"
 
 void EnemySpawner::update(sf::Time deltaTime) {
 	trackSpawnedObjects(deltaTime);
