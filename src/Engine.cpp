@@ -92,6 +92,8 @@ void Engine::run() {
 #ifdef _DEBUG
 	std::string fpsLabel = "FPS";
 	Log::track(fpsLabel, std::to_string((int)_dDrawFPS));
+	std::string camPosLabel = "Cam Pos";
+	Log::track(camPosLabel, std::to_string((int)gCameraPos.x) +", "+ std::to_string((int)gCameraPos.y));
 #endif
 
 	// Time elapsed on gameclock since last restart
@@ -148,6 +150,9 @@ void Engine::run() {
 						// If capped, update at set interval until caught up
 						Controls::updateGameInputs();
 						update(_timePerUpdate * timeScale);
+#ifdef _DEBUG
+						Log::updateValue(camPosLabel, std::to_string((int)gCameraPos.x) +", "+ std::to_string((int)gCameraPos.y));
+#endif
 						Controls::mouseLastMoved += _timePerUpdate;
 						
 						// Reset update time accumulator
@@ -222,6 +227,7 @@ void Engine::run() {
 
 #ifdef _DEBUG
 	Log::remove(fpsLabel);
+	Log::remove(camPosLabel);
 #endif
 }
 

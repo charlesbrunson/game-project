@@ -155,24 +155,26 @@ void GameObject::draw(sf::RenderTarget &target, sf::RenderStates states) const {
 #ifdef _DEBUG
 	if (Gameplay_Globals::Debug::objectCollision) {
 
-		sf::RectangleShape colRect;
-		sf::RectangleShape oColRect;
+		sf::VertexArray colVert(sf::LinesStrip, 5);
+		colVert[0] = sf::Vertex(Math::topleft(collisionBox), sf::Color::Green);
+		colVert[1] = sf::Vertex(Math::topright(collisionBox), sf::Color::Green);
+		colVert[2] = sf::Vertex(Math::bottomright(collisionBox), sf::Color::Green);
+		colVert[3] = sf::Vertex(Math::bottomleft(collisionBox), sf::Color::Green);
+		colVert[4] = sf::Vertex(Math::topleft(collisionBox), sf::Color::Green);
+
+		sf::VertexArray oColVert(sf::LinesStrip, 5);
+		oColVert[0] = sf::Vertex(Math::topleft(oldBox), sf::Color::Blue);
+		oColVert[1] = sf::Vertex(Math::topright(oldBox), sf::Color::Blue);
+		oColVert[2] = sf::Vertex(Math::bottomright(oldBox), sf::Color::Blue);
+		oColVert[3] = sf::Vertex(Math::bottomleft(oldBox), sf::Color::Blue);
+		oColVert[4] = sf::Vertex(Math::topleft(oldBox), sf::Color::Blue);
+
 		sf::RectangleShape posRect;
 
-		oColRect.setPosition(sf::Vector2f(oldBox.left, oldBox.top));
-		oColRect.setSize(sf::Vector2f(oldBox.width, oldBox.height));
-		oColRect.setFillColor(sf::Color(0, 0, 255, 100));
-
-		target.draw(oColRect, states);
+		target.draw(oColVert, states);
 
 		//place rectshape over collision rect and draw it
-		colRect.setPosition(sf::Vector2f(collisionBox.left, collisionBox.top));
-		colRect.setSize(sf::Vector2f(collisionBox.width, collisionBox.height));
-		colRect.setFillColor(sf::Color(0, 255, 0, 0));
-		colRect.setOutlineColor(sf::Color(0, 255, 0, 255));
-		colRect.setOutlineThickness(-1.f);
-
-		target.draw(colRect, states);
+		target.draw(colVert, states);
 
 		posRect.setPosition(position + sf::Vector2f(-0.5f, -0.5f));
 		posRect.setSize(sf::Vector2f(1, 1));

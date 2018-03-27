@@ -463,38 +463,42 @@ void GameplayState::draw(sf::RenderTarget &target, sf::RenderStates states) cons
 #ifdef _DEBUG
 	if (Gameplay_Globals::Debug::levelCollision) {
 
-		sf::RectangleShape r;
+		sf::VertexArray line(sf::Lines, 2);
 
 		//top - red
-		r.setFillColor(sf::Color(255, 255, 255, 255));
+		line[0].color = sf::Color(255, 255, 255, 255);
+		line[1].color = sf::Color(255, 255, 255, 255);
 		for (std::vector<sf::FloatRect>::const_iterator it = lvl->getUpCol()->begin(); it != lvl->getUpCol()->end(); it++) {
-			r.setPosition(sf::Vector2f(it->left, it->top));
-			r.setSize(sf::Vector2f(it->width, 1.f));
-			target.draw(r);
+			line[0].position = Math::topleft(*it);
+			line[1].position = Math::topright(*it);
+			target.draw(line);
 		}
 
 		//right - green
-		r.setFillColor(sf::Color(0, 255, 0, 255));
+		line[0].color = sf::Color(0, 255, 0, 255);
+		line[1].color = sf::Color(0, 255, 0, 255);
 		for (std::vector<sf::FloatRect>::const_iterator it = lvl->getRightCol()->begin(); it != lvl->getRightCol()->end(); it++) {
-			r.setPosition(sf::Vector2f(it->left + it->width - 1.f, it->top));
-			r.setSize(sf::Vector2f(1.f, it->height));
-			target.draw(r);
+			line[0].position = Math::topright(*it);
+			line[1].position = Math::bottomright(*it);
+			target.draw(line);
 		}
 
 		//left - blue
-		r.setFillColor(sf::Color(0, 0, 255, 255));
+		line[0].color = sf::Color(0, 0, 255, 255);
+		line[1].color = sf::Color(0, 0, 255, 255);
 		for (std::vector<sf::FloatRect>::const_iterator it = lvl->getLeftCol()->begin(); it != lvl->getLeftCol()->end(); it++) {
-			r.setPosition(sf::Vector2f(it->left, it->top));
-			r.setSize(sf::Vector2f(1.f, it->height));
-			target.draw(r);
+			line[0].position = Math::topleft(*it);
+			line[1].position = Math::bottomleft(*it);
+			target.draw(line);
 		}
 
 		//down - yellow
-		r.setFillColor(sf::Color(255, 0, 0, 255));
+		line[0].color = sf::Color(255, 0, 0, 255);
+		line[1].color = sf::Color(255, 0, 0, 255);
 		for (std::vector<sf::FloatRect>::const_iterator it = lvl->getDownCol()->begin(); it != lvl->getDownCol()->end(); it++) {
-			r.setPosition(sf::Vector2f(it->left, it->top + it->height - 1.f));
-			r.setSize(sf::Vector2f(it->width, 1.f));
-			target.draw(r);
+			line[0].position = Math::bottomleft(*it);
+			line[1].position = Math::bottomright(*it);
+			target.draw(line);
 		}
 	}
 #endif

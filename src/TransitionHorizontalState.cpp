@@ -25,7 +25,7 @@ TransitionState(game, activatedTransition) {
 
 	//cam end point
 	{
-		camEnd = camStart + sf::Vector2f(GAMEWIDTH * (toLeft ? -1 : 1), -transition.offset);
+		camEnd = camStart + sf::Vector2f(GAMEWIDTH * (toLeft ? -1 : 1), transition.offset);
 		camEnd.x = std::min(std::max(offsetArea.left + GAMEWIDTH / 2, camEnd.x), offsetArea.left + offsetArea.width - (GAMEWIDTH / 2));
 		camEnd.y = std::min(std::max(offsetArea.top + GAMEHEIGHT / 2, camEnd.y), offsetArea.top + offsetArea.height - (GAMEHEIGHT / 2));
 

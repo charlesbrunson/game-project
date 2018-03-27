@@ -196,9 +196,11 @@ void TransitionState::update(sf::Time deltaTime) {
 //		}
 
 		// update camera
-		gameplayState->getGameCamera()->setPosition(gameplayState->getGameCamera()->getPosition() + toLvlOffset);
+		GameCamera *cam = gameplayState->getGameCamera();
+		cam->setPosition(cam->getPosition() + toLvlOffset);
+		cam->setTargetPos(cam->getTargetPos() + toLvlOffset);
 		gameplayState->updateCamera(sf::Time::Zero);
-		gCameraPos = gameplayState->getGameCamera()->getPosition();
+		gCameraPos = cam->getPosition();
 		
 		// update current level
 		Level* lvl = z->getCurrentLevel();

@@ -15,6 +15,9 @@ enum Cardinal {
 	DIR_COUNT
 };
 
+typedef sf::Vector2f Vec2;
+typedef sf::FloatRect Rect;
+
 namespace Math {
 	const sf::Vector2f diff(const sf::Vector2f& i, const sf::Vector2f& j);
 

@@ -86,9 +86,9 @@ int PlayerAirState::update(sf::Time deltaTime) {
 			plr->setVelX(0.f);
 
 			if (endVelY < softLandingThreshold)
-				plr->getAnimSprite().setFrame(3);
+				plr->getAnimSprite().setFrame(4);
 			else if (endVelY < hardLandingThreshold)
-				plr->getAnimSprite().setFrame(2);
+				plr->getAnimSprite().setFrame(3);
 
 		}
 		else {

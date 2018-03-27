@@ -8,6 +8,8 @@
 
 #include "res/ResourceLoader.hpp"
 
+#include "util/PixelSnap.hpp"
+
 GLog::GLog() {
 	messageBox.setFont(RL()->getFont("fonts/pixelated.ttf"));
 	messageBox.setCharacterSize(8);
@@ -63,6 +65,9 @@ void GLog::updateTextPosition(const sf::FloatRect& camArea) {
 	//align top left
 	trackerBox.setPosition(Math::topleft(camArea)
 		+ sf::Vector2f(3.f, 0.f));
+
+	messageBox.setPosition(snapToPixel(messageBox.getPosition()));
+	trackerBox.setPosition(snapToPixel(trackerBox.getPosition()));
 }
 
 void GLog::draw(sf::RenderTarget &target, sf::RenderStates) const {
