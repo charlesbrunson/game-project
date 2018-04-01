@@ -61,7 +61,7 @@ public:
 	
 	std::vector<std::unique_ptr<GameObject>>* getObjects();
 	std::vector<std::unique_ptr<Effect>>* getEffects();
-	std::vector<std::unique_ptr<GameObject>>* getTriggers();
+	//std::vector<std::unique_ptr<GameObject>>* getTriggers();
 
 	std::vector<objNode>* getObjectNodes();
 	std::vector<objNode> nodes;
@@ -74,17 +74,21 @@ private:
 	std::vector<std::unique_ptr<GameObject>> objects;
 	std::map<GameObject* ,Collidable*> collidables;
 	std::vector<std::unique_ptr<Effect>> effects;
-	std::vector<std::unique_ptr<GameObject>> triggers;
+	//std::vector<std::unique_ptr<GameObject>> triggers;
 	
 	//collision
 	void doCollision(GameObject* obj) {
 
 		std::vector<Collision> collisions;
 
+		//COLFIX
+		/*
 		if (obj->objectType == GameObject::type::PLAYER) {
 			applyLevelTriggers(obj);
 		}
+		*/
 
+		/*
 		for (std::pair<GameObject*, Collidable*> collidable : collidables) {
 			if (collidable.second->isActive() && collidable.second->canCollideWith(obj) && obj != collidable.second->getParent() 
 				&& obj->getCollision().intersects(collidable.second->getBoundingBox())) {
@@ -94,12 +98,13 @@ private:
 		doLevelCollision(obj, &collisions);
 		validateCollisions(&collisions);
 		resolveCollisions(obj, &collisions);
+		*/
 
 	}
-	void doLevelCollision(GameObject *obj, std::vector<Collision> *collisions);
-	void doCollidableCollision(Collidable *col, GameObject *obj, std::vector<Collision> *collisions);
-	void validateCollisions(std::vector<Collision> *collisions);
-	void resolveCollisions(GameObject *obj, std::vector<Collision> *collisions);
+	//void doLevelCollision(GameObject *obj, std::vector<Collision> *collisions);
+	//void doCollidableCollision(Collidable *col, GameObject *obj, std::vector<Collision> *collisions);
+	//void validateCollisions(std::vector<Collision> *collisions);
+	//void resolveCollisions(GameObject *obj, std::vector<Collision> *collisions);
 
 	std::map<std::string, sf::Sound> sounds;
 
@@ -114,7 +119,7 @@ private:
 	void updateObjects(sf::Time deltaTime, int *score);
 	void updateEffects(sf::Time deltaTime);
 
-	void applyLevelTriggers(GameObject *obj);
+	//void applyLevelTriggers(GameObject *obj);
 
 };
 

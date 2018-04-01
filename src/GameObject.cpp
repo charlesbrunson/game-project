@@ -42,6 +42,9 @@ void GameObject::createSound(std::string soundFile) {
 
 //really just for Player use, but who knows?
 bool GameObject::canDropThroughFloor() {
+	return false;
+	//COLFIX
+	/*
 
 	float targetPlatY = FLT_MAX;
 	float currentY;
@@ -106,6 +109,7 @@ bool GameObject::canDropThroughFloor() {
 		return true;
 	}
 	return false;
+	*/
 }
 
 void GameObject::setCollisionSize(float width, float height, bool centerOrigin) {

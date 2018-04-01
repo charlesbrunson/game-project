@@ -22,6 +22,7 @@
 #include "game/lvl/TileLayer.hpp"
 
 #include "util/Math.hpp"
+#include "phys/Surface.hpp"
 
 struct Transition {
 
@@ -36,41 +37,10 @@ struct Transition {
 class Level {
 	friend class LevelSerializer;
 public:
-	
-	//what layer to draw in draw call
-	//int layerToDraw;
 		
-	//CONSTRUCTOR -----------------------------------------------------------------------------
 	Level();
 
 	void initializeTileProperties();
-
-	//ENUMS -----------------------------------------------------------------------------
-	enum TriggerType : int {
-		NULL_TRIGGER = 0,
-		DAMAGE,
-		PUSH_LEFT,
-		PUSH_RIGHT
-	};
-
-	//STRUCTS -----------------------------------------------------------------------------
-	struct LevelCollision {
-		//grid position of this tile in level, beware putting two tiles in same spot on same layer
-		sf::FloatRect box;
-
-		bool upCol = false;
-		bool rightCol = false;
-		bool downCol = false;
-		bool leftCol = false;
-	};
-	struct Trigger {
-		int type = NULL_TRIGGER;
-		sf::FloatRect area;
-	};
-
-	//------------------------------------
-
-	std::vector<Trigger> *getTriggers();
 
 	std::vector<Transition> *getLevelTransitions();
 	bool hasTransition(std::string name);
@@ -88,13 +58,14 @@ public:
 		unloadSprites(); 
 	}
 		
+	//COLFIX
 	//collision data
-	inline std::vector<LevelCollision> *getCollisionMap()	{ return &collisionMap; };
+	//inline std::vector<Surface> *getCollisionMap()	{ return &collisionMap; };
 
-	inline std::vector<sf::FloatRect> *getUpCol()			{ return &upCollisions; };
-	inline std::vector<sf::FloatRect> *getRightCol()		{ return &rightCollisions; };
-	inline std::vector<sf::FloatRect> *getDownCol()			{ return &downCollisions; };
-	inline std::vector<sf::FloatRect> *getLeftCol()			{ return &leftCollisions; };
+	//inline std::vector<sf::FloatRect> *getUpCol()			{ return &upCollisions; };
+	//inline std::vector<sf::FloatRect> *getRightCol()		{ return &rightCollisions; };
+	//inline std::vector<sf::FloatRect> *getDownCol()			{ return &downCollisions; };
+	//inline std::vector<sf::FloatRect> *getLeftCol()			{ return &leftCollisions; };
 
 	inline TileLayer* getDecorativeLayer()					{ return &decorativeLayer; };
 	inline TileLayer* getForegroundLayer()					{ return &foregroundLayer; };
@@ -187,20 +158,8 @@ private:
 
 	std::vector<Transition> levelTransitions;
 
-	std::vector<Trigger> triggers;
-	
 	//collision data for each collidable tile, possibly effects too (like sliding/pushing)
-	std::vector<LevelCollision> collisionMap;
-
-	//directional collision boxes we actually use
-	std::vector<sf::FloatRect> upCollisions;
-	std::vector<sf::FloatRect> rightCollisions;
-	std::vector<sf::FloatRect> downCollisions;
-	std::vector<sf::FloatRect> leftCollisions;
-	
-	Level::LevelCollision getTileCollisionBox(sf::Vector2i gridPosition);
-
-	//void draw(sf::RenderTarget &target, sf::RenderStates states) const;
+	//std::vector<Surface> collisionMap;
 
 };
 

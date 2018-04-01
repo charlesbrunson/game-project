@@ -26,10 +26,13 @@ bool PlayerState::hasJumpClearance() {
 	headRoom.height = 1.f + (32.f - plr->collisionStanding.y);
 	headRoom.top -= headRoom.height;
 
+	//COLFIX
+	/*
 	auto dCol = plr->getLevel()->getDownCol();
 	for (auto i = dCol->begin(); i != dCol->end(); i++)
 		if (i->intersects(headRoom))
 			return false;
+	*/
 
 	return true;
 }

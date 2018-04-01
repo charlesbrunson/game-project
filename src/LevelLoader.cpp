@@ -452,10 +452,10 @@ bool LevelLoader::compileTMXFile(std::string name) {
 				default: break;
 				}
 			}
-			pos.x += 1;
+			pos.x++;
 			if (pos.x >= (gridWidth)){
 				pos.x = 0;
-				pos.y += 1;
+				pos.y++;
 			}
 		}
 	}
@@ -552,7 +552,7 @@ bool LevelLoader::compileTMXFile(std::string name) {
 				area.level->getLevelTransitions()->push_back(trans);
 			}
 		}
-		else if (groupName == "Triggers") {
+		/* else if (groupName == "Triggers") {
 			for (xml_node<> * t = objData->first_node("object"); t; t = t->next_sibling("object")) {
 				Level::Trigger trigger;
 
@@ -578,7 +578,7 @@ bool LevelLoader::compileTMXFile(std::string name) {
 					area.level->getTriggers()->push_back(trigger);
 				}
 			}
-		}
+		} */
 		objData = objData->next_sibling("objectgroup");
 
 	} while (objData != 0);
@@ -588,7 +588,8 @@ bool LevelLoader::compileTMXFile(std::string name) {
 
 	//generate collision map
 	Log::msg("Building collision map");
-	area.level->generateCollisionMap();
+	//COLFIX
+//	area.level->generateCollisionMap();
 
 	Log::msg(name + " - successfully compiled\n");
 

@@ -463,6 +463,8 @@ void GameplayState::draw(sf::RenderTarget &target, sf::RenderStates states) cons
 #ifdef _DEBUG
 	if (Gameplay_Globals::Debug::levelCollision) {
 
+		//COLFIX
+		/*
 		sf::VertexArray line(sf::Lines, 2);
 
 		//top - red
@@ -500,6 +502,7 @@ void GameplayState::draw(sf::RenderTarget &target, sf::RenderStates states) cons
 			line[1].position = Math::bottomright(*it);
 			target.draw(line);
 		}
+		*/
 	}
 #endif
 

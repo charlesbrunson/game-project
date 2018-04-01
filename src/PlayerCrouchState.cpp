@@ -224,6 +224,8 @@ bool PlayerCrouchState::canStand() {
 	standCol.left -= plr->collisionStanding.x / 2.f;
 	standCol.top -= plr->collisionStanding.y;
 	
+	//COLFIX
+	/*
 	std::vector<sf::FloatRect> *ceilings = plr->getLevel()->getDownCol();
 
 	for (std::vector<sf::FloatRect>::const_iterator i = ceilings->begin(); i != ceilings->end(); i++) {
@@ -232,6 +234,7 @@ bool PlayerCrouchState::canStand() {
 			return false;
 		}
 	}
+	*/
 
 	return true;
 }

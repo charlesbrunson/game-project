@@ -135,7 +135,10 @@ void PlayerLedgeState::updateAnimation(sf::Time deltaTime) {
 
 PlayerLedgeState::LedgeGrab PlayerLedgeState::canLedgeGrab(Player *plr, LedgeGrab::Side side, sf::Time deltaTime, float leniance, bool noUpwardsGrab, bool waistheight) {
 	PlayerLedgeState::LedgeGrab ledge;
+	return ledge;
 
+	//COLFIX
+	/*
 	if (!plr->canLedgeGrab())
 		return ledge;
 
@@ -251,6 +254,7 @@ PlayerLedgeState::LedgeGrab PlayerLedgeState::canLedgeGrab(Player *plr, LedgeGra
 	}
 
 	return ledge;
+	*/
 }
 
 bool contains(const sf::FloatRect r, const sf::Vector2f p) {

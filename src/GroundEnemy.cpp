@@ -8,6 +8,8 @@ void GroundEnemy::setSpawn() {
 };
 
 bool GroundEnemy::checkEdge(bool LeftElseRight) {
+	//COLFIX
+	/*
 	if (LeftElseRight) {
 		//check left side
 		if (!checkedLeft) {
@@ -34,12 +36,16 @@ bool GroundEnemy::checkEdge(bool LeftElseRight) {
 			checkedRight = true;
 		}
 	}
+	*/
 	return false;
+
 };
 
 bool GroundEnemy::snapToSurface() {
 
+	//COLFIX
 	//find closest surface directly below us
+	/*
 	sf::FloatRect e;
 	bool pickedOne = false;
 	for (auto it = lvl->getUpCol()->begin(); it != lvl->getUpCol()->end(); it++) {
@@ -88,4 +94,7 @@ bool GroundEnemy::snapToSurface() {
 
 		return true;
 	}
+	
+	*/
+	return false;
 };

@@ -16,7 +16,27 @@ enum Cardinal {
 };
 
 typedef sf::Vector2f Vec2;
+typedef sf::Vector2f Point;
 typedef sf::FloatRect Rect;
+
+struct Line {
+	Point start;
+	Point end;
+};
+
+struct LineIntersection {
+
+	enum LineIntersectionType {
+		NO_INTERSECT,
+		COLLINEAR,
+		SINGLE_INTERSECT
+	};
+
+	LineIntersectionType intersectType = NO_INTERSECT;
+	Line intersectLine;
+	Point intersectPoint;
+
+};
 
 namespace Math {
 	const sf::Vector2f diff(const sf::Vector2f& i, const sf::Vector2f& j);

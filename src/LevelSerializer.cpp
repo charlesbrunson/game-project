@@ -60,16 +60,17 @@ std::ostream& LevelSerializer::writeLevel(std::ostream& os, Level& lvl)
 		writeTileLayer(os, paraLayer.second);
 	}
 
+	//COLFIX
 	//up collisions
-	writeColVec(os, lvl.upCollisions);
+	//writeColVec(os, lvl.upCollisions);
 	//right
-	writeColVec(os, lvl.rightCollisions);
+	//writeColVec(os, lvl.rightCollisions);
 	//down
-	writeColVec(os, lvl.downCollisions);
+	//writeColVec(os, lvl.downCollisions);
 	//left
-	writeColVec(os, lvl.leftCollisions);
+	//writeColVec(os, lvl.leftCollisions);
 	//triggers
-	writeTriggerVec(os, lvl.triggers);
+	//writeTriggerVec(os, lvl.triggers);
 
 	//Transitions
 	writeTransVec(os, lvl.levelTransitions);
@@ -156,16 +157,17 @@ std::istream& LevelSerializer::readLevel(std::istream& is, Level& lvl)
 		readTileLayer(is, (*lvl.getParallaxLayers()).at(paraDepth));
 	}
 
+	//COLFIX
 	//up collisions
-	readColVec(is, lvl.upCollisions);
+	//readColVec(is, lvl.upCollisions);
 	//right
-	readColVec(is, lvl.rightCollisions);
+	//readColVec(is, lvl.rightCollisions);
 	//down
-	readColVec(is, lvl.downCollisions);
+	//readColVec(is, lvl.downCollisions);
 	//left
-	readColVec(is, lvl.leftCollisions);
+	//readColVec(is, lvl.leftCollisions);
 	//triggers
-	readTriggerVec(is, lvl.triggers);
+	//readTriggerVec(is, lvl.triggers);
 
 	//Transitions
 	readTransVec(is, lvl.levelTransitions);
@@ -180,7 +182,7 @@ void LevelSerializer::writeFloatRect(std::ostream& os, const sf::FloatRect rect)
 	write(rect.width, os);
 	write(rect.height, os);
 };
-void LevelSerializer::writeTrigger(std::ostream& os, const Level::Trigger trigger) {
+/*void LevelSerializer::writeTrigger(std::ostream& os, const Level::Trigger trigger) {
 	write(trigger.type, os);
 	writeFloatRect(os, trigger.area);
 };
@@ -191,7 +193,7 @@ void LevelSerializer::writeLvlCol(std::ostream& os, const Level::LevelCollision 
 	write(col.rightCol, os);
 	write(col.downCol, os);
 	write(col.leftCol, os);
-};
+}; */
 void LevelSerializer::writeTileLayer(std::ostream& os, const TileLayer& layer) {
 	//write tiles map
 	writeTileMap(os, layer.tiles);
@@ -267,8 +269,6 @@ void LevelSerializer::writeTileMap(std::ostream& os, const std::map<GridVector, 
 	write(tileCount, os);
 	for (auto i = tileData.begin(); i != tileData.end(); i++) {
 
-		//Log(std::to_string(i->first.tileSprite) + "\n");
-
 		write(i->first.tileSprite, os);
 		write(i->first.tileProperty, os);
 		write(i->first.spritePos.x, os);
@@ -283,19 +283,18 @@ void LevelSerializer::writeTileMap(std::ostream& os, const std::map<GridVector, 
 		posCount = i->second.size();
 		write(posCount, os);
 		for (auto j = i->second.begin(); j != i->second.end(); j++) {
-			//Log(std::to_string(j->x) + ", " + std::to_string(j->y) + "\n");
 			write(j->x, os);
 			write(j->y, os);
 		}
 	}
 };
-void LevelSerializer::writeColVec(std::ostream& os, const std::vector<sf::FloatRect> &vec) {
+/* void LevelSerializer::writeColVec(std::ostream& os, const std::vector<sf::FloatRect> &vec) {
 	int size = vec.size();
 	write(size, os);
 	for (sf::FloatRect rect : vec) {
 		writeFloatRect(os, rect);
 	}
-};
+}; */
 void LevelSerializer::writeTrans(std::ostream& os, const Transition t) {
 
 	int sizeStr = t.levelName.size();
@@ -316,13 +315,13 @@ void LevelSerializer::writeTransVec(std::ostream& os, const std::vector<Transiti
 		writeTrans(os, trans);
 	}
 };
-void LevelSerializer::writeTriggerVec(std::ostream& os, const std::vector<Level::Trigger> &vec) {
+/* void LevelSerializer::writeTriggerVec(std::ostream& os, const std::vector<Level::Trigger> &vec) {
 	int size = vec.size();
 	write(size, os);
 	for (Level::Trigger trigger : vec) {
 		writeTrigger(os, trigger);
 	}
-};
+}; */
 
 void LevelSerializer::write(int i, std::ostream& os) {
 	os.write((char*)&i, StdSizes::intSize);
@@ -345,7 +344,7 @@ void LevelSerializer::readFloatRect(std::istream& is, sf::FloatRect &rect) {
 	read(rect.width, is);
 	read(rect.height, is);
 };
-void LevelSerializer::readTrigger(std::istream& is, Level::Trigger &trigger) {
+/* void LevelSerializer::readTrigger(std::istream& is, Level::Trigger &trigger) {
 	read(trigger.type, is);
 	readFloatRect(is, trigger.area);
 };
@@ -357,7 +356,7 @@ void LevelSerializer::readLvlCol(std::istream& is, Level::LevelCollision &col) {
 	read(col.rightCol, is);
 	read(col.downCol, is);
 	read(col.leftCol, is);
-};
+}; */
 void LevelSerializer::readTileLayer(std::istream& is, TileLayer& layer) {
 	
 	//read tiles map
@@ -470,7 +469,7 @@ void LevelSerializer::readTransVec(std::istream& is, std::vector<Transition> &ve
 		vec.push_back(trans);
 	}
 };
-void LevelSerializer::readTriggerVec(std::istream& is, std::vector<Level::Trigger> &vec) {
+/* void LevelSerializer::readTriggerVec(std::istream& is, std::vector<Level::Trigger> &vec) {
 	vec.clear();
 	int size = 0;
 	read(size, is);
@@ -479,7 +478,7 @@ void LevelSerializer::readTriggerVec(std::istream& is, std::vector<Level::Trigge
 		readTrigger(is, trig);
 		vec.push_back(trig);
 	}
-};
+} */;
 
 void LevelSerializer::read(int &i, std::istream& is) {
 	is.read((char*)&i, StdSizes::intSize);

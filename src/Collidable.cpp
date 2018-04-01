@@ -3,6 +3,9 @@
 
 void Collidable::moveCollidingObj(GameObject *collidedObj, int dir, const sf::Time deltaTime) {
 
+	return;
+	//COLFIX
+	/*
 	GameObject *obj = collidedObj;
 
 	sf::Vector2f deltaVel = collidableParent->getVelocity() * deltaTime.asSeconds();
@@ -42,13 +45,6 @@ void Collidable::moveCollidingObj(GameObject *collidedObj, int dir, const sf::Ti
 
 					hcol |= testCollision(objCol, *i, obj->collisionLeft, -objCol.width, true);
 
-					/*
-					if (i->intersects(test)) {
-						obj->collisionLeft = true;
-						test.left = i->left - test.width;
-						hcol = true;
-					}
-					*/
 				}
 			}
 			// Moving left
@@ -58,13 +54,6 @@ void Collidable::moveCollidingObj(GameObject *collidedObj, int dir, const sf::Ti
 
 					hcol |= testCollision(objCol, *i, obj->collisionRight, i->width, true);
 
-					/*
-					if (i->intersects(test)) {
-						obj->collisionRight = true;
-						test.left = i->left + i->width;
-						hcol = true;
-					}
-					*/
 				}
 			}
 			if (hcol) {
@@ -82,13 +71,6 @@ void Collidable::moveCollidingObj(GameObject *collidedObj, int dir, const sf::Ti
 			for (auto i = lvl->getDownCol()->begin(); i != lvl->getDownCol()->end(); i++) {
 
 				vcol |= testCollision(objCol, *i, obj->collisionDown, i->height, false);
-				/*
-				if (i->intersects(objCol)) {
-					obj->collisionDown = true;
-					objCol.top = i->top + i->height;
-					vcol = true;
-				}
-				*/
 			}
 			if (vcol) {
 				obj->setVelocity(sf::Vector2f(obj->getVelocity().x, 0.f));
@@ -122,13 +104,6 @@ void Collidable::moveCollidingObj(GameObject *collidedObj, int dir, const sf::Ti
 				for (auto i = lvl->getLeftCol()->begin(); i != lvl->getLeftCol()->end(); i++) {
 
 					hcol |= testCollision(objCol, *i, obj->collisionLeft, -objCol.width, true);
-					/*
-					if (i->intersects(test)) {
-						obj->collisionLeft = true;
-						test.left = i->left - test.width;
-						hcol = true;
-					}
-					*/
 				}
 				if (hcol) {
 					obj->setVelocity(sf::Vector2f(0.f, obj->getVelocity().y));
@@ -145,13 +120,6 @@ void Collidable::moveCollidingObj(GameObject *collidedObj, int dir, const sf::Ti
 				for (auto i = lvl->getRightCol()->begin(); i != lvl->getRightCol()->end(); i++) {
 
 					hcol |= testCollision(objCol, *i, obj->collisionRight, i->width, true);
-					/*
-					if (i->intersects(test)) {
-						obj->collisionRight = true;
-						test.left = i->left + i->width;
-						hcol = true;
-					}
-					*/
 				}
 				if (hcol) {
 					obj->setVelocity(sf::Vector2f(0.f, obj->getVelocity().y));
@@ -172,13 +140,6 @@ void Collidable::moveCollidingObj(GameObject *collidedObj, int dir, const sf::Ti
 
 			for (auto i = lvl->getRightCol()->begin(); i != lvl->getRightCol()->end(); i++) {
 				vcol |= testCollision(objCol, *i, obj->collisionDown, i->height, false);
-				/*
-				if (i->intersects(test)) {
-					obj->collisionDown = true;
-					test.top = i->top + i->height;
-					vcol = true;
-				}
-				*/
 			}
 			if (vcol) {
 				obj->setVelocity(sf::Vector2f(obj->getVelocity().x, 0.f));
@@ -188,6 +149,7 @@ void Collidable::moveCollidingObj(GameObject *collidedObj, int dir, const sf::Ti
 
 		}
 	}
+	*/
 };
 
 bool Collidable::isColliding(GameObject* obj) {
@@ -234,11 +196,6 @@ void Collidable::updateCollider(sf::Time) {
 				initBoundingBox = false;
 			}
 			else {
-				/*sf::FloatRect b = nBoundingBox;
-				b.left = std::min(nBoundingBox.left, it->box.left);
-				b.top = std::min(nBoundingBox.top, it->box.top);
-				b.width = std::max(nBoundingBox.left + nBoundingBox.width, it->box.left + it->box.width) - b.left;
-				b.height = std::max(nBoundingBox.top + nBoundingBox.height, it->box.top + it->box.height) - b.top;*/
 				nBoundingBox = Math::boundingBox(nBoundingBox, it->box);
 			}
 		}
@@ -251,6 +208,7 @@ void Collidable::updateCollider(sf::Time) {
 
 	boundingBox = nBoundingBox;
 
+	//COLFIX
 	/*
 	if (!upColliders.empty()) {
 		for (std::vector<Collider>::iterator it = upColliders.begin(); it != upColliders.end(); it++) {

@@ -136,9 +136,11 @@ std::vector<std::unique_ptr<GameObject>>* ObjectManager::getObjects() {
 std::vector<std::unique_ptr<Effect>>* ObjectManager::getEffects() {
 	return &effects;
 }
+/*
 std::vector<std::unique_ptr<GameObject>>* ObjectManager::getTriggers() {
 	return &triggers;
 }
+*/
 
 void ObjectManager::update(sf::Time deltaTime, int *score, bool onlyPlayer) {
 	if (!onlyPlayer) {
@@ -355,6 +357,8 @@ void ObjectManager::insertObject(GameObject* obj) {
 
 //////COLLISION WITH LEVEL//////////////
 
+//COLFIX
+/*
 void ObjectManager::doLevelCollision(GameObject *obj, std::vector<Collision> *collisions) {
 
 	const sf::FloatRect c = obj->getCollision();
@@ -621,6 +625,7 @@ void ObjectManager::resolveCollisions(GameObject *obj, std::vector<Collision> *c
 		}
 	}
 }
+*/
 
 
 void ObjectManager::readObjNodes(std::vector<objNode> &objList, Level* lvl, bool skipPlayer, sf::Vector2f offsetPos) {
@@ -689,6 +694,7 @@ std::vector<objNode>* ObjectManager::getObjectNodes() {
 	return &nodes;
 }
 
+/*
 void ObjectManager::applyLevelTriggers(GameObject *obj) {
 	std::vector<Level::Trigger> *triggers = gameLevel->getTriggers();
 	for (std::vector<Level::Trigger>::const_iterator it = triggers->begin(); it != triggers->end(); it++) {
@@ -705,3 +711,4 @@ void ObjectManager::applyLevelTriggers(GameObject *obj) {
 		}
 	}
 }
+*/

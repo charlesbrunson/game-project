@@ -109,7 +109,10 @@ void PlayerWallClingState::updateAnimation(sf::Time deltaTime) {
 
 bool PlayerWallClingState::canCling(Player *p, bool leftside) {
 	//try can find a valid surface
+	return false;
 
+	//COLFIX
+	/*
 	Level *l = p->getLevel();
 	std::vector<sf::FloatRect> *levelSurfaces = nullptr;
 
@@ -150,6 +153,7 @@ bool PlayerWallClingState::canCling(Player *p, bool leftside) {
 		}
 	}
 	return false;
+	*/
 }
 
 void PlayerWallClingState::setSide(WallSide s) {
