@@ -4,6 +4,8 @@
 #include <SFML/System.hpp>
 #include <SFML/Graphics.hpp>
 
+#include "GridVector.hpp"
+
 extern const float PI_F;
 
 enum Cardinal {
@@ -16,12 +18,28 @@ enum Cardinal {
 };
 
 typedef sf::Vector2f Vec2;
+typedef GridVector GridVec2;
 typedef sf::Vector2f Point;
 typedef sf::FloatRect Rect;
 
+template<typename Value>
+using GridMap = std::map<GridVec2, Value>;
+
 struct Line {
+	Line(Point s, Point e) : start(s), end(e) {};
+
 	Point start;
 	Point end;
+
+	Vec2 getVector() {
+		return end - start;
+	};
+	Line reverse() {
+		return Line(end, start);
+	};
+	bool operator== (const Line &l) {
+		return l.start == start && l.end == end;
+	}
 };
 
 struct LineIntersection {

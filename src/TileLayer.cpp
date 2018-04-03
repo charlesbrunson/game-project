@@ -45,7 +45,6 @@ void TileLayer::update(sf::Time deltaTime, sf::IntRect gridArea, sf::FloatRect d
 		sf::IntRect totalEffectedArea;
 
 		sf::IntRect intersection;
-		//bool intersects = gridArea.intersects(lastFrameGridArea, intersection);
 		
 		if (drawAll) {
 			totalEffectedArea = gridArea;
@@ -94,7 +93,6 @@ void TileLayer::update(sf::Time deltaTime, sf::IntRect gridArea, sf::FloatRect d
 				}
 				
 				inCurrent = gridArea.contains(position);
-				//bool hasTile = tiles.find(wrapPos) != tiles.end();
 
 				if (inPrev == inCurrent) {
 					continue;
@@ -115,8 +113,6 @@ void TileLayer::update(sf::Time deltaTime, sf::IntRect gridArea, sf::FloatRect d
 						}
 					}
 
-					
-					//TODO: tile layering occlusion?
 				}
 			}
 		}
@@ -139,31 +135,16 @@ void TileLayer::update(sf::Time deltaTime, sf::IntRect gridArea, sf::FloatRect d
 
 sf::Vector2f TileLayer::updateParallax(sf::Vector2f camCenter) {
 	
-	//top left of the camera
-	//camCenter = snapToPixel(camCenter);
 	sf::Vector2f camOffset = camCenter - sf::Vector2f((float)GAMEWIDTH / 2.f, (float)GAMEHEIGHT / 2.f);
 
 	sf::Vector2f _offset;
 	_offset.x = camOffset.x * parallax.parallaxRate.x;
 	_offset.y = camOffset.y * parallax.parallaxRate.y;
 
-	/*
-	sf::Vector2f snapped = snapToPixel(_offset);
-
-	sf::FloatRect parallaxArea(0.f, 0.f, (parallax.area.width * tileSpacing) - GAMEWIDTH, (parallax.area.height * tileSpacing) - GAMEHEIGHT);
-	_offset.x = parallaxArea.width > 0.f ? snapped.x : _offset.x;
-	_offset.y = parallaxArea.height > 0.f ? snapped.y : _offset.y;
-	*/
-
-	//_offset = snapToPixel(_offset);
-
 	return _offset;
 }
 
 void TileLayer::updateScroll(sf::Time t, sf::FloatRect area, bool isZoneTimer) {
-
-	//sf::Vector2f snappedOffset;
-	//sf::Vector2f lastOffset = parallax.scrollOffset;
 
 	if (!isZoneTimer) {
 		parallax.scrollOffset += parallax.scrollSpeed * t.asSeconds();
@@ -302,7 +283,7 @@ void TileLayer::addTileSprite(Tile *tile, GridVector pos) {
 	sprites.insert(std::pair<GridVector, sf::Sprite>(pos, spr));
 }
 
-//insert tile data into 
+//insert tile data into
 void TileLayer::setTile(sf::Vector2i gridPosition, int tileSpr, sf::Vector2i offset) {
 	
 	GridVector v;
@@ -413,6 +394,60 @@ void TileLayer::syncTimersWithZone(sf::Time zoneTimer) {
 			}
 		}
 	}
+}
+
+void TileLayer::buildSurfaceMap(SurfaceMap* surfaces, sf::Vector2u size) {
+
+	surfaces->clear(size.x, size.y);
+
+
+	for (auto t = tiles.begin(); t != tiles.end(); t++) {
+
+		TileProperty::TileData data = TileProperty::getTileData(tilesetNames->at(t->second.tileSprite), t->second.spritePos);
+
+		if (data.shape.size() < 2)
+			continue;
+
+		std::vector<Surface> surfacesToAdd;
+		Vec2 offset(Vec2(t->first) * tileSpacing);
+
+		Log::msg("--------------------");
+		for (auto l = data.shape.begin(); l + 1 != data.shape.end(); l++) {
+
+			Surface s(*l, *(l + 1));
+
+			s.line.start *= tileSpacing;
+			s.line.end *= tileSpacing;
+			s.line.start += offset;
+			s.line.end += offset;
+
+
+			Log::msg("Adding surface " + s.toString());
+			surfacesToAdd.push_back(s);
+			
+			//only get the top surface
+			if (data.tileProperty == TileProperty::tileProps::TILE_ONEWAY) {
+				break;
+			}
+		}
+
+		for (Surface& s : surfacesToAdd) {
+			surfaces->addSurface(s);
+		}
+		if (data.tileProperty != TileProperty::tileProps::TILE_ONEWAY) {
+			Surface s(*(data.shape.end() - 1), *(data.shape.begin()));
+			s.line.start *= tileSpacing;
+			s.line.end *= tileSpacing;
+			s.line.start += offset;
+			s.line.end += offset;
+
+			Log::msg("Adding surface " + s.toString());
+			surfaces->addSurface(s);
+		}
+		Log::msg("--------------------");
+
+	}
+
 }
 
 void TileLayer::draw(sf::RenderTarget& target, sf::RenderStates states) const {

@@ -2,6 +2,8 @@
 
 #include "util/Math.hpp"
 
+#include "phys/SurfaceMap.hpp"
+
 std::ostream& LevelSerializer::writeLevel(std::ostream& os, Level& lvl)
 {
 
@@ -61,6 +63,7 @@ std::ostream& LevelSerializer::writeLevel(std::ostream& os, Level& lvl)
 	}
 
 	//COLFIX
+	writeSurfaceMap(os, *lvl.getSurfaceMap());
 	//up collisions
 	//writeColVec(os, lvl.upCollisions);
 	//right
@@ -158,6 +161,7 @@ std::istream& LevelSerializer::readLevel(std::istream& is, Level& lvl)
 	}
 
 	//COLFIX
+	readSurfaceMap(is, *lvl.getSurfaceMap(), lvl.levelArea.width, lvl.levelArea.height);
 	//up collisions
 	//readColVec(is, lvl.upCollisions);
 	//right
@@ -195,7 +199,7 @@ void LevelSerializer::writeLvlCol(std::ostream& os, const Level::LevelCollision 
 	write(col.leftCol, os);
 }; */
 void LevelSerializer::writeTileLayer(std::ostream& os, const TileLayer& layer) {
-	//write tiles map
+	//write tile map
 	writeTileMap(os, layer.tiles);
 
 	//write animtiles
@@ -323,6 +327,22 @@ void LevelSerializer::writeTransVec(std::ostream& os, const std::vector<Transiti
 	}
 }; */
 
+
+void LevelSerializer::writeSurfaceMap(std::ostream& os, SurfaceMap& smap) {
+
+	int size = smap.getAllSurfaces()->size();
+	write(size, os);
+	for (Surface& s : *smap.getAllSurfaces()) {
+		write(s.line.start.x, os);
+		write(s.line.start.y, os);
+		write(s.line.end.x, os);
+		write(s.line.end.y, os);
+	}
+
+}
+
+
+
 void LevelSerializer::write(int i, std::ostream& os) {
 	os.write((char*)&i, StdSizes::intSize);
 }
@@ -431,6 +451,7 @@ void LevelSerializer::readTileMap(std::istream& is, std::map<GridVector, Tile> &
 		}
 	}
 };
+/*
 void LevelSerializer::readColVec(std::istream& is, std::vector<sf::FloatRect> &vec) {
 	vec.clear();
 
@@ -443,6 +464,7 @@ void LevelSerializer::readColVec(std::istream& is, std::vector<sf::FloatRect> &v
 		vec.push_back(rect);
 	}
 };
+*/
 void LevelSerializer::readTrans(std::istream& is, Transition &t) {
 	int strCount = 0;
 	read(strCount, is);
@@ -479,6 +501,21 @@ void LevelSerializer::readTransVec(std::istream& is, std::vector<Transition> &ve
 		vec.push_back(trig);
 	}
 } */;
+
+void LevelSerializer::readSurfaceMap(std::istream& is, SurfaceMap& smap, int lvlWidth, int lvlHeight) {
+	smap.clear(lvlWidth, lvlHeight);
+
+	int size = 0;
+	read(size, is);
+	for (int i = 0; i < size; i++) {
+		Vec2 st, en;
+		read(st.x, is);
+		read(st.y, is);
+		read(en.x, is);
+		read(en.y, is);
+		smap.getAllSurfaces()->push_back(Surface(st, en));
+	}
+}
 
 void LevelSerializer::read(int &i, std::istream& is) {
 	is.read((char*)&i, StdSizes::intSize);

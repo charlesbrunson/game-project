@@ -22,7 +22,7 @@
 #include "game/lvl/TileLayer.hpp"
 
 #include "util/Math.hpp"
-#include "phys/Surface.hpp"
+#include "phys/SurfaceMap.hpp"
 
 struct Transition {
 
@@ -48,7 +48,7 @@ public:
 
 	void update(sf::Time deltaTime, sf::FloatRect displayArea, sf::Vector2f camCenter, bool reDraw = false);
 	
-	void generateCollisionMap();
+	void buildSurfaceMap();
 
 	void setArea(int left, int top, int w, int h);
 
@@ -59,13 +59,7 @@ public:
 	}
 		
 	//COLFIX
-	//collision data
-	//inline std::vector<Surface> *getCollisionMap()	{ return &collisionMap; };
-
-	//inline std::vector<sf::FloatRect> *getUpCol()			{ return &upCollisions; };
-	//inline std::vector<sf::FloatRect> *getRightCol()		{ return &rightCollisions; };
-	//inline std::vector<sf::FloatRect> *getDownCol()			{ return &downCollisions; };
-	//inline std::vector<sf::FloatRect> *getLeftCol()			{ return &leftCollisions; };
+	inline SurfaceMap* getSurfaceMap() { return &surfaces; };	
 
 	inline TileLayer* getDecorativeLayer()					{ return &decorativeLayer; };
 	inline TileLayer* getForegroundLayer()					{ return &foregroundLayer; };
@@ -80,7 +74,6 @@ public:
 	inline std::map<GridVector, sf::Sprite> *getBackgroundSprites() { return &backgroundLayer.sprites; };
 	
 	//gameplay data
-	//const static int spikeDamage = 4;
 	sf::IntRect levelArea;
 	sf::Vector2f playerStartPos;
 
@@ -157,9 +150,8 @@ private:
 	std::map<int, TileLayer> parallaxLayers;
 
 	std::vector<Transition> levelTransitions;
-
-	//collision data for each collidable tile, possibly effects too (like sliding/pushing)
-	//std::vector<Surface> collisionMap;
+	
+	SurfaceMap surfaces;
 
 };
 

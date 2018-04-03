@@ -463,6 +463,12 @@ void GameplayState::draw(sf::RenderTarget &target, sf::RenderStates states) cons
 #ifdef _DEBUG
 	if (Gameplay_Globals::Debug::levelCollision) {
 
+
+		std::vector<Surface>* surf = lvl->getSurfaceMap()->getAllSurfaces();
+		for (auto i = surf->begin(); i != surf->end(); i++) {
+			target.draw(*i);
+		}
+
 		//COLFIX
 		/*
 		sf::VertexArray line(sf::Lines, 2);

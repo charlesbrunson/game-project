@@ -4,6 +4,7 @@
 #include <SFML/System.hpp>
 #include "res/ResourceLoader.hpp"
 #include "util/GridVector.hpp"
+#include "util/Math.hpp"
 
 #include <map>
 
@@ -21,6 +22,15 @@ public:
 		bool occluding = true;
 		sf::Time animFrameRate = sf::Time::Zero;
 		int animFrameCount = 0;
+
+		void setShape(std::string shapeType, bool hFlip, int rotate);
+
+		std::vector<Point> shape = {
+			Point(0.f, 0.f),
+			Point(1.f, 0.f),
+			Point(1.f, 1.f),
+			Point(0.f, 1.f)
+		};
 	};
 
 	static const TileData getTileData(std::string sheet, GridVector tilePos);

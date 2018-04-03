@@ -186,6 +186,8 @@ bool TextureFile::loadTileDataFile(const std::string& path) {
 
 			int framerate = -1, framecount = -1;
 
+			bool hasShape = false;
+
 			if (type == "nocollision") {
 				currentProp = TileProperty::tileProps::TILE_NOCOLLISION;
 			}
@@ -197,6 +199,9 @@ bool TextureFile::loadTileDataFile(const std::string& path) {
 
 				framerate = prop->get("framerate", -1).asInt();
 				framecount = prop->get("framecount", -1).asInt();
+			}
+			else if (type == "shape") {
+				hasShape = true;
 			}
 			else {
 				//unknown type encountered
@@ -221,10 +226,18 @@ bool TextureFile::loadTileDataFile(const std::string& path) {
 					t.animFrameRate = sf::milliseconds(framerate);
 					t.animFrameCount = framecount;
 				}
+				if (hasShape) {
+					std::string shapeType = tileIndex->get("shape", "square").asString();
+					bool hFlip 			  = tileIndex->get("hflip", false).asBool();
+					int rot               = tileIndex->get("rotate", 0).asInt();
+					
+					Log::msg("\tAdded shape: " + shapeType + ", hflip " + std::to_string(hFlip) + ", rotate " + std::to_string(rot));
+					t.setShape(shapeType, hFlip, rot);
+
+				}
 				tileData[w] = t;
 			}
 		}
-		//Log::msg("Created tile map: " + filePath);
 		Log::msg("\tAdded tile map");
 		TileProperty::addTileMap(filePath, tileData);
 	}

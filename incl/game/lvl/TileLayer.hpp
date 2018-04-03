@@ -1,32 +1,24 @@
 #ifndef TILELAYER_H
 #define TILELAYER_H
 
+#include <SFML/Graphics.hpp>
+
 #include "game/lvl/Tile.hpp"
+#include "phys/SurfaceMap.hpp"
 
 #include <unordered_set>
 
 class TileLayer : public sf::Drawable {
 public:
 	//parallax info
-	/*
-	struct ParallaxMirror {
-		ParallaxMirror(GridVector p, bool x, bool y) : tilePos(p), mirrorX(x), mirrorY(y) {};
-
-		GridVector tilePos;
-		bool mirrorX;
-		bool mirrorY;
-	};
-	*/
 	struct Parallax {
 		bool isParallax = false;
 
 		sf::FloatRect area;
 
-		// rate of movement compared to camera
 		sf::Vector2f parallaxRate;
 
 		sf::Vector2f offset; //modified per frame
-		//std::vector<ParallaxMirror> mirrors; //modified per frame
 
 		sf::Vector2f scrollSpeed;
 		sf::Vector2i scrollSize;
@@ -44,10 +36,7 @@ public:
 		std::set<GridVector> tilesAffected;
 	};
 
-	TileLayer(std::map<int, std::string>* tileNames) 
-		: tilesetNames(tileNames) {
-	
-	}
+	TileLayer(std::map<int, std::string>* tileNames) : tilesetNames(tileNames) { };
 	
 	//pointer tileset filenames used
 	const std::map<int, std::string>* tilesetNames;
@@ -56,7 +45,6 @@ public:
 	std::map<GridVector, Tile> tiles;
 	std::map<GridVector, sf::Sprite> sprites;
 
-	//sf::Time = time per frame, int = numOfFrames
 	std::map<std::pair<sf::Time, int>, TileAnimTimer> tileTimers;
 
 	//parallax info
@@ -71,10 +59,6 @@ public:
 	void updateScroll(sf::Time t, sf::FloatRect area, bool isZoneTimer = false);
 	void updateSpriteAnimation(sf::Time t, bool isZoneTimer = false);
 	void updateSpritePosition(sf::Vector2f pOffset, sf::Vector2f sOffset);
-
-	//updates scrolling offset, returns whether mirror tiles need to be updated
-	//bool updateScroll(sf::Time t, sf::FloatRect area, bool isZoneTimer = false);
-	//void updateSpritePosition(sf::Vector2f pOffset, sf::Vector2f sOffset, sf::FloatRect pArea, bool updateMirrors);
 
 	//generate sprite according to tile
 	void addTileSprite(Tile *tile, GridVector pos);
@@ -94,6 +78,8 @@ public:
 	inline bool isScrolling() const {
 		return parallax.scrollSpeed != sf::Vector2f();
 	}
+
+	void buildSurfaceMap(SurfaceMap *surfaces, sf::Vector2u size);
 	
 protected:
 	sf::IntRect lastFrameGridArea;

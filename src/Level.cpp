@@ -72,12 +72,7 @@ std::vector<Surface> Level::getTileCollisionBox(sf::Vector2i gridPosition) {
 
 	return collisionArr;
 }
-
-void Level::generateCollisionMap() {
-
-	// TODO
-
-} */
+*/
 
 void Level::syncLayerTimers(sf::Time zoneTimer) {
 	decorativeLayer.syncTimersWithZone(zoneTimer);

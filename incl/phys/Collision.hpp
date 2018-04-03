@@ -25,6 +25,12 @@ Collision isOverlapping(const Rect& a, const Rect& b) {
 	return r;
 };
 
+Collision isOverlapping(const Line& a, const Rect& b) {
+	Collision r;
+	//TODO
+	return r;
+};
+
 
 #endif
 
