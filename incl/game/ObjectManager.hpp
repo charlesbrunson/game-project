@@ -15,6 +15,8 @@
 
 #include <memory>
 
+#include "phys/SurfaceCollision.hpp"
+
 
 //manages objects in gameplay state
 class ObjectManager {
@@ -77,9 +79,8 @@ private:
 	//std::vector<std::unique_ptr<GameObject>> triggers;
 	
 	//collision
-	void doCollision(GameObject* obj) {
-
-		std::vector<Collision> collisions;
+//	void doCollision(GameObject* obj) {
+//		std::vector<SurfaceCollision> collisions;
 
 		//COLFIX
 		/*
@@ -100,11 +101,14 @@ private:
 		resolveCollisions(obj, &collisions);
 		*/
 
-	}
+//	}
 	//void doLevelCollision(GameObject *obj, std::vector<Collision> *collisions);
 	//void doCollidableCollision(Collidable *col, GameObject *obj, std::vector<Collision> *collisions);
 	//void validateCollisions(std::vector<Collision> *collisions);
 	//void resolveCollisions(GameObject *obj, std::vector<Collision> *collisions);
+	
+	void doCollision(GameObject* obj);
+	void doLevelCollision(GameObject* obj, std::vector<SurfaceCollision> *collisions);
 
 	std::map<std::string, sf::Sound> sounds;
 

@@ -5,7 +5,7 @@ CFLAG=-std=c++14 -g -Wall -Wextra -D_DEBUG -I SFML/include -I incl -I incl/ext
 LIB=-lsfml-graphics -lsfml-window -lsfml-system -lsfml-audio
 
 CPP=$(wildcard src/*.cpp)
-OBJ=$(patsubst src/%.cpp,obj/%.o,$(CPP))
+OBJ=$(patsubst src/%.cpp,object/%.o,$(CPP))
 
 obj/%.o: src/%.cpp
 	@mkdir -p $(@D)
@@ -21,4 +21,4 @@ sfml-game: $(OBJ)
 clean :
 	#rm -f -r data/
 	rm -f sfml-game
-	rm -f -r obj/
+	rm -f -r object/

@@ -26,7 +26,7 @@ Engine::Engine() {
 		// Setup default FPS settings
 		_maxUpdatePerSec = 144.0;
 		_maxDrawPerSec = 144.0;
-		_uncappedFPS = false;
+		_uncappedFPS = true;
 
 #ifdef _DEBUG
 		// Setup debug values

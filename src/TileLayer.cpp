@@ -299,6 +299,13 @@ void TileLayer::setTile(sf::Vector2i gridPosition, int tileSpr, sf::Vector2i off
 
 	t.tileProperty = tileData.tileProperty;
 	t.occluding = tileData.occluding;
+	t.shape.shapeNumCorners = tileData.shape.size();
+
+	int i = 0;
+	for (const Point& p : tileData.shape) {
+		t.shape.vertexes[i] = p;
+		i++;
+	}
 
 	if (t.tileProperty == TileProperty::TILE_ANIMATED && tileData.animFrameRate != sf::Time::Zero && tileData.animFrameCount > 1) {
 		std::pair<sf::Time, int> pair(tileData.animFrameRate, tileData.animFrameCount);
@@ -396,59 +403,18 @@ void TileLayer::syncTimersWithZone(sf::Time zoneTimer) {
 	}
 }
 
+/*
 void TileLayer::buildSurfaceMap(SurfaceMap* surfaces, sf::Vector2u size) {
 
-	surfaces->clear(size.x, size.y);
-
-
+	
 	for (auto t = tiles.begin(); t != tiles.end(); t++) {
 
-		TileProperty::TileData data = TileProperty::getTileData(tilesetNames->at(t->second.tileSprite), t->second.spritePos);
-
-		if (data.shape.size() < 2)
-			continue;
-
-		std::vector<Surface> surfacesToAdd;
-		Vec2 offset(Vec2(t->first) * tileSpacing);
-
-		Log::msg("--------------------");
-		for (auto l = data.shape.begin(); l + 1 != data.shape.end(); l++) {
-
-			Surface s(*l, *(l + 1));
-
-			s.line.start *= tileSpacing;
-			s.line.end *= tileSpacing;
-			s.line.start += offset;
-			s.line.end += offset;
-
-
-			Log::msg("Adding surface " + s.toString());
-			surfacesToAdd.push_back(s);
-			
-			//only get the top surface
-			if (data.tileProperty == TileProperty::tileProps::TILE_ONEWAY) {
-				break;
-			}
-		}
-
-		for (Surface& s : surfacesToAdd) {
-			surfaces->addSurface(s);
-		}
-		if (data.tileProperty != TileProperty::tileProps::TILE_ONEWAY) {
-			Surface s(*(data.shape.end() - 1), *(data.shape.begin()));
-			s.line.start *= tileSpacing;
-			s.line.end *= tileSpacing;
-			s.line.start += offset;
-			s.line.end += offset;
-
-			Log::msg("Adding surface " + s.toString());
-			surfaces->addSurface(s);
-		}
-		Log::msg("--------------------");
+		surfaces->addTile(t->second);
 
 	}
 
 }
+*/
 
 void TileLayer::draw(sf::RenderTarget& target, sf::RenderStates states) const {
 	for (auto i = sprites.begin(); i != sprites.end(); i++) {

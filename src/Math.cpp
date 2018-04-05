@@ -1,5 +1,6 @@
 
 #include <math.h>
+#include <assert.h>
 
 #include "util/Math.hpp"
 #include "game/lvl/Tile.hpp"
@@ -10,8 +11,65 @@ const sf::Vector2f Math::diff(const sf::Vector2f& i, const sf::Vector2f& j) {
 	return i - j;
 };
 
+float Math::pointOnLine(const Line& line, const Point& p) {
+	return (line.end.y - line.start.y) * p.x +
+		   (line.start.x - line.end.x) * p.y +
+		   (line.end.x * line.start.y - line.start.x * line.end.y);
+};
+
+bool Math::intersects(const Line& line, const sf::FloatRect& rect, bool lineIsSegment) {
+	if (line.isHorizontal()) {
+		return line.start.y > rect.top && line.start.y < rect.top + rect.height &&
+			(!lineIsSegment || (rect.left + rect.width > std::min(line.start.x, line.end.x) &&
+			rect.left <= std::max(line.start.x, line.end.x)));
+
+	}
+	else if (line.isVertical()) {
+		
+		return line.start.x > rect.left && line.start.x < rect.left + rect.width &&
+			(!lineIsSegment || (rect.top + rect.height > std::min(line.start.y, line.end.y) &&
+			rect.top <= std::max(line.start.y, line.end.y)));
+
+	}
+	else if (Math::boundingBox(line.start, line.end).intersects(rect)) {
+		auto isAboveLine =
+		[](const Line& line, const Point& p) -> bool {
+			float r = Math::pointOnLine(line, p);
+			return r < 0;
+		};
+
+		bool t = isAboveLine(line, Math::topleft(rect));
+
+		return t == isAboveLine(line, Math::topright(rect)) &&
+		       t == isAboveLine(line, Math::bottomleft(rect)) &&
+		       t == isAboveLine(line, Math::bottomright(rect));
+
+	}
+	else {
+		return false;
+	}
+};
+
+Vec2 Math::projection(const Vec2& a, const Vec2& onto) {
+	assert(a.x != 0.f && a.y != 0.f);
+
+	float dp = dotProd(a, onto);
+	return Vec2(
+		(dp / (onto.x * onto.x + onto.y * onto.y)) * onto.x,	
+		(dp / (onto.x * onto.x + onto.y * onto.y)) * onto.y	
+	);
+}
+float Math::dotProd(const Vec2& a, const Vec2& b) {
+	return (a.x * b.x) + (a.y * b.y);
+}
+
 float Math::dist(const sf::Vector2f& i, const sf::Vector2f& j) {
 	sf::Vector2f d = i - j;
+	return sqrtf(d.x * d.x + d.y * d.y);
+};
+
+float Math::dist(const Line& l) {
+	sf::Vector2f d = l.end - l.start;
 	return sqrtf(d.x * d.x + d.y * d.y);
 };
 
@@ -51,6 +109,14 @@ const sf::FloatRect Math::boundingBox(const sf::FloatRect& a, const sf::FloatRec
 	r.top = std::min(a.top, b.top);
 	r.width = std::max(a.left + a.width, b.left + b.width) - r.left;
 	r.height = std::max(a.top + a.height, b.top + b.height) - r.top;
+	return r;
+};
+const sf::FloatRect Math::boundingBox(const Vec2& a, const Vec2& b) {
+	sf::FloatRect r;
+	r.left = std::min(a.x, b.x);
+	r.top = std::min(a.y, b.y);
+	r.width = std::max(a.x, b.x) - r.left;
+	r.height = std::max(a.y, b.y) - r.top;
 	return r;
 };
 

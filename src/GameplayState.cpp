@@ -25,6 +25,7 @@ GameplayState::GameplayState() {
 	activeLevel = 0;
 	lastCheckpoint = LevelDef::checkpoints[activeLevel].begin();
 
+
 	//start loading zone
 	start(*lastCheckpoint);
 }
@@ -464,9 +465,17 @@ void GameplayState::draw(sf::RenderTarget &target, sf::RenderStates states) cons
 	if (Gameplay_Globals::Debug::levelCollision) {
 
 
-		std::vector<Surface>* surf = lvl->getSurfaceMap()->getAllSurfaces();
+		GridMap<std::vector<Surface>>* surf = lvl->getSurfaceMap()->getAllSurfaces();
 		for (auto i = surf->begin(); i != surf->end(); i++) {
-			target.draw(*i);
+			sf::RectangleShape tilesh;
+			tilesh.setSize(Vec2(tileSpacing, tileSpacing));
+			tilesh.setPosition(Vec2(i->first) * tileSpacing);
+			tilesh.setFillColor(sf::Color(0,0,255,50 * i->second.size()));
+			target.draw(tilesh);
+
+			for (auto j = i->second.begin(); j != i->second.end(); j++) {
+				target.draw(*j);
+			}
 		}
 
 		//COLFIX

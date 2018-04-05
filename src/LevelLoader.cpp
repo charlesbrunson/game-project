@@ -591,8 +591,14 @@ bool LevelLoader::compileTMXFile(std::string name) {
 	//generate collision map
 	Log::msg("Building surface map");
 	//COLFIX
-	area.level->getForegroundLayer()->buildSurfaceMap(area.level->getSurfaceMap(),
-		sf::Vector2u(area.level->levelArea.width, area.level->levelArea.height));
+	area.level->generateSurfaceMap();
+	
+
+
+
+
+//	area.level->getForegroundLayer()->buildSurfaceMap(area.level->getSurfaceMap(),
+//		sf::Vector2u(area.level->levelArea.width, area.level->levelArea.height));
 	//area.level->foregroundLayer.buildSurfaceMap(surfaces);
 
 	Log::msg(name + " - successfully compiled\n");

@@ -63,6 +63,93 @@ void Level::setArea(int left, int top, int w, int h) {
 	levelArea = sf::IntRect(left, top, w, h);
 }
 
+void Level::generateSurfaceMap() {
+
+	//make level border
+	sf::FloatRect tileArea(0.f, 0.f, tileSpacing, tileSpacing);
+	auto transitions = getLevelTransitions();
+	TileShape wall;
+	wall.shapeNumCorners = 2;
+
+	auto touchesTransition = [&transitions](const Cardinal dir, const sf::FloatRect& area) {
+		for (auto i = transitions->begin(); i != transitions->end(); i++) {
+			if (i->dir == dir && i->box.intersects(area)) {
+				return true;
+			}
+		}
+		return false;
+	};
+
+	if (invisibleWalls[Cardinal::NORTH]) {
+		tileArea.left = 0.f;
+		tileArea.top = -tileSpacing;
+
+		for (int x = 0; x < levelArea.width / tileSpacing; x++) {
+			tileArea.left = x * tileSpacing;
+
+			if (touchesTransition(Cardinal::NORTH, tileArea))
+				continue;
+
+			wall.vertexes[0] = Point(1.f, 1.f);
+			wall.vertexes[1] = Point(0.f, 1.f);
+			surfaces.addShape(wall, GridVec2(x, -1), true);
+		}
+	}
+	if (invisibleWalls[Cardinal::EAST]) {
+		tileArea.left = levelArea.width;
+		tileArea.top = 0.f;
+
+		for (int y = 0; y < levelArea.height / tileSpacing; y++) {
+			tileArea.top = y * tileSpacing;
+
+			if (touchesTransition(Cardinal::EAST, tileArea))
+				continue;
+
+			wall.vertexes[0] = Point(0.f, 1.f);
+			wall.vertexes[1] = Point(0.f, 0.f);
+			surfaces.addShape(wall, GridVec2(levelArea.width / tileSpacing, y), true);
+		}
+	}
+	if (invisibleWalls[Cardinal::SOUTH]) {
+		tileArea.left = 0.f;
+		tileArea.top = levelArea.height;
+
+		for (int x = 0; x < levelArea.width / tileSpacing; x++) {
+			tileArea.left = x * tileSpacing;
+
+			if (touchesTransition(Cardinal::SOUTH, tileArea))
+				continue;
+
+			wall.vertexes[0] = Point(0.f, 0.f);
+			wall.vertexes[1] = Point(1.f, 0.f);
+			surfaces.addShape(wall, GridVec2(x, levelArea.height / tileSpacing), true);
+		}
+	}
+	if (invisibleWalls[Cardinal::EAST]) {
+		tileArea.left = -tileSpacing;
+		tileArea.top = 0.f;
+
+		for (int y = 0; y < levelArea.height / tileSpacing; y++) {
+			tileArea.top = y * tileSpacing;
+
+			if (touchesTransition(Cardinal::WEST, tileArea))
+				continue;
+
+			wall.vertexes[0] = Point(1.f, 0.f);
+			wall.vertexes[1] = Point(1.f, 1.f);
+			surfaces.addShape(wall, GridVec2(-1, y), true);
+		}
+	}
+	
+
+	//add level collision
+	auto tiles = &foregroundLayer.tiles;
+	for (auto t = tiles->begin(); t != tiles->end(); t++) {
+		surfaces.addTile(t->second);
+	}
+
+}
+
 /*
 std::vector<Surface> Level::getTileCollisionBox(sf::Vector2i gridPosition) {
 

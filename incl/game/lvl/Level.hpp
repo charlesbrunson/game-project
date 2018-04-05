@@ -60,6 +60,7 @@ public:
 		
 	//COLFIX
 	inline SurfaceMap* getSurfaceMap() { return &surfaces; };	
+	void generateSurfaceMap();
 
 	inline TileLayer* getDecorativeLayer()					{ return &decorativeLayer; };
 	inline TileLayer* getForegroundLayer()					{ return &foregroundLayer; };

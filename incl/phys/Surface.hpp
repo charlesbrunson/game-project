@@ -25,7 +25,7 @@ private:
 #ifdef _DEBUG
 		sf::VertexArray lineVert(sf::Lines, 2);
 		lineVert[0] = sf::Vertex(line.start, sf::Color::Green);
-		lineVert[1] = sf::Vertex(line.end, sf::Color::Red);
+		lineVert[1] = sf::Vertex(line.end, sf::Color::Green);
 		target.draw(lineVert, states);
 #endif
 	};

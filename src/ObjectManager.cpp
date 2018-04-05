@@ -8,6 +8,8 @@
 
 #include "obj/plr/PlayerRef.hpp"
 
+#include "phys/SurfaceCollision.hpp"
+
 void ObjectManager::clear() {
 
 	objects.clear(); 
@@ -358,9 +360,90 @@ void ObjectManager::insertObject(GameObject* obj) {
 //////COLLISION WITH LEVEL//////////////
 
 //COLFIX
-/*
-void ObjectManager::doLevelCollision(GameObject *obj, std::vector<Collision> *collisions) {
 
+void ObjectManager::doCollision(GameObject* obj) {
+
+
+	std::vector<SurfaceCollision> collisions;
+
+	doLevelCollision(obj, &collisions);
+
+	std::stable_sort(collisions.begin(), collisions.end(),
+		[](SurfaceCollision a, SurfaceCollision b) {
+			return abs(Math::magnitude(b.getOffset())) > abs(Math::magnitude(a.getOffset()));
+		}
+	);
+
+	bool first = true;
+	for (SurfaceCollision& c : collisions) {
+		if (!first) {
+			c.eval();
+		}
+		else {
+			first = false;
+		}
+
+		if (c.isValid()) {
+			if (c.getOffset().x == 0.f && c.getOffset().y != 0.f) {
+				obj->setVelocity(sf::Vector2f(obj->getVelocity().x, 0.f));
+				obj->setPosition(obj->getPosition() + c.getOffset(), false);
+				obj->collisionUp |= c.getOffset().y < 0.f;
+				obj->collisionDown |= c.getOffset().y > 0.f;
+
+				if (obj->collisionUp) {
+					obj->setGrounded(true);
+				}
+				else if (obj->collisionDown) {
+					gameLevel->getSurfaceMap()->removeShape(c.getGridPos());	
+				}
+			}
+			else if (c.getOffset().y == 0.f && c.getOffset().x != 0.f) {
+				obj->setVelocity(sf::Vector2f(0.f, obj->getVelocity().y));
+				obj->setPosition(obj->getPosition() + c.getOffset(), false);
+				obj->collisionRight |= c.getOffset().x < 0.f;
+				obj->collisionLeft |= c.getOffset().x > 0.f;
+			}
+	 	}
+	}
+
+
+};
+
+void ObjectManager::doLevelCollision(GameObject *obj, std::vector<SurfaceCollision>* collisions) {
+
+	sf::IntRect gridBounds;
+	gridBounds.left = (int)std::floor(obj->getCollision().left / (float)tileSpacing);
+	gridBounds.top = (int)std::floor(obj->getCollision().top / (float)tileSpacing);
+	gridBounds.width = (int)std::ceil((obj->getCollision().left + obj->getCollision().width) / (float)tileSpacing) - gridBounds.left;
+	gridBounds.height = (int)std::ceil((obj->getCollision().top + obj->getCollision().height) / (float)tileSpacing) - gridBounds.top;
+
+	for (int x = gridBounds.left; x < gridBounds.left + gridBounds.width; x++) {
+		for (int y = gridBounds.top; y < gridBounds.top + gridBounds.height; y++) {
+			auto svec = gameLevel->getSurfaceMap()->getSurfacesInGrid(GridVec2(x,y));
+
+			if (svec == nullptr) {
+
+				continue;
+			}
+			else {
+
+				for (Surface& ss : *svec) {
+					//SurfaceCollision col(&ss, obj->getCollision(), obj->getPrevFrameCollision());
+					SurfaceCollision col(&ss, obj, GridVec2(x, y));
+
+					if (col.isValid()) {
+						collisions->push_back(col);	
+					}
+				}
+			}
+		}
+	}
+
+};
+
+/*
+
+void ObjectManager::doLevelCollision(GameObject *obj, std::vector<Collision> *collisions) {
 	const sf::FloatRect c = obj->getCollision();
 	const sf::FloatRect oldC = obj->getPrevFrameCollision();
 	

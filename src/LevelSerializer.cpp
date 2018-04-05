@@ -247,10 +247,7 @@ void LevelSerializer::writeTileMap(std::ostream& os, const std::map<GridVector, 
 		for (auto j = tileData.begin(); j != tileData.end(); j++) {
 			t2 = j->first;
 
-			if (t1.tileSprite == t2.tileSprite &&
-				t1.tileProperty == t2.tileProperty &&
-				t1.spritePos == t2.spritePos &&
-				t1.occluding == t2.occluding) {
+			if (t1.isSimilar(t2)) {
 				inTileData = true;
 				isTile = j;
 				break;
@@ -275,13 +272,17 @@ void LevelSerializer::writeTileMap(std::ostream& os, const std::map<GridVector, 
 
 		write(i->first.tileSprite, os);
 		write(i->first.tileProperty, os);
-		write(i->first.spritePos.x, os);
-		write(i->first.spritePos.y, os);
-		write(i->first.occluding, os);
-
 		if (i->first.tileProperty == TileProperty::TILE_ANIMATED) {
 			write(i->first.anim_rate.asMilliseconds(), os);
 			write(i->first.anim_framecount, os);
+		}
+		write(i->first.spritePos.x, os);
+		write(i->first.spritePos.y, os);
+		write(i->first.occluding, os);
+		write(i->first.shape.shapeNumCorners, os);
+		for (int j = 0; j < i->first.shape.shapeNumCorners; j++) {
+			write(i->first.shape.vertexes[j].x, os);
+			write(i->first.shape.vertexes[j].y, os);
 		}
 
 		posCount = i->second.size();
@@ -332,11 +333,18 @@ void LevelSerializer::writeSurfaceMap(std::ostream& os, SurfaceMap& smap) {
 
 	int size = smap.getAllSurfaces()->size();
 	write(size, os);
-	for (Surface& s : *smap.getAllSurfaces()) {
-		write(s.line.start.x, os);
-		write(s.line.start.y, os);
-		write(s.line.end.x, os);
-		write(s.line.end.y, os);
+	for (const std::pair<GridVector, std::vector<Surface>>& vec : *smap.getAllSurfaces()) {
+		
+		write(vec.first.x, os);
+		write(vec.first.y, os);
+
+		write((int)vec.second.size(), os);
+		for (const Surface& s : vec.second) {
+			write(s.line.start.x, os);
+			write(s.line.start.y, os);
+			write(s.line.end.x, os);
+			write(s.line.end.y, os);
+		}
 	}
 
 }
@@ -429,15 +437,19 @@ void LevelSerializer::readTileMap(std::istream& is, std::map<GridVector, Tile> &
 		
 		read(t.tileSprite, is);
 		read(t.tileProperty, is);
-		read(t.spritePos.x, is);
-		read(t.spritePos.y, is);
-		read(t.occluding, is);
-
 		if (t.tileProperty == TileProperty::TILE_ANIMATED) {
 			int animRateMS = 0;
 			read(animRateMS, is);
 			t.anim_rate = sf::milliseconds(animRateMS);
 			read(t.anim_framecount, is);
+		}
+		read(t.spritePos.x, is);
+		read(t.spritePos.y, is);
+		read(t.occluding, is);
+		read(t.shape.shapeNumCorners, is);
+		for (int j = 0; j < t.shape.shapeNumCorners && j < 4; j++) {
+			read(t.shape.vertexes[j].x, is);
+			read(t.shape.vertexes[j].y, is);
 		}
 
 
@@ -508,13 +520,44 @@ void LevelSerializer::readSurfaceMap(std::istream& is, SurfaceMap& smap, int lvl
 	int size = 0;
 	read(size, is);
 	for (int i = 0; i < size; i++) {
-		Vec2 st, en;
-		read(st.x, is);
-		read(st.y, is);
-		read(en.x, is);
-		read(en.y, is);
-		smap.getAllSurfaces()->push_back(Surface(st, en));
+
+		GridVec2 p;
+		read(p.x, is);
+		read(p.y, is);
+
+		auto it = smap.getAllSurfaces()->insert(std::make_pair(p, std::vector<Surface>())).first;
+
+		int vsize = 0;
+		read(vsize, is);
+		for (int j = 0; j < vsize; j++) {
+
+			Vec2 st, en;
+			read(st.x, is);
+			read(st.y, is);
+			read(en.x, is);
+			read(en.y, is);
+			it->second.push_back(Surface(st,en));
+
+		}
+
 	}
+	/*
+	int size = smap.getAllSurfaces()->size();
+	write(size, os);
+	for (const std::pair<GridVector, std::vector<Surface>>& vec : *smap.getAllSurfaces()) {
+		
+		write(vec.first.x, os);
+		write(vec.first.y, os);
+
+		write((int)vec.second.size(), os);
+		for (const Surface& s : vec.second) {
+			write(s.line.start.x, os);
+			write(s.line.start.y, os);
+			write(s.line.end.x, os);
+			write(s.line.end.y, os);
+		}
+	}
+	 * */
 }
 
 void LevelSerializer::read(int &i, std::istream& is) {
