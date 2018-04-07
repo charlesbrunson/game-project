@@ -20,7 +20,7 @@ float Math::pointOnLine(const Line& line, const Point& p) {
 bool Math::intersects(const Line& line, const sf::FloatRect& rect, bool lineIsSegment) {
 	if (line.isHorizontal()) {
 		return line.start.y > rect.top && line.start.y < rect.top + rect.height &&
-			(!lineIsSegment || (rect.left + rect.width > std::min(line.start.x, line.end.x) &&
+			(!lineIsSegment || (rect.left + rect.width >= std::min(line.start.x, line.end.x) &&
 			rect.left <= std::max(line.start.x, line.end.x)));
 
 	}
@@ -35,7 +35,7 @@ bool Math::intersects(const Line& line, const sf::FloatRect& rect, bool lineIsSe
 		auto isAboveLine =
 		[](const Line& line, const Point& p) -> bool {
 			float r = Math::pointOnLine(line, p);
-			return r < 0;
+			return r < 0.f;
 		};
 
 		bool t = isAboveLine(line, Math::topleft(rect));
@@ -51,7 +51,7 @@ bool Math::intersects(const Line& line, const sf::FloatRect& rect, bool lineIsSe
 };
 
 Vec2 Math::projection(const Vec2& a, const Vec2& onto) {
-	assert(a.x != 0.f && a.y != 0.f);
+	assert(onto.x != 0.f || onto.y != 0.f);
 
 	float dp = dotProd(a, onto);
 	return Vec2(

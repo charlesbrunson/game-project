@@ -6,7 +6,7 @@
 void GameObject::setCollision(sf::FloatRect col) {
 	collisionBox = col;
 };
-sf::FloatRect GameObject::getCollision() {
+Solid& GameObject::getCollision() {
 	return collisionBox;
 };
 
@@ -156,6 +156,10 @@ void GameObject::draw(sf::RenderTarget &target, sf::RenderStates states) const {
 
 		target.draw(sprite, (!sfxWhite ? states : RL()->getShader("shaders/whiteout.frag")));
 	}
+}
+
+void GameObject::drawDebug(sf::RenderTarget &target, sf::RenderStates states) const {
+
 #ifdef _DEBUG
 	if (Gameplay_Globals::Debug::objectCollision) {
 
@@ -173,6 +177,10 @@ void GameObject::draw(sf::RenderTarget &target, sf::RenderStates states) const {
 		oColVert[3] = sf::Vertex(Math::bottomleft(oldBox), sf::Color::Blue);
 		oColVert[4] = sf::Vertex(Math::topleft(oldBox), sf::Color::Blue);
 
+		sf::VertexArray centerVert(sf::Lines, 2);
+		centerVert[0] = sf::Vertex(Math::center(collisionBox) - Vec2(0.f, collisionBox.height/2.f), sf::Color::Red);
+		centerVert[1] = sf::Vertex(Math::center(collisionBox) + Vec2(0.f, collisionBox.height/2.f), sf::Color::Red);
+
 		sf::RectangleShape posRect;
 
 		target.draw(oColVert, states);
@@ -180,11 +188,24 @@ void GameObject::draw(sf::RenderTarget &target, sf::RenderStates states) const {
 		//place rectshape over collision rect and draw it
 		target.draw(colVert, states);
 
+		target.draw(centerVert, states);
+
 		posRect.setPosition(position + sf::Vector2f(-0.5f, -0.5f));
 		posRect.setSize(sf::Vector2f(1, 1));
 		posRect.setFillColor(sf::Color(255, 0, 0, 255));
 
 		target.draw(posRect, states);
+
+		sf::VertexArray surV(sf::Lines, 2);
+		surV[0] = sf::Vertex(Point(), sf::Color::Yellow);
+		surV[1] = sf::Vertex(Point(), sf::Color::Yellow);
+		for (auto& ss : collisionBox.curCollisions) {
+			surV[0].position = ss.first->line.start;	
+			surV[1].position = ss.first->line.end;	
+			target.draw(surV, states);
+
+
+		}
 	}
 #endif
 }

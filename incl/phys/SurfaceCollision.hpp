@@ -19,6 +19,7 @@ public:
 	inline Vec2 getOffset() { return offset; };
 	inline bool isValid() { return valid; };
 	inline GridVec2 getGridPos() { return place; };
+	inline Surface* getSurface() {return sur;};
 
 private:
 

@@ -420,6 +420,7 @@ void GameplayState::draw(sf::RenderTarget &target, sf::RenderStates states) cons
 	//draw level decorative layer
 	target.draw(*lvl->getDecorativeLayer(), states);
 
+
 	//draw black borders if level is too small
 	if (area.width < GAMEWIDTH) {
 		float hMargin = std::max(((float)GAMEWIDTH - area.width) / 2, 0.f);
@@ -470,54 +471,27 @@ void GameplayState::draw(sf::RenderTarget &target, sf::RenderStates states) cons
 			sf::RectangleShape tilesh;
 			tilesh.setSize(Vec2(tileSpacing, tileSpacing));
 			tilesh.setPosition(Vec2(i->first) * tileSpacing);
-			tilesh.setFillColor(sf::Color(0,0,255,50 * i->second.size()));
+			tilesh.setFillColor(sf::Color(0, 0, 255, 25 * i->second.size()));
 			target.draw(tilesh);
 
 			for (auto j = i->second.begin(); j != i->second.end(); j++) {
 				target.draw(*j);
 			}
 		}
+	}
+#endif
 
-		//COLFIX
-		/*
-		sf::VertexArray line(sf::Lines, 2);
-
-		//top - red
-		line[0].color = sf::Color(255, 255, 255, 255);
-		line[1].color = sf::Color(255, 255, 255, 255);
-		for (std::vector<sf::FloatRect>::const_iterator it = lvl->getUpCol()->begin(); it != lvl->getUpCol()->end(); it++) {
-			line[0].position = Math::topleft(*it);
-			line[1].position = Math::topright(*it);
-			target.draw(line);
-		}
-
-		//right - green
-		line[0].color = sf::Color(0, 255, 0, 255);
-		line[1].color = sf::Color(0, 255, 0, 255);
-		for (std::vector<sf::FloatRect>::const_iterator it = lvl->getRightCol()->begin(); it != lvl->getRightCol()->end(); it++) {
-			line[0].position = Math::topright(*it);
-			line[1].position = Math::bottomright(*it);
-			target.draw(line);
-		}
-
-		//left - blue
-		line[0].color = sf::Color(0, 0, 255, 255);
-		line[1].color = sf::Color(0, 0, 255, 255);
-		for (std::vector<sf::FloatRect>::const_iterator it = lvl->getLeftCol()->begin(); it != lvl->getLeftCol()->end(); it++) {
-			line[0].position = Math::topleft(*it);
-			line[1].position = Math::bottomleft(*it);
-			target.draw(line);
-		}
-
-		//down - yellow
-		line[0].color = sf::Color(255, 0, 0, 255);
-		line[1].color = sf::Color(255, 0, 0, 255);
-		for (std::vector<sf::FloatRect>::const_iterator it = lvl->getDownCol()->begin(); it != lvl->getDownCol()->end(); it++) {
-			line[0].position = Math::bottomleft(*it);
-			line[1].position = Math::bottomright(*it);
-			target.draw(line);
-		}
-		*/
+#ifdef _DEBUG
+	//draw under-background objects
+	for (obj = objMan->getObjects()->begin(); obj != objMan->getObjects()->end(); obj++) {
+		if (!obj->get()->drawUnderBackground())
+			break;
+		else
+			obj->get()->drawDebug(target, states);
+	}
+	//draw over-background objects
+	for (; obj != objMan->getObjects()->end(); obj++) {
+		obj->get()->drawDebug(target, states);
 	}
 #endif
 

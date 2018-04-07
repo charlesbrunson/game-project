@@ -364,6 +364,8 @@ void ObjectManager::insertObject(GameObject* obj) {
 void ObjectManager::doCollision(GameObject* obj) {
 
 
+	obj->getCollision().curCollisions.clear();
+
 	std::vector<SurfaceCollision> collisions;
 
 	doLevelCollision(obj, &collisions);
@@ -384,7 +386,28 @@ void ObjectManager::doCollision(GameObject* obj) {
 		}
 
 		if (c.isValid()) {
-			if (c.getOffset().x == 0.f && c.getOffset().y != 0.f) {
+
+
+			Vec2 newVel = obj->getVelocity();
+			newVel = Math::projection(newVel, Line(Point(), c.getOffset()).getLeftHandUnit());
+
+			obj->setVelocity(newVel);
+			obj->setPosition(obj->getPosition() + c.getOffset(), false);
+			obj->collisionUp |= c.getOffset().y < 0.f;
+			obj->collisionDown |= c.getOffset().y > 0.f;
+			obj->collisionRight |= c.getOffset().x < 0.f && c.getOffset().y == 0.f;
+			obj->collisionLeft |= c.getOffset().x > 0.f && c.getOffset().y == 0.f;
+
+			Solid::colFlags f;
+			f.collisionUp = c.getOffset().y < 0.f;
+			f.collisionDown = c.getOffset().y > 0.f;
+			f.collisionRight = c.getOffset().x < 0.f && c.getOffset().y == 0.f;
+			f.collisionLeft = c.getOffset().x > 0.f && c.getOffset().y == 0.f;
+
+			obj->getCollision().curCollisions.push_back(std::make_pair(c.getSurface(), f));
+
+			/*
+			if (c.getOffset().y != 0.f) {
 				obj->setVelocity(sf::Vector2f(obj->getVelocity().x, 0.f));
 				obj->setPosition(obj->getPosition() + c.getOffset(), false);
 				obj->collisionUp |= c.getOffset().y < 0.f;
@@ -393,16 +416,15 @@ void ObjectManager::doCollision(GameObject* obj) {
 				if (obj->collisionUp) {
 					obj->setGrounded(true);
 				}
-				else if (obj->collisionDown) {
-					gameLevel->getSurfaceMap()->removeShape(c.getGridPos());	
-				}
+
 			}
-			else if (c.getOffset().y == 0.f && c.getOffset().x != 0.f) {
+			if (c.getOffset().x != 0.f) {
 				obj->setVelocity(sf::Vector2f(0.f, obj->getVelocity().y));
 				obj->setPosition(obj->getPosition() + c.getOffset(), false);
 				obj->collisionRight |= c.getOffset().x < 0.f;
 				obj->collisionLeft |= c.getOffset().x > 0.f;
 			}
+			*/
 	 	}
 	}
 

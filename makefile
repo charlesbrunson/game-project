@@ -7,7 +7,7 @@ LIB=-lsfml-graphics -lsfml-window -lsfml-system -lsfml-audio
 CPP=$(wildcard src/*.cpp)
 OBJ=$(patsubst src/%.cpp,object/%.o,$(CPP))
 
-obj/%.o: src/%.cpp
+object/%.o: src/%.cpp
 	@mkdir -p $(@D)
 	$(CXX) $(CFLAG) -c $< -o $@
 

@@ -27,6 +27,11 @@ void SurfaceMap::addShape(const TileShape& t, GridVec2 pos, bool firstSurfaceOnl
 
 		Surface s(t.vertexes[i], t.vertexes[i + 1]);
 
+		s.line.start *= tileSpacing;
+		s.line.end *= tileSpacing;
+		s.line.start += (Vec2(pos) * tileSpacing);
+		s.line.end += (Vec2(pos) * tileSpacing);
+
 		addSurface(s, pos);
 
 		//only get the top surface
@@ -37,21 +42,57 @@ void SurfaceMap::addShape(const TileShape& t, GridVec2 pos, bool firstSurfaceOnl
 	if (!firstSurfaceOnly) {
 		Surface s(t.vertexes[t.shapeNumCorners - 1], t.vertexes[0]);
 
+		s.line.start *= tileSpacing;
+		s.line.end *= tileSpacing;
+		s.line.start += (Vec2(pos) * tileSpacing);
+		s.line.end += (Vec2(pos) * tileSpacing);
+
 		addSurface(s, pos);
 	}
+	
+	//shapeGrid.insert(std::make_pair(pos, std::make_pair(t, firstSurfaceOnly)));
 };
 
 void SurfaceMap::removeShape(GridVec2 pos) {
 
-	auto vecf = surfGrid.find(pos);
-	if (vecf == surfGrid.end()) {
+	/*
+	auto vecf = shapeGrid.find(pos);
+	if (vecf == shapeGrid.end()) {
 		return;
 	}
-	std::vector<Surface>* vec = &vecf->second;
+	TileShape& t = vecf->second.first;
+	bool firstSurfaceOnly = vecf->second.second;
 
-	for (auto i = vec->begin(); i != vec->end(); i++) {
-		removeSurface(*i, pos);
+
+	for (int i = 0; i + 1 < t.shapeNumCorners && i < t.shapeMaxCorners; i++) {
+
+		Surface s(t.vertexes[i], t.vertexes[i + 1]);
+
+		s.line.start *= tileSpacing;
+		s.line.end *= tileSpacing;
+		s.line.start += (Vec2(pos) * tileSpacing);
+		s.line.end += (Vec2(pos) * tileSpacing);
+
+		removeSurface(s, pos);
+
+		//only get the top surface
+		if (firstSurfaceOnly) {
+			break;
+		}
 	}
+	if (!firstSurfaceOnly) {
+		Surface s(t.vertexes[t.shapeNumCorners - 1], t.vertexes[0]);
+
+		s.line.start *= tileSpacing;
+		s.line.end *= tileSpacing;
+		s.line.start += (Vec2(pos) * tileSpacing);
+		s.line.end += (Vec2(pos) * tileSpacing);
+
+		removeSurface(s, pos);
+	}
+
+	shapeGrid.erase(pos);
+	*/
 };
 
 void SurfaceMap::addSurface(Surface ss, GridVec2 pos) {
@@ -61,14 +102,7 @@ void SurfaceMap::addSurface(Surface ss, GridVec2 pos) {
 	}
 	std::vector<Surface>* vec = &vecf->second;
 
-	Surface worldSurf = ss;
-	worldSurf.line.start *= tileSpacing;
-	worldSurf.line.end *= tileSpacing;
-	worldSurf.line.start += (Vec2(pos) * tileSpacing);
-	worldSurf.line.end += (Vec2(pos) * tileSpacing);
-
-
-	static auto checkAdjacentSurfaces = [&worldSurf](Surface& comp, GridVec2 adjPos, GridMap<std::vector<Surface>>& grid) -> bool {
+	static auto checkAdjacentSurfaces = [](Surface& comp, GridVec2 adjPos, GridMap<std::vector<Surface>>& grid) -> bool {
 
 		auto vec = grid.find(adjPos);
 		if (vec == grid.end()) {
@@ -111,35 +145,52 @@ void SurfaceMap::addSurface(Surface ss, GridVec2 pos) {
 	};
 
 	//line is on the border of the grid
-	bool toAdd = true;
-	if (ss.line.start.y == ss.line.end.y && ss.line.start.y == 0.f) {
-		//check above
-		toAdd = checkAdjacentSurfaces(worldSurf, pos + GridVec2(0, -1), surfGrid);
-
+	bool toAdd = checkAdjacentSurfaces(ss, pos, surfGrid);
+	if (toAdd && ss.line.isHorizontal()) {
+		if (ss.line.start.y == pos.y * tileSpacing) {
+			toAdd = checkAdjacentSurfaces(ss, pos + GridVec2(0, -1), surfGrid);
+		}
+		else if (ss.line.start.y == (pos.y + 1) * tileSpacing) {
+			toAdd = checkAdjacentSurfaces(ss, pos + GridVec2(0, 1), surfGrid);
+		}
 	}
-	else if (ss.line.start.x == ss.line.end.x && ss.line.start.x == 1.f) {
-		//check right
-		toAdd = checkAdjacentSurfaces(worldSurf, pos + GridVec2(1, 0), surfGrid);
-
-	}
-	else if (ss.line.start.y == ss.line.end.y && ss.line.start.y == 1.f) {
-		//check below
-		toAdd = checkAdjacentSurfaces(worldSurf, pos + GridVec2(0, 1), surfGrid);
-
-	}
-	else if (ss.line.start.x == ss.line.end.x && ss.line.start.x == 0.f) {
-		//check left
-		toAdd = checkAdjacentSurfaces(worldSurf, pos + GridVec2(-1, 0), surfGrid);
+	else if (toAdd && ss.line.isVertical()) {
+		if (ss.line.start.x == pos.x * tileSpacing) {
+			toAdd = checkAdjacentSurfaces(ss, pos + GridVec2(-1, 0), surfGrid);
+		}
+		else if (ss.line.start.x == (pos.x + 1) * tileSpacing) {
+			toAdd = checkAdjacentSurfaces(ss, pos + GridVec2(1, 0), surfGrid);
+		}
 	}
 
 	if (toAdd) {
-		vec->push_back(worldSurf);
+		vec->push_back(ss);
 	}
 
 }
 
 void SurfaceMap::removeSurface(Surface ss, GridVec2 pos) {
-	//Log::msg("WHOOP");
+	Surface sr = Surface(ss.line.reverse());
+	GridVec2 p = pos;
+
+	if (ss.line.isHorizontal()) {
+		if (ss.line.start.y == pos.y * tileSpacing) {
+			p.y--;	
+		}
+		else if (ss.line.start.y == (pos.y + 1) * tileSpacing) {
+			p.y++;	
+		}
+	}
+	else if (ss.line.isVertical()) {
+		if (ss.line.start.x == pos.x * tileSpacing) {
+			p.x--;	
+		}
+		else if (ss.line.start.x == (pos.x + 1) * tileSpacing) {
+			p.x++;	
+		}
+	}
+	
+	addSurface(sr, p);	
 }
 
 std::vector<Surface>* SurfaceMap::getSurfacesInGrid(GridVec2 place) {

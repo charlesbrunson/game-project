@@ -7,6 +7,8 @@
 #include "game/lvl/Node.hpp"
 #include "obj/TemplateUser.hpp"
 
+#include "phys/Solid.hpp"
+
 class GameObject : public Entity {
 public:
 
@@ -50,7 +52,7 @@ public:
 	
 	// Collision
 	void setCollision(sf::FloatRect col);
-	sf::FloatRect getCollision();
+	Solid& getCollision();
 	
 	void setPosition(sf::Vector2f pos, bool updateOldBox = true);
 
@@ -122,6 +124,7 @@ public:
 	int scoreToAdd = 0;
 
 	sf::Vector2f camFollowOffset;
+	void drawDebug(sf::RenderTarget &target, sf::RenderStates states) const;
 
 protected:
 
@@ -138,7 +141,7 @@ protected:
 	bool hasNode = false;
 
 	//object's collision bounds
-	sf::FloatRect collisionBox;
+	Solid collisionBox;
 	sf::FloatRect oldBox;
 
 	//when this is true this object is due to be removed next step

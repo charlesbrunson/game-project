@@ -346,6 +346,7 @@ void LevelSerializer::writeSurfaceMap(std::ostream& os, SurfaceMap& smap) {
 			write(s.line.end.y, os);
 		}
 	}
+	
 
 }
 
