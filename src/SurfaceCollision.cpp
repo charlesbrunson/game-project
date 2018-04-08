@@ -11,7 +11,7 @@ SurfaceCollision::SurfaceCollision(Surface* ss, GameObject* object, GridVec2 gri
 
 void SurfaceCollision::eval() {
 	valid = false;
-	offset = Vec2();
+	//offset = Vec2();
 
 	if (sur == nullptr || obj == nullptr)
 		return;
@@ -33,24 +33,24 @@ void SurfaceCollision::eval() {
 			
 			if (sur->line.isVertical()) {
 				if (normal.x > 0.f && goingLeft) {
-					offset = normal * (sur->line.start.x - rect.left);				
+					newPos = obj->getPosition() + (normal * (sur->line.start.x - rect.left));
 					valid = true;
 					return;
 				}
 				else if (normal.x < 0.f && goingRight) {
-					offset = normal * (rect.left + rect.width - sur->line.start.x);				
+					newPos = obj->getPosition() + (normal * (rect.left + rect.width - sur->line.start.x));
 					valid = true;
 					return;
 				}
 			}
 			else if (sur->line.isHorizontal()) {
 				if (normal.y > 0.f && goingUp) {
-					offset = normal * (sur->line.start.y - rect.top);				
+					newPos = obj->getPosition() + (normal * (sur->line.start.y - rect.top));
 					valid = true;
 					return;
 				}
 				else if (normal.y < 0.f && goingDown) {
-					offset = normal * (rect.top + rect.height - sur->line.start.y);				
+					newPos = obj->getPosition() + (normal * (rect.top + rect.height - sur->line.start.y));
 					valid = true;
 					return;
 				}
@@ -79,15 +79,15 @@ void SurfaceCollision::eval() {
 		if (Math::dotProd(normal, moveVec) < 0.f) {
 			//collision is possible, time for the nitty gritty
 
-			//check prev is on the right side
+			//check prev is on the right side, add some leniance when dealing with slopes
 			bool prevNoIntersect = 
-				Math::pointOnLine(sur->line, prevVert.start) >= 0.f ==
-				Math::pointOnLine(sur->line, prevVert.end)   >= 0.f;
+				(Math::pointOnLine(sur->line, prevVert.start + Vec2(0.f, normal.y > 0.f ? 1.f : 0.f)) >= 0.f ==
+				 Math::pointOnLine(sur->line, prevVert.end + Vec2(0.f, normal.y < 0.f ? -1.f : 0.f))   >= 0.f);
 
 			//check current is intersecting
 			bool hasIntersect = 
-				Math::pointOnLine(sur->line, centerVert.start) >= 0.f !=
-				Math::pointOnLine(sur->line, centerVert.end)   >= 0.f;
+				(Math::pointOnLine(sur->line, centerVert.start) >= 0.f !=
+				 Math::pointOnLine(sur->line, centerVert.end)   >= 0.f );
 
 			if (prevNoIntersect && hasIntersect) {
 				//its a hit
@@ -96,39 +96,28 @@ void SurfaceCollision::eval() {
 				//going straight down/up means vertical response
 				
 				if (obj->getVelocity().x == 0.f && centerVert.start.x == prevVert.start.x) {
-					offset.x = 0.f;
 
 					float perc  = (centerVert.start.x - leftB) / (rightB - leftB);
 					if (normal.y > 0.f)
 						perc = 1.f - perc;
 
-					Vec2 target = (perc * sur->line.getVector()) + sur->line.start;
+					newPos = (perc * sur->line.getVector()) + sur->line.start;
 
 					if (normal.y > 0.f) {
-						offset.y = target.y - centerVert.start.y;
+						newPos.y += rect.height;
 					}
-					else if (normal.y < 0.f){
-						offset.y = target.y - centerVert.end.y;
-					}
+
 				}
 				else {
 					//use projection
+					newPos = Math::projection((normal.y > 0.f ? centerVert.start : centerVert.end) - sur->line.start, sur->line.getUnit(), true) + sur->line.start;		
 					if (normal.y > 0.f) {
-						offset = Math::projection(centerVert.start - sur->line.start, normal);		
+						newPos += Vec2(0.f, rect.height);
 					}
-					else if (normal.y < 0.f){
-						offset = Math::projection(centerVert.end - sur->line.start, normal);		
-					}
-
-					offset.x = -offset.x;
-					offset.y = -offset.y;
-
-					if (normal.x > 0.f)
-						offset.x += 0.000015f;
-
-					//Log::msg(std::to_string(offset.x) + ", " + std::to_string(offset.y));
-					//Log::msg(std::to_string((centerVert.end.x + offset.x) - place.x * tileSpacing) + ", " + std::to_string((centerVert.end.y + offset.y)- place.y * tileSpacing));
 				}
+				//cancel out if the vector is in the wrong direction due to slope leniance
+				if (newPos - obj->getPosition() == Vec2(0.f, 0.f) || Math::dotProd(newPos - obj->getPosition(), normal) <= 0.f)
+					valid = false;
 
 			}
 		}

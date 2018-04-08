@@ -3,7 +3,7 @@
 void Entity::setVelocity(sf::Vector2f vel) {
 	velocity = vel;
 };
-sf::Vector2f Entity::getVelocity() {
+sf::Vector2f Entity::getVelocity() const {
 	return velocity;
 };
 

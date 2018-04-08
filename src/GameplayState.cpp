@@ -468,11 +468,13 @@ void GameplayState::draw(sf::RenderTarget &target, sf::RenderStates states) cons
 
 		GridMap<std::vector<Surface>>* surf = lvl->getSurfaceMap()->getAllSurfaces();
 		for (auto i = surf->begin(); i != surf->end(); i++) {
-			sf::RectangleShape tilesh;
-			tilesh.setSize(Vec2(tileSpacing, tileSpacing));
-			tilesh.setPosition(Vec2(i->first) * tileSpacing);
-			tilesh.setFillColor(sf::Color(0, 0, 255, 25 * i->second.size()));
-			target.draw(tilesh);
+			sf::VertexArray r(sf::LinesStrip, 5);
+			r[0] = sf::Vertex(Vec2(i->first) * tileSpacing, sf::Color(0, 0, 255, 63 * i->second.size()));
+			r[1] = sf::Vertex(Vec2(i->first + GridVec2(1,0)) * tileSpacing, sf::Color(0, 0, 255, 63 * i->second.size()));
+			r[2] = sf::Vertex(Vec2(i->first + GridVec2(1,1)) * tileSpacing, sf::Color(0, 0, 255, 63 * i->second.size()));
+			r[3] = sf::Vertex(Vec2(i->first + GridVec2(0,1)) * tileSpacing, sf::Color(0, 0, 255, 63 * i->second.size()));
+			r[4] = sf::Vertex(Vec2(i->first) * tileSpacing, sf::Color(0, 0, 255, 63 * i->second.size()));
+			target.draw(r);
 
 			for (auto j = i->second.begin(); j != i->second.end(); j++) {
 				target.draw(*j);

@@ -163,6 +163,20 @@ void GameObject::drawDebug(sf::RenderTarget &target, sf::RenderStates states) co
 #ifdef _DEBUG
 	if (Gameplay_Globals::Debug::objectCollision) {
 
+		sf::FloatRect t(Math::gridBounds(collisionBox));
+		t.left *= tileSpacing;
+		t.top *= tileSpacing;
+		t.width *= tileSpacing;
+		t.height *= tileSpacing;
+
+		sf::VertexArray tV(sf::LinesStrip, 5);
+		tV[0] = sf::Vertex(Math::topleft(t), sf::Color::Yellow);
+		tV[1] = sf::Vertex(Math::topright(t), sf::Color::Yellow);
+		tV[2] = sf::Vertex(Math::bottomright(t), sf::Color::Yellow);
+		tV[3] = sf::Vertex(Math::bottomleft(t), sf::Color::Yellow);
+		tV[4] = sf::Vertex(Math::topleft(t), sf::Color::Yellow);
+		target.draw(tV, states);
+
 		sf::VertexArray colVert(sf::LinesStrip, 5);
 		colVert[0] = sf::Vertex(Math::topleft(collisionBox), sf::Color::Green);
 		colVert[1] = sf::Vertex(Math::topright(collisionBox), sf::Color::Green);
@@ -206,6 +220,11 @@ void GameObject::drawDebug(sf::RenderTarget &target, sf::RenderStates states) co
 
 
 		}
+
+		sf::VertexArray velVert(sf::Lines, 2);
+		velVert[0] = sf::Vertex(Math::center(collisionBox), sf::Color::Blue);
+		velVert[1] = sf::Vertex(velVert[0].position + (getVelocity() / 10.f), sf::Color::Blue);
+		target.draw(velVert, states);
 	}
 #endif
 }

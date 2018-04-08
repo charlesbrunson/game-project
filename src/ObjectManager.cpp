@@ -371,8 +371,9 @@ void ObjectManager::doCollision(GameObject* obj) {
 	doLevelCollision(obj, &collisions);
 
 	std::stable_sort(collisions.begin(), collisions.end(),
-		[](SurfaceCollision a, SurfaceCollision b) {
-			return abs(Math::magnitude(b.getOffset())) > abs(Math::magnitude(a.getOffset()));
+		[&obj](SurfaceCollision a, SurfaceCollision b) {
+			return Math::magnitude(b.newPos - obj->getPosition()) >
+                	Math::magnitude(a.newPos - obj->getPosition());
 		}
 	);
 
@@ -389,20 +390,22 @@ void ObjectManager::doCollision(GameObject* obj) {
 
 
 			Vec2 newVel = obj->getVelocity();
-			newVel = Math::projection(newVel, Line(Point(), c.getOffset()).getLeftHandUnit());
+			newVel = Math::projection(newVel, Line(Point(), c.newPos - obj->getPosition()).getLeftHandUnit());
 
 			obj->setVelocity(newVel);
-			obj->setPosition(obj->getPosition() + c.getOffset(), false);
-			obj->collisionUp |= c.getOffset().y < 0.f;
-			obj->collisionDown |= c.getOffset().y > 0.f;
-			obj->collisionRight |= c.getOffset().x < 0.f && c.getOffset().y == 0.f;
-			obj->collisionLeft |= c.getOffset().x > 0.f && c.getOffset().y == 0.f;
+			//obj->setPosition(obj->getPosition() + c.getOffset(), false);
+			Vec2 offset = c.newPos - plr->getPosition();
+			obj->setPosition(c.newPos, false);
+			obj->collisionUp |= offset.y < 0.f;
+			obj->collisionDown |= offset.y > 0.f;
+			obj->collisionRight |= offset.x < 0.f && offset.y == 0.f;
+			obj->collisionLeft |= offset.x > 0.f && offset.y == 0.f;
 
 			Solid::colFlags f;
-			f.collisionUp = c.getOffset().y < 0.f;
-			f.collisionDown = c.getOffset().y > 0.f;
-			f.collisionRight = c.getOffset().x < 0.f && c.getOffset().y == 0.f;
-			f.collisionLeft = c.getOffset().x > 0.f && c.getOffset().y == 0.f;
+			f.collisionUp = offset.y < 0.f;
+			f.collisionDown = offset.y > 0.f;
+			f.collisionRight = offset.x < 0.f && offset.y == 0.f;
+			f.collisionLeft = offset.x > 0.f && offset.y == 0.f;
 
 			obj->getCollision().curCollisions.push_back(std::make_pair(c.getSurface(), f));
 

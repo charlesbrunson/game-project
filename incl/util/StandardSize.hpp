@@ -7,6 +7,7 @@ namespace StdSizes {
 	const std::size_t charSize = 1;
 	const std::size_t intSize = 4;
 	const std::size_t floatSize = 4;
+	const std::size_t doubleSize = 8;
 
 }
 

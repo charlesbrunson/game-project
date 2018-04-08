@@ -35,7 +35,7 @@ namespace Math {
 
 	float pointOnLine(const Line& line, const Point& p);
 
-	Vec2 projection(const Vec2& a, const Vec2& onto);
+	Vec2 projection(const Vec2& a, const Vec2& onto, bool ontoIsUnit = false);
 	float dotProd(const Vec2& a, const Vec2& b);
 
 	float dist(const sf::Vector2f& i, const sf::Vector2f& j);

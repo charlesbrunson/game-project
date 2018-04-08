@@ -4,6 +4,7 @@
 
 #include "util/Math.hpp"
 #include "game/lvl/Tile.hpp"
+#include "util/Log.hpp"
 
 const float PI_F = 3.14159265358979323846f;
 
@@ -50,14 +51,29 @@ bool Math::intersects(const Line& line, const sf::FloatRect& rect, bool lineIsSe
 	}
 };
 
-Vec2 Math::projection(const Vec2& a, const Vec2& onto) {
-	assert(onto.x != 0.f || onto.y != 0.f);
+Vec2 Math::projection(const Vec2& a, const Vec2& onto, bool ontoIsUnit) {
+
+	if (onto.x == 0.f && onto.y == 0.f) {
+		return Vec2(0.f, 0.f);
+	}
+	else if (onto.x == 0.f) {
+		return Vec2(0.f, a.y);
+	}
+	else if (onto.y == 0.f) {
+		return Vec2(a.x, 0.f);
+	}
 
 	float dp = dotProd(a, onto);
-	return Vec2(
-		(dp / (onto.x * onto.x + onto.y * onto.y)) * onto.x,	
-		(dp / (onto.x * onto.x + onto.y * onto.y)) * onto.y	
-	);
+	if (ontoIsUnit) {
+		return Vec2( dp * onto.x, dp  * onto.y);
+	}
+	else {
+		return Vec2(
+			( dp / (onto.x * onto.x + onto.y * onto.y) ) * onto.x,	
+			( dp / (onto.x * onto.x + onto.y * onto.y) ) * onto.y	
+		);
+	}
+
 }
 float Math::dotProd(const Vec2& a, const Vec2& b) {
 	return (a.x * b.x) + (a.y * b.y);

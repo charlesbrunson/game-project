@@ -29,7 +29,7 @@ public:
 	
 	// Velocity
 	void setVelocity(sf::Vector2f vel);
-	sf::Vector2f getVelocity();
+	sf::Vector2f getVelocity() const;
 
 	// Position
 	virtual void setPosition(sf::Vector2f pos, bool = true) {

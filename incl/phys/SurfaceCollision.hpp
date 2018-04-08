@@ -16,14 +16,17 @@ public:
 
 	void eval();
 
-	inline Vec2 getOffset() { return offset; };
+	//inline Vec2 getOffset() { return newPos - obj->getPosition(); };
 	inline bool isValid() { return valid; };
 	inline GridVec2 getGridPos() { return place; };
 	inline Surface* getSurface() {return sur;};
 
+
+	Vec2 newPos;
+
 private:
 
-	Vec2 offset;
+	//Vec2 offset;
 	bool valid = false;
 
 	Surface* sur;
