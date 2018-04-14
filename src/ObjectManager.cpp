@@ -393,21 +393,23 @@ void ObjectManager::doCollision(GameObject* obj) {
 			newVel = Math::projection(newVel, Line(Point(), c.newPos - obj->getPosition()).getLeftHandUnit());
 
 			obj->setVelocity(newVel);
-			//obj->setPosition(obj->getPosition() + c.getOffset(), false);
 			Vec2 offset = c.newPos - plr->getPosition();
+
+			Solid::Collision soCol;
+			soCol.flags.collisionUp = offset.y < 0.f;
+			soCol.flags.collisionDown = offset.y > 0.f;
+			soCol.flags.collisionRight = offset.x < 0.f && offset.y == 0.f;
+			soCol.flags.collisionLeft = offset.x > 0.f && offset.y == 0.f;
+			soCol.normal = offset / Math::magnitude(offset);
+			soCol.surface = c.getSurface();
+
 			obj->setPosition(c.newPos, false);
-			obj->collisionUp |= offset.y < 0.f;
-			obj->collisionDown |= offset.y > 0.f;
-			obj->collisionRight |= offset.x < 0.f && offset.y == 0.f;
-			obj->collisionLeft |= offset.x > 0.f && offset.y == 0.f;
+			obj->collisionUp |= soCol.flags.collisionUp;
+			obj->collisionDown |= soCol.flags.collisionDown;
+			obj->collisionRight |= soCol.flags.collisionRight;
+			obj->collisionLeft |= soCol.flags.collisionLeft;
 
-			Solid::colFlags f;
-			f.collisionUp = offset.y < 0.f;
-			f.collisionDown = offset.y > 0.f;
-			f.collisionRight = offset.x < 0.f && offset.y == 0.f;
-			f.collisionLeft = offset.x > 0.f && offset.y == 0.f;
-
-			obj->getCollision().curCollisions.push_back(std::make_pair(c.getSurface(), f));
+			obj->getCollision().curCollisions.push_back(soCol);
 
 			/*
 			if (c.getOffset().y != 0.f) {

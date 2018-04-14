@@ -19,19 +19,28 @@ public:
 	Vec2 getCeilUnit();
 
 
-	struct colFlags {
+	struct ColFlags {
 		bool collisionUp    = false;
 		bool collisionDown  = false;
 		bool collisionLeft  = false;
 		bool collisionRight = false;
 	};
 
-	std::vector<std::pair<Surface*, colFlags>> curCollisions;
+	struct Collision {
+		//surface in question
+		Surface* surface;
+		// collision direction flags tripped by this collision
+		ColFlags flags;
+		// a unit vector
+		Vec2 normal;
+	};
+
+	std::vector<Collision> curCollisions;
 
 	bool clingGround = false;
 	bool clingCeil   = false;
 
 	//collision flags
-	colFlags curFlags;
+	ColFlags curFlags;
 };
 

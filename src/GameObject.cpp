@@ -170,11 +170,11 @@ void GameObject::drawDebug(sf::RenderTarget &target, sf::RenderStates states) co
 		t.height *= tileSpacing;
 
 		sf::VertexArray tV(sf::LinesStrip, 5);
-		tV[0] = sf::Vertex(Math::topleft(t), sf::Color::Yellow);
-		tV[1] = sf::Vertex(Math::topright(t), sf::Color::Yellow);
-		tV[2] = sf::Vertex(Math::bottomright(t), sf::Color::Yellow);
-		tV[3] = sf::Vertex(Math::bottomleft(t), sf::Color::Yellow);
-		tV[4] = sf::Vertex(Math::topleft(t), sf::Color::Yellow);
+		tV[0] = sf::Vertex(Math::topleft(t), sf::Color::White);
+		tV[1] = sf::Vertex(Math::topright(t), sf::Color::White);
+		tV[2] = sf::Vertex(Math::bottomright(t), sf::Color::White);
+		tV[3] = sf::Vertex(Math::bottomleft(t), sf::Color::White);
+		tV[4] = sf::Vertex(Math::topleft(t), sf::Color::White);
 		target.draw(tV, states);
 
 		sf::VertexArray colVert(sf::LinesStrip, 5);
@@ -214,8 +214,8 @@ void GameObject::drawDebug(sf::RenderTarget &target, sf::RenderStates states) co
 		surV[0] = sf::Vertex(Point(), sf::Color::Yellow);
 		surV[1] = sf::Vertex(Point(), sf::Color::Yellow);
 		for (auto& ss : collisionBox.curCollisions) {
-			surV[0].position = ss.first->line.start;	
-			surV[1].position = ss.first->line.end;	
+			surV[0].position = ss.surface->line.start;	
+			surV[1].position = ss.surface->line.end;	
 			target.draw(surV, states);
 
 

@@ -537,7 +537,8 @@ void LevelSerializer::readSurfaceMap(std::istream& is, SurfaceMap& smap, int lvl
 			read(st.y, is);
 			read(en.x, is);
 			read(en.y, is);
-			it->second.push_back(Surface(st,en));
+			//it->second.push_back(Surface(st,en));
+			smap.addSurface(Surface(st, en), p, true);
 
 		}
 

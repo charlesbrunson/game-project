@@ -95,12 +95,7 @@ void SurfaceMap::removeShape(GridVec2 pos) {
 	*/
 };
 
-void SurfaceMap::addSurface(Surface ss, GridVec2 pos) {
-	auto vecf = surfGrid.find(pos);
-	if (vecf == surfGrid.end()) {
-		vecf = surfGrid.insert(std::make_pair(pos, std::vector<Surface>())).first;
-	}
-	std::vector<Surface>* vec = &vecf->second;
+void SurfaceMap::addSurface(Surface ss, GridVec2 pos, bool dontCull) {
 
 	static auto checkAdjacentSurfaces = [](Surface& comp, GridVec2 adjPos, GridMap<std::vector<Surface>>& grid) -> bool {
 
@@ -113,6 +108,9 @@ void SurfaceMap::addSurface(Surface ss, GridVec2 pos) {
 				Line sr = s->line.reverse();
 				if (sr == comp.line) {
 					vec->second.erase(s);
+					if (vec->second.empty()){
+						grid.erase(vec);
+					}
 					return false;
 				}
 
@@ -124,6 +122,9 @@ void SurfaceMap::addSurface(Surface ss, GridVec2 pos) {
 					else if (Math::dist(sr) < Math::dist(comp.line) && comp.line.hasPoint(sr.end)) {
 						comp.line.start = sr.end;
 						vec->second.erase(s);
+						if (vec->second.empty()){
+							grid.erase(vec);
+						}
 						return true;
 					}
 				}
@@ -135,6 +136,9 @@ void SurfaceMap::addSurface(Surface ss, GridVec2 pos) {
 					else if (Math::dist(sr) < Math::dist(comp.line) && comp.line.hasPoint(sr.start)) {
 						comp.line.end = sr.start;
 						vec->second.erase(s);
+						if (vec->second.empty()){
+							grid.erase(vec);
+						}
 						return true;
 					}
 				}
@@ -145,26 +149,85 @@ void SurfaceMap::addSurface(Surface ss, GridVec2 pos) {
 	};
 
 	//line is on the border of the grid
-	bool toAdd = checkAdjacentSurfaces(ss, pos, surfGrid);
-	if (toAdd && ss.line.isHorizontal()) {
-		if (ss.line.start.y == pos.y * tileSpacing) {
-			toAdd = checkAdjacentSurfaces(ss, pos + GridVec2(0, -1), surfGrid);
+	bool toAdd = true;
+	if (!dontCull) {
+		toAdd = checkAdjacentSurfaces(ss, pos, surfGrid);
+		if (toAdd && ss.line.isHorizontal()) {
+			if (ss.line.start.y == pos.y * tileSpacing) {
+				toAdd = checkAdjacentSurfaces(ss, pos + GridVec2(0, -1), surfGrid);
+			}
+			else if (ss.line.start.y == (pos.y + 1) * tileSpacing) {
+				toAdd = checkAdjacentSurfaces(ss, pos + GridVec2(0, 1), surfGrid);
+			}
 		}
-		else if (ss.line.start.y == (pos.y + 1) * tileSpacing) {
-			toAdd = checkAdjacentSurfaces(ss, pos + GridVec2(0, 1), surfGrid);
+		else if (toAdd && ss.line.isVertical()) {
+			if (ss.line.start.x == pos.x * tileSpacing) {
+				toAdd = checkAdjacentSurfaces(ss, pos + GridVec2(-1, 0), surfGrid);
+			}
+			else if (ss.line.start.x == (pos.x + 1) * tileSpacing) {
+				toAdd = checkAdjacentSurfaces(ss, pos + GridVec2(1, 0), surfGrid);
+			}
 		}
 	}
-	else if (toAdd && ss.line.isVertical()) {
-		if (ss.line.start.x == pos.x * tileSpacing) {
-			toAdd = checkAdjacentSurfaces(ss, pos + GridVec2(-1, 0), surfGrid);
-		}
-		else if (ss.line.start.x == (pos.x + 1) * tileSpacing) {
-			toAdd = checkAdjacentSurfaces(ss, pos + GridVec2(1, 0), surfGrid);
-		}
+	if (!toAdd) {
+		return;
 	}
 
-	if (toAdd) {
-		vec->push_back(ss);
+	auto vecf = surfGrid.find(pos);
+	if (vecf == surfGrid.end()) {
+		vecf = surfGrid.insert(std::make_pair(pos, std::vector<Surface>())).first;
+	}
+	std::vector<Surface>* vec = &vecf->second;
+
+	vec->push_back(ss);
+
+	static auto tryConnect = [](Surface& a, Surface& b) -> void {
+		if (a.line.isVertical() != b.line.isVertical())
+			return;
+
+		if ((a.line.getVector().x > 0.f) != (b.line.getVector().x > 0.f))
+			return;
+
+		Surface** startConn;
+		Surface** endConn;
+		Surface* start;
+		Surface* end;
+		if (a.line.start == b.line.end) {
+			startConn = &a.startConn;
+			start = &a;
+			endConn = &b.endConn;
+			end = &b;
+		}
+		else if (a.line.end == b.line.start) {
+			startConn = &b.startConn;
+			start = &b;
+			endConn = &a.endConn;
+			end = &a;
+		}
+		else return;
+
+		if (*endConn == nullptr && *startConn == nullptr) {
+			*endConn = start;	
+			*startConn = end;
+		}
+	};
+
+	Surface& s1 = vec->back();
+	for (int x = -1; x <= 1; x++) {
+		for (int y = -1; y <= 1; y++) {
+			if (x == 0 && y == 0)
+				continue;
+
+			auto vec = surfGrid.find(pos + GridVec2(x,y));
+			if (vec != surfGrid.end()) {
+				//Log::msg(std::to_string(x) +", "+std::to_string(y));
+
+				for (Surface& s2 : vec->second) {
+					tryConnect(s1, s2);	
+				}
+
+			}
+		}
 	}
 
 }

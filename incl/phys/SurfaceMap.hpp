@@ -11,6 +11,7 @@
 #include "game/lvl/Tile.hpp"
 
 class SurfaceMap {
+friend class LevelSerializer;
 public:
 
 	SurfaceMap();
@@ -28,7 +29,7 @@ public:
 
 private:
 
-	void addSurface(Surface ss, GridVec2 pos);
+	void addSurface(Surface ss, GridVec2 pos, bool dontCull = false);
 	void removeSurface(Surface ss, GridVec2 pos);
 
 //	void replaceSurface(Surface ss);

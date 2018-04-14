@@ -158,8 +158,6 @@ int PlayerCrouchState::update(sf::Time deltaTime) {
 					plr->createEffect(smokeFX);
 				}
 
-
-
 				slideTimer += deltaTime;
 				
 				if ((slideTimer >= slideDuration && standable) || plr->vel().x == 0) {
@@ -213,7 +211,10 @@ void PlayerCrouchState::updateAnimation(sf::Time deltaTime){
 
 void PlayerCrouchState::slide(PlayerCrouchState *state, Player* plr) {
 
-	plr->setVelX(PlayerState::dashVel * (plr->getAnimSprite().getHFlip() ? -1.f : 1.f));
+	//plr->setVelX(PlayerState::dashVel * (plr->getAnimSprite().getHFlip() ? -1.f : 1.f));
+	float slideMag = PlayerState::dashVel * (plr->getAnimSprite().getHFlip() ? -1.f : 1.f);
+	Vec2 slideVel = plr->getCollision().getFloorUnit() * slideMag;
+	plr->setVelocity(Vec2(0.f, plr->getVelocity().y) + slideVel);
 	state->sliding = true;
 	state->slideTimer = sf::Time::Zero;
 }
