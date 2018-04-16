@@ -47,11 +47,11 @@ namespace Math {
 	const sf::Vector2f lerp(sf::Vector2f a, sf::Vector2f b, float perc);
 
 	const sf::Vector2f normalize(const sf::Vector2f& v);
-	
 	const sf::Vector2f rotate(const sf::Vector2f& v, float rad);
 
 	float angle(const sf::Vector2f& v);
 	float angle(const sf::Vector2f& from, const sf::Vector2f& to);
+	float normalAng(float rad);
 
 	const sf::FloatRect boundingBox(const sf::FloatRect& a, const sf::FloatRect& b);
 	const sf::FloatRect boundingBox(const Vec2& a, const Vec2& b);
@@ -83,6 +83,9 @@ struct Line {
 	};
 	bool operator== (const Line &l) {
 		return l.start == start && l.end == end;
+	}
+	bool operator!= (const Line &l) {
+		return l.start != start || l.end != end;
 	}
 	bool hasPoint(Point p) const {
 		return p.x >= std::min(start.x, end.x) && p.x <= std::min(start.x, end.x) &&

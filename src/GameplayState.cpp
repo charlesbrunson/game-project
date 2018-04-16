@@ -469,11 +469,19 @@ void GameplayState::draw(sf::RenderTarget &target, sf::RenderStates states) cons
 		GridMap<std::vector<Surface>>* surf = lvl->getSurfaceMap()->getAllSurfaces();
 		for (auto i = surf->begin(); i != surf->end(); i++) {
 			sf::VertexArray r(sf::LinesStrip, 5);
-			r[0] = sf::Vertex(Vec2(i->first) * tileSpacing, sf::Color(0, 0, 255, 255));
-			r[1] = sf::Vertex(Vec2(i->first + GridVec2(1,0)) * tileSpacing, sf::Color(0, 0, 255, 255));
-			r[2] = sf::Vertex(Vec2(i->first + GridVec2(1,1)) * tileSpacing, sf::Color(0, 0, 255, 255));
-			r[3] = sf::Vertex(Vec2(i->first + GridVec2(0,1)) * tileSpacing, sf::Color(0, 0, 255, 255));
-			r[4] = sf::Vertex(Vec2(i->first) * tileSpacing, sf::Color(0, 0, 255, 255));
+			r[0] = sf::Vertex(Vec2(i->first) * tileSpacing, sf::Color(0, 0, 255, 100));
+			r[1] = sf::Vertex(Vec2(i->first + GridVec2(1,0)) * tileSpacing, sf::Color(0, 0, 255, 100));
+			r[2] = sf::Vertex(Vec2(i->first + GridVec2(1,1)) * tileSpacing, sf::Color(0, 0, 255, 100));
+			r[3] = sf::Vertex(Vec2(i->first + GridVec2(0,1)) * tileSpacing, sf::Color(0, 0, 255, 100));
+			r[4] = sf::Vertex(Vec2(i->first) * tileSpacing, sf::Color(0, 0, 255, 100));
+			target.draw(r);
+		}
+		auto* corners = &lvl->getSurfaceMap()->corners;
+		for (auto i = corners->begin(); i != corners->end(); i++) {
+			sf::VertexArray r(sf::Triangles, 3);
+			r[0] = sf::Vertex(i->position + Math::rotate(i->normal * 2.f, Math::toRad(90)), sf::Color::Red);	
+			r[1] = sf::Vertex(i->position + i->normal * 2.f, sf::Color::Red);	
+			r[2] = sf::Vertex(i->position + Math::rotate(i->normal * 2.f, Math::toRad(-90)), sf::Color::Red);	
 			target.draw(r);
 		}
 		for (auto i = surf->begin(); i != surf->end(); i++) {

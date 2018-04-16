@@ -110,6 +110,16 @@ const sf::Vector2f Math::rotate(const sf::Vector2f& v, float rad) {
 	float s = sinf(rad);
 	return sf::Vector2f(v.x * c - v.y * s, v.x * s + v.y * c);
 }
+float Math::normalAng(float rad) {
+	float r = rad;
+	if (r < 0.f) {
+		r += 2.f * PI_F;
+	}
+	else if (r >= 2.f * PI_F) {
+		r -= 2.f * PI_F;
+	}
+	return r;
+}
 
 float Math::angle(const sf::Vector2f& v) {
 	return atan2f(v.y, v.x);

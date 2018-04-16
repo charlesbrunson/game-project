@@ -27,6 +27,13 @@ public:
 	//std::vector<Surface*> surfacesStartingAt(Point p);
 	//std::vector<Surface*> surfacesEndingAt(Point p);
 
+	struct Corner {
+		bool valid = false;
+		Vec2 position = Vec2();
+		Vec2 normal = Vec2();
+	};
+	std::vector<Corner> corners;
+
 private:
 
 	void addSurface(Surface ss, GridVec2 pos, bool dontCull = false);
@@ -36,6 +43,7 @@ private:
 //	void initGrid();
 
 	GridMap<std::vector<Surface>> surfGrid;
+
 	sf::Vector2u size;
 };
 

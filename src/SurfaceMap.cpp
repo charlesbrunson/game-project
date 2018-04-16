@@ -212,20 +212,57 @@ void SurfaceMap::addSurface(Surface ss, GridVec2 pos, bool dontCull) {
 		}
 	};
 
+	static auto hasCorner = [](Surface& a, Surface& b) -> Corner {
+		Corner r;
+		if (a.line.isVertical() || b.line.isVertical())
+			return r;
+		
+		if ((a.line.getVector().x > 0.f) != (b.line.getVector().x > 0.f)) {
+			Surface *beforeCorner = nullptr;
+			Surface *afterCorner = nullptr;
+			if (a.line.end == b.line.start) {
+				beforeCorner = &a;
+				afterCorner = &b;
+			}
+			else if (a.line.start == b.line.end) {
+				beforeCorner = &b;
+				afterCorner = &a;
+			}
+
+			if (beforeCorner == nullptr || afterCorner == nullptr)
+				return r;
+
+			float angDiff = Math::angle(afterCorner->line.getVector()) - Math::angle(beforeCorner->line.getVector());
+			angDiff = Math::normalAng(angDiff);
+			angDiff = ceilf(angDiff);
+
+			if (angDiff > 0.f && angDiff < PI_F) {
+				r.valid = true;
+				r.position = beforeCorner->line.end;
+				r.normal = Vec2(beforeCorner->line.getVector().x > 0.f ? 1.f : -1.f, 0.f);
+			}
+		}
+		return r;
+	};
+
 	Surface& s1 = vec->back();
 	for (int x = -1; x <= 1; x++) {
 		for (int y = -1; y <= 1; y++) {
-			if (x == 0 && y == 0)
-				continue;
 
 			auto vec = surfGrid.find(pos + GridVec2(x,y));
 			if (vec != surfGrid.end()) {
-				//Log::msg(std::to_string(x) +", "+std::to_string(y));
 
 				for (Surface& s2 : vec->second) {
-					tryConnect(s1, s2);	
-				}
+					if (s1.line != s2.line) {
+						tryConnect(s1, s2);	
+						auto corner = hasCorner(s1, s2);
 
+						if (corner.valid) {
+							//try add corner
+							corners.push_back(corner);
+						}
+					}
+				}
 			}
 		}
 	}

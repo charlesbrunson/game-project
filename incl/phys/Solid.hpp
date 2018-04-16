@@ -17,6 +17,7 @@ public:
 
 	Vec2 getFloorUnit();
 	Vec2 getCeilUnit();
+	void clearFlags();
 
 
 	struct ColFlags {

@@ -201,6 +201,7 @@ bool TextureFile::loadTileDataFile(const std::string& path) {
 				framecount = prop->get("framecount", -1).asInt();
 			}
 			else if (type == "shape") {
+				currentProp = TileProperty::tileProps::TILE_DEFAULT;
 				hasShape = true;
 			}
 			else {
@@ -215,11 +216,16 @@ bool TextureFile::loadTileDataFile(const std::string& path) {
 			for (auto tileIndex = tileList.begin(); tileIndex != tileList.end(); tileIndex++) {
 				TileProperty::TileData t;
 				GridVector w;
-
 				w.x = tileIndex->get("x", 0).asInt();
 				w.y = tileIndex->get("y", 0).asInt();
-				t.occluding = tileIndex->get("occluding", true).asBool();
-				t.tileProperty = currentProp;
+
+				if (tileData.find(w) == tileData.end()) {
+					t.occluding = tileIndex->get("occluding", true).asBool();
+					t.tileProperty = currentProp;
+				}
+				else {
+					t = tileData.at(w);
+				}
 
 				if (currentProp == TileProperty::tileProps::TILE_ANIMATED) {
 					assert(framerate > -1 && framecount > -1);

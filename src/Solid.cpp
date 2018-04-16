@@ -1,5 +1,13 @@
 #include "phys/Solid.hpp"
 
+void Solid::clearFlags() {
+	curFlags.collisionUp    = false;
+	curFlags.collisionDown  = false;
+	curFlags.collisionLeft  = false;
+	curFlags.collisionRight = false;
+}
+
+
 Vec2 Solid::getFloorUnit() {
 	Vec2 v(1.f, 0.f);
 
