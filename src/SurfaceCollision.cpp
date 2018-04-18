@@ -5,13 +5,13 @@
 #include "obj/GameObject.hpp"
 #include <cfloat>
 
-SurfaceCollision::SurfaceCollision(Surface* ss, GameObject* object, GridVec2 gridpos) : sur(ss), obj(object), place(gridpos) {
+SurfaceCollision::SurfaceCollision(Surface* ss, GameObject* object, GridVec2 gridpos) : Collision(object, gridpos), sur(ss) {
+	type = CollisionType::SurfaceType;
 	eval();
 };
 
 void SurfaceCollision::eval() {
 	valid = false;
-	//offset = Vec2();
 
 	if (sur == nullptr || obj == nullptr)
 		return;
@@ -20,18 +20,17 @@ void SurfaceCollision::eval() {
 
 	//surface is orthogonal
 	if (sur->line.isVertical()) {
-		type = CollisionType::WallCollision;
 		wallCollision();
 	}
 	//surface is diagonal/horizontal
 	//we can assume normal.x != 0 and normal y != 0
 	else {
-		type = normal.y < 0.f ? CollisionType::FloorCollision : CollisionType::CeilCollision;
 		surfaceCollision();
 	}
 }
 
 void SurfaceCollision::surfaceCollision() {
+	startPos = obj->getPosition();
 	bool extendLeft = normal.y < 0.f ? sur->startConn == nullptr : sur->endConn == nullptr;
 	bool extendRight = normal.y > 0.f ? sur->startConn == nullptr : sur->endConn == nullptr;
 
@@ -48,7 +47,7 @@ void SurfaceCollision::surfaceCollision() {
 	Line centerVert(Point(oPos.x, rect.top), Point(oPos.x, rect.top + rect.height));
 	Line prevVert(  Point(Math::center(prev).x, prev.top), Point(Math::center(prev).x, prev.top + prev.height));
 
-	if (centerVert.start.x <= leftB - (extendLeft ? rect.width : 0.f) ||
+	if (centerVert.start.x < leftB - (extendLeft ? rect.width : 0.f) ||
 		centerVert.start.x > rightB + (extendRight ? rect.width : 0.f))
 		return;
 
@@ -97,12 +96,12 @@ void SurfaceCollision::surfaceCollision() {
 			if (!valid)
 				return;
 
-			newPos = Math::projection((normal.y > 0.f ? centerVert.start : centerVert.end) - sur->line.start, sur->line.getUnit(), true) + sur->line.start;		
+			endPos = Math::projection((normal.y > 0.f ? centerVert.start : centerVert.end) - sur->line.start, sur->line.getUnit(), true) + sur->line.start;		
 			if (normal.y > 0.f) {
-				newPos += Vec2(0.f, rect.height);
+				endPos += Vec2(0.f, rect.height);
 			}
 
-			if (newPos - obj->getPosition() == Vec2(0.f, 0.f) || Math::dotProd(newPos - obj->getPosition(), normal) <= 0.f)
+			if (endPos - obj->getPosition() == Vec2(0.f, 0.f) || Math::dotProd(endPos - obj->getPosition(), normal) <= 0.f)
 				valid = false;
 
 		}
@@ -115,14 +114,15 @@ void SurfaceCollision::surfaceCollision() {
 
 		if (prevNoIntersect && hasIntersect) {
 			valid = Math::dotProd(normal.y < 0.f ? Vec2(0.f, -1.f) : Vec2(0.f, 1.f), moveVec) < 0.f;
-			newPos = obj->getPosition();
-			newPos.y = flatY;
+			endPos = obj->getPosition();
+			endPos.y = flatY;
 			if (normal.y > 0.f) {
-				newPos += Vec2(0.f, rect.height);
+				endPos += Vec2(0.f, rect.height);
 			}
 		}
 	}
 }
+
 void SurfaceCollision::wallCollision() {
 
 	sf::FloatRect rect = obj->getCollision();
@@ -137,34 +137,30 @@ void SurfaceCollision::wallCollision() {
 		
 		if (sur->line.isVertical()) {
 			if (normal.x > 0.f && goingLeft) {
-				newPos = obj->getPosition() + (normal * (sur->line.start.x - rect.left));
+				endPos = obj->getPosition() + (normal * (sur->line.start.x - rect.left));
 				valid = true;
 				return;
 			}
 			else if (normal.x < 0.f && goingRight) {
-				newPos = obj->getPosition() + (normal * (rect.left + rect.width - sur->line.start.x));
+				endPos = obj->getPosition() + (normal * (rect.left + rect.width - sur->line.start.x));
 				valid = true;
 				return;
 			}
 		}
 		else if (sur->line.isHorizontal()) {
 			if (normal.y > 0.f && goingUp) {
-				newPos = obj->getPosition() + (normal * (sur->line.start.y - rect.top));
+				endPos = obj->getPosition() + (normal * (sur->line.start.y - rect.top));
 				valid = true;
 				return;
 			}
 			else if (normal.y < 0.f && goingDown) {
-				newPos = obj->getPosition() + (normal * (rect.top + rect.height - sur->line.start.y));
+				endPos = obj->getPosition() + (normal * (rect.top + rect.height - sur->line.start.y));
 				valid = true;
 				return;
 			}
 		}
 	}
 }
-void SurfaceCollision::cornerCollision() {
-
-}
-
 
 
 

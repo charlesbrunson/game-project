@@ -18,19 +18,21 @@ Vec2 Solid::getFloorUnit() {
 
 	for (auto& ss : curCollisions) {
 		if (ss.flags.collisionUp) {
+			Vec2 normal = ss.collision->getSurfaceNormal();
+			//Log::msg(std::to_string(normal.x) + ", " + std::to_string(normal.y));
 
-			if (ss.normal == Vec2(0.f, -1.f))
+			if (normal == Vec2(0.f, -1.f))
 				return v;
 
 			if (hasSurf) {
-				testAngle = Math::angle(ss.normal) + Math::toRad(90);
+				testAngle = Math::angle(normal) + Math::toRad(90);
 				if (abs(testAngle - targetAngle) < abs(curAngle - targetAngle)) {
 					curAngle = testAngle;
 				}
 			}
 			else {
 				hasSurf = true;
-				curAngle = Math::angle(ss.normal) + Math::toRad(90);
+				curAngle = Math::angle(normal) + Math::toRad(90);
 			}
 		}
 	}

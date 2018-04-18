@@ -366,50 +366,49 @@ void ObjectManager::doCollision(GameObject* obj) {
 
 	obj->getCollision().curCollisions.clear();
 
-	std::vector<SurfaceCollision> collisions;
+	std::vector<Collision*> collisions;
 
 	doLevelCollision(obj, &collisions);
 
 	std::stable_sort(collisions.begin(), collisions.end(),
-		[&obj](SurfaceCollision a, SurfaceCollision b) {
-			return Math::magnitude(b.newPos - obj->getPosition()) >
-                	Math::magnitude(a.newPos - obj->getPosition());
+		[&obj](const Collision* a, const Collision* b) {
+			return Math::magnitude(b->getEndPos() - b->getStartPos()) >
+                   Math::magnitude(a->getEndPos() - a->getStartPos());
 		}
 	);
 
 	bool first = true;
-	for (SurfaceCollision& c : collisions) {
+	for (Collision* c : collisions) {
 		if (!first) {
-			c.eval();
+			c->eval();
 		}
-		else {
+		if (c->isValid()) {
+
+
 			first = false;
-		}
-
-		if (c.isValid()) {
-
-
 			Vec2 newVel = obj->getVelocity();
-			newVel = Math::projection(newVel, Line(Point(), c.newPos - obj->getPosition()).getLeftHandUnit());
+			Line line(Point(0.f, 0.f), c->getEndPos() - obj->getPosition());
+			if (line.start != line.end)
+				newVel = Math::projection(newVel, line.getLeftHandUnit(), true);
+
 
 			obj->setVelocity(newVel);
-			Vec2 offset = c.newPos - plr->getPosition();
+			Vec2 offset = c->getEndPos() - plr->getPosition();
+			obj->setPosition(c->getEndPos(), false);
 
-			Solid::Collision soCol;
+			Solid::SolidCollision soCol;
 			soCol.flags.collisionUp = offset.y < 0.f;
 			soCol.flags.collisionDown = offset.y > 0.f;
 			soCol.flags.collisionRight = offset.x < 0.f && offset.y == 0.f;
 			soCol.flags.collisionLeft = offset.x > 0.f && offset.y == 0.f;
-			soCol.normal = offset / Math::magnitude(offset);
-			soCol.surface = c.getSurface();
+			soCol.collision.reset(c);
 
-			obj->setPosition(c.newPos, false);
 			obj->collisionUp |= soCol.flags.collisionUp;
 			obj->collisionDown |= soCol.flags.collisionDown;
 			obj->collisionRight |= soCol.flags.collisionRight;
 			obj->collisionLeft |= soCol.flags.collisionLeft;
 
-			obj->getCollision().curCollisions.push_back(soCol);
+			obj->getCollision().curCollisions.push_back(std::move(soCol));
 
 			/*
 			if (c.getOffset().y != 0.f) {
@@ -436,7 +435,7 @@ void ObjectManager::doCollision(GameObject* obj) {
 
 };
 
-void ObjectManager::doLevelCollision(GameObject *obj, std::vector<SurfaceCollision>* collisions) {
+void ObjectManager::doLevelCollision(GameObject *obj, std::vector<Collision*>* collisions) {
 
 	sf::IntRect gridBounds;
 	gridBounds.left = (int)std::floor(obj->getCollision().left / (float)tileSpacing);
@@ -446,23 +445,42 @@ void ObjectManager::doLevelCollision(GameObject *obj, std::vector<SurfaceCollisi
 
 	for (int x = gridBounds.left; x < gridBounds.left + gridBounds.width; x++) {
 		for (int y = gridBounds.top; y < gridBounds.top + gridBounds.height; y++) {
+
 			auto svec = gameLevel->getSurfaceMap()->getSurfacesInGrid(GridVec2(x,y));
-
-			if (svec == nullptr) {
-
-				continue;
-			}
-			else {
+			if (svec != nullptr) {
 
 				for (Surface& ss : *svec) {
 					//SurfaceCollision col(&ss, obj->getCollision(), obj->getPrevFrameCollision());
-					SurfaceCollision col(&ss, obj, GridVec2(x, y));
+					//SurfaceCollision col(&ss, obj, GridVec2(x, y));
+					Collision* col = Collision::createCollision(&ss, obj, GridVec2(x, y));
 
-					if (col.isValid()) {
-						collisions->push_back(col);	
+					if (col->isValid()) {
+						collisions->push_back(std::move(col));	
+					}
+					else {
+						delete col;
 					}
 				}
 			}
+
+			auto cvec = gameLevel->getSurfaceMap()->getCornersInGrid(GridVec2(x,y));
+			if (cvec != nullptr) {
+
+				for (Corner& cc : *cvec) {
+					//SurfaceCollision col(&ss, obj->getCollision(), obj->getPrevFrameCollision());
+					//SurfaceCollision col(&ss, obj, GridVec2(x, y));
+					Collision* col = Collision::createCollision(&cc, obj, GridVec2(x, y));
+
+					if (col->isValid()) {
+						collisions->push_back(std::move(col));	
+					}
+					else {
+						delete col;
+					}
+				}
+			}
+
+
 		}
 	}
 

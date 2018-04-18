@@ -245,6 +245,39 @@ void SurfaceMap::addSurface(Surface ss, GridVec2 pos, bool dontCull) {
 		return r;
 	};
 
+	static auto addCorner = [](Corner& corner, GridVec2 pos, GridMap<std::vector<Corner>>* cGrid) -> bool {
+		bool addCorner = false;
+		if (corner.valid) {
+			addCorner = true;
+			//try add corner
+			auto cp = cGrid->find(pos);
+			if (cp == cGrid->end()) {
+				cp = cGrid->insert(std::make_pair(pos, std::vector<Corner>())).first;
+				cp->second.push_back(corner);
+			}
+			else {
+				for (auto c = cp->second.begin(); c != cp->second.end(); c++) {
+					if (c->position == corner.position) {
+						if (c->normal == corner.normal) {
+							addCorner = false;
+							break;
+						}
+						else if (c->normal == -corner.normal) {
+							addCorner = false;
+							cp->second.erase(c);
+							break;
+						}
+
+					}
+
+				}
+				if (addCorner)
+					cp->second.push_back(corner);
+			}
+		}
+		return addCorner;
+	};
+
 	Surface& s1 = vec->back();
 	for (int x = -1; x <= 1; x++) {
 		for (int y = -1; y <= 1; y++) {
@@ -255,12 +288,11 @@ void SurfaceMap::addSurface(Surface ss, GridVec2 pos, bool dontCull) {
 				for (Surface& s2 : vec->second) {
 					if (s1.line != s2.line) {
 						tryConnect(s1, s2);	
-						auto corner = hasCorner(s1, s2);
+						Corner corner = hasCorner(s1, s2);
 
-						if (corner.valid) {
-							//try add corner
-							corners.push_back(corner);
-						}
+						GridVec2 cornerPos( floorf(corner.position.x / tileSpacing), floorf(corner.position.y / tileSpacing) );
+
+						addCorner(corner, cornerPos, &cornerGrid);	
 					}
 				}
 			}
@@ -296,9 +328,15 @@ void SurfaceMap::removeSurface(Surface ss, GridVec2 pos) {
 std::vector<Surface>* SurfaceMap::getSurfacesInGrid(GridVec2 place) {
 	return surfGrid.find(place) != surfGrid.end() ? &surfGrid.at(place) : nullptr;	
 }
+std::vector<Corner>* SurfaceMap::getCornersInGrid(GridVec2 place) {
+	return cornerGrid.find(place) != cornerGrid.end() ? &cornerGrid.at(place) : nullptr;	
+}
 
 GridMap<std::vector<Surface>>* SurfaceMap::getAllSurfaces() {
 	return &surfGrid;
+}
+GridMap<std::vector<Corner>>* SurfaceMap::getAllCorners() {
+	return &cornerGrid;
 }
 
 /*

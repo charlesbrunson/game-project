@@ -476,13 +476,15 @@ void GameplayState::draw(sf::RenderTarget &target, sf::RenderStates states) cons
 			r[4] = sf::Vertex(Vec2(i->first) * tileSpacing, sf::Color(0, 0, 255, 100));
 			target.draw(r);
 		}
-		auto* corners = &lvl->getSurfaceMap()->corners;
+		auto corners = lvl->getSurfaceMap()->getAllCorners();
 		for (auto i = corners->begin(); i != corners->end(); i++) {
-			sf::VertexArray r(sf::Triangles, 3);
-			r[0] = sf::Vertex(i->position + Math::rotate(i->normal * 2.f, Math::toRad(90)), sf::Color::Red);	
-			r[1] = sf::Vertex(i->position + i->normal * 2.f, sf::Color::Red);	
-			r[2] = sf::Vertex(i->position + Math::rotate(i->normal * 2.f, Math::toRad(-90)), sf::Color::Red);	
-			target.draw(r);
+			for (auto& j : i->second) {
+				sf::VertexArray r(sf::Triangles, 3);
+				r[0] = sf::Vertex(j.position + Math::rotate(j.normal * 2.f, Math::toRad(90)), sf::Color::Red);	
+				r[1] = sf::Vertex(j.position + j.normal * 2.f, sf::Color::Red);	
+				r[2] = sf::Vertex(j.position + Math::rotate(j.normal * 2.f, Math::toRad(-90)), sf::Color::Red);	
+				target.draw(r);
+			}
 		}
 		for (auto i = surf->begin(); i != surf->end(); i++) {
 			for (auto j = i->second.begin(); j != i->second.end(); j++) {

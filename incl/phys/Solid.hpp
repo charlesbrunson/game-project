@@ -1,7 +1,7 @@
 
 #include <SFML/Graphics.hpp>
 
-#include "phys/SurfaceCollision.hpp"
+#include "phys/Collision.hpp"
 #include "util/Log.hpp"
 
 class Solid : public sf::Rect<float> {
@@ -27,16 +27,14 @@ public:
 		bool collisionRight = false;
 	};
 
-	struct Collision {
-		//surface in question
-		Surface* surface;
+	struct SolidCollision {
+		//collision in question
+		std::unique_ptr<Collision> collision;
 		// collision direction flags tripped by this collision
 		ColFlags flags;
-		// a unit vector
-		Vec2 normal;
 	};
 
-	std::vector<Collision> curCollisions;
+	std::vector<SolidCollision> curCollisions;
 
 	bool clingGround = false;
 	bool clingCeil   = false;

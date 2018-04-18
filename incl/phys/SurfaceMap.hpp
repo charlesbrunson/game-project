@@ -1,7 +1,8 @@
 #ifndef SURFACEMAP_H
 #define SURFACEMAP_H
 
-#include "Surface.hpp"
+#include "phys/Surface.hpp"
+#include "phys/Corner.hpp"
 
 //contains level surfaces
 //fast access by grid or iterator
@@ -23,26 +24,17 @@ public:
 	void removeShape(GridVec2 pos);
 
 	std::vector<Surface>* getSurfacesInGrid(GridVec2 place);
+	std::vector<Corner>* getCornersInGrid(GridVec2 place);
 	GridMap<std::vector<Surface>>* getAllSurfaces();
-	//std::vector<Surface*> surfacesStartingAt(Point p);
-	//std::vector<Surface*> surfacesEndingAt(Point p);
-
-	struct Corner {
-		bool valid = false;
-		Vec2 position = Vec2();
-		Vec2 normal = Vec2();
-	};
-	std::vector<Corner> corners;
+	GridMap<std::vector<Corner>>* getAllCorners();
 
 private:
 
 	void addSurface(Surface ss, GridVec2 pos, bool dontCull = false);
 	void removeSurface(Surface ss, GridVec2 pos);
 
-//	void replaceSurface(Surface ss);
-//	void initGrid();
-
 	GridMap<std::vector<Surface>> surfGrid;
+	GridMap<std::vector<Corner>>  cornerGrid;
 
 	sf::Vector2u size;
 };

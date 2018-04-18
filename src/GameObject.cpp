@@ -2,6 +2,8 @@
 #include <math.h>
 
 #include "obj/GameObject.hpp"
+#include "phys/SurfaceCollision.hpp"
+#include "phys/CornerCollision.hpp"
 
 void GameObject::setCollision(sf::FloatRect col) {
 	collisionBox = col;
@@ -210,14 +212,32 @@ void GameObject::drawDebug(sf::RenderTarget &target, sf::RenderStates states) co
 
 		target.draw(posRect, states);
 
-		sf::VertexArray surV(sf::Lines, 2);
+		sf::VertexArray surV(sf::Quads, 4);
 		surV[0] = sf::Vertex(Point(), sf::Color::Yellow);
 		surV[1] = sf::Vertex(Point(), sf::Color::Yellow);
-		for (auto& ss : collisionBox.curCollisions) {
-			surV[0].position = ss.surface->line.start;	
-			surV[1].position = ss.surface->line.end;	
-			target.draw(surV, states);
+		surV[2] = sf::Vertex(Point(), sf::Color::Yellow);
+		surV[3] = sf::Vertex(Point(), sf::Color::Yellow);
+		sf::VertexArray corV(sf::Triangles, 3);
+		corV[0] = sf::Vertex(Point(), sf::Color::Yellow);
+		corV[1] = sf::Vertex(Point(), sf::Color::Yellow);
+		corV[2] = sf::Vertex(Point(), sf::Color::Yellow);
+		for (auto& col : collisionBox.curCollisions) {
+			if (col.collision->getType() == Collision::CollisionType::SurfaceType) {
+				Surface* ss = ((SurfaceCollision*)(col.collision.get()))->getSurface();
+				surV[0].position = ss->line.start;	
+				surV[1].position = ss->line.end;	
+				surV[2].position = ss->line.end - ss->line.getLeftHandUnit();	
+				surV[3].position = ss->line.start - ss->line.getLeftHandUnit();	
+				target.draw(surV, states);
 
+			}
+			else if (col.collision->getType() == Collision::CollisionType::CornerType) {
+				Corner* cc = ((CornerCollision*)(col.collision.get()))->getCorner();
+				corV[0].position = cc->position + Math::rotate(cc->normal * 2.f, Math::toRad(90));
+				corV[1].position = cc->position + cc->normal * 2.f;
+				corV[2].position = cc->position + Math::rotate(cc->normal * 2.f, Math::toRad(-90));
+				target.draw(corV);
+			}
 
 		}
 

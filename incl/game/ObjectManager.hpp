@@ -15,13 +15,15 @@
 
 #include <memory>
 
-#include "phys/SurfaceCollision.hpp"
+#include "phys/Collision.hpp"
+//#include "phys/SurfaceCollision.hpp"
 
 
 //manages objects in gameplay state
 class ObjectManager {
 public:
 
+	/*
 	struct Collision {
 		bool horizontal = true;
 		float magnitude = 0;
@@ -33,6 +35,7 @@ public:
 		bool valid = true;
 		int dir = -1; //0 = up, 1 = right, etc
 	};
+	*/
 
 	ObjectManager(Level *lvl) {
 		gameLevel = lvl;
@@ -108,7 +111,7 @@ private:
 	//void resolveCollisions(GameObject *obj, std::vector<Collision> *collisions);
 	
 	void doCollision(GameObject* obj);
-	void doLevelCollision(GameObject* obj, std::vector<SurfaceCollision> *collisions);
+	void doLevelCollision(GameObject* obj, std::vector<Collision*>* collisions);
 
 	std::map<std::string, sf::Sound> sounds;
 
