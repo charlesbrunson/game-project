@@ -51,6 +51,63 @@ bool Math::intersects(const Line& line, const sf::FloatRect& rect, bool lineIsSe
 	}
 };
 
+Vec2 Math::intersection(const Line& a, const Line& b) {
+
+	sf::Vector2<double> a1;
+	a1.x = a.start.x;
+	a1.y = a.start.y;
+
+	sf::Vector2<double> a2;
+	a2.x = a.end.x;
+	a2.y = a.end.y;
+
+	sf::Vector2<double> b1;
+	b1.x = b.start.x;
+	b1.y = b.start.y;
+
+	sf::Vector2<double> b2;
+	b2.x = b.end.x;
+	b2.y = b.end.y;
+
+	bool aVert = a2.x - a1.x == 0.0;
+	bool bVert = b2.x - b1.x == 0.0;
+
+	if (!aVert && !bVert) {
+		double aSlope = (a2.y - a1.y) / (a2.x - a1.x);
+		double bSlope = (b2.y - b1.y) / (b2.x - b1.x);
+
+		double aIntercept = (-aSlope * a2.x) + (a2.y);
+		double bIntercept = (-bSlope * b2.x) + (b2.y);
+
+		if (aSlope == bSlope) {
+			Log::msg("Math::intersection, these are both parallel");
+			return Vec2(0.f, 0.f);
+		}
+
+		sf::Vector2<double> intersection;
+		intersection.x = (bIntercept - aIntercept) / (aSlope - bSlope);
+		intersection.y = aSlope * intersection.x + aIntercept;
+
+		return Vec2(intersection.x, intersection.y);
+	}
+	else if (aVert) {
+		double bSlope = (b2.y - b1.y) / (b2.x - b1.x);
+		double bIntercept = (-bSlope * b2.x) + (b2.y);
+
+		return Vec2(a1.x, bSlope * a1.x + bIntercept);
+	}
+	else if (bVert) {
+		double aSlope = (a2.y - a1.y) / (a2.x - a1.x);
+		double aIntercept = (-aSlope * a2.x) + (a2.y);
+
+		return Vec2(b1.x, aSlope * b1.x + aIntercept);
+	}
+	else {
+		Log::msg("Math::intersection, these are both vertical");
+		return Vec2(0.f, 0.f);
+	}
+};
+
 Vec2 Math::projection(const Vec2& a, const Vec2& onto, bool ontoIsUnit) {
 
 	if (onto.x == 0.f && onto.y == 0.f) {

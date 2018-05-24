@@ -32,6 +32,7 @@ namespace Math {
 	const sf::Vector2f diff(const sf::Vector2f& i, const sf::Vector2f& j);
 
 	bool intersects(const Line& line, const sf::FloatRect& rect, bool lineIsSegment = true);
+	Vec2 intersection(const Line& a, const Line& b);
 
 	float pointOnLine(const Line& line, const Point& p);
 
@@ -70,6 +71,7 @@ namespace Math {
 };
 
 struct Line {
+	Line() : start(0.f, 0.f), end(0.f, 0.f) {};
 	Line(Point s, Point e) : start(s), end(e) {};
 
 	Point start;

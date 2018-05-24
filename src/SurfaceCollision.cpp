@@ -92,6 +92,7 @@ void SurfaceCollision::surfaceCollision() {
 		if (prevNoIntersect && hasIntersect) {
 			//its a hit
 
+			//same direction
 			valid = Math::dotProd(normal, moveVec) < 0.f;
 			if (!valid)
 				return;
@@ -116,6 +117,7 @@ void SurfaceCollision::surfaceCollision() {
 			valid = Math::dotProd(normal.y < 0.f ? Vec2(0.f, -1.f) : Vec2(0.f, 1.f), moveVec) < 0.f;
 			endPos = obj->getPosition();
 			endPos.y = flatY;
+			normal = Vec2(0.f, normal.y > 0.f ? 1.f : -1.f);
 			if (normal.y > 0.f) {
 				endPos += Vec2(0.f, rect.height);
 			}
@@ -128,13 +130,39 @@ void SurfaceCollision::wallCollision() {
 	sf::FloatRect rect = obj->getCollision();
 	sf::FloatRect prev = obj->getPrevFrameCollision();
 
-	bool goingUp    = rect.top < prev.top;
 	bool goingLeft  = rect.left < prev.left;
-	bool goingDown  = rect.top + rect.height > prev.top + prev.height;
 	bool goingRight = rect.left + rect.width > prev.left + prev.width;
 
+	bool prevNoIntersect = false;
+	bool hasIntersect = false;
+
+	if (normal.x > 0.f && goingLeft) {
+		prevNoIntersect = prev.left >= sur->line.start.x;
+		hasIntersect = rect.left < sur->line.start.x &&
+			rect.top + rect.height > std::min(sur->line.start.y, sur->line.end.y) &&
+			rect.top < std::max(sur->line.start.y, sur->line.end.y);
+
+		if (prevNoIntersect && hasIntersect) {
+				endPos = obj->getPosition() + (normal * (sur->line.start.x - rect.left));
+				valid = true;
+				return;
+		}
+	}
+	else if (normal.x < 0.f && goingRight) {
+		prevNoIntersect = prev.left + prev.width <= sur->line.start.x;
+		hasIntersect = rect.left + rect.width > sur->line.start.x &&
+			rect.top + rect.height > std::min(sur->line.start.y, sur->line.end.y) &&
+			rect.top < std::max(sur->line.start.y, sur->line.end.y);
+
+		if (prevNoIntersect && hasIntersect) {
+				endPos = obj->getPosition() + (normal * (rect.left + rect.width - sur->line.start.x));
+				valid = true;
+				return;
+		}
+	}
+
+	/*
 	if (Math::intersects(sur->line, rect) && !Math::intersects(sur->line, prev, false)) {
-		
 		if (sur->line.isVertical()) {
 			if (normal.x > 0.f && goingLeft) {
 				endPos = obj->getPosition() + (normal * (sur->line.start.x - rect.left));
@@ -147,19 +175,8 @@ void SurfaceCollision::wallCollision() {
 				return;
 			}
 		}
-		else if (sur->line.isHorizontal()) {
-			if (normal.y > 0.f && goingUp) {
-				endPos = obj->getPosition() + (normal * (sur->line.start.y - rect.top));
-				valid = true;
-				return;
-			}
-			else if (normal.y < 0.f && goingDown) {
-				endPos = obj->getPosition() + (normal * (rect.top + rect.height - sur->line.start.y));
-				valid = true;
-				return;
-			}
-		}
 	}
+	*/
 }
 
 

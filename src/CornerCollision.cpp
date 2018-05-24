@@ -18,7 +18,7 @@ void CornerCollision::eval() {
 	sf::FloatRect prev = obj->getPrevFrameCollision();
 
 	bool goingLeft  = rect.left < prev.left;
-	bool goingRight = rect.left + rect.width > prev.left + prev.width;
+	bool goingRight = rect.left + rect.width >= prev.left + prev.width;
 
 	auto rectIntersects = [](const sf::FloatRect& r, const Point& p) -> bool {
 		return p.x > r.left && p.x < r.left + r.width &&
@@ -31,16 +31,13 @@ void CornerCollision::eval() {
 			if (goingLeft && prev.left >= corner->position.x) {
 				endPos = obj->getPosition() + (normal * (corner->position.x - rect.left));
 				valid = true;
+				return;
 			}
 			else if (goingRight && prev.left + prev.width <= corner->position.x) {
 				endPos = obj->getPosition() + (normal * (rect.left + rect.width - corner->position.x));
 				valid = true;
+				return;
 			}
-			//if (valid) {
-			//	Log::msg(std::to_string(startPos.x) +", "+ std::to_string(startPos.y));
-			//	Log::msg(std::to_string(endPos.x) +", "+ std::to_string(endPos.y));
-			//}
-			return;
 		}
 	}
 

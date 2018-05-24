@@ -24,8 +24,8 @@ Engine::Engine() {
 		activeState = new GameplayState();
 
 		// Setup default FPS settings
-		_maxUpdatePerSec = 144.0;
-		_maxDrawPerSec = 144.0;
+		_maxUpdatePerSec = 200.0;
+		_maxDrawPerSec = 200.0;
 		_uncappedFPS = false;
 
 #ifdef _DEBUG

@@ -526,7 +526,7 @@ void LevelSerializer::readSurfaceMap(std::istream& is, SurfaceMap& smap, int lvl
 		read(p.x, is);
 		read(p.y, is);
 
-		auto it = smap.getAllSurfaces()->insert(std::make_pair(p, std::vector<Surface>())).first;
+		//auto it = smap.getAllSurfaces()->insert(std::make_pair(p, std::vector<Surface>())).first;
 
 		int vsize = 0;
 		read(vsize, is);

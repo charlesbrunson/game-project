@@ -111,7 +111,9 @@ private:
 	//void resolveCollisions(GameObject *obj, std::vector<Collision> *collisions);
 	
 	void doCollision(GameObject* obj);
-	void doLevelCollision(GameObject* obj, std::vector<Collision*>* collisions);
+	//void doLevelCollision(GameObject* obj, std::vector<Collision*>* collisions);
+	void compareCollisions(Collision& left, Collision& right, std::vector<Collision*>* collisions);
+	void objCollideInGrid(GameObject* obj, GridVec2 pos, std::vector<Collision*>* collisions);
 
 	std::map<std::string, sf::Sound> sounds;
 

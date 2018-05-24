@@ -4,6 +4,7 @@
 #include "obj/GameObject.hpp"
 #include "phys/SurfaceCollision.hpp"
 #include "phys/CornerCollision.hpp"
+#include "phys/WedgeCollision.hpp"
 
 void GameObject::setCollision(sf::FloatRect col) {
 	collisionBox = col;
@@ -221,6 +222,11 @@ void GameObject::drawDebug(sf::RenderTarget &target, sf::RenderStates states) co
 		corV[0] = sf::Vertex(Point(), sf::Color::Yellow);
 		corV[1] = sf::Vertex(Point(), sf::Color::Yellow);
 		corV[2] = sf::Vertex(Point(), sf::Color::Yellow);
+		sf::VertexArray wedgeV(sf::Lines, 4);
+		wedgeV[0] = sf::Vertex(Point(), sf::Color::Yellow);
+		wedgeV[1] = sf::Vertex(Point(), sf::Color::Yellow);
+		wedgeV[2] = sf::Vertex(Point(), sf::Color::Yellow);
+		wedgeV[3] = sf::Vertex(Point(), sf::Color::Yellow);
 		for (auto& col : collisionBox.curCollisions) {
 			if (col.collision->getType() == Collision::CollisionType::SurfaceType) {
 				Surface* ss = ((SurfaceCollision*)(col.collision.get()))->getSurface();
@@ -236,7 +242,15 @@ void GameObject::drawDebug(sf::RenderTarget &target, sf::RenderStates states) co
 				corV[0].position = cc->position + Math::rotate(cc->normal * 2.f, Math::toRad(90));
 				corV[1].position = cc->position + cc->normal * 2.f;
 				corV[2].position = cc->position + Math::rotate(cc->normal * 2.f, Math::toRad(-90));
-				target.draw(corV);
+				target.draw(corV, states);
+			}
+			else if (col.collision->getType() == Collision::CollisionType::WedgeType) {
+				WedgeCollision* ss = (WedgeCollision*)(col.collision.get());
+				wedgeV[0].position = ss->ls.start;	
+				wedgeV[1].position = ss->ls.end;	
+				wedgeV[2].position = ss->rs.start;	
+				wedgeV[3].position = ss->rs.end;	
+				target.draw(wedgeV, states);
 			}
 
 		}

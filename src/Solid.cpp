@@ -18,7 +18,7 @@ Vec2 Solid::getFloorUnit() {
 
 	for (auto& ss : curCollisions) {
 		if (ss.flags.collisionUp) {
-			Vec2 normal = ss.collision->getSurfaceNormal();
+			Vec2 normal = ss.collision->getNormal();
 			//Log::msg(std::to_string(normal.x) + ", " + std::to_string(normal.y));
 
 			if (normal == Vec2(0.f, -1.f))

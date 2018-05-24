@@ -16,7 +16,8 @@ public:
 	enum CollisionType : int {
 		None = -1,
 		SurfaceType = 0,
-		CornerType
+		CornerType,
+		WedgeType
 	};
 
 	Collision(GameObject* object, GridVec2 gridpos);
@@ -26,10 +27,14 @@ public:
 	static Collision* createCollision(Corner* corner, GameObject* obj, GridVec2 gridpos);
 
 	virtual void eval() = 0;
+	virtual void apply();
 
-	inline bool isValid() const { return valid; };
+	std::string toString();
+
+	inline bool isValid() const { return valid && !cancelled; };
+	inline void invalidate() { cancelled = true; };
 	inline GridVec2 getGridPos() const { return place; };
-	inline Vec2 getSurfaceNormal() const { return normal; };
+	inline Vec2 getNormal() const { return normal; };
 	inline Vec2 getStartPos() const {return startPos;};
 	inline Vec2 getEndPos() const {return endPos;};
 	inline GameObject* getObject() const {return obj;};
@@ -41,6 +46,7 @@ protected:
 	Vec2 endPos; //position of object after collision
 
 	bool valid = false;
+	bool cancelled = false;
 	Vec2 normal;
 
 	GameObject* obj;
